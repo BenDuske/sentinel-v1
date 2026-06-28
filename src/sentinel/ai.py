@@ -1,3 +1,4 @@
+# Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """LLM helpers — local-first via any OpenAI-compatible endpoint (default: local Ollama).
 
 Stdlib only. Falls back gracefully (empty/heuristic) if the LLM is unreachable, so the app

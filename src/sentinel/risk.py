@@ -1,3 +1,4 @@
+# Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """Grounded risk scoring — deterministic rule layer reconciled with the LLM.
 
 Severity is NOT just "the AI said so." A transparent rule layer sets a defensible floor from

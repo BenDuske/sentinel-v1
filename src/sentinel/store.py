@@ -1,3 +1,4 @@
+# Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """SQLite incident store (local, no external DB)."""
 import json
 import sqlite3

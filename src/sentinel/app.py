@@ -1,3 +1,4 @@
+# Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """Sentinel v1 API + dashboard.  uvicorn sentinel.app:app --reload"""
 import logging
 import os

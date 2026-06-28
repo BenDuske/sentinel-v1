@@ -1,3 +1,4 @@
+# Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """Report export — Markdown now; PDF is a thin optional add (reportlab)."""
 import datetime
 

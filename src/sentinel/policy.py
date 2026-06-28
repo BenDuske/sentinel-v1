@@ -1,3 +1,4 @@
+# Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """Safety, consent, and ethics layer — stdlib only.
 
 Three responsibilities, all local and dependency-free:
