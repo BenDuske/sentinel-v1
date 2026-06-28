@@ -1,14 +1,19 @@
 """Sentinel v1 API + dashboard.  uvicorn sentinel.app:app --reload"""
+import logging
 import os
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse
 from pydantic import BaseModel
 
-from . import config, store, ai, risk, report
+from . import config, store, ai, risk, report, policy
 from .models import new_incident, SEVERITIES, STATUSES
 
 app = FastAPI(title="Sentinel v1", version="0.1.0")
 _WEB = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "web")
+
+# Consent banner at startup — Sentinel is a web app, so the gate is a logged notice that
+# points to CONSENT.md plus the in-page "I agree" acknowledgment in web/index.html.
+logging.getLogger("uvicorn.error").info(policy.STARTUP_BANNER)
 
 
 class IncidentIn(BaseModel):
@@ -31,6 +36,13 @@ def dashboard():
 
 @app.post("/api/incidents")
 def create(inc: IncidentIn):
+    # Safety screen on user-supplied incident text. Only hard-blocks the zero-tolerance category
+    # (sexualization of minors) by default — real incident reports (violence, injury, crime) are
+    # the legitimate purpose and pass through. Strict adult-sexual screening is opt-in via
+    # SENTINEL_STRICT_SCREEN.
+    allowed, _category, message = policy.screen(f"{inc.title}\n{inc.description}")
+    if not allowed:
+        raise HTTPException(422, message)
     return store.save(new_incident(inc.title, inc.description))
 
 

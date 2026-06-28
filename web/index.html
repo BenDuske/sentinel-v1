@@ -18,9 +18,30 @@
  .inc{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer}
  .inc h3{margin:0 0 4px;font-size:15px} .muted{color:var(--mut);font-size:13px}
  pre{white-space:pre-wrap;background:#0c101b;border:1px solid var(--line);border-radius:8px;padding:12px}
+ #consent{position:fixed;inset:0;background:rgba(8,10,18,.92);display:flex;align-items:center;justify-content:center;z-index:50}
+ #consent .card{max-width:560px}
+ #consent a{color:#7dd3fc} #consent label{display:flex;gap:8px;align-items:flex-start;margin:12px 0;cursor:pointer}
+ #consent input[type=checkbox]{width:auto;margin:3px 0 0}
 </style></head>
 <body>
 <header><h1>🛡️ Sentinel v1</h1><span class="tag">Local AI Risk &amp; Incident Intelligence</span></header>
+
+<div id="consent" style="display:none">
+ <div class="card">
+  <h2 style="margin-top:0">Before you begin</h2>
+  <p class="muted">Sentinel v1 is local-first incident-intelligence software. Your incident data
+   and any uploaded evidence stay on this machine (local SQLite store). The author collects
+   nothing. AI output (severity, summary, actions) is <b>decision-support, not an authoritative
+   underwriting or safety determination</b> — a human reviews and owns every decision.</p>
+  <p class="muted">By continuing you agree to the
+   <a href="https://github.com/BenDuske/sentinel-v1/blob/master/CONSENT.md" target="_blank">terms</a>:
+   the MIT License, Terms of Service, Acceptable Use Policy, Privacy Policy, and AI/Warranty
+   Disclaimer. Lawful use only; no sexual or abusive content; provided "as is", at your own risk.</p>
+  <label><input type="checkbox" id="agree"><span>I have read and agree to the Terms of Service,
+   Acceptable Use Policy, Privacy Policy, and AI Output &amp; Warranty Disclaimer.</span></label>
+  <button id="agreeBtn" disabled onclick="acceptConsent()">Continue</button>
+ </div>
+</div>
 <div class="wrap">
  <div class="card">
   <h2 style="margin-top:0;font-size:15px">New incident</h2>
@@ -55,6 +76,15 @@ async function analyze(id){ const d=document.getElementById('detail'); d.innerHT
 async function report(id){ const md=await fetch('/api/incidents/'+id+'/report.md').then(r=>r.text());
   const d=document.getElementById('detail'); d.innerHTML+='<h3>Report (Markdown)</h3><pre>'+esc(md)+'</pre>'; }
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+
+// Consent gate: must accept once; remembered in localStorage. The backend also screens input.
+const CONSENT_KEY='sentinel_consent_v_2026-06-28';
+function acceptConsent(){ localStorage.setItem(CONSENT_KEY,'1'); document.getElementById('consent').style.display='none'; }
+(function initConsent(){
+  const ag=document.getElementById('agree'), btn=document.getElementById('agreeBtn');
+  ag.addEventListener('change',()=>{btn.disabled=!ag.checked;});
+  if(localStorage.getItem(CONSENT_KEY)!=='1'){ document.getElementById('consent').style.display='flex'; }
+})();
 load();
 </script>
 </body></html>

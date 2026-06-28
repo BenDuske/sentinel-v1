@@ -5,7 +5,7 @@ action-ready, exportable** report. **Local-first**: the AI runs on your machine 
 dependency required), so sensitive incident data never has to leave the building.
 
 > Built by **Ben Duske** (student / independent developer) for hackathon competition; later
-> expanded under Aetherion Technology. © 2026 Digital Real-Estate Frontier, LLC. MIT-licensed.
+> expanded under a commercial offering. © 2026 Ben Duske. MIT-licensed.
 
 ## The flow (MVP)
 1. **Enter or upload** an incident (text, plus optional evidence files).
@@ -56,6 +56,37 @@ uvicorn sentinel.app:app --reload      # dashboard at http://127.0.0.1:8000
 - **Dev Clash** → AI · cybersecurity · DevOps · automation · local-first incident intelligence.
 
 Same core, two pitches. See `docs/` for each framing.
+
+## Safety, privacy & legal
+
+This is a public release, so it ships with a real policy layer — not just a disclaimer:
+
+- **Baseline safety policy** (`sentinel.policy`) is prepended to every LLM system prompt and
+  cannot be disabled: lawful use only (U.S. federal + your state/local law), no sexual/explicit
+  content, **zero tolerance** for sexualizing minors (hard-blocked at the input screen).
+  Documenting real incidents — violence, injury, theft, fire, crime — is the legitimate purpose
+  and is fully supported; the screen does **not** block legitimate incident reports.
+- **Consent gate** — the web dashboard requires an "I agree" acknowledgment (License/Terms/AUP/
+  Privacy/Disclaimer) before you can log incidents, and the server logs a notice at startup.
+  See [`CONSENT.md`](CONSENT.md). For CLI/automation, `sentinel.policy.ensure_consent()` records
+  acceptance locally; set `SENTINEL_ASSUME_CONSENT=1` for headless/CI.
+- **Ethics onboarding** — an insurer/facilities/security org can layer its own mission, voice,
+  and boundaries on top of the baseline via `ethics.yaml`
+  ([`docs/ETHICS_ONBOARDING.md`](docs/ETHICS_ONBOARDING.md)); config can only tighten the
+  baseline, never loosen it.
+- **AI-output disclaimer** — severity, summaries, and actions are **decision-support, not an
+  underwriting or safety determination** and not professional advice; a human reviews
+  consequential decisions. [`docs/legal/DISCLAIMER.md`](docs/legal/DISCLAIMER.md).
+- **Local-first privacy** — the author runs no servers and collects nothing; incident data lives
+  in your local SQLite store and evidence in a local uploads dir; the default LLM is local
+  Ollama. [`docs/legal/PRIVACY_POLICY.md`](docs/legal/PRIVACY_POLICY.md).
+- Full policy set: [`docs/legal/`](docs/legal/) · vulnerabilities: [`SECURITY.md`](SECURITY.md)
+  · conduct: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). Bug reports use the issue templates.
+
+Optional env: `SENTINEL_ETHICS_FILE`, `SENTINEL_STRICT_SCREEN` (opt-in adult-sexual screening,
+default off), `SENTINEL_ASSUME_CONSENT`.
+
+> Legal docs are **DRAFT — pending attorney review**; they are templates, not legal advice.
 
 ## License
 MIT (see `LICENSE`). Third-party components in `THIRD_PARTY_NOTICES.md`.

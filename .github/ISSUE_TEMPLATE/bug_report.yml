@@ -1,0 +1,57 @@
+name: "🐞 Bug report"
+description: Report a reproducible problem in Sentinel v1
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. **Do not report security vulnerabilities here** — use a
+        [private security advisory](../../security/advisories/new) instead (see `SECURITY.md`).
+        Please don't paste API keys, secrets, or real incident details / evidence here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug and what you expected instead.
+      placeholder: "Severity came back as X, I expected Y…"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `uvicorn sentinel.app:app`
+        2. Log an incident with '...'
+        3. Click Analyze, see error
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / traceback
+      description: Paste relevant output. Redact keys and any real incident data first.
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      placeholder: "e.g. master @ d8c640d"
+    validations:
+      required: true
+  - type: dropdown
+    id: backend
+    attributes:
+      label: LLM backend
+      options:
+        - "Local Ollama (default)"
+        - "Other OpenAI-compatible endpoint"
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: OS / Python version
+      placeholder: "Windows 11 / Python 3.14"
+    validations:
+      required: true

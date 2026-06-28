@@ -1,0 +1,28 @@
+name: "💡 Feature request"
+description: Suggest an improvement to Sentinel v1
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      placeholder: "I'm trying to … but currently …"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Confirm
+      options:
+        - label: "This does not request help with prohibited use (see docs/legal/ACCEPTABLE_USE_POLICY.md)."
+          required: true

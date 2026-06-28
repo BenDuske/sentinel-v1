@@ -7,9 +7,25 @@ import json
 import urllib.request
 import urllib.error
 from . import config
+from . import policy
+
+
+def _with_safety(messages):
+    """Prepend (or fold into) the safety + org-ethics preamble on the system message.
+
+    Precedence: BASELINE_POLICY -> org ethics -> the task instructions the caller wrote. This
+    is what makes the safety policy steer every local LLM call.
+    """
+    msgs = list(messages)
+    for i, m in enumerate(msgs):
+        if m.get("role") == "system":
+            msgs[i] = {"role": "system", "content": policy.system_preamble(m.get("content", ""))}
+            return msgs
+    return [{"role": "system", "content": policy.system_preamble("")}] + msgs
 
 
 def chat(messages, temperature: float = 0.3, max_tokens: int = 700) -> str:
+    messages = _with_safety(messages)
     body = json.dumps({
         "model": config.LLM_MODEL, "messages": messages,
         "temperature": temperature, "max_tokens": max_tokens, "stream": False,

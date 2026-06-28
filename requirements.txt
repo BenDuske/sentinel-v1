@@ -3,3 +3,6 @@ uvicorn[standard]>=0.27
 python-multipart>=0.0.9
 # PDF export (optional; Markdown export works without it)
 # reportlab>=4.0
+# Dev/test (optional): run the test suite with `python -m pytest -q`
+# pytest>=8.0
+# httpx>=0.27  # for FastAPI TestClient, if you add app-level tests
