@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentinel v1 — Incident Intelligence</title>
+<style>
+ :root{--bg:#0f1320;--card:#1a2032;--ink:#e7ecf5;--mut:#94a3b8;--line:#2a3650}
+ *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+ header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+ h1{font-size:18px;margin:0} .tag{font-size:12px;color:var(--mut)}
+ .wrap{display:grid;grid-template-columns:340px 1fr;gap:18px;padding:18px;max-width:1200px;margin:auto}
+ .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+ input,textarea,select{width:100%;background:#0c101b;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px;margin:6px 0}
+ button{background:#3b82f6;color:#fff;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600}
+ button.ghost{background:#26304a}
+ .sev{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
+ .low{background:#14361f;color:#86efac}.medium{background:#3a330f;color:#fde68a}.high{background:#3a210f;color:#fdba74}.critical{background:#3a0f14;color:#fca5a5}.unscored{background:#26304a;color:#94a3b8}
+ .inc{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer}
+ .inc h3{margin:0 0 4px;font-size:15px} .muted{color:var(--mut);font-size:13px}
+ pre{white-space:pre-wrap;background:#0c101b;border:1px solid var(--line);border-radius:8px;padding:12px}
+</style></head>
+<body>
+<header><h1>🛡️ Sentinel v1</h1><span class="tag">Local AI Risk &amp; Incident Intelligence</span></header>
+<div class="wrap">
+ <div class="card">
+  <h2 style="margin-top:0;font-size:15px">New incident</h2>
+  <input id="t" placeholder="Title (e.g. Water leak in server room)">
+  <textarea id="d" rows="5" placeholder="What happened? Details, time, location…"></textarea>
+  <button onclick="create()">Log incident</button>
+ </div>
+ <div>
+  <div class="card" id="detail" style="margin-bottom:14px;display:none"></div>
+  <div class="card"><h2 style="margin-top:0;font-size:15px">Incident history</h2><div id="list"></div></div>
+ </div>
+</div>
+<script>
+const api = (p,o)=>fetch('/api'+p,o).then(r=>r.json());
+async function load(){ const xs=await api('/incidents'); document.getElementById('list').innerHTML =
+  xs.map(i=>`<div class="inc" onclick="open_('${i.id}')"><h3>${esc(i.title)} <span class="sev ${i.severity}">${i.severity}</span></h3>
+   <div class="muted">${new Date(i.created_at*1000).toLocaleString()} · ${i.status}</div></div>`).join('') || '<div class="muted">No incidents yet.</div>'; }
+async function create(){ const t=document.getElementById('t').value.trim(); if(!t)return;
+  await api('/incidents',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({title:t,description:document.getElementById('d').value})});
+  document.getElementById('t').value='';document.getElementById('d').value='';load(); }
+async function open_(id){ const i=await api('/incidents/'+id); const d=document.getElementById('detail'); d.style.display='block';
+  d.innerHTML=`<h2 style="margin-top:0">${esc(i.title)} <span class="sev ${i.severity}">${i.severity}</span></h2>
+   <div class="muted">${esc(i.description)}</div>
+   ${i.severity_rationale?`<p class="muted"><b>Why this score:</b> ${esc(i.severity_rationale)}</p>`:''}
+   ${i.summary?`<h3>Summary</h3><div>${esc(i.summary)}</div>`:''}
+   ${i.recommended_actions&&i.recommended_actions.length?`<h3>Recommended actions</h3><ol>${i.recommended_actions.map(a=>'<li>'+esc(a)+'</li>').join('')}</ol>`:''}
+   <div style="margin-top:12px;display:flex;gap:8px">
+     <button onclick="analyze('${id}')">Analyze with AI</button>
+     <button class="ghost" onclick="report('${id}')">Export report</button>
+   </div>`; }
+async function analyze(id){ const d=document.getElementById('detail'); d.innerHTML='<div class="muted">Analyzing locally…</div>'; await api('/incidents/'+id+'/analyze',{method:'POST'}); open_(id); load(); }
+async function report(id){ const md=await fetch('/api/incidents/'+id+'/report.md').then(r=>r.text());
+  const d=document.getElementById('detail'); d.innerHTML+='<h3>Report (Markdown)</h3><pre>'+esc(md)+'</pre>'; }
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+load();
+</script>
+</body></html>
