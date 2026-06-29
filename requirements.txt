@@ -1,8 +1,8 @@
 fastapi>=0.110
 uvicorn[standard]>=0.27
 python-multipart>=0.0.9
-# PDF export (optional; Markdown export works without it)
+# PDF export (optional; Markdown export works without it — app returns a clear 501 if absent)
 # reportlab>=4.0
-# Dev/test (optional): run the test suite with `python -m pytest -q`
+# Dev/test (optional): run the keyless/offline suite with `python -m pytest -q`
 # pytest>=8.0
-# httpx>=0.27  # for FastAPI TestClient, if you add app-level tests
+# httpx>=0.27   # required by FastAPI's TestClient for the app-level flow tests

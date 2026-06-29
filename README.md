@@ -8,12 +8,20 @@ dependency required), so sensitive incident data never has to leave the building
 > expanded under a commercial offering. © 2026 Ben Duske. MIT-licensed.
 
 ## The flow (MVP)
-1. **Enter or upload** an incident (text, plus optional evidence files).
-2. Sentinel **classifies severity** — low / medium / high / critical.
+1. **Enter or upload** an incident (text, plus an optional evidence file).
+2. Sentinel **classifies severity** — low / medium / high / critical — via a **grounded rule
+   layer reconciled with the LLM** (the higher of the two wins), with a rationale showing both.
 3. Sentinel writes a **clean incident summary**.
 4. Sentinel **recommends next steps**.
-5. **Export** a professional report (Markdown / PDF) for insurance, facilities, or security use.
-6. **Dashboard** shows incident history — severity, status, timestamps.
+5. A human **reviews and edits** any AI field before exporting (human-in-the-loop).
+6. **Export** a professional report — **Markdown always**, **PDF when `reportlab` is installed**
+   (graceful fallback otherwise) — for insurance, facilities, or security use.
+7. **Dashboard** shows incident history — severity badge, status, timestamps.
+
+**Works fully offline.** The LLM *enriches* but is never required: with no Ollama/endpoint
+reachable, the deterministic rule layer still produces a defensible severity and the summary +
+recommended actions fall back to category-aware deterministic output. `GET /healthz` reports
+`llm: reachable | offline`.
 
 ## Two design principles that set it apart
 
@@ -47,8 +55,43 @@ OpenAI-compatible, so it can also point at a cloud endpoint if you ever want to.
 ```bash
 cp .env.example .env
 pip install -r requirements.txt
-uvicorn sentinel.app:app --reload      # dashboard at http://127.0.0.1:8000
+
+# src/ layout: tell uvicorn where the package lives with --app-dir
+uvicorn sentinel.app:app --app-dir src --reload     # dashboard at http://127.0.0.1:8000
 ```
+
+Headless/CI or a quick demo without the consent prompt: set `SENTINEL_ASSUME_CONSENT=1`.
+Optional PDF export: `pip install reportlab` (Markdown export always works).
+
+**Verify it's running:**
+
+```bash
+curl http://127.0.0.1:8000/healthz      # {"status":"ok","llm":"reachable|offline",...}
+```
+
+**Tests** (fully keyless/offline — no network or LLM needed):
+
+```bash
+python -m pytest -q
+```
+
+### HTTP API
+
+| Method & path | Purpose |
+|---|---|
+| `GET  /` | Dashboard (single-file HTML) |
+| `GET  /healthz` | Health + LLM reachability |
+| `POST /api/incidents` | Create incident (auto-drafts severity/summary/actions; `analyze:false` to skip) |
+| `GET  /api/incidents` | List incidents (newest first) |
+| `GET  /api/incidents/{id}` | Get one |
+| `POST /api/incidents/{id}/analyze` | Re-draft severity + summary + actions |
+| `PATCH /api/incidents/{id}` | Human edit: severity / summary / actions / status |
+| `POST /api/incidents/{id}/evidence` | Upload an evidence file (stored locally, referenced in SQLite) |
+| `GET  /api/incidents/{id}/report.md` | Markdown report |
+| `GET  /api/incidents/{id}/report.pdf` | PDF report (501 with a clear message if `reportlab` absent) |
+
+See `docs/demo-script.md` for a <3-min walkthrough and `docs/sample-run.md` for a real
+captured offline run.
 
 ## Two hackathons, one build
 - **HackTitan** (State Farm-sponsored) → insurance / claim reduction / incident documentation /

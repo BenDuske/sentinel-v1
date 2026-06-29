@@ -2,7 +2,7 @@
 """Sentinel v1 API + dashboard.  uvicorn sentinel.app:app --reload"""
 import logging
 import os
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, PlainTextResponse, FileResponse
 from pydantic import BaseModel
 
@@ -20,6 +20,7 @@ logging.getLogger("uvicorn.error").info(policy.STARTUP_BANNER)
 class IncidentIn(BaseModel):
     title: str
     description: str = ""
+    analyze: bool = True  # auto-draft severity/summary/actions on create (HCAI: human edits after)
 
 
 class IncidentPatch(BaseModel):
@@ -29,10 +30,33 @@ class IncidentPatch(BaseModel):
     status: str | None = None
 
 
+def _analyze(inc: dict) -> dict:
+    """Grounded severity (rule layer ⨉ LLM) + summary + actions. Mutates and returns inc."""
+    inc["severity"], inc["severity_rationale"] = risk.score(inc)
+    inc["summary"] = ai.summarize(inc)
+    inc["recommended_actions"] = ai.recommend(inc)
+    inc["ai_generated"] = True
+    inc["status"] = "reviewing"
+    return inc
+
+
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     p = os.path.join(_WEB, "index.html")
     return FileResponse(p) if os.path.exists(p) else HTMLResponse("<h1>Sentinel v1</h1>")
+
+
+@app.get("/healthz")
+def healthz():
+    """Health + LLM reachability. The app works offline; this just reports whether the LLM is live."""
+    h = ai.health()
+    return {
+        "status": "ok",
+        "llm": "reachable" if h["reachable"] else "offline",
+        "llm_base": h["base"],
+        "llm_model": h["model"],
+        "mode": "llm-enriched" if h["reachable"] else "rule-layer (offline)",
+    }
 
 
 @app.post("/api/incidents")
@@ -44,7 +68,10 @@ def create(inc: IncidentIn):
     allowed, _category, message = policy.screen(f"{inc.title}\n{inc.description}")
     if not allowed:
         raise HTTPException(422, message)
-    return store.save(new_incident(inc.title, inc.description))
+    incident = new_incident(inc.title, inc.description)
+    if inc.analyze:
+        _analyze(incident)
+    return store.save(incident)
 
 
 @app.get("/api/incidents")
@@ -62,15 +89,11 @@ def get_incident(iid: str):
 
 @app.post("/api/incidents/{iid}/analyze")
 def analyze(iid: str):
-    """AI drafts severity (grounded) + summary + actions. Human reviews/edits afterward (HCAI)."""
+    """(Re)draft severity (grounded) + summary + actions. Human reviews/edits afterward (HCAI)."""
     inc = store.get(iid)
     if not inc:
         raise HTTPException(404, "not found")
-    inc["severity"], inc["severity_rationale"] = risk.score(inc)
-    inc["summary"] = ai.summarize(inc) or inc["description"]
-    inc["recommended_actions"] = ai.recommend(inc)
-    inc["ai_generated"] = True
-    inc["status"] = "reviewing"
+    _analyze(inc)
     return store.save(inc)
 
 
@@ -95,10 +118,11 @@ async def upload_evidence(iid: str, file: UploadFile = File(...)):
     if not inc:
         raise HTTPException(404, "not found")
     os.makedirs(config.EVIDENCE_DIR, exist_ok=True)
-    dest = os.path.join(config.EVIDENCE_DIR, f"{iid}__{file.filename}")
+    safe_name = os.path.basename(file.filename or "evidence")
+    dest = os.path.join(config.EVIDENCE_DIR, f"{iid}__{safe_name}")
     with open(dest, "wb") as f:
         f.write(await file.read())
-    inc.setdefault("evidence", []).append(file.filename)
+    inc.setdefault("evidence", []).append(safe_name)
     return store.save(inc)
 
 
@@ -108,3 +132,19 @@ def report_md(iid: str):
     if not inc:
         raise HTTPException(404, "not found")
     return report.to_markdown(inc)
+
+
+@app.get("/api/incidents/{iid}/report.pdf")
+def report_pdf(iid: str):
+    """Export PDF if reportlab is installed; otherwise 501 with a clear, graceful message."""
+    inc = store.get(iid)
+    if not inc:
+        raise HTTPException(404, "not found")
+    os.makedirs(config.EVIDENCE_DIR, exist_ok=True)
+    path = os.path.join(config.EVIDENCE_DIR, f"{iid}__report.pdf")
+    if not report.to_pdf(inc, path):
+        raise HTTPException(
+            501, "PDF export unavailable (reportlab not installed). "
+                 "Use the Markdown export, or `pip install reportlab`.")
+    return FileResponse(path, media_type="application/pdf",
+                        filename=f"sentinel-incident-{iid}.pdf")

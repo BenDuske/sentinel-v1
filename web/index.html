@@ -4,27 +4,42 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sentinel v1 — Incident Intelligence</title>
 <style>
- :root{--bg:#0f1320;--card:#1a2032;--ink:#e7ecf5;--mut:#94a3b8;--line:#2a3650}
+ :root{--bg:#0f1320;--card:#1a2032;--ink:#e7ecf5;--mut:#94a3b8;--line:#2a3650;--accent:#3b82f6}
  *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
- header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+ header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
  h1{font-size:18px;margin:0} .tag{font-size:12px;color:var(--mut)}
- .wrap{display:grid;grid-template-columns:340px 1fr;gap:18px;padding:18px;max-width:1200px;margin:auto}
+ .health{margin-left:auto;font-size:12px;color:var(--mut);display:flex;align-items:center;gap:6px}
+ .dot{width:9px;height:9px;border-radius:50%;background:#64748b;display:inline-block}
+ .dot.on{background:#22c55e}.dot.off{background:#f59e0b}
+ .wrap{display:grid;grid-template-columns:360px 1fr;gap:18px;padding:18px;max-width:1200px;margin:auto}
+ @media(max-width:820px){.wrap{grid-template-columns:1fr}}
  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+ label.fld{font-size:12px;color:var(--mut);display:block;margin-top:8px}
  input,textarea,select{width:100%;background:#0c101b;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px;margin:6px 0}
- button{background:#3b82f6;color:#fff;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600}
+ button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600}
+ button:disabled{opacity:.5;cursor:not-allowed}
  button.ghost{background:#26304a}
- .sev{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700}
+ .sev{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
  .low{background:#14361f;color:#86efac}.medium{background:#3a330f;color:#fde68a}.high{background:#3a210f;color:#fdba74}.critical{background:#3a0f14;color:#fca5a5}.unscored{background:#26304a;color:#94a3b8}
- .inc{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer}
+ .inc{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+ .inc:hover{border-color:var(--accent)}
  .inc h3{margin:0 0 4px;font-size:15px} .muted{color:var(--mut);font-size:13px}
- pre{white-space:pre-wrap;background:#0c101b;border:1px solid var(--line);border-radius:8px;padding:12px}
+ .rationale{border-left:3px solid var(--accent);padding:8px 12px;background:#0c101b;border-radius:0 8px 8px 0;font-size:13px;color:#cbd5e1}
+ pre{white-space:pre-wrap;background:#0c101b;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:13px}
+ .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+ .err{color:#fca5a5;font-size:13px;margin-top:6px}
  #consent{position:fixed;inset:0;background:rgba(8,10,18,.92);display:flex;align-items:center;justify-content:center;z-index:50}
  #consent .card{max-width:560px}
  #consent a{color:#7dd3fc} #consent label{display:flex;gap:8px;align-items:flex-start;margin:12px 0;cursor:pointer}
  #consent input[type=checkbox]{width:auto;margin:3px 0 0}
+ table{width:100%;border-collapse:collapse;font-size:13px} th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)} th{color:var(--mut);font-weight:600}
+ tr.clk{cursor:pointer} tr.clk:hover td{background:#0c101b}
 </style></head>
 <body>
-<header><h1>🛡️ Sentinel v1</h1><span class="tag">Local AI Risk &amp; Incident Intelligence</span></header>
+<header>
+ <h1>🛡️ Sentinel v1</h1><span class="tag">Local AI Risk &amp; Incident Intelligence</span>
+ <span class="health"><span id="hdot" class="dot"></span><span id="hlabel">checking…</span></span>
+</header>
 
 <div id="consent" style="display:none">
  <div class="card">
@@ -42,39 +57,103 @@
   <button id="agreeBtn" disabled onclick="acceptConsent()">Continue</button>
  </div>
 </div>
+
 <div class="wrap">
  <div class="card">
-  <h2 style="margin-top:0;font-size:15px">New incident</h2>
-  <input id="t" placeholder="Title (e.g. Water leak in server room)">
-  <textarea id="d" rows="5" placeholder="What happened? Details, time, location…"></textarea>
-  <button onclick="create()">Log incident</button>
+  <h2 style="margin-top:0;font-size:15px">Log a new incident</h2>
+  <label class="fld">Title</label>
+  <input id="t" placeholder="e.g. Water leak in server room">
+  <label class="fld">What happened?</label>
+  <textarea id="d" rows="6" placeholder="Details, time, location, who was involved…"></textarea>
+  <label class="fld">Evidence (optional)</label>
+  <input id="f" type="file">
+  <button id="logBtn" onclick="create()">Log &amp; analyze</button>
+  <div id="cerr" class="err"></div>
+  <p class="muted" style="margin-bottom:0">Sentinel drafts a grounded severity, summary, and next
+   steps. You review and edit before exporting — the AI assists, you decide.</p>
  </div>
  <div>
   <div class="card" id="detail" style="margin-bottom:14px;display:none"></div>
-  <div class="card"><h2 style="margin-top:0;font-size:15px">Incident history</h2><div id="list"></div></div>
+  <div class="card"><h2 style="margin-top:0;font-size:15px">Incident history</h2>
+   <table><thead><tr><th>Severity</th><th>Title</th><th>Status</th><th>Reported</th></tr></thead>
+   <tbody id="list"></tbody></table>
+  </div>
  </div>
 </div>
+
 <script>
-const api = (p,o)=>fetch('/api'+p,o).then(r=>r.json());
-async function load(){ const xs=await api('/incidents'); document.getElementById('list').innerHTML =
-  xs.map(i=>`<div class="inc" onclick="open_('${i.id}')"><h3>${esc(i.title)} <span class="sev ${i.severity}">${i.severity}</span></h3>
-   <div class="muted">${new Date(i.created_at*1000).toLocaleString()} · ${i.status}</div></div>`).join('') || '<div class="muted">No incidents yet.</div>'; }
-async function create(){ const t=document.getElementById('t').value.trim(); if(!t)return;
-  await api('/incidents',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({title:t,description:document.getElementById('d').value})});
-  document.getElementById('t').value='';document.getElementById('d').value='';load(); }
-async function open_(id){ const i=await api('/incidents/'+id); const d=document.getElementById('detail'); d.style.display='block';
+const api = (p,o)=>fetch('/api'+p,o).then(async r=>{ if(!r.ok){throw new Error((await r.json().catch(()=>({}))).detail||r.statusText);} return r.json(); });
+
+async function health(){
+  try{ const h=await fetch('/healthz').then(r=>r.json());
+    const on=h.llm==='reachable';
+    document.getElementById('hdot').className='dot '+(on?'on':'off');
+    document.getElementById('hlabel').textContent = on ? 'LLM reachable — '+h.llm_model : 'LLM offline — rule layer active';
+  }catch(e){ document.getElementById('hlabel').textContent='offline'; }
+}
+
+async function load(){
+  const xs=await api('/incidents');
+  document.getElementById('list').innerHTML = xs.map(i=>
+    `<tr class="clk" onclick="open_('${i.id}')"><td><span class="sev ${i.severity}">${i.severity}</span></td>
+     <td>${esc(i.title)}</td><td class="muted">${i.status}</td>
+     <td class="muted">${new Date(i.created_at*1000).toLocaleString()}</td></tr>`).join('')
+    || '<tr><td colspan="4" class="muted">No incidents yet.</td></tr>';
+}
+
+async function create(){
+  const t=document.getElementById('t').value.trim();
+  const cerr=document.getElementById('cerr'); cerr.textContent='';
+  if(!t){ cerr.textContent='Title is required.'; return; }
+  const btn=document.getElementById('logBtn'); btn.disabled=true; btn.textContent='Analyzing…';
+  try{
+    const inc=await api('/incidents',{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({title:t,description:document.getElementById('d').value})});
+    const file=document.getElementById('f').files[0];
+    if(file){ const fd=new FormData(); fd.append('file',file);
+      await fetch('/api/incidents/'+inc.id+'/evidence',{method:'POST',body:fd}); }
+    document.getElementById('t').value=''; document.getElementById('d').value=''; document.getElementById('f').value='';
+    await load(); open_(inc.id);
+  }catch(e){ cerr.textContent='Blocked: '+e.message; }
+  finally{ btn.disabled=false; btn.textContent='Log & analyze'; }
+}
+
+async function open_(id){
+  const i=await api('/incidents/'+id);
+  const d=document.getElementById('detail'); d.style.display='block';
   d.innerHTML=`<h2 style="margin-top:0">${esc(i.title)} <span class="sev ${i.severity}">${i.severity}</span></h2>
    <div class="muted">${esc(i.description)}</div>
-   ${i.severity_rationale?`<p class="muted"><b>Why this score:</b> ${esc(i.severity_rationale)}</p>`:''}
-   ${i.summary?`<h3>Summary</h3><div>${esc(i.summary)}</div>`:''}
-   ${i.recommended_actions&&i.recommended_actions.length?`<h3>Recommended actions</h3><ol>${i.recommended_actions.map(a=>'<li>'+esc(a)+'</li>').join('')}</ol>`:''}
-   <div style="margin-top:12px;display:flex;gap:8px">
-     <button onclick="analyze('${id}')">Analyze with AI</button>
-     <button class="ghost" onclick="report('${id}')">Export report</button>
-   </div>`; }
-async function analyze(id){ const d=document.getElementById('detail'); d.innerHTML='<div class="muted">Analyzing locally…</div>'; await api('/incidents/'+id+'/analyze',{method:'POST'}); open_(id); load(); }
-async function report(id){ const md=await fetch('/api/incidents/'+id+'/report.md').then(r=>r.text());
-  const d=document.getElementById('detail'); d.innerHTML+='<h3>Report (Markdown)</h3><pre>'+esc(md)+'</pre>'; }
+   ${i.evidence&&i.evidence.length?`<div class="muted">📎 Evidence: ${i.evidence.map(esc).join(', ')}</div>`:''}
+   ${i.severity_rationale?`<h3 style="margin-bottom:6px">Why this severity</h3><div class="rationale">${esc(i.severity_rationale)}</div>`:''}
+   <h3>Summary <span class="muted" style="font-weight:400">(editable)</span></h3>
+   <textarea id="esum" rows="4">${esc(i.summary||'')}</textarea>
+   <h3>Recommended actions <span class="muted" style="font-weight:400">(one per line, editable)</span></h3>
+   <textarea id="eact" rows="5">${esc((i.recommended_actions||[]).join('\n'))}</textarea>
+   <label class="fld">Severity (human override)</label>
+   <select id="esev">${['low','medium','high','critical'].map(s=>`<option ${s===i.severity?'selected':''}>${s}</option>`).join('')}</select>
+   <div class="row">
+     <button onclick="saveEdits('${id}')">Save edits</button>
+     <button class="ghost" onclick="analyze('${id}')">Re-analyze</button>
+     <button class="ghost" onclick="report('${id}')">Export Markdown</button>
+     <a href="/api/incidents/${id}/report.pdf" target="_blank"><button class="ghost" type="button">Export PDF</button></a>
+   </div>`;
+}
+
+async function saveEdits(id){
+  const actions=document.getElementById('eact').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  await api('/incidents/'+id,{method:'PATCH',headers:{'content-type':'application/json'},
+    body:JSON.stringify({summary:document.getElementById('esum').value,
+      recommended_actions:actions, severity:document.getElementById('esev').value})});
+  await load(); open_(id);
+}
+async function analyze(id){
+  const d=document.getElementById('detail'); d.innerHTML='<div class="muted">Re-analyzing…</div>';
+  await api('/incidents/'+id+'/analyze',{method:'POST'}); await load(); open_(id);
+}
+async function report(id){
+  const md=await fetch('/api/incidents/'+id+'/report.md').then(r=>r.text());
+  document.getElementById('detail').innerHTML+='<h3>Report (Markdown)</h3><pre>'+esc(md)+'</pre>';
+}
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
 
 // Consent gate: must accept once; remembered in localStorage. The backend also screens input.
@@ -85,6 +164,6 @@ function acceptConsent(){ localStorage.setItem(CONSENT_KEY,'1'); document.getEle
   ag.addEventListener('change',()=>{btn.disabled=!ag.checked;});
   if(localStorage.getItem(CONSENT_KEY)!=='1'){ document.getElementById('consent').style.display='flex'; }
 })();
-load();
+health(); load();
 </script>
 </body></html>

@@ -1,14 +1,17 @@
 # Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """LLM helpers — local-first via any OpenAI-compatible endpoint (default: local Ollama).
 
-Stdlib only. Falls back gracefully (empty/heuristic) if the LLM is unreachable, so the app
-never hard-fails offline — the rule layer in risk.py still produces a defensible severity.
+Stdlib only. The LLM ENRICHES but is never a hard dependency: every function degrades to a
+deterministic, useful fallback when the endpoint is unreachable, so the app works fully offline
+(critical for the demo and for CI). The rule layer in risk.py still produces a defensible
+severity; the helpers here still produce a clean summary and concrete recommended actions.
 """
 import json
 import urllib.request
 import urllib.error
 from . import config
 from . import policy
+from . import risk_fallback
 
 
 def _with_safety(messages):
@@ -40,33 +43,60 @@ def chat(messages, temperature: float = 0.3, max_tokens: int = 700) -> str:
         with urllib.request.urlopen(req, timeout=120) as r:
             data = json.loads(r.read().decode("utf-8"))
         return (data["choices"][0]["message"]["content"] or "").strip()
-    except (urllib.error.URLError, KeyError, TimeoutError, OSError):
+    except (urllib.error.URLError, KeyError, TimeoutError, OSError, ValueError):
         return ""  # offline / unreachable → caller degrades gracefully
 
 
+def health() -> dict:
+    """Lightweight reachability probe for /healthz. Never raises.
+
+    Returns {"reachable": bool, "base": str, "model": str}. A short GET to /models on the
+    OpenAI-compatible endpoint is enough to tell whether an LLM is configured and live.
+    """
+    url = config.LLM_BASE.rstrip("/") + "/models"
+    headers = {}
+    if config.LLM_KEY:
+        headers["Authorization"] = f"Bearer {config.LLM_KEY}"
+    req = urllib.request.Request(url, headers=headers, method="GET")
+    reachable = False
+    try:
+        with urllib.request.urlopen(req, timeout=4) as r:
+            reachable = 200 <= r.status < 300
+    except Exception:
+        reachable = False
+    return {"reachable": reachable, "base": config.LLM_BASE, "model": config.LLM_MODEL}
+
+
 def summarize(incident: dict) -> str:
+    """LLM summary when reachable, else a deterministic, professional fallback summary."""
     text = f"Title: {incident['title']}\nDetails: {incident['description']}"
     out = chat([
         {"role": "system", "content": "You write concise, professional incident summaries "
-         "for an insurance/security/facilities report. 3-5 sentences, factual, no speculation."},
+         "for an insurance/security/facilities report. 3-5 sentences, factual, no speculation. "
+         "Output the summary text only, no preamble."},
         {"role": "user", "content": text},
     ])
-    return out
+    out = _clean(out)
+    return out or risk_fallback.fallback_summary(incident)
 
 
 def recommend(incident: dict) -> list:
+    """LLM next-steps when reachable, else a deterministic, category-aware action list."""
     text = (f"Incident: {incident['title']}\nDetails: {incident['description']}\n"
             f"Severity: {incident.get('severity')}")
     out = chat([
         {"role": "system", "content": "Give 3-5 concrete recommended next steps for this "
-         "incident as a JSON array of short strings. JSON only."},
+         "incident as a JSON array of short strings. JSON only, no prose."},
         {"role": "user", "content": text},
     ], temperature=0.2)
+    out = _strip_think(out)
+    actions = []
     try:
         arr = json.loads(out[out.find("["): out.rfind("]") + 1])
-        return [str(x) for x in arr][:5]
+        actions = [str(x).strip() for x in arr if str(x).strip()][:5]
     except Exception:
-        return [l.strip("-• ").strip() for l in out.splitlines() if l.strip()][:5]
+        actions = [l.strip("-•* ").strip() for l in out.splitlines() if l.strip()][:5]
+    return actions or risk_fallback.fallback_actions(incident)
 
 
 def llm_severity(text: str) -> str:
@@ -74,8 +104,23 @@ def llm_severity(text: str) -> str:
         {"role": "system", "content": "Classify the incident severity as exactly one of: "
          "low, medium, high, critical. Reply with only that one word."},
         {"role": "user", "content": text},
-    ], temperature=0.0, max_tokens=4).lower()
+    ], temperature=0.0, max_tokens=16)
+    out = _strip_think(out).lower()
     for s in ("critical", "high", "medium", "low"):
         if s in out:
             return s
     return ""
+
+
+def _strip_think(s: str) -> str:
+    """Remove <think>...</think> reasoning blocks some local models emit before the answer."""
+    if not s:
+        return ""
+    low = s.lower()
+    if "</think>" in low:
+        s = s[low.rindex("</think>") + len("</think>"):]
+    return s.strip()
+
+
+def _clean(s: str) -> str:
+    return _strip_think(s).strip().strip('"').strip()

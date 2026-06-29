@@ -20,11 +20,16 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setenv("SENTINEL_EVIDENCE_DIR", str(tmp_path / "evidence"))
     # Reload config + dependents so the env vars take effect.
     import importlib
-    from sentinel import config, store, policy, app as appmod
+    from sentinel import config, store, policy, ai, app as appmod
     importlib.reload(config)
     importlib.reload(store)
     importlib.reload(policy)
+    importlib.reload(ai)
     importlib.reload(appmod)
+    # Keep these tests fully offline/fast: create() now auto-analyzes, which would otherwise
+    # try to reach the LLM. Force chat() offline so only the rule-layer + safety screen run.
+    monkeypatch.setattr(appmod.ai, "chat", lambda *a, **k: "")
+    monkeypatch.setattr(appmod.risk.ai, "llm_severity", lambda text: "")
     return fastapi_testclient.TestClient(appmod.app)
 
 
@@ -33,6 +38,8 @@ def test_create_allows_normal_incident(client):
                     json={"title": "Warehouse fire", "description": "fire broke out, two injured"})
     assert r.status_code == 200, r.text
     assert r.json()["title"] == "Warehouse fire"
+    # auto-analyze ran offline via the grounded rule layer
+    assert r.json()["severity"] == "critical"
 
 
 def test_create_hard_blocks_minor_safety(client):
