@@ -61,7 +61,18 @@ uvicorn sentinel.app:app --app-dir src --reload     # dashboard at http://127.0.
 ```
 
 Headless/CI or a quick demo without the consent prompt: set `SENTINEL_ASSUME_CONSENT=1`.
-Optional PDF export: `pip install reportlab` (Markdown export always works).
+Optional PDF export: `pip install reportlab` (or `pip install -r requirements-pdf.txt`); Markdown
+export always works and `/report.pdf` returns a graceful 501 until reportlab is installed.
+
+**Seed demo data (offline):** populate the store with five varied, realistic incidents — kitchen
+fire, server-room water leak, slip-and-fall injury, overnight break-in, branch power outage — for
+a demo or a clean screenshot. Runs fully offline (grounded rule layer + deterministic fallbacks;
+no Ollama, no network, no key):
+
+```bash
+python scripts/seed_demo.py            # seed into ./sentinel.db (or $SENTINEL_DB)
+python scripts/seed_demo.py --reset    # wipe existing incidents first
+```
 
 **Verify it's running:**
 
@@ -93,12 +104,28 @@ python -m pytest -q
 See `docs/demo-script.md` for a <3-min walkthrough and `docs/sample-run.md` for a real
 captured offline run.
 
-## Two hackathons, one build
-- **HackTitan** (State Farm-sponsored) → insurance / claim reduction / incident documentation /
-  home & small-business safety.
-- **Dev Clash** → AI · cybersecurity · DevOps · automation · local-first incident intelligence.
+## HackTitan (State Farm) — the insurance angle
 
-Same core, two pitches. See `docs/` for each framing.
+State Farm's business is paying out — and preventing — claims. Sentinel attacks both ends:
+
+- **Faster, cleaner claim documentation.** A messy incident note becomes a structured,
+  exportable report (severity + rationale, summary, next steps, evidence) in seconds — the kind
+  of artifact that goes straight into a claim file.
+- **Defensible, grounded severity.** Severity isn't "the AI said high." A transparent rule layer
+  sets an auditable floor from an insurer-relevant taxonomy (injury, fire, water, electrical, gas,
+  structural, intrusion, theft, outage, weather), reconciled with the LLM — so an adjuster can see
+  *why*, line by line. Auditability is what an insurer (and a technical judge) actually trusts.
+- **Loss prevention for homes & small businesses.** The recommended next steps are concrete,
+  category-aware mitigation actions — contain the hazard, preserve evidence, notify the right
+  owner — which is exactly the early action that keeps a small loss from becoming a large claim.
+- **Privacy by construction.** It runs local-first, so sensitive incident and claim data never
+  has to leave the policyholder's or agent's machine.
+
+> Honest scope: this is an MVP. It makes no claim of measured loss-ratio impact — the value it
+> demonstrates is grounded, reviewable severity and clean, exportable incident documentation.
+
+Sentinel was also built with a second framing — **Dev Clash** (AI · cybersecurity · DevOps ·
+automation · local-first incident intelligence). Same core, two pitches; see `docs/` for each.
 
 ## Safety, privacy & legal
 

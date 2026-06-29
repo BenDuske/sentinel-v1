@@ -1,0 +1,4 @@
+# Optional PDF-export extra for Sentinel v1.
+# The core app runs without this; /report.pdf returns a graceful 501 until it is installed.
+#   pip install -r requirements-pdf.txt
+reportlab>=4.0

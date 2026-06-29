@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sentinel v1 — Incident Intelligence</title>
+<title>Sentinel — Local AI Risk &amp; Incident Intelligence</title>
 <style>
  :root{--bg:#0f1320;--card:#1a2032;--ink:#e7ecf5;--mut:#94a3b8;--line:#2a3650;--accent:#3b82f6}
  *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
@@ -19,12 +19,15 @@
  button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600}
  button:disabled{opacity:.5;cursor:not-allowed}
  button.ghost{background:#26304a}
- .sev{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
- .low{background:#14361f;color:#86efac}.medium{background:#3a330f;color:#fde68a}.high{background:#3a210f;color:#fdba74}.critical{background:#3a0f14;color:#fca5a5}.unscored{background:#26304a;color:#94a3b8}
+ .sev{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#fff}
+ .low{background:#16a34a}.medium{background:#f59e0b;color:#1a1205}.high{background:#ea580c}.critical{background:#dc2626}.unscored{background:#475569;color:#cbd5e1}
  .inc{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
  .inc:hover{border-color:var(--accent)}
  .inc h3{margin:0 0 4px;font-size:15px} .muted{color:var(--mut);font-size:13px}
  .rationale{border-left:3px solid var(--accent);padding:8px 12px;background:#0c101b;border-radius:0 8px 8px 0;font-size:13px;color:#cbd5e1}
+ .rat-row{margin:0 0 6px}.rat-row:last-child{margin-bottom:0}
+ .rat-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:1px 6px;border-radius:5px;margin-right:7px;vertical-align:1px}
+ .rat-rule{background:#102a4a;color:#7dd3fc}.rat-llm{background:#2a1a3f;color:#d8b4fe}.rat-final{background:#0f2e1d;color:#86efac}
  pre{white-space:pre-wrap;background:#0c101b;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:13px}
  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
  .err{color:#fca5a5;font-size:13px;margin-top:6px}
@@ -37,7 +40,7 @@
 </style></head>
 <body>
 <header>
- <h1>🛡️ Sentinel v1</h1><span class="tag">Local AI Risk &amp; Incident Intelligence</span>
+ <h1>🛡️ Sentinel</h1><span class="tag">Local AI Risk &amp; Incident Intelligence</span>
  <span class="health"><span id="hdot" class="dot"></span><span id="hlabel">checking…</span></span>
 </header>
 
@@ -124,7 +127,7 @@ async function open_(id){
   d.innerHTML=`<h2 style="margin-top:0">${esc(i.title)} <span class="sev ${i.severity}">${i.severity}</span></h2>
    <div class="muted">${esc(i.description)}</div>
    ${i.evidence&&i.evidence.length?`<div class="muted">📎 Evidence: ${i.evidence.map(esc).join(', ')}</div>`:''}
-   ${i.severity_rationale?`<h3 style="margin-bottom:6px">Why this severity</h3><div class="rationale">${esc(i.severity_rationale)}</div>`:''}
+   ${i.severity_rationale?`<h3 style="margin-bottom:6px">Why this severity <span class="muted" style="font-weight:400">(rule layer vs LLM)</span></h3><div class="rationale">${ratHtml(i.severity_rationale)}</div>`:''}
    <h3>Summary <span class="muted" style="font-weight:400">(editable)</span></h3>
    <textarea id="esum" rows="4">${esc(i.summary||'')}</textarea>
    <h3>Recommended actions <span class="muted" style="font-weight:400">(one per line, editable)</span></h3>
@@ -155,6 +158,16 @@ async function report(id){
   document.getElementById('detail').innerHTML+='<h3>Report (Markdown)</h3><pre>'+esc(md)+'</pre>';
 }
 function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+
+// Split the grounded rationale ("Rule layer → … AI judgment → … Final = … → x.") into
+// labeled rule-layer / LLM / final rows so the audit trail reads clearly. Falls back to the
+// raw string if the format is unexpected.
+function ratHtml(s){
+  const m=/^\s*Rule layer\s*→?\s*([\s\S]*?)\s*AI judgment\s*→?\s*([\s\S]*?)\s*Final\s*=\s*([\s\S]*)$/.exec(s||'');
+  if(!m) return esc(s);
+  const row=(cls,tag,txt)=>`<div class="rat-row"><span class="rat-tag ${cls}">${tag}</span>${esc(txt.replace(/\.\s*$/,''))}</div>`;
+  return row('rat-rule','Rule layer',m[1])+row('rat-llm','LLM',m[2])+row('rat-final','Final',m[3]);
+}
 
 // Consent gate: must accept once; remembered in localStorage. The backend also screens input.
 const CONSENT_KEY='sentinel_consent_v_2026-06-28';

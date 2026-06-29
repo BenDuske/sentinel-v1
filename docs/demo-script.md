@@ -13,6 +13,9 @@ Built by **Ben Duske**.
 
 ```bash
 pip install -r requirements.txt
+pip install -r requirements-pdf.txt          # optional: enables the real PDF export button
+# Optional: pre-load five realistic incidents so the history table isn't empty on screen.
+python scripts/seed_demo.py --reset           # offline; rule layer + deterministic fallbacks
 # Offline is fine for the demo. To show the LLM-enriched path, also run a local
 # OpenAI-compatible server (Ollama / llama.cpp) and point SENTINEL_LLM_BASE at it.
 SENTINEL_ASSUME_CONSENT=1 uvicorn sentinel.app:app --app-dir src
