@@ -11,7 +11,14 @@ here with its license before release.
 | Pydantic | data validation (FastAPI dep) | MIT |
 | Uvicorn | ASGI server | BSD-3-Clause |
 | python-multipart | file uploads | Apache-2.0 |
-| reportlab *(optional)* | PDF export | BSD-3-Clause |
+| reportlab | PDF report export | BSD-3-Clause |
+| Pillow | imaging (reportlab dependency) | HPND / MIT-CMU (PIL license) |
+| charset-normalizer | text-encoding detection (reportlab dependency) | MIT |
+
+## Bundled license texts
+Full license texts for the PDF-export dependencies are included in [`licenses/`](licenses/):
+`reportlab-LICENSE.txt` (BSD), `Pillow-LICENSE.txt` (HPND/PIL), `charset-normalizer-LICENSE.txt` (MIT).
+All are permissive and MIT-compatible; attribution is preserved per each license.
 
 ## Models / external
 - The LLM runs locally via **Ollama** (MIT) using an open **Qwen** model (Apache-2.0 for the

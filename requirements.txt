@@ -1,11 +1,10 @@
 fastapi>=0.110
 uvicorn[standard]>=0.27
 python-multipart>=0.0.9
+reportlab>=4.0        # PDF report export (pulls in Pillow + charset-normalizer); license texts in licenses/
 
 # --- Optional extras (not required to run; the app degrades gracefully without them) ---
-# PDF export: Markdown export always works; /report.pdf returns a clear 501 when this is absent.
-# Enable the real PDF report endpoint with:  pip install reportlab   (or: pip install -r requirements-pdf.txt)
-# reportlab>=4.0
+# Markdown export always works; PDF export via reportlab (above) is now included by default.
 #
 # Dev/test (optional): run the keyless/offline suite with `python -m pytest -q`
 # pytest>=8.0
