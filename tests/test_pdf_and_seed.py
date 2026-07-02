@@ -4,6 +4,7 @@ Both run with NO network/LLM: the PDF is rendered by reportlab (skipped if it is
 and the seed script is forced offline so severity comes from the grounded rule layer and the
 summary/actions from the deterministic fallbacks.
 """
+import builtins
 import importlib
 import importlib.util
 import os
@@ -30,6 +31,31 @@ def test_pdf_export_starts_with_pdf_header(tmp_path, monkeypatch):
         data = fh.read()
     assert len(data) > 800              # a real, non-empty document
     assert data[:4] == b"%PDF"          # valid PDF magic header
+
+
+def test_pdf_export_returns_false_when_reportlab_absent(tmp_path, monkeypatch):
+    """The reportlab-absent branch INSIDE report.to_pdf itself (not the app's 501 wrapper).
+
+    reportlab is now a core dep so this import never fails at runtime, leaving the graceful
+    `except -> return False` path untested. Simulate an install without the optional renderer by
+    making any `reportlab*` import raise, then assert to_pdf degrades to False and writes NO file
+    (the caller turns that False into a clean 501 — the PDF path is never required).
+    """
+    from sentinel import models, report
+
+    real_import = builtins.__import__
+
+    def _no_reportlab(name, *args, **kwargs):
+        if name == "reportlab" or name.startswith("reportlab."):
+            raise ImportError("simulated: reportlab not installed")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", _no_reportlab)
+
+    inc = models.new_incident("Gas leak", "strong odor of gas in the basement")
+    out = str(tmp_path / "nope.pdf")
+    assert report.to_pdf(inc, out) is False
+    assert not os.path.exists(out)      # nothing half-written on the failure path
 
 
 def _load_seed_module():
