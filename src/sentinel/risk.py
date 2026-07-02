@@ -8,6 +8,8 @@ breach/intrusion, theft, outage, weather). The LLM adds judgment on top; the fin
 HIGHER of the two ("floor logic"), with a rationale that shows BOTH the rule hits and the LLM's
 call. That auditability is what insurers and technical judges want.
 """
+import re
+
 from . import ai
 
 _RANK = {"low": 0, "medium": 1, "high": 2, "critical": 3}
@@ -97,18 +99,31 @@ TAXONOMY = {
 }
 
 
+# Precompiled whole-word matchers for every taxonomy signal. Word-boundary matching prevents
+# embedded-substring false positives that would otherwise fire the floor on benign text — e.g.
+# "armed" inside "unarmed" or "fire" inside "firearm" wrongly scoring CRITICAL. \b sits on either
+# side of each (possibly multi-word) phrase; internal spaces/hyphens are handled by re.escape.
+_MATCHERS = {
+    kw: re.compile(r"\b" + re.escape(kw) + r"\b")
+    for levels in TAXONOMY.values()
+    for kws in levels.values()
+    for kw in kws
+}
+
+
 def rule_layer(text: str):
     """Return (severity, reasons). reasons is a list of human-readable rule hits.
 
     Scans the categorized taxonomy; the floor is the highest severity matched across all
-    categories. Each reason names the category, the floor it implies, and the matched terms so
-    the score is fully auditable.
+    categories. Signals match on WHOLE words/phrases (word boundaries), so a keyword never fires
+    from inside a larger word. Each reason names the category, the floor it implies, and the
+    matched terms so the score is fully auditable.
     """
     t = (text or "").lower()
     best, reasons = -1, []
     for category, levels in TAXONOMY.items():
         for sev, kws in levels.items():
-            hits = [k for k in kws if k in t]
+            hits = [k for k in kws if _MATCHERS[k].search(t)]
             if hits:
                 reasons.append(f"{category} → {sev} (matched: {', '.join(hits)})")
                 if _RANK[sev] > best:

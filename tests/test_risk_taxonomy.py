@@ -52,6 +52,21 @@ def test_rationale_lists_matched_terms():
     assert any("matched:" in r for r in reasons)
 
 
+# Benign phrases that embed a taxonomy keyword inside a larger word. Substring matching wrongly
+# scored these CRITICAL ("armed" in "unarmed", "fire" in "firearm"); whole-word matching must not.
+NO_FALSE_POSITIVE = [
+    ("Unarmed guard completed a routine patrol; all clear.", "armed"),
+    ("Employee cleaned the firearm display case in the lobby.", "fire"),
+]
+
+
+def test_embedded_substring_does_not_fire_floor():
+    for text, embedded_kw in NO_FALSE_POSITIVE:
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev} (false positive from {embedded_kw!r})"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
 def test_higher_floor_wins_across_categories():
     # injury(high) + fire(critical) in one report -> critical floor.
     sev, reasons = risk.rule_layer("Fire broke out and one worker was injured")
