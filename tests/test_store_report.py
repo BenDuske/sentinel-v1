@@ -48,6 +48,46 @@ def test_get_missing_returns_none(tmp_path, monkeypatch):
     assert store.get("does-not-exist") is None
 
 
+def test_store_does_not_leak_sqlite_connections(tmp_path, monkeypatch):
+    """Regression guard for the connection leak: ``with sqlite3.connect(...)`` commits but never
+    closes, so each save/get/list_all leaked a Connection until GC (a ResourceWarning). Assert the
+    store closes its connections deterministically — no unclosed-database warning under -W error."""
+    import gc
+    import sqlite3
+    import warnings
+
+    store = _fresh_store(tmp_path, monkeypatch)
+    inc = models.new_incident("Leak check", "burst pipe")
+
+    # Track that every connection opened during CRUD reaches a closed state deterministically
+    # (before any GC pass), rather than lingering open until finalization.
+    opened = []
+    real_connect = sqlite3.connect
+
+    def _tracking_connect(*a, **k):
+        c = real_connect(*a, **k)
+        opened.append(c)
+        return c
+
+    monkeypatch.setattr(sqlite3, "connect", _tracking_connect)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", ResourceWarning)
+        store.save(inc)
+        store.get(inc["id"])
+        store.list_all()
+        gc.collect()  # would raise the ResourceWarning-as-error here if a conn were left unclosed
+
+    assert opened, "no sqlite connections were opened — test wired up wrong"
+    for c in opened:
+        # A closed connection raises ProgrammingError on use; an open one would succeed (leak).
+        try:
+            c.execute("SELECT 1")
+            assert False, "store left a sqlite connection open (leak)"
+        except sqlite3.ProgrammingError:
+            pass
+
+
 def test_markdown_report_contains_all_sections():
     inc = models.new_incident("Warehouse fire", "fire broke out, two injured")
     inc["severity"] = "critical"

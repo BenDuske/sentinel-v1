@@ -3,15 +3,28 @@
 import json
 import sqlite3
 import time
+from contextlib import contextmanager
 from . import config
 
 
+@contextmanager
 def _conn():
+    """Yield a connection inside a transaction, then ALWAYS close it.
+
+    A sqlite3 Connection used as a context manager (``with conn:``) commits/rolls back the
+    transaction but does NOT close the connection — so a bare ``with sqlite3.connect(...)`` leaks
+    the connection until GC reaps it (surfaces as a ResourceWarning). Wrapping it here guarantees
+    close() runs while preserving commit-on-success / rollback-on-error via the inner ``with c``.
+    """
     c = sqlite3.connect(config.DB_PATH)
     c.execute("""CREATE TABLE IF NOT EXISTS incidents(
         id TEXT PRIMARY KEY, data TEXT NOT NULL,
         severity TEXT, status TEXT, created_at REAL, updated_at REAL)""")
-    return c
+    try:
+        with c:
+            yield c
+    finally:
+        c.close()
 
 
 def save(incident: dict) -> dict:

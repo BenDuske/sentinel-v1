@@ -26,7 +26,8 @@ def test_pdf_export_starts_with_pdf_header(tmp_path, monkeypatch):
 
     out = str(tmp_path / "report.pdf")
     assert report.to_pdf(inc, out) is True
-    data = open(out, "rb").read()
+    with open(out, "rb") as fh:
+        data = fh.read()
     assert len(data) > 800              # a real, non-empty document
     assert data[:4] == b"%PDF"          # valid PDF magic header
 
