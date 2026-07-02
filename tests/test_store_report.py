@@ -88,3 +88,17 @@ def test_fallback_actions_are_concrete_and_category_aware():
     joined = " ".join(acts).lower()
     # security + theft categories should both surface
     assert "law enforcement" in joined or "police" in joined
+
+
+def test_every_taxonomy_category_has_tailored_fallback_actions():
+    """Regression guard: the offline path must stay category-aware for EVERY taxonomy
+    category. If a future taxonomy category is added without matching _CATEGORY_ACTIONS,
+    its offline output would silently degrade to the generic-only list — catch that here."""
+    from sentinel import risk
+
+    tax = set(risk.TAXONOMY.keys())
+    act = set(risk_fallback._CATEGORY_ACTIONS.keys())
+    missing = tax - act
+    orphan = act - tax
+    assert not missing, f"taxonomy categories with no tailored fallback actions: {sorted(missing)}"
+    assert not orphan, f"_CATEGORY_ACTIONS keys with no matching taxonomy category: {sorted(orphan)}"
