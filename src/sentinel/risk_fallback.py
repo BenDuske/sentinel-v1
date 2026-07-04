@@ -60,14 +60,21 @@ _GENERIC_ACTIONS = [
 
 
 def _matched_categories(text: str) -> list:
-    """Return the taxonomy categories whose signals appear in the text, most-severe first."""
+    """Return the taxonomy categories whose signals appear in the text, most-severe first.
+
+    Uses the SAME precompiled whole-word matchers as the scoring layer (``risk._MATCHERS``) so the
+    offline summary/actions name exactly the categories the audited score's rule layer found. Raw
+    substring matching here would resurrect the false positives already fixed in ``risk.rule_layer``
+    (e.g. "armed" inside "unarmed", "fire" inside "firearm") and make the offline output disagree
+    with the score's own rationale.
+    """
     t = (text or "").lower()
     rank = {"low": 0, "medium": 1, "high": 2, "critical": 3}
     hits = []
     for category, levels in risk.TAXONOMY.items():
         best = -1
         for sev, kws in levels.items():
-            if any(k in t for k in kws):
+            if any(risk._MATCHERS[k].search(t) for k in kws):
                 best = max(best, rank[sev])
         if best >= 0:
             hits.append((best, category))

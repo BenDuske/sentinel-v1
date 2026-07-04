@@ -130,6 +130,38 @@ def test_fallback_actions_are_concrete_and_category_aware():
     assert "law enforcement" in joined or "police" in joined
 
 
+def test_fallback_categories_use_whole_word_matching():
+    """Regression guard: the offline path must match categories on WHOLE words, exactly like the
+    scoring layer (risk.rule_layer / risk._MATCHERS). A raw-substring implementation here fires
+    "armed" inside "unarmed" and "fire" inside "firearm", so a benign all-clear report would get a
+    security/intrusion or fire/smoke summary + "notify law enforcement" actions — and, worse, the
+    offline output would disagree with the audited score's own rule-layer rationale.
+    """
+    from sentinel import risk
+
+    # "unarmed ... all clear": substring matching sees "armed" (security/intrusion). Whole-word must not.
+    benign_security = models.new_incident("Unarmed guard completed patrol", "all clear, nothing to report")
+    cats = risk_fallback._matched_categories(
+        f"{benign_security['title']}. {benign_security['description']}")
+    assert "security/intrusion" not in cats
+    acts = " ".join(risk_fallback.fallback_actions(benign_security)).lower()
+    assert "law enforcement" not in acts and "credentials" not in acts
+
+    # "firearm" must not fire the fire/smoke category via the embedded "fire".
+    firearm = models.new_incident("Firearm brought to the training range", "routine, supervised")
+    assert "fire/smoke" not in risk_fallback._matched_categories(
+        f"{firearm['title']}. {firearm['description']}")
+
+    # The offline categories must AGREE with the scoring layer's rule-layer categories for the same
+    # text — that consistency is the whole point of grounding both on risk._MATCHERS.
+    for text in ("Unarmed guard completed patrol, all clear",
+                 "Firearm brought to the training range",
+                 "Gas leak: carbon monoxide alarm triggered"):
+        _, reasons = risk.rule_layer(text)
+        score_cats = {r.split(" → ")[0] for r in reasons if "→" in r}
+        assert set(risk_fallback._matched_categories(text)) == score_cats, text
+
+
 def test_every_taxonomy_category_has_tailored_fallback_actions():
     """Regression guard: the offline path must stay category-aware for EVERY taxonomy
     category. If a future taxonomy category is added without matching _CATEGORY_ACTIONS,
