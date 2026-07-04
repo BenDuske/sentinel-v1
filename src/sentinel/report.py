@@ -1,10 +1,31 @@
 # Sentinel v1 — © 2026 Ben Duske. Licensed under the MIT License (see LICENSE).
 """Report export — Markdown now; PDF is a thin optional add (reportlab)."""
 import datetime
+import math
+
+
+def _fmt_when(inc: dict) -> str:
+    """Format created_at defensively — "unknown" when it's missing/null/non-numeric.
+
+    Every other report field degrades gracefully to a placeholder ("(untitled)", "unscored",
+    "—"); created_at was the lone exception. A stored-but-null created_at (valid JSON, reachable
+    via a hand-edit / partial migration / foreign writer — the store column has no NOT NULL
+    constraint and save() persists None) made ``fromtimestamp(None)`` raise TypeError, crashing
+    the customer-facing export with a 500; an absent key silently rendered a misleading 1969 epoch
+    date. Coerce to a real, finite number and fall back to "unknown" otherwise — behaviour-
+    identical for every normally-created incident (created_at is always a valid float).
+    """
+    ts = inc.get("created_at")
+    if isinstance(ts, bool) or not isinstance(ts, (int, float)) or not math.isfinite(ts):
+        return "unknown"
+    try:
+        return datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M")
+    except (ValueError, OverflowError, OSError):
+        return "unknown"
 
 
 def to_markdown(inc: dict) -> str:
-    when = datetime.datetime.fromtimestamp(inc.get("created_at", 0)).strftime("%Y-%m-%d %H:%M")
+    when = _fmt_when(inc)
     actions = "\n".join(f"{i}. {a}" for i, a in enumerate(inc.get("recommended_actions", []), 1))
     evidence = "\n".join(f"- {e}" for e in inc.get("evidence", [])) or "_none attached_"
     return f"""# Incident Report — {inc.get('title','(untitled)')}
@@ -58,7 +79,7 @@ def to_pdf(inc: dict, path: str) -> bool:
         "critical": colors.HexColor("#dc2626"),
     }.get(sev, colors.HexColor("#64748b"))
 
-    when = datetime.datetime.fromtimestamp(inc.get("created_at", 0)).strftime("%Y-%m-%d %H:%M")
+    when = _fmt_when(inc)
     styles = getSampleStyleSheet()
     body = ParagraphStyle("body", parent=styles["Normal"], fontSize=10.5, leading=15,
                           alignment=TA_LEFT, spaceAfter=4)

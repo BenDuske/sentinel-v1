@@ -112,6 +112,44 @@ def test_markdown_report_handles_empty_fields():
     assert "_none attached_" in md  # no evidence
 
 
+def test_markdown_report_handles_missing_or_null_created_at():
+    """Regression guard: created_at is the one report field whose absence/null was unhandled.
+
+    A stored incident that is valid JSON but carries created_at=null (hand-edit / partial
+    migration / foreign writer — the store column has no NOT NULL constraint and save() persists
+    None) made ``fromtimestamp(None)`` raise TypeError → a 500 on the customer-facing export; an
+    absent key silently rendered a misleading 1969 epoch date. Both must degrade to "unknown",
+    exactly like every other field's placeholder. Mutation check: restoring
+    ``fromtimestamp(inc.get("created_at", 0))`` crashes on the null case and prints 1969 on the
+    missing case, failing this test.
+    """
+    # present-but-null: must NOT raise, must read "unknown"
+    null_ts = models.new_incident("Null timestamp")
+    null_ts["created_at"] = None
+    md = report.to_markdown(null_ts)
+    assert "**Reported:** unknown" in md
+    assert "1969" not in md and "1970" not in md
+
+    # key absent entirely: must not fall back to the epoch date
+    missing = models.new_incident("Missing timestamp")
+    missing.pop("created_at", None)
+    md2 = report.to_markdown(missing)
+    assert "**Reported:** unknown" in md2
+    assert "1969" not in md2 and "1970" not in md2
+
+    # non-numeric (e.g. an ISO string a foreign writer stored) also degrades, never crashes
+    stringy = models.new_incident("Stringy timestamp")
+    stringy["created_at"] = "2026-07-04T12:00:00"
+    assert "**Reported:** unknown" in report.to_markdown(stringy)
+
+    # a genuine numeric timestamp still renders normally (behaviour preserved)
+    ok = models.new_incident("Normal timestamp")
+    ok["created_at"] = 1_700_000_000.0  # 2023-11, a real date
+    ok_md = report.to_markdown(ok)
+    assert "**Reported:** 2023-11" in ok_md
+    assert "unknown" not in ok_md
+
+
 def test_fallback_summary_is_category_aware():
     inc = models.new_incident("Gas leak", "carbon monoxide alarm triggered in the basement")
     inc["severity"] = "critical"
