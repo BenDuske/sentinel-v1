@@ -176,6 +176,31 @@ def test_markdown_report_handles_null_actions_and_evidence():
     assert "- photo1.jpg" in md2
 
 
+def test_markdown_severity_matches_pdf_coercion_for_null_or_empty():
+    """Regression guard: the two customer-facing exports must AGREE on severity for the same
+    incident. The PDF path coerces severity via ``str(inc.get("severity","") or "unscored")`` →
+    "UNSCORED" for a null/empty severity, but to_markdown used ``str(inc.get("severity",""))`` →
+    "NONE" for null (present-but-null, valid JSON, no NOT NULL constraint — the hand-edit /
+    partial-migration / foreign-writer path) and a blank "## Severity:" for "". So the same stored
+    incident rendered UNSCORED in the PDF but NONE / blank in the Markdown — a parity break of the
+    exact class as [sentinel-report-null-lists] and [sentinel-report-created-at]. Both paths now
+    fall back to "unscored". Mutation check: reverting to ``inc.get("severity","")`` renders
+    "## Severity: NONE" and fails the null assertion below.
+    """
+    for bad in (None, ""):
+        inc = models.new_incident("Sev parity")
+        inc["severity"] = bad
+        md = report.to_markdown(inc)
+        assert "## Severity: UNSCORED" in md          # matches the PDF path's coercion
+        assert "## Severity: NONE" not in md
+        assert "## Severity: \n" not in md            # not left blank for the "" case
+
+    # a real severity still renders verbatim (behaviour preserved)
+    ok = models.new_incident("Real sev")
+    ok["severity"] = "critical"
+    assert "## Severity: CRITICAL" in report.to_markdown(ok)
+
+
 def test_fallback_summary_is_category_aware():
     inc = models.new_incident("Gas leak", "carbon monoxide alarm triggered in the basement")
     inc["severity"] = "critical"
