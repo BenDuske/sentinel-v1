@@ -26,8 +26,12 @@ def _fmt_when(inc: dict) -> str:
 
 def to_markdown(inc: dict) -> str:
     when = _fmt_when(inc)
-    actions = "\n".join(f"{i}. {a}" for i, a in enumerate(inc.get("recommended_actions", []), 1))
-    evidence = "\n".join(f"- {e}" for e in inc.get("evidence", [])) or "_none attached_"
+    # `or []` guards a stored-but-null recommended_actions/evidence (valid JSON, reachable via a
+    # hand-edit / partial migration / foreign writer — the store has no NOT NULL constraint) that
+    # would otherwise make enumerate(None) raise TypeError and 500 this primary export. The PDF
+    # renderer already coerces both this way; keep the two export paths at parity.
+    actions = "\n".join(f"{i}. {a}" for i, a in enumerate(inc.get("recommended_actions") or [], 1))
+    evidence = "\n".join(f"- {e}" for e in (inc.get("evidence") or [])) or "_none attached_"
     return f"""# Incident Report — {inc.get('title','(untitled)')}
 
 **ID:** `{inc.get('id')}`  **Reported:** {when}  **Status:** {inc.get('status')}

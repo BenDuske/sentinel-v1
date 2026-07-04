@@ -150,6 +150,32 @@ def test_markdown_report_handles_missing_or_null_created_at():
     assert "unknown" not in ok_md
 
 
+def test_markdown_report_handles_null_actions_and_evidence():
+    """Regression guard: to_markdown must survive a stored-but-null recommended_actions/evidence.
+
+    new_incident seeds both as []; but a valid-JSON incident carrying either field as null (same
+    hand-edit / partial-migration / foreign-writer path as the created_at case — no NOT NULL
+    constraint) made ``enumerate(inc.get("recommended_actions", []))`` iterate None → TypeError →
+    a 500 on the PRIMARY (Markdown) export, even though the optional PDF renderer already coerces
+    both with ``or []``. Both export paths must be at parity. Mutation check: reverting to the
+    bare ``inc.get(..., [])`` (no ``or []``) re-raises TypeError here.
+    """
+    inc = models.new_incident("Null actions/evidence")
+    inc["recommended_actions"] = None
+    inc["evidence"] = None
+    md = report.to_markdown(inc)  # must not raise
+    assert "_none_" in md            # actions degrade to the empty placeholder
+    assert "_none attached_" in md   # evidence degrades to the empty placeholder
+
+    # a real list still renders (behaviour preserved)
+    filled = models.new_incident("Filled")
+    filled["recommended_actions"] = ["Evacuate the area", "Call it in"]
+    filled["evidence"] = ["photo1.jpg"]
+    md2 = report.to_markdown(filled)
+    assert "1. Evacuate the area" in md2 and "2. Call it in" in md2
+    assert "- photo1.jpg" in md2
+
+
 def test_fallback_summary_is_category_aware():
     inc = models.new_incident("Gas leak", "carbon monoxide alarm triggered in the basement")
     inc["severity"] = "critical"
