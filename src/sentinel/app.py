@@ -122,7 +122,14 @@ async def upload_evidence(iid: str, file: UploadFile = File(...)):
     dest = os.path.join(config.EVIDENCE_DIR, f"{iid}__{safe_name}")
     with open(dest, "wb") as f:
         f.write(await file.read())
-    inc.setdefault("evidence", []).append(safe_name)
+    # `or []` (not setdefault) coerces a present-but-null evidence field: setdefault only fills an
+    # ABSENT key, so a stored-but-null evidence (valid JSON, reachable via a hand-edit / partial
+    # migration / foreign writer — the store column has no NOT NULL constraint) would return None
+    # and make None.append(...) raise AttributeError → a 500 on this endpoint. The report export
+    # coerces the same field the same way on read; keep the write path at parity.
+    evidence = inc.get("evidence") or []
+    evidence.append(safe_name)
+    inc["evidence"] = evidence
     return store.save(inc)
 
 

@@ -90,6 +90,28 @@ def test_upload_evidence_missing_404(client):
     assert r.status_code == 404
 
 
+def test_upload_evidence_appends_on_happy_path(client):
+    iid = _new_unscored(client)
+    r = client.post(f"/api/incidents/{iid}/evidence",
+                    files={"file": ("photo.jpg", io.BytesIO(b"x"), "image/jpeg")})
+    assert r.status_code == 200
+    assert r.json()["evidence"] == ["photo.jpg"]
+
+
+def test_upload_evidence_survives_null_evidence(client, appmod):
+    # A stored-but-null evidence field (valid JSON — the store has no NOT NULL constraint, reachable
+    # via a hand-edit / partial migration / foreign writer) must not 500 the upload. The old
+    # `setdefault("evidence", []).append(...)` returned None for a present-null key → AttributeError.
+    iid = _new_unscored(client)
+    inc = appmod.store.get(iid)
+    inc["evidence"] = None
+    appmod.store.save(inc)
+    r = client.post(f"/api/incidents/{iid}/evidence",
+                    files={"file": ("e.txt", io.BytesIO(b"x"), "text/plain")})
+    assert r.status_code == 200                    # not a 500
+    assert r.json()["evidence"] == ["e.txt"]       # null coerced to [], then appended
+
+
 def test_report_md_missing_404(client):
     assert client.get("/api/incidents/nope/report.md").status_code == 404
 
