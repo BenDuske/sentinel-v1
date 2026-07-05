@@ -6,3 +6,7 @@ _smoke_evidence/
 __pycache__/
 *.pyc
 .venv/
+
+# stray local export probes
+_probe.pdf
+*.probe.pdf
