@@ -32,9 +32,15 @@ def to_markdown(inc: dict) -> str:
     # renderer already coerces both this way; keep the two export paths at parity.
     actions = "\n".join(f"{i}. {a}" for i, a in enumerate(inc.get("recommended_actions") or [], 1))
     evidence = "\n".join(f"- {e}" for e in (inc.get("evidence") or [])) or "_none attached_"
-    return f"""# Incident Report — {inc.get('title','(untitled)')}
+    # title/id/status use ``or <placeholder>`` (not a .get default) so they degrade like every
+    # other field: a bare .get default only fires on an ABSENT key, leaving a present-but-empty or
+    # present-but-null value to render the literal "None" / a blank heading. Empty title is
+    # reachable via the NORMAL API (a whitespace-only title strips to ""); null title/id/status via
+    # a hand-edit / partial migration / foreign writer (the store has no NOT NULL constraint). The
+    # PDF renderer coerces the same way — keep the two export paths at parity.
+    return f"""# Incident Report — {inc.get('title') or '(untitled)'}
 
-**ID:** `{inc.get('id')}`  **Reported:** {when}  **Status:** {inc.get('status')}
+**ID:** `{inc.get('id') or '—'}`  **Reported:** {when}  **Status:** {inc.get('status') or 'unknown'}
 
 ## Severity: {str(inc.get('severity') or 'unscored').upper()}
 {inc.get('severity_rationale','')}
@@ -96,16 +102,16 @@ def to_pdf(inc: dict, path: str) -> bool:
     foot = ParagraphStyle("foot", parent=styles["Normal"], fontSize=8, leading=11,
                           textColor=colors.HexColor("#94a3b8"))
 
-    doc = SimpleDocTemplate(path, pagesize=letter, title=f"Incident Report — {inc.get('title','')}",
+    doc = SimpleDocTemplate(path, pagesize=letter, title=f"Incident Report — {inc.get('title') or '(untitled)'}",
                             author="Sentinel v1 — Ben Duske",
                             leftMargin=0.9 * inch, rightMargin=0.9 * inch,
                             topMargin=0.8 * inch, bottomMargin=0.8 * inch)
     flow = []
     flow.append(Paragraph("Sentinel — Incident Report", meta))
-    flow.append(Paragraph(_esc(inc.get("title", "(untitled)")), h_title))
+    flow.append(Paragraph(_esc(inc.get("title") or "(untitled)"), h_title))
     flow.append(Paragraph(
-        f"ID: {_esc(inc.get('id'))} &nbsp;&bull;&nbsp; Reported: {when} "
-        f"&nbsp;&bull;&nbsp; Status: {_esc(inc.get('status'))}", meta))
+        f"ID: {_esc(inc.get('id') or '—')} &nbsp;&bull;&nbsp; Reported: {when} "
+        f"&nbsp;&bull;&nbsp; Status: {_esc(inc.get('status') or 'unknown')}", meta))
     flow.append(Spacer(1, 8))
 
     # Severity badge as a small colored table cell.

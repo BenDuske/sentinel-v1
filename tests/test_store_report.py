@@ -228,6 +228,53 @@ def test_markdown_summary_matches_pdf_placeholder_when_empty():
     assert "Primary feed lost; failover held." in report.to_markdown(with_sum)
 
 
+def test_markdown_and_pdf_degrade_null_or_empty_title_status_id():
+    """Regression guard: title/status/id must degrade to a placeholder like every other field.
+
+    Every customer-facing field has a placeholder (created_at→"unknown", severity→"unscored",
+    summary→"—", actions/evidence→"none"), but title/id/status used a bare ``.get(key, default)``
+    whose default only fires on an ABSENT key — a present-but-empty title (reachable via the NORMAL
+    API: a whitespace-only title strips to "") rendered a blank ``# Incident Report — `` heading,
+    and a present-but-null title/id/status (hand-edit / partial migration / foreign writer — the
+    store has no NOT NULL constraint) rendered the literal "None". Both export paths must coerce
+    identically. Mutation check: reverting either renderer to ``.get('title','(untitled)')`` etc.
+    renders "None"/blank and fails the assertions below.
+    """
+    # empty title (whitespace strips to "" via new_incident) — reachable through the public API
+    empty = models.new_incident("   ")
+    assert empty["title"] == ""
+    md = report.to_markdown(empty)
+    assert "# Incident Report — (untitled)" in md
+    assert "# Incident Report — \n" not in md  # never a blank heading
+
+    # present-but-null title/status/id all degrade, none render "None"
+    nulls = models.new_incident("placeholder")
+    nulls["title"] = None
+    nulls["status"] = None
+    nulls["id"] = None
+    md2 = report.to_markdown(nulls)
+    assert "# Incident Report — (untitled)" in md2
+    assert "**Status:** unknown" in md2
+    assert "**ID:** `—`" in md2
+    assert "None" not in md2
+
+    # the PDF path coerces the same way (build must not embed "None" for the title/status/id)
+    import importlib.util
+    if importlib.util.find_spec("reportlab") is not None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            out = f"{d}/r.pdf"
+            assert report.to_pdf(nulls, out) is True  # renders without raising
+
+    # a real title/status/id still renders verbatim (behaviour preserved)
+    ok = models.new_incident("Server room flood")
+    ok["status"] = "reviewing"
+    ok_md = report.to_markdown(ok)
+    assert "# Incident Report — Server room flood" in ok_md
+    assert "**Status:** reviewing" in ok_md
+    assert "(untitled)" not in ok_md and "unknown" not in ok_md
+
+
 def test_fallback_summary_is_category_aware():
     inc = models.new_incident("Gas leak", "carbon monoxide alarm triggered in the basement")
     inc["severity"] = "critical"
