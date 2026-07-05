@@ -275,6 +275,33 @@ def test_markdown_and_pdf_degrade_null_or_empty_title_status_id():
     assert "(untitled)" not in ok_md and "unknown" not in ok_md
 
 
+def test_markdown_rationale_matches_pdf_when_null_or_empty():
+    """Regression guard: severity_rationale was the LAST customer-facing markdown field rendered via
+    a bare ``.get(key, default)`` — whose default fires only on an ABSENT key. So a present-but-null
+    severity_rationale (valid JSON, reachable via a hand-edit / partial migration / foreign writer —
+    the store column has no NOT NULL constraint) leaked the literal "None" line under the Severity
+    heading in the PRIMARY (Markdown) export, while the PDF path (``if inc.get("severity_rationale")``)
+    renders nothing for a null/empty rationale — a None-leak + MD↔PDF parity break of the exact class
+    as the title/status/id, severity, summary and created_at fixes. Both paths must agree: null/empty
+    → nothing rendered. Mutation check: reverting to ``inc.get('severity_rationale','')`` re-emits the
+    literal "None" for the null case below.
+    """
+    for bad in (None, ""):
+        inc = models.new_incident("Rationale parity")
+        inc["severity"] = "high"
+        inc["severity_rationale"] = bad
+        md = report.to_markdown(inc)
+        # the block between the Severity line and the Summary heading carries the rationale
+        block = md.split("## Severity:", 1)[1].split("## Summary", 1)[0]
+        assert "None" not in block  # never the literal "None" (matches the PDF skipping it)
+
+    # a real rationale still renders verbatim (behaviour preserved)
+    ok = models.new_incident("Real rationale")
+    ok["severity"] = "critical"
+    ok["severity_rationale"] = "Rule layer → critical. AI judgment → critical."
+    assert "Rule layer → critical. AI judgment → critical." in report.to_markdown(ok)
+
+
 def test_fallback_summary_is_category_aware():
     inc = models.new_incident("Gas leak", "carbon monoxide alarm triggered in the basement")
     inc["severity"] = "critical"

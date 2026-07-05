@@ -43,7 +43,7 @@ def to_markdown(inc: dict) -> str:
 **ID:** `{inc.get('id') or '—'}`  **Reported:** {when}  **Status:** {inc.get('status') or 'unknown'}
 
 ## Severity: {str(inc.get('severity') or 'unscored').upper()}
-{inc.get('severity_rationale','')}
+{inc.get('severity_rationale') or ''}
 
 ## Summary
 {inc.get('summary') or inc.get('description') or '—'}
