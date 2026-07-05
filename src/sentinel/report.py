@@ -40,7 +40,7 @@ def to_markdown(inc: dict) -> str:
 {inc.get('severity_rationale','')}
 
 ## Summary
-{inc.get('summary') or inc.get('description','')}
+{inc.get('summary') or inc.get('description') or '—'}
 
 ## Recommended actions
 {actions or '_none_'}

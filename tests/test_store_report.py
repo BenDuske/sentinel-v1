@@ -201,6 +201,33 @@ def test_markdown_severity_matches_pdf_coercion_for_null_or_empty():
     assert "## Severity: CRITICAL" in report.to_markdown(ok)
 
 
+def test_markdown_summary_matches_pdf_placeholder_when_empty():
+    """Regression guard: the two exports must AGREE on the Summary field. The PDF path falls back
+    to ``inc.get("summary") or inc.get("description","") or "—"`` so an incident with an empty
+    summary AND empty description renders "—"; to_markdown used ``... or inc.get("description","")``
+    with NO final placeholder, so the same incident rendered a BLANK "## Summary" section — a parity
+    break of the exact class as the severity / null-lists / created_at fixes. Reachable through the
+    NORMAL API (POST /api/incidents with analyze=false and an empty description leaves summary=""
+    and description=""), not just a foreign writer. Both paths now fall back to "—". Mutation check:
+    dropping the trailing ``or '—'`` renders a blank section and fails the assertion below.
+    """
+    inc = models.new_incident("Gate left open")  # analyze=false path: summary="" and description=""
+    assert inc["summary"] == "" and inc["description"] == ""
+    md = report.to_markdown(inc)
+    summary_section = md.split("## Summary", 1)[1].split("##", 1)[0]
+    assert summary_section.strip() != ""            # never blank (matches the PDF path)
+    assert summary_section.strip() == "—"           # same placeholder the PDF renders
+
+    # description present but no summary → description fills in (behaviour preserved)
+    with_desc = models.new_incident("Leak", "water pooling under the AHU")
+    assert "water pooling under the AHU" in report.to_markdown(with_desc)
+
+    # real summary still renders verbatim (behaviour preserved)
+    with_sum = models.new_incident("Outage")
+    with_sum["summary"] = "Primary feed lost; failover held."
+    assert "Primary feed lost; failover held." in report.to_markdown(with_sum)
+
+
 def test_fallback_summary_is_category_aware():
     inc = models.new_incident("Gas leak", "carbon monoxide alarm triggered in the basement")
     inc["severity"] = "critical"
