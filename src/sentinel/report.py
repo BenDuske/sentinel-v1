@@ -114,8 +114,14 @@ def to_pdf(inc: dict, path: str) -> bool:
         f"&nbsp;&bull;&nbsp; Status: {_esc(inc.get('status') or 'unknown')}", meta))
     flow.append(Spacer(1, 8))
 
-    # Severity badge as a small colored table cell.
-    badge = Table([[Paragraph(f"SEVERITY: {sev.upper()}",
+    # Severity badge as a small colored table cell. _esc the severity like every other text
+    # field: it's the ONE value that reached a reportlab Paragraph raw, so a severity carrying an
+    # unclosed inline tag (e.g. "x <b y" — <b> is a real reportlab bold tag) crashed doc.build
+    # with an uncaught ValueError → a 500 on /report.pdf, while to_markdown rendered the same
+    # string fine. Normal severities (low/medium/high/critical/unscored) have no markup chars so
+    # _esc is a no-op; the guard only matters for a hand-edited / migrated / foreign-writer record
+    # (the store column has no CHECK/NOT NULL constraint and save() writes severity verbatim).
+    badge = Table([[Paragraph(f"SEVERITY: {_esc(sev.upper())}",
                               ParagraphStyle("badge", parent=body, textColor=colors.white,
                                              fontName="Helvetica-Bold", fontSize=11))]],
                   colWidths=[2.4 * inch])

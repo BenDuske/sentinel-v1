@@ -33,6 +33,38 @@ def test_pdf_export_starts_with_pdf_header(tmp_path, monkeypatch):
     assert data[:4] == b"%PDF"          # valid PDF magic header
 
 
+def test_pdf_export_survives_markup_in_severity(tmp_path):
+    """The severity badge must _esc its value like every other text field.
+
+    Regression for the one field that reached a reportlab Paragraph RAW: a severity carrying an
+    unclosed inline tag (e.g. "x <b y" — <b> is a real reportlab bold tag) crashed doc.build with
+    an uncaught ValueError → a 500 on /report.pdf, while to_markdown rendered the same string fine
+    (an MD↔PDF parity break). Such a severity is reachable via a hand-edit / partial migration /
+    foreign writer — the store column has no CHECK/NOT NULL constraint and save() writes it
+    verbatim; the normal API only ever stores low/medium/high/critical/unscored.
+    """
+    pytest.importorskip("reportlab")
+    from sentinel import models, report
+
+    inc = models.new_incident("Server room water intrusion", "pipe burst overnight")
+    inc["severity"] = "x <b y"          # unclosed reportlab tag → pre-fix ValueError in doc.build
+
+    # to_markdown handles ANY severity string (plain text) — pin the parity baseline.
+    md = report.to_markdown(inc)
+    assert "## Severity: X <B Y" in md
+
+    # to_pdf must now degrade gracefully (escape, don't crash) and still emit a valid PDF.
+    out = str(tmp_path / "markup.pdf")
+    assert report.to_pdf(inc, out) is True
+    with open(out, "rb") as fh:
+        assert fh.read(4) == b"%PDF"
+
+    # Every normal severity is unaffected — _esc is a no-op on markup-free text.
+    for sev in ("low", "medium", "high", "critical", "unscored"):
+        inc["severity"] = sev
+        assert report.to_pdf(inc, str(tmp_path / f"{sev}.pdf")) is True
+
+
 def test_pdf_export_returns_false_when_reportlab_absent(tmp_path, monkeypatch):
     """The reportlab-absent branch INSIDE report.to_pdf itself (not the app's 501 wrapper).
 
