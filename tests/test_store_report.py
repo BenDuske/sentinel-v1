@@ -150,6 +150,35 @@ def test_markdown_report_handles_missing_or_null_created_at():
     assert "unknown" not in ok_md
 
 
+def test_markdown_report_handles_out_of_range_created_at():
+    """Regression guard: created_at that is a FINITE number but out of range for fromtimestamp.
+
+    _fmt_when's type/finite check (``isinstance(ts, (int, float)) and math.isfinite(ts)``) lets a
+    huge or deeply-negative epoch through — it IS a finite float — but ``fromtimestamp`` then
+    raises OverflowError ("timestamp out of range for platform time_t") or, on Windows, OSError
+    (errno 22, invalid argument) for values outside the platform's representable range. That is a
+    DISTINCT failure mode from the null/string case (which the type check already stops): here the
+    value clears every guard and only the try/except at the fromtimestamp call saves the export.
+    Reachable via the same hand-edit / partial-migration / foreign-writer path (no range/NOT NULL
+    constraint; save() persists the number verbatim) — without the except this 500s the primary
+    customer-facing export on an otherwise valid incident. All must degrade to "unknown", never
+    raise. Mutation check: dropping the ``except (ValueError, OverflowError, OSError)`` (letting the
+    exception propagate) re-raises here on every value below.
+    """
+    # Each is finite (passes math.isfinite) but out of fromtimestamp's range → the except fires.
+    for label, ts in [
+        ("huge-positive", 1e18),        # OSError errno 22 on Windows / range error elsewhere
+        ("overflow", 1e300),            # OverflowError: out of range for platform time_t
+        ("huge-negative", -1e18),       # far below the epoch → range error
+        ("pre-epoch-far", -62135596800.0),  # year 1 — below platform minimum
+    ]:
+        inc = models.new_incident(f"Out-of-range created_at ({label})")
+        inc["created_at"] = ts
+        md = report.to_markdown(inc)  # must not raise
+        assert "**Reported:** unknown" in md, label
+        assert "1969" not in md and "1970" not in md, label
+
+
 def test_markdown_report_handles_null_actions_and_evidence():
     """Regression guard: to_markdown must survive a stored-but-null recommended_actions/evidence.
 
