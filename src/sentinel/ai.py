@@ -69,7 +69,13 @@ def health() -> dict:
 
 def summarize(incident: dict) -> str:
     """LLM summary when reachable, else a deterministic, professional fallback summary."""
-    text = f"Title: {incident['title']}\nDetails: {incident['description']}"
+    # `.get(...)` (not incident['title']/[...]) so prompt-building never raises on a stored
+    # incident missing a key (valid JSON, reachable via a hand-edit / partial migration / foreign
+    # writer — the store has no schema/NOT NULL constraint). A bare key access here crashed the
+    # /analyze endpoint with a 500 BEFORE the offline fallback below could run, breaking this
+    # module's "every function degrades gracefully" contract. risk.score() + the fallbacks already
+    # coerce this way — keep the LLM-enriched path at parity.
+    text = f"Title: {incident.get('title', '')}\nDetails: {incident.get('description', '')}"
     out = chat([
         {"role": "system", "content": "You write concise, professional incident summaries "
          "for an insurance/security/facilities report. 3-5 sentences, factual, no speculation. "
@@ -82,7 +88,9 @@ def summarize(incident: dict) -> str:
 
 def recommend(incident: dict) -> list:
     """LLM next-steps when reachable, else a deterministic, category-aware action list."""
-    text = (f"Incident: {incident['title']}\nDetails: {incident['description']}\n"
+    # `.get(...)` for the same reason as summarize() — a missing title/description must not 500 the
+    # /analyze endpoint before the offline fallback runs. (severity already used .get.)
+    text = (f"Incident: {incident.get('title', '')}\nDetails: {incident.get('description', '')}\n"
             f"Severity: {incident.get('severity')}")
     out = chat([
         {"role": "system", "content": "Give 3-5 concrete recommended next steps for this "

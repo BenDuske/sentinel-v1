@@ -105,3 +105,40 @@ def test_summarize_uses_deterministic_fallback_when_offline(monkeypatch):
     inc = {"title": "Outage", "description": "server down", "severity": "high"}
     monkeypatch.setattr(ai, "chat", lambda *a, **k: "")
     assert ai.summarize(inc) == risk_fallback.fallback_summary(inc)
+
+
+# ---- missing-key robustness (prompt-building must not 500) ---------------------------------------
+# summarize/recommend build their LLM prompt from the incident. Using incident['title']/[...] raised
+# KeyError on a stored incident missing a key (valid JSON — the store has no schema/NOT NULL
+# constraint, so a hand-edit / partial migration / foreign writer can produce one), 500-ing the
+# /analyze endpoint BEFORE the offline fallback could run and breaking ai.py's degrade-gracefully
+# contract. risk.score() + the fallbacks already coerce with .get(); these pin the parity.
+# Mutation check: reverting either prompt line to incident['title']/[...] re-raises KeyError here.
+
+def test_summarize_no_crash_on_missing_description(monkeypatch):
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: "")  # offline → fallback must govern, not crash
+    inc = {"id": "abc", "title": "Roof leak", "severity": "unscored"}  # no 'description'
+    assert ai.summarize(inc) == risk_fallback.fallback_summary(inc)
+
+
+def test_summarize_no_crash_on_missing_title(monkeypatch):
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: "")
+    inc = {"id": "abc", "description": "water everywhere"}  # no 'title'
+    assert ai.summarize(inc) == risk_fallback.fallback_summary(inc)
+
+
+def test_recommend_no_crash_on_missing_keys(monkeypatch):
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: "")
+    inc = {"id": "abc", "title": "Roof leak", "severity": "unscored"}  # no 'description'
+    assert ai.recommend(inc) == risk_fallback.fallback_actions(inc)
+    assert ai.recommend({"id": "abc"}) == risk_fallback.fallback_actions({"id": "abc"})  # neither key
+
+
+def test_prompt_building_no_crash_even_when_llm_reachable(monkeypatch):
+    # The KeyError was in prompt construction, so it fired regardless of endpoint reachability —
+    # a reachable LLM would 500 too. With a canned reply and a description-less incident, both
+    # helpers must still return the LLM output, never raise.
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: '["do X"]')
+    assert ai.recommend({"id": "abc", "title": "only title"}) == ["do X"]
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: "A summary.")
+    assert ai.summarize({"id": "abc", "title": "only title"}) == "A summary."
