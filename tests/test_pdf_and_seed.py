@@ -122,3 +122,48 @@ def test_seed_demo_populates_store_offline(tmp_path, monkeypatch):
         assert len(inc["recommended_actions"]) >= 3
         assert inc["ai_generated"] is True
         assert "Rule layer →" in inc["severity_rationale"]
+
+
+def test_seed_demo_reset_wipes_existing(tmp_path, monkeypatch):
+    """The documented `--reset` must WIPE before re-seeding, not pile up duplicates.
+
+    The first-pass seed test only ever calls seed(reset=True) against an empty store, so the
+    `if existing: DELETE FROM incidents` branch (the whole point of --reset) never runs. Seed
+    twice — once plain, once with reset — and assert the store still holds 5, not 10. Without the
+    DELETE, re-running the demo would double the incident list on every run.
+    """
+    monkeypatch.setenv("SENTINEL_DB", str(tmp_path / "reset.db"))
+    monkeypatch.setenv("SENTINEL_ASSUME_CONSENT", "1")
+    from sentinel import config, store, risk_fallback, ai, risk
+    for m in (config, store, risk_fallback, ai, risk):
+        importlib.reload(m)
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: "")
+    monkeypatch.setattr(risk.ai, "llm_severity", lambda text: "")
+
+    seed = _load_seed_module()
+    seed.seed(reset=False)
+    assert len(store.list_all()) == 5          # baseline populated
+    seed.seed(reset=True)                       # exercises the DELETE branch
+    assert len(store.list_all()) == 5          # wiped then re-seeded, NOT 10
+
+
+def test_seed_demo_main_entrypoint(tmp_path, monkeypatch, capsys):
+    """main(['--reset']) — the exact CLI the demo docs tell a judge/Ben to run — returns 0 and
+    reports what it seeded. Nothing exercised the argparse + print + return path before this.
+    """
+    monkeypatch.setenv("SENTINEL_DB", str(tmp_path / "main.db"))
+    monkeypatch.setenv("SENTINEL_ASSUME_CONSENT", "1")
+    from sentinel import config, store, risk_fallback, ai, risk
+    for m in (config, store, risk_fallback, ai, risk):
+        importlib.reload(m)
+    monkeypatch.setattr(ai, "chat", lambda *a, **k: "")
+    monkeypatch.setattr(risk.ai, "llm_severity", lambda text: "")
+
+    seed = _load_seed_module()
+    rc = seed.main(["--reset"])
+
+    assert rc == 0
+    assert len(store.list_all()) == 5
+    out = capsys.readouterr().out
+    assert "Seeded 5 demo incidents" in out
+    assert "Start the dashboard" in out
