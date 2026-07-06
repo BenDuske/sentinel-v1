@@ -1,0 +1,5 @@
+# Dev/test extra for Sentinel v1 — the keyless/offline suite (`python -m pytest -q`).
+# The core app runs without this; you only need it to run the tests.
+#   pip install -r requirements-dev.txt
+pytest>=8.0
+httpx>=0.27   # required by FastAPI's TestClient for the app-level flow tests

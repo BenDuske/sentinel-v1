@@ -83,6 +83,7 @@ curl http://127.0.0.1:8000/healthz      # {"status":"ok","llm":"reachable|offlin
 **Tests** (fully keyless/offline — no network or LLM needed):
 
 ```bash
+pip install -r requirements-dev.txt   # pytest + httpx (test runner; not needed to run the app)
 python -m pytest -q
 ```
 
