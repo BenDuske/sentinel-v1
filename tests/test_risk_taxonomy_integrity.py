@@ -4,7 +4,7 @@ These tests assert nothing about *individual* incident scoring (that's test_risk
 They protect invariants of the TAXONOMY table itself so a future edit can't silently degrade the
 grounded, auditable floor that is Sentinel's differentiator. All pure, deterministic, no LLM/network.
 """
-from sentinel import risk
+from sentinel import risk, risk_fallback
 
 _RANK = {"low": 0, "medium": 1, "high": 2, "critical": 3}
 
@@ -65,6 +65,30 @@ KNOWN_SHADOWED = {
     ("theft", "petty theft"),             # -> high via "theft"
     ("outage", "partial outage"),         # -> high via "outage"
 }
+
+
+def test_fallback_actions_cover_every_category():
+    """Offline-path parity guard for the category->actions table.
+
+    When no LLM is reachable, ``risk_fallback.fallback_actions`` maps each matched TAXONOMY
+    category to concrete next steps via ``_CATEGORY_ACTIONS``. That table is keyed by category
+    name, so a future rename/addition in ``risk.TAXONOMY`` would silently drop the affected
+    category to the generic actions with no test failing. Pin exact key parity in both directions
+    so the offline recommendations stay category-aware and defensible. Pure/structural — asserts
+    nothing about individual scoring semantics.
+    """
+    taxonomy_cats = set(risk.TAXONOMY)
+    action_cats = set(risk_fallback._CATEGORY_ACTIONS)
+    missing = taxonomy_cats - action_cats
+    orphan = action_cats - taxonomy_cats
+    assert not missing, (
+        "TAXONOMY category has no offline actions in _CATEGORY_ACTIONS (would fall back to "
+        f"generic-only next steps): {sorted(missing)}"
+    )
+    assert not orphan, (
+        "_CATEGORY_ACTIONS names a category not in risk.TAXONOMY (dead entry / stale name): "
+        f"{sorted(orphan)}"
+    )
 
 
 def test_no_new_shadowed_keywords():
