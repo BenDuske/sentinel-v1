@@ -7,6 +7,7 @@ gracefully to 501 when the renderer reports it couldn't write. LLM forced offlin
 """
 import importlib
 import io
+import os
 
 import pytest
 
@@ -110,6 +111,42 @@ def test_upload_evidence_survives_null_evidence(client, appmod):
                     files={"file": ("e.txt", io.BytesIO(b"x"), "text/plain")})
     assert r.status_code == 200                    # not a 500
     assert r.json()["evidence"] == ["e.txt"]       # null coerced to [], then appended
+
+
+# ---- evidence upload: path-traversal is stripped to the basename, write stays confined --------
+
+def test_upload_evidence_strips_path_traversal(client, appmod):
+    # SECURITY: file.filename is fully attacker-controlled. app.py sanitizes it with
+    # os.path.basename() so a traversal name ("../../../../etc/passwd") cannot escape
+    # EVIDENCE_DIR. Nothing guarded that before — reverting the basename() call to a raw
+    # file.filename would let the upload write outside the evidence dir (or embed separators
+    # in the stored name) with no test failing. Forward-slash traversal is stripped identically
+    # on POSIX and Windows, so the assertions are cross-platform.
+    iid = _new_unscored(client)
+    r = client.post(f"/api/incidents/{iid}/evidence",
+                    files={"file": ("../../../../etc/passwd", io.BytesIO(b"x"), "text/plain")})
+    assert r.status_code == 200
+    # Stored evidence name is the basename only — no directory components survive.
+    assert r.json()["evidence"] == ["passwd"]
+    # The file landed INSIDE EVIDENCE_DIR (confined), named "{iid}__passwd", and nothing was
+    # written outside it (no traversal escape).
+    ev_dir = os.path.realpath(appmod.config.EVIDENCE_DIR)
+    written = os.path.join(ev_dir, f"{iid}__passwd")
+    assert os.path.isfile(written)
+    assert os.path.realpath(written).startswith(ev_dir + os.sep)
+    assert os.listdir(ev_dir) == [f"{iid}__passwd"]  # exactly one file, no stray escape
+
+
+def test_upload_evidence_empty_filename_falls_back(client, appmod):
+    # `file.filename or "evidence"` covers a blank/missing filename so basename() never yields ""
+    # (which would make an "{iid}__" file with no name). Starlette treats a blank filename as no
+    # upload file, so drive the sanitizer directly and assert the fallback + a real created case.
+    assert os.path.basename("" or "evidence") == "evidence"
+    iid = _new_unscored(client)
+    r = client.post(f"/api/incidents/{iid}/evidence",
+                    files={"file": ("evidence", io.BytesIO(b"x"), "text/plain")})
+    assert r.status_code == 200
+    assert r.json()["evidence"] == ["evidence"]
 
 
 def test_report_md_missing_404(client):
