@@ -67,6 +67,75 @@ KNOWN_SHADOWED = {
 }
 
 
+def _effective_shadowed():
+    """A keyword is *effectively* shadowed when the REAL scoring path over-escalates it.
+
+    ``_shadowed()`` above only inspects subsets WITHIN a single category, but ``risk.rule_layer``
+    takes the floor as the max across ALL categories — so a broader keyword in a *different*
+    category can silently over-escalate a phrase and the same-category guard never sees it
+    (e.g. injury/medical "collapsed" -> critical via the structural category's "collapsed").
+    This runs the actual ``rule_layer`` on each keyword in isolation and flags every phrase whose
+    effective severity exceeds its declared floor, regardless of which category caused it.
+    Returns {(category, keyword, declared_sev, effective_sev)}."""
+    out = set()
+    for category, levels in risk.TAXONOMY.items():
+        for sev, kws in levels.items():
+            for kw in kws:
+                eff, _ = risk.rule_layer(kw)
+                if _RANK[eff] > _RANK[sev]:
+                    out.add((category, kw, sev, eff))
+    return out
+
+
+# Effective (cross-category-aware) shadow set as of 2026-07-08. Superset of KNOWN_SHADOWED: the
+# same 6 in-category cases PLUS two CROSS-category escalations the same-category guard is blind to
+# — injury/medical "collapsed" and water/flood "ceiling collapse from water" both hit the
+# structural category's "collapse"/"collapsed" (critical). Same precision class as the documented
+# 6; the semantic fix (most-specific-match-wins) stays queued for the human taxonomy review. This
+# pin makes the regression net COMPLETE so a future edit can't slip in a new cross-category shadow.
+KNOWN_EFFECTIVE_SHADOWED = {
+    ("injury/medical", "minor injury", "medium", "high"),
+    ("injury/medical", "collapsed", "high", "critical"),        # CROSS -> structural "collapsed"
+    ("fire/smoke", "fire alarm", "high", "critical"),
+    ("water/flood", "minor leak", "medium", "high"),
+    ("water/flood", "ceiling collapse from water", "high", "critical"),  # CROSS -> structural "collapse"
+    ("gas/chemical", "mild fumes", "medium", "critical"),
+    ("theft", "petty theft", "medium", "high"),
+    ("outage", "partial outage", "medium", "high"),
+}
+
+
+def test_no_new_effective_shadowed_keywords():
+    """Cross-category-aware companion to test_no_new_shadowed_keywords.
+
+    Guards the ACTUAL scoring path (``rule_layer`` maxes across all categories), not just
+    same-category subsets. Any new phrase whose effective floor exceeds its declared floor — via
+    any category — fails here even if the same-category guard stays green."""
+    current = _effective_shadowed()
+    new = current - KNOWN_EFFECTIVE_SHADOWED
+    resolved = KNOWN_EFFECTIVE_SHADOWED - current
+    assert not new, (
+        "new effective (possibly cross-category) shadow(s) — a broader keyword in some category "
+        f"over-escalates the declared floor via rule_layer: {sorted(new)}. Rephrase, or make the "
+        "escalation intentional and update KNOWN_EFFECTIVE_SHADOWED."
+    )
+    assert not resolved, (
+        "these previously effective-shadowed keywords no longer over-escalate — remove from "
+        f"KNOWN_EFFECTIVE_SHADOWED so it can't silently regress: {sorted(resolved)}"
+    )
+
+
+def test_effective_shadow_set_supersets_same_category():
+    """Sanity: every same-category shadow is also an effective shadow (the real path can only add
+    escalations, never remove them). Catches drift between the two guards' keyword spellings."""
+    same_cat_keys = {(c, kw) for (c, kw) in _shadowed()}
+    eff_keys = {(c, kw) for (c, kw, _, _) in _effective_shadowed()}
+    missing = same_cat_keys - eff_keys
+    assert not missing, (
+        f"same-category shadow not reflected in the effective set (guard drift): {sorted(missing)}"
+    )
+
+
 def test_fallback_actions_cover_every_category():
     """Offline-path parity guard for the category->actions table.
 
