@@ -173,3 +173,52 @@ def test_no_new_shadowed_keywords():
     assert not resolved, (
         f"these previously-shadowed keywords no longer shadow — remove from KNOWN_SHADOWED: {sorted(resolved)}"
     )
+
+
+def test_every_category_has_nonempty_tailored_actions():
+    """Value-side companion to test_fallback_actions_cover_every_category.
+
+    That parity guard checks only the KEY sets of risk.TAXONOMY vs _CATEGORY_ACTIONS — it says
+    nothing about the action LISTS behind those keys. A category mapped to an empty (or blank)
+    list keeps its key, so key-parity still passes, yet the offline path silently degrades that
+    category to generic-only next steps with no test failing. Confirmed the hole is real: emptying
+    'theft' actions still passes the break-in behavioral test because 'security/intrusion' co-fires
+    on the same incident. Pin that every category actually carries concrete tailored steps.
+    """
+    thin = {
+        c: v for c, v in risk_fallback._CATEGORY_ACTIONS.items()
+        if not isinstance(v, list) or len(v) < 1
+        or any((not isinstance(a, str) or not a.strip()) for a in v)
+    }
+    assert not thin, (
+        "category with missing/blank offline actions (would silently degrade to generic-only "
+        f"next steps): {sorted(thin)}"
+    )
+    dupe = {c: v for c, v in risk_fallback._CATEGORY_ACTIONS.items() if len(set(v)) != len(v)}
+    assert not dupe, f"duplicate action string(s) within a category (dedup shrinks the list): {sorted(dupe)}"
+
+
+def test_fallback_actions_always_3_to_5_unique():
+    """Offline safety-report output contract for risk_fallback.fallback_actions.
+
+    Whatever the incident, the LLM-free path must return between 3 and 5 concrete, DISTINCT next
+    steps: the '>=3' floor is the docstring promise, the '<=5' cap is the ``[:5]`` slice, and
+    uniqueness is the ``if a not in actions`` dedup — the only thing keeping a future overlapping
+    action string (across two categories, or a generic that duplicates a category action) from
+    emitting a repeated recommendation in the report. The dedup otherwise leaves no visible trace,
+    so nothing else would catch its removal. Drive the contract through the REAL _MATCHERS via every
+    taxonomy keyword (single- and multi-category incidents) plus the no-signal case.
+    """
+    from sentinel import models
+
+    def check(inc):
+        acts = risk_fallback.fallback_actions(inc)
+        assert 3 <= len(acts) <= 5, (inc.get("title"), len(acts), acts)
+        assert len(acts) == len(set(acts)), f"duplicate action in offline output: {acts}"
+
+    for levels in risk.TAXONOMY.values():
+        for kws in levels.values():
+            for k in kws:
+                check(models.new_incident(k, f"incident involving {k} on site"))
+    # no-signal floor: still >= 3 generic steps, all distinct
+    check(models.new_incident("Routine check", "all clear, nothing to report"))
