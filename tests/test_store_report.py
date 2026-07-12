@@ -179,6 +179,30 @@ def test_markdown_report_handles_out_of_range_created_at():
         assert "1969" not in md and "1970" not in md, label
 
 
+def test_markdown_report_handles_boolean_created_at():
+    """Regression guard: a BOOLEAN created_at must degrade to "unknown", never a 1969 date.
+
+    This is a DISTINCT failure mode from the null/string/out-of-range cases, and the ONLY one the
+    later guard clauses miss: ``bool`` is a subclass of ``int``, so ``True``/``False`` sail through
+    ``isinstance(ts, (int, float))`` AND ``math.isfinite(ts)`` (True==1, False==0 are finite) and
+    reach ``fromtimestamp`` cleanly — no exception fires, so the try/except never saves us. Without
+    the explicit leading ``isinstance(ts, bool)`` clause, ``created_at=True`` silently renders
+    ``fromtimestamp(1)`` and ``created_at=False`` renders ``fromtimestamp(0)`` — a plausible-looking
+    1969/1970 epoch date on the customer-facing export, exactly the "misleading 1969 epoch" failure
+    the docstring calls out for the absent-key case. Reachable via the same hand-edit / partial-
+    migration / foreign-writer path (JSON ``true``/``false`` is a valid stored value; the store has
+    no type/NOT NULL constraint and save() persists it verbatim). Mutation check: deleting the
+    ``isinstance(ts, bool) or`` clause from _fmt_when's guard flips both assertions below (True→a
+    1969/1970 date, False→a 1969/1970 date) — no other guard catches it.
+    """
+    for label, ts in [("true", True), ("false", False)]:
+        inc = models.new_incident(f"Boolean created_at ({label})")
+        inc["created_at"] = ts
+        md = report.to_markdown(inc)  # must not raise
+        assert "**Reported:** unknown" in md, label
+        assert "1969" not in md and "1970" not in md, label
+
+
 def test_markdown_report_handles_null_actions_and_evidence():
     """Regression guard: to_markdown must survive a stored-but-null recommended_actions/evidence.
 
