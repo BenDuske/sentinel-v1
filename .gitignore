@@ -17,3 +17,7 @@ htmlcov/
 # stray local export probes
 _probe.pdf
 *.probe.pdf
+
+# Ben-clone voice narration — regenerate locally via scripts/generate_narration.py.
+# NEVER commit these to this PUBLIC repo (voice-clone material is personal/sensitive).
+media/narration/*.mp3
