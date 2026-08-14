@@ -67,8 +67,17 @@ TAXONOMY = {
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
     },
     "security/intrusion": {
+        # Firearm/shooting VIOLENT-EVENT terms (an actual discharge or active threat) belong at
+        # the critical floor alongside "active shooter"/"armed": offline, the rule layer is the
+        # ONLY floor, and a report like "shots fired; shooter fled" previously matched nothing and
+        # scored low. Deliberately excludes the bare noun "firearm" — its mere presence (e.g. "the
+        # firearm display case") is not an incident and is guarded against as a false positive in
+        # tests; only discharge/active-threat terms are added here. Word boundaries (\b, below) keep
+        # these from firing inside benign words — "shooter" not in "troubleshooter"/"sharpshooter",
+        # "shooting" not in "troubleshooting".
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
-                     "intruder armed", "kidnapping"],
+                     "intruder armed", "kidnapping", "gunshot", "gunshots", "gunfire",
+                     "shots fired", "active shooting", "shooter", "shooting"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
                      "unauthorized access", "forced entry", "trespass", "assault",
                      "data breach", "breach", "ransomware", "malware", "compromised account"],

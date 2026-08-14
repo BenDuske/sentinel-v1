@@ -31,6 +31,10 @@ CASES = [
     ("Crack in the load-bearing wall is widening", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
+    ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
+    ("Gunshots heard in the parking garage", "critical", "security/intrusion"),
+    ("Reports of gunfire near the loading dock", "critical", "security/intrusion"),
+    ("A shooting occurred at the north entrance", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),
@@ -57,6 +61,11 @@ def test_rationale_lists_matched_terms():
 NO_FALSE_POSITIVE = [
     ("Unarmed guard completed a routine patrol; all clear.", "armed"),
     ("Employee cleaned the firearm display case in the lobby.", "fire"),
+    # The firearm/shooting terms added to security/intrusion must not fire from inside benign
+    # words: "shooting" in "troubleshooting" (extremely common in a facilities/IT incident log),
+    # "shooter" in "troubleshooter"/"sharpshooter". Word boundaries (\b) must hold the line.
+    ("Troubleshooting the printer took most of the morning.", "shooting"),
+    ("The troubleshooter reset the panel; nothing else to note.", "shooter"),
 ]
 
 
