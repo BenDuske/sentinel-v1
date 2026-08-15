@@ -42,7 +42,14 @@ TAXONOMY = {
                      "bruise", "cut", "laceration", "dizzy", "nausea"],
     },
     "fire/smoke": {
-        "critical": ["fire", "ablaze", "blaze", "explosion", "explosive", "engulfed",
+        # "flames" is the most common lay word a reporter writes for an active fire, yet it was
+        # absent while "fire"/"ablaze"/"blaze"/"engulfed" were present — so "the building is in
+        # flames" / "visible flames on the roof" (no literal "fire" token) scored LOW, the SAME
+        # word-choice asymmetry class as the gas-odor and heart-attack fixes. Offline the rule layer
+        # is the only floor, so add it. Whole-word matching keeps it conservative: \bflames\b does
+        # not fire from "inflames" or the singular "flame" in "flame-retardant"/"flame war"; only the
+        # plural incident-word "flames" (nearly always literal fire) is added, not bare "flame".
+        "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "explosive", "engulfed",
                      "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],

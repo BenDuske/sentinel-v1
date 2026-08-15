@@ -26,6 +26,10 @@ CASES = [
     ("Employee is having a heart attack at their desk", "critical", "injury/medical"),
     ("Anaphylaxis after a bee sting; epinephrine administered", "critical", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
+    # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
+    # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
+    ("The building is in flames on the east side", "critical", "fire/smoke"),
+    ("Visible flames on the roof of the annex", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
@@ -92,6 +96,9 @@ NO_FALSE_POSITIVE = [
     # The new acute-medical terms must stay whole-word: a figurative "heart" mention (heartfelt
     # thanks, "at the heart of the issue") must NOT fire the injury/medical critical floor.
     ("A heartfelt thank-you note was left; nothing else to report.", "heart attack"),
+    # "flames" is whole-word: the singular "flame" inside "flame-retardant" (and "inflames") must
+    # NOT fire the fire/smoke critical floor — only the plural incident-word "flames" does.
+    ("Inspected the flame-retardant coating on the ducts; nothing to report.", "flames"),
 ]
 
 
