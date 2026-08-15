@@ -21,6 +21,13 @@ def test_no_signal_defaults_to_low():
 CASES = [
     ("Two workers injured, one hospitalized after a fall", "high", "injury/medical"),
     ("Fatality on site after equipment failure", "critical", "injury/medical"),
+    # Respiratory distress (still breathing but struggling) must reach the HIGH floor — the lay
+    # phrasings a reporter writes previously matched nothing and dropped to LOW while apnea ("not
+    # breathing") sat at critical.
+    ("Employee is having trouble breathing at their desk", "high", "injury/medical"),
+    ("Visitor can't breathe and is turning blue", "high", "injury/medical"),
+    ("Resident complains of shortness of breath and chest tightness", "high", "injury/medical"),
+    ("Worker gasping for air near the loading dock", "high", "injury/medical"),
     # Lay synonyms for the acute-emergency critical floor: "heart attack" (== "cardiac arrest")
     # and anaphylaxis previously scored LOW while "cardiac arrest" scored CRITICAL.
     ("Employee is having a heart attack at their desk", "critical", "injury/medical"),
@@ -99,6 +106,9 @@ NO_FALSE_POSITIVE = [
     # "flames" is whole-word: the singular "flame" inside "flame-retardant" (and "inflames") must
     # NOT fire the fire/smoke critical floor — only the plural incident-word "flames" does.
     ("Inspected the flame-retardant coating on the ducts; nothing to report.", "flames"),
+    # The respiratory-distress phrases are multi-word adjacency phrases: a benign lone "breath"
+    # or "short of ..." with no distress must NOT fire the injury/medical HIGH floor.
+    ("Team took a breath before the next task; short of staff this week.", "trouble breathing"),
 ]
 
 

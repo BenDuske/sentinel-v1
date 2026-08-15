@@ -35,9 +35,20 @@ TAXONOMY = {
                      "casualties", "unconscious", "cardiac arrest", "heart attack", "anaphylaxis",
                      "anaphylactic", "not breathing", "severe bleeding", "amputation",
                      "life-threatening", "multiple injured"],
+        # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
+        # sat at the critical floor — the far more common lay reports of someone STILL breathing
+        # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched
+        # nothing and dropped to LOW: the SAME word-choice asymmetry class as the flames/gas-odor/
+        # heart-attack fixes. Offline the rule layer is the only floor, so add these at HIGH (a
+        # conservative floor — the LLM or a human can raise a specific case to critical; apnea stays
+        # critical above). Every added signal is a multi-word adjacency phrase, so a benign lone
+        # word ("take a breath", "trouble with the printer", "short of staff") does NOT fire.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "electrocuted", "overdose",
-                     "collapsed", "bleeding", "head injury"],
+                     "collapsed", "bleeding", "head injury", "trouble breathing",
+                     "difficulty breathing", "can't breathe", "cannot breathe",
+                     "struggling to breathe", "shortness of breath", "short of breath",
+                     "gasping for air", "respiratory distress"],
         "medium":   ["first aid", "minor injury", "slip", "trip", "fall", "fell", "sprain",
                      "bruise", "cut", "laceration", "dizzy", "nausea"],
     },
