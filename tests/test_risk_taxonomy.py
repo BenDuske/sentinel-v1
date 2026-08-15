@@ -38,6 +38,14 @@ CASES = [
     ("Worker lost consciousness on the floor", "critical", "injury/medical"),
     ("Reporter noted a brief loss of consciousness after the fall", "critical", "injury/medical"),
     ("Employee fainted at her desk and was helped up", "high", "injury/medical"),
+    # "CPR" is an unambiguous lay marker of a life-threatening arrest and must reach the same
+    # critical floor as "cardiac arrest"/"not breathing"; the bare acronym previously dropped to LOW.
+    ("Coworker collapsed; bystanders started CPR immediately", "critical", "injury/medical"),
+    ("We are performing CPR while waiting for the ambulance", "critical", "injury/medical"),
+    # A convulsion reaches the HIGH floor — the "convuls-" forms safely cover what the polysemous
+    # "seizure" cannot, and previously matched nothing and dropped to LOW.
+    ("Visitor is convulsing on the floor of the atrium", "high", "injury/medical"),
+    ("Resident had convulsions after the fall", "high", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
@@ -121,6 +129,9 @@ NO_FALSE_POSITIVE = [
     ("She passed out the meeting agenda; the server was unresponsive so we rebooted it.",
      "loss of consciousness"),
     ("A faint smell of coffee lingered; the wifi signal was faint in the back office.", "fainted"),
+    # "CPR" is whole-word: a benign token that merely embeds the letters (a part number, a code
+    # like "CPRX-100") must NOT fire the injury/medical critical floor — only the standalone acronym.
+    ("Ordered replacement part CPRX-100 for the HVAC unit; nothing else to report.", "cpr"),
 ]
 
 

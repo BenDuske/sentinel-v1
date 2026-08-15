@@ -39,9 +39,15 @@ TAXONOMY = {
         # no benign meaning, and the polysemous single-word synonyms a reporter might use are
         # deliberately NOT added: "passed out" ("passed out the agenda/flyers" = distribute) and
         # "unresponsive" ("the server/app is unresponsive" = IT) would over-fire, not fix a miss.
+        # "CPR" is the single most unambiguous lay marker of a life-threatening arrest: a reporter
+        # who writes "we're doing CPR" / "started CPR" is describing an active cardiac/respiratory
+        # arrest (the critical event the "cardiac arrest"/"not breathing" floors already cover), yet
+        # the bare word matched nothing and dropped to LOW — the SAME word-choice asymmetry class as
+        # the heart-attack / lost-consciousness fixes. Offline the rule layer is the only floor, so
+        # add it. The acronym has no benign English meaning, so \bcpr\b is safe from false positives.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
-                     "cardiac arrest", "heart attack", "anaphylaxis",
+                     "cardiac arrest", "heart attack", "cpr", "anaphylaxis",
                      "anaphylactic", "not breathing", "severe bleeding", "amputation",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
@@ -56,12 +62,19 @@ TAXONOMY = {
         # ongoing "lost consciousness" sits at critical above, a brief faint is a conservative HIGH.
         # The whole-word matcher means the adjective "faint" ("a faint smell", "faint wifi signal")
         # does NOT fire — only the medical verb "fainted".
+        # A convulsion (a person "convulsing" / having "convulsions") is a serious acute medical
+        # event that previously matched nothing and dropped to LOW. The bare word "seizure" — its
+        # clinical synonym — is DELIBERATELY excluded above because it is polysemous ("asset
+        # seizure"), but the "convuls-" forms carry no such benign collision, so they safely fill
+        # that gap at the conservative HIGH floor (the LLM or a human can raise a specific case;
+        # ongoing arrest terms stay critical above). Each is a whole word with no benign meaning.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "electrocuted", "overdose",
                      "collapsed", "bleeding", "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",
-                     "gasping for air", "respiratory distress", "fainted"],
+                     "gasping for air", "respiratory distress", "fainted",
+                     "convulsing", "convulsion", "convulsions"],
         "medium":   ["first aid", "minor injury", "slip", "trip", "fall", "fell", "sprain",
                      "bruise", "cut", "laceration", "dizzy", "nausea"],
     },
