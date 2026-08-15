@@ -51,6 +51,12 @@ CASES = [
     ("Collapsed worker has no pulse; CPR in progress", "critical", "injury/medical"),
     ("Bystander reports the man is pulseless and not moving", "critical", "injury/medical"),
     ("Patient found with no heartbeat in the stairwell", "critical", "injury/medical"),
+    # Apnea reported in the natural past tense / contraction must reach the same critical floor as
+    # "not breathing" — "stopped breathing" / "no longer breathing" / "isn't breathing" previously
+    # matched nothing (the substring "not breathing" does not cover them) and dropped to LOW.
+    ("The infant stopped breathing and turned blue", "critical", "injury/medical"),
+    ("Found the resident on the floor, no longer breathing", "critical", "injury/medical"),
+    ("He isn't breathing — starting rescue breaths now", "critical", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
@@ -150,6 +156,9 @@ NO_FALSE_POSITIVE = [
     # floor — a pulse oximeter reading, "the pulse of the organization", an electrical pulse.
     ("Checked the pulse oximeter; the pulse of the team is good and we logged a clean signal pulse.",
      "no pulse"),
+    # The apnea phrasings are multi-word adjacency phrases: a benign lone "breathing"/"breath" with
+    # no apnea (a breather break, "breathing room" in the schedule) must NOT fire the critical floor.
+    ("Team took a breather; there's finally some breathing room in the schedule.", "stopped breathing"),
 ]
 
 

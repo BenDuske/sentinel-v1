@@ -54,11 +54,21 @@ TAXONOMY = {
         # word (pulseless electrical activity), none with a benign meaning; the bare polysemous noun
         # "pulse" ("pulse oximeter", "the pulse of the organization", an electrical pulse) is
         # DELIBERATELY excluded — it would over-fire, not fix a miss.
+        # Apnea (a person not breathing) sits at critical, but ONLY the present-tense phrasing "not
+        # breathing" was listed — and by substring it only covers "is/are/was not breathing". The
+        # equally-common lay phrasings for the SAME arrest — the past tense "stopped breathing", the
+        # "no longer breathing" form, and the contractions "isn't breathing" / "wasn't breathing"
+        # (which do NOT contain the substring "not breathing") — all matched nothing and dropped to
+        # LOW: the SAME word-choice/tense asymmetry class as the heart-attack / no-pulse fixes above.
+        # Offline the rule layer is the only floor, so add them. Kept conservative: each is a
+        # multi-word adjacency phrase describing apnea with no benign meaning, so a lone "breathing"
+        # / "breath" mention ("took a breather", "breathing room in the budget") does NOT fire.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis",
-                     "anaphylactic", "not breathing", "severe bleeding", "amputation",
+                     "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
+                     "isn't breathing", "wasn't breathing", "severe bleeding", "amputation",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
