@@ -45,9 +45,19 @@ TAXONOMY = {
         # the bare word matched nothing and dropped to LOW — the SAME word-choice asymmetry class as
         # the heart-attack / lost-consciousness fixes. Offline the rule layer is the only floor, so
         # add it. The acronym has no benign English meaning, so \bcpr\b is safe from false positives.
+        # "no pulse" / "no heartbeat" / "pulseless" are the EMS/lay phrasings a reporter writes for
+        # the SAME life-threatening cardiac arrest the "cardiac arrest"/"heart attack"/"cpr"/"not
+        # breathing" floors already cover ("he has no pulse", "she's pulseless", "no heartbeat"), yet
+        # they matched nothing and dropped to LOW — the SAME word-choice asymmetry class as those
+        # fixes. Offline the rule layer is the only floor, so add them. Kept conservative: "no pulse"
+        # and "no heartbeat" are multi-word adjacency phrases and "pulseless" is a single clinical
+        # word (pulseless electrical activity), none with a benign meaning; the bare polysemous noun
+        # "pulse" ("pulse oximeter", "the pulse of the organization", an electrical pulse) is
+        # DELIBERATELY excluded — it would over-fire, not fix a miss.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
-                     "cardiac arrest", "heart attack", "cpr", "anaphylaxis",
+                     "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
+                     "pulseless", "anaphylaxis",
                      "anaphylactic", "not breathing", "severe bleeding", "amputation",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")

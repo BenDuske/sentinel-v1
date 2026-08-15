@@ -46,6 +46,11 @@ CASES = [
     # "seizure" cannot, and previously matched nothing and dropped to LOW.
     ("Visitor is convulsing on the floor of the atrium", "high", "injury/medical"),
     ("Resident had convulsions after the fall", "high", "injury/medical"),
+    # EMS/lay phrasings for cardiac arrest must reach the same critical floor as "cardiac arrest"/
+    # "cpr" — "no pulse" / "pulseless" / "no heartbeat" previously matched nothing and dropped to LOW.
+    ("Collapsed worker has no pulse; CPR in progress", "critical", "injury/medical"),
+    ("Bystander reports the man is pulseless and not moving", "critical", "injury/medical"),
+    ("Patient found with no heartbeat in the stairwell", "critical", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
@@ -140,6 +145,11 @@ NO_FALSE_POSITIVE = [
     # fire the electrical/power floor: culture shock, a shock absorber, "the news was a shock".
     ("New hires felt some culture shock; the shock absorber was replaced and the news was a shock.",
      "electric shock"),
+    # The cardiac-arrest phrasings are multi-word adjacency ("no pulse"/"no heartbeat") or the whole
+    # clinical word "pulseless": the bare polysemous noun "pulse" must NOT fire the injury/medical
+    # floor — a pulse oximeter reading, "the pulse of the organization", an electrical pulse.
+    ("Checked the pulse oximeter; the pulse of the team is good and we logged a clean signal pulse.",
+     "no pulse"),
 ]
 
 
