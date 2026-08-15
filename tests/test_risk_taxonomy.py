@@ -27,6 +27,12 @@ CASES = [
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     ("Gas leak reported; carbon monoxide alarm triggered", "critical", "gas/chemical"),
+    # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
+    # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
+    ("Strong gas smell reported in the mechanical room", "high", "gas/chemical"),
+    ("Tenant reports a gas odor near the boiler", "high", "gas/chemical"),
+    ("Natural gas smell throughout the east wing", "high", "gas/chemical"),
+    ("Smell of natural gas by the loading dock", "high", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     ("Crack in the load-bearing wall is widening", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
@@ -66,6 +72,10 @@ NO_FALSE_POSITIVE = [
     # "shooter" in "troubleshooter"/"sharpshooter". Word boundaries (\b) must hold the line.
     ("Troubleshooting the printer took most of the morning.", "shooting"),
     ("The troubleshooter reset the panel; nothing else to note.", "shooter"),
+    # The new gas-odor phrasings must stay whole-word: a benign mention of the word "gas" with no
+    # odor/leak (a filled gas tank, a gas station errand) must NOT fire the gas/chemical floor.
+    ("Refueled the generator; the gas tank is now full.", "gas smell"),
+    ("Drove to the gas station for supplies; nothing to report.", "gas odor"),
 ]
 
 

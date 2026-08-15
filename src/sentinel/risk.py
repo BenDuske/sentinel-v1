@@ -55,8 +55,16 @@ TAXONOMY = {
         "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
                      "hazardous material", "fumes", "asphyxiation", "ammonia leak",
                      "chlorine leak", "explosive gas"],
-        "high":     ["chemical", "spill", "odor of gas", "smell of gas", "propane leak",
-                     "fuel leak", "corrosive"],
+        # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. It listed
+        # only the "<sense> of gas" word order ("smell of gas"/"odor of gas"), so the equally-common
+        # noun-compound phrasings a person actually writes — "gas smell", "gas odor", and the
+        # "natural gas ..." variants — matched nothing and dropped to LOW: the SAME hazard scored
+        # HIGH or LOW purely on word order. Offline the rule layer is the only floor, so add the
+        # reordered/natural-gas forms here to close the asymmetry. ("gas leak" already sits at
+        # critical and subsumes "natural gas leak" via the \bgas\s+leak\b matcher.)
+        "high":     ["chemical", "spill", "odor of gas", "smell of gas", "gas smell", "gas odor",
+                     "natural gas smell", "natural gas odor", "smell of natural gas",
+                     "odor of natural gas", "propane leak", "fuel leak", "corrosive"],
         "medium":   ["odor", "strong smell", "mild fumes"],
     },
     "structural": {
