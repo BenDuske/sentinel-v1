@@ -48,6 +48,67 @@ def test_get_missing_returns_none(tmp_path, monkeypatch):
     assert store.get("does-not-exist") is None
 
 
+def _inject_corrupt_row(db_path, iid, blob, created_at):
+    """Insert a row whose `data` column is unparseable JSON (bypasses save()'s json.dumps)."""
+    import sqlite3
+    c = sqlite3.connect(db_path)
+    with c:
+        # mirror store._conn()'s schema so the helper works even before any store call ran
+        c.execute("""CREATE TABLE IF NOT EXISTS incidents(
+            id TEXT PRIMARY KEY, data TEXT NOT NULL,
+            severity TEXT, status TEXT, created_at REAL, updated_at REAL)""")
+        c.execute(
+            "INSERT INTO incidents(id,data,severity,status,created_at,updated_at) "
+            "VALUES(?,?,?,?,?,?)", (iid, blob, None, None, created_at, created_at))
+    c.close()
+
+
+def test_list_all_skips_corrupt_row_without_dropping_good_ones(tmp_path, monkeypatch):
+    """Regression guard: one unparseable `data` blob must not blank the whole dashboard listing.
+
+    The `data` column has no JSON/schema constraint, so a truncated write (crash / full disk) or a
+    hand-edit / partial migration / foreign writer can leave one row's blob unparseable — the SAME
+    non-schema corruption path report.to_markdown already defends against. A bare json.loads over
+    every row made ONE bad row raise in list_all(), 500ing GET /api/incidents and hiding EVERY good
+    incident. list_all() must skip the corrupt row and still return all readable ones, newest-first.
+    Mutation check: reverting list_all() to ``[json.loads(r[0]) for r in rows]`` re-raises here.
+    """
+    from sentinel import config
+    store = _fresh_store(tmp_path, monkeypatch)
+    good1 = models.new_incident("Good one")
+    good1["created_at"] = 1000.0
+    good2 = models.new_incident("Good two")
+    good2["created_at"] = 3000.0
+    store.save(good1)
+    store.save(good2)
+    # corrupt row sits (by created_at) between the two good rows to prove ordering is preserved too
+    _inject_corrupt_row(config.DB_PATH, "corrupt-id", "{not valid json", 2000.0)
+
+    got = store.list_all()  # must NOT raise despite the corrupt row
+    titles = [i["title"] for i in got]
+    assert titles == ["Good two", "Good one"]   # both good rows survive, newest-first preserved
+    assert all(isinstance(i, dict) and "id" in i for i in got)  # only well-formed incidents returned
+
+
+def test_get_corrupt_row_returns_none_not_500(tmp_path, monkeypatch):
+    """Regression guard: a single corrupt incident must degrade to None (→ the app's 404), not 500.
+
+    Same non-schema corruption path as list_all above; get() previously did an unguarded json.loads
+    → a 500 on GET/analyze/patch/report for that id. Returning None lets the app serve its clean
+    404 instead. Mutation check: reverting get() to ``json.loads(row[0])`` re-raises here.
+    """
+    from sentinel import config
+    store = _fresh_store(tmp_path, monkeypatch)
+    _inject_corrupt_row(config.DB_PATH, "corrupt-id", "not json at all", 1.0)
+    assert store.get("corrupt-id") is None       # corrupt → None, no exception
+    assert store.get("also-missing") is None      # genuinely absent still None (behaviour preserved)
+
+    # a well-formed row alongside the corrupt one still reads back normally
+    ok = models.new_incident("Readable")
+    store.save(ok)
+    assert store.get(ok["id"])["title"] == "Readable"
+
+
 def test_store_does_not_leak_sqlite_connections(tmp_path, monkeypatch):
     """Regression guard for the connection leak: ``with sqlite3.connect(...)`` commits but never
     closes, so each save/get/list_all leaked a Connection until GC (a ResourceWarning). Assert the
