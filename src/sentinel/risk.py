@@ -65,16 +65,20 @@ TAXONOMY = {
         "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
                      "hazardous material", "fumes", "asphyxiation", "ammonia leak",
                      "chlorine leak", "explosive gas"],
-        # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. It listed
-        # only the "<sense> of gas" word order ("smell of gas"/"odor of gas"), so the equally-common
-        # noun-compound phrasings a person actually writes — "gas smell", "gas odor", and the
-        # "natural gas ..." variants — matched nothing and dropped to LOW: the SAME hazard scored
-        # HIGH or LOW purely on word order. Offline the rule layer is the only floor, so add the
-        # reordered/natural-gas forms here to close the asymmetry. ("gas leak" already sits at
-        # critical and subsumes "natural gas leak" via the \bgas\s+leak\b matcher.)
+        # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
+        # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
+        # noun-compounds and their "natural gas ..." variants), but the equally-common VERB-order
+        # phrasing a person actually writes — "I smell gas", "we smell natural gas", "it smells like
+        # gas" — still matched nothing and dropped to LOW: the SAME hazard scored HIGH or LOW purely
+        # on word order. Offline the rule layer is the only floor, so add the verb-order forms to
+        # finish closing the asymmetry. Conservative: these are whole-word adjacent phrases, so a
+        # benign "gas" mention with no odor report (a filled gas tank, a gas station errand, gas
+        # prices) still does NOT fire. ("gas leak" already sits at critical and subsumes "natural
+        # gas leak" via the \bgas\s+leak\b matcher.)
         "high":     ["chemical", "spill", "odor of gas", "smell of gas", "gas smell", "gas odor",
                      "natural gas smell", "natural gas odor", "smell of natural gas",
-                     "odor of natural gas", "propane leak", "fuel leak", "corrosive"],
+                     "odor of natural gas", "smell gas", "smell natural gas", "smells like gas",
+                     "smells of gas", "propane leak", "fuel leak", "corrosive"],
         "medium":   ["odor", "strong smell", "mild fumes"],
     },
     "structural": {

@@ -37,6 +37,12 @@ CASES = [
     ("Tenant reports a gas odor near the boiler", "high", "gas/chemical"),
     ("Natural gas smell throughout the east wing", "high", "gas/chemical"),
     ("Smell of natural gas by the loading dock", "high", "gas/chemical"),
+    # Verb-order gas-odor reports must reach the same HIGH floor as the noun-order forms above —
+    # "I smell gas" / "smells like gas" is how a person actually reports it, and previously dropped
+    # to LOW purely on word order.
+    ("Tenant called: I smell gas in the second-floor hallway", "high", "gas/chemical"),
+    ("Staff report they smell natural gas near the meter", "high", "gas/chemical"),
+    ("It smells like gas in the mechanical room", "high", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     ("Crack in the load-bearing wall is widening", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
@@ -80,6 +86,9 @@ NO_FALSE_POSITIVE = [
     # odor/leak (a filled gas tank, a gas station errand) must NOT fire the gas/chemical floor.
     ("Refueled the generator; the gas tank is now full.", "gas smell"),
     ("Drove to the gas station for supplies; nothing to report.", "gas odor"),
+    # The verb-order forms are adjacent-word phrases, so a bare "gas" errand with no smell report
+    # (gas prices, a gas can) must NOT fire — "smell" and "gas" are not adjacent here.
+    ("Gas prices went up again; refilled the gas can.", "smell gas"),
     # The new acute-medical terms must stay whole-word: a figurative "heart" mention (heartfelt
     # thanks, "at the heart of the issue") must NOT fire the injury/medical critical floor.
     ("A heartfelt thank-you note was left; nothing else to report.", "heart attack"),
