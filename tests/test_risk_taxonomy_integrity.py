@@ -20,6 +20,46 @@ def test_every_keyword_matches_itself():
     assert not dead, f"whole-word matcher never fires for these keywords: {dead}"
 
 
+def test_multiword_signals_match_across_any_whitespace():
+    """Every multi-word signal must fire when its words are separated by ANY run of whitespace.
+
+    Incident text is free-form (PDF-extracted, pasted form fields, multi-line reports), so the
+    inter-word gap is often a newline, tab, or double space rather than a single literal space.
+    A phrase matcher built with a lone escaped space would silently miss those and lower the floor
+    — critically for offline reports where the rule layer is the only floor ("shots\\nfired" ->
+    low instead of critical). Assert the \\s+ join holds for every multi-word keyword and variant.
+    """
+    variants = ["  ", "\n", "\t", " \n ", "   "]  # double space, newline, tab, mixed, triple
+    missed = []
+    for kw, rx in risk._MATCHERS.items():
+        if len(kw.split()) < 2:
+            continue
+        for ws in variants:
+            text = ws.join(kw.split())
+            if not rx.search(text.lower()):
+                missed.append((kw, repr(ws)))
+    assert not missed, f"multi-word signal failed to match across whitespace: {missed}"
+
+
+def test_multiword_signals_do_not_fire_across_punctuation():
+    """Conservative counterpart: \\s+ must match ONLY whitespace, never punctuation between words.
+
+    A period/comma between the words means two separate clauses, not the phrase — e.g.
+    "shots. fired an employee" must NOT trip the critical "shots fired" floor. This pins that the
+    whitespace-tolerant matcher did not become an over-eager any-separator matcher.
+    """
+    fired = []
+    for kw, rx in risk._MATCHERS.items():
+        toks = kw.split()
+        if len(toks) < 2:
+            continue
+        # Insert a period+space at the first inter-word gap; the phrase must no longer match.
+        text = (toks[0] + ". " + " ".join(toks[1:])).lower()
+        if rx.search(text):
+            fired.append(kw)
+    assert not fired, f"multi-word matcher over-fired across punctuation (not just whitespace): {fired}"
+
+
 def test_no_duplicate_keyword_within_category():
     """A keyword listed at two severities inside one category makes the lower one dead code
     (the floor always takes the higher). Keep each category's keyword set unambiguous."""

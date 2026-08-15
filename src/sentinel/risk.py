@@ -111,9 +111,21 @@ TAXONOMY = {
 # Precompiled whole-word matchers for every taxonomy signal. Word-boundary matching prevents
 # embedded-substring false positives that would otherwise fire the floor on benign text — e.g.
 # "armed" inside "unarmed" or "fire" inside "firearm" wrongly scoring CRITICAL. \b sits on either
-# side of each (possibly multi-word) phrase; internal spaces/hyphens are handled by re.escape.
+# side of each (possibly multi-word) phrase.
+#
+# Internal whitespace in a multi-word phrase is matched as \s+ (any run of whitespace), NOT a single
+# literal space. Incident text is free-form — PDF-extracted descriptions, pasted form fields, and
+# multi-line reports routinely put a newline, tab, or double space between words. With a lone
+# escaped space, a critical signal like "shots fired" silently missed "shots\nfired" / "shots  fired"
+# and scored LOW exactly when (offline) the rule layer is the only floor. Splitting on whitespace and
+# rejoining with \s+ closes that gap while staying conservative: \s+ matches ONLY whitespace, so
+# punctuation between the words (e.g. "shots. fired") still won't over-fire the phrase.
+def _phrase_pattern(kw: str) -> str:
+    return r"\b" + r"\s+".join(re.escape(tok) for tok in kw.split()) + r"\b"
+
+
 _MATCHERS = {
-    kw: re.compile(r"\b" + re.escape(kw) + r"\b")
+    kw: re.compile(_phrase_pattern(kw))
     for levels in TAXONOMY.values()
     for kws in levels.values()
     for kw in kws
