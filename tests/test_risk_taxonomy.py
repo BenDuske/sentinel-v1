@@ -55,6 +55,10 @@ CASES = [
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
+    # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
+    # word choice previously left the more common lay phrasing at LOW.
+    ("Worker got an electric shock from the panel", "high", "electrical/power"),
+    ("He received repeated electric shocks servicing the unit", "high", "electrical/power"),
     ("Gas leak reported; carbon monoxide alarm triggered", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
@@ -132,6 +136,10 @@ NO_FALSE_POSITIVE = [
     # "CPR" is whole-word: a benign token that merely embeds the letters (a part number, a code
     # like "CPRX-100") must NOT fire the injury/medical critical floor — only the standalone acronym.
     ("Ordered replacement part CPRX-100 for the HVAC unit; nothing else to report.", "cpr"),
+    # "electric shock" is a multi-word adjacency phrase, so the bare polysemous noun "shock" must NOT
+    # fire the electrical/power floor: culture shock, a shock absorber, "the news was a shock".
+    ("New hires felt some culture shock; the shock absorber was replaced and the news was a shock.",
+     "electric shock"),
 ]
 
 

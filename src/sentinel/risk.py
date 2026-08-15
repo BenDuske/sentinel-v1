@@ -101,8 +101,18 @@ TAXONOMY = {
     },
     "electrical/power": {
         "critical": ["live wire", "arc flash", "electrocution", "electrical fire"],
-        "high":     ["electrical", "exposed wiring", "short circuit", "shorted", "sparking",
-                     "power surge", "breaker tripped repeatedly", "burning wire"],
+        # A person receiving an "electric shock" is an injury/hazard the taxonomy already floors at
+        # HIGH via "electrical" — but ONLY for the adjective "electrical". The far more common lay
+        # phrasing "electric shock" (adjective "electric", no -al) matched nothing and dropped to
+        # LOW: the SAME hazard scored HIGH or LOW purely on the electric/electrical word choice (the
+        # same word-choice asymmetry class as the flames / gas-odor / heart-attack floor fixes).
+        # Offline the rule layer is the only floor, so add the "electric shock" forms. Kept
+        # conservative — these are multi-word adjacency phrases, so the bare polysemous noun "shock"
+        # ("culture shock", "shock absorber", "the news was a shock") is NOT added and does not fire;
+        # and the plural "electric shocks" needs its own entry because \bshock\b won't match "shocks".
+        "high":     ["electrical", "electric shock", "electric shocks", "exposed wiring",
+                     "short circuit", "shorted", "sparking", "power surge",
+                     "breaker tripped repeatedly", "burning wire"],
         "medium":   ["flickering lights", "tripped breaker", "loose outlet", "brownout"],
     },
     "gas/chemical": {
