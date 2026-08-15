@@ -32,6 +32,12 @@ CASES = [
     # and anaphylaxis previously scored LOW while "cardiac arrest" scored CRITICAL.
     ("Employee is having a heart attack at their desk", "critical", "injury/medical"),
     ("Anaphylaxis after a bee sting; epinephrine administered", "critical", "injury/medical"),
+    # Plain-English synonyms for "unconscious" (critical): "lost consciousness" / "loss of
+    # consciousness" previously matched nothing and dropped to LOW while "unconscious" scored
+    # critical. A transient faint reaches the HIGH floor.
+    ("Worker lost consciousness on the floor", "critical", "injury/medical"),
+    ("Reporter noted a brief loss of consciousness after the fall", "critical", "injury/medical"),
+    ("Employee fainted at her desk and was helped up", "high", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
@@ -109,6 +115,12 @@ NO_FALSE_POSITIVE = [
     # The respiratory-distress phrases are multi-word adjacency phrases: a benign lone "breath"
     # or "short of ..." with no distress must NOT fire the injury/medical HIGH floor.
     ("Team took a breath before the next task; short of staff this week.", "trouble breathing"),
+    # The unconsciousness synonyms are multi-word adjacency phrases / the whole-word verb "fainted":
+    # a benign "passed out the agenda", an "unresponsive" server, or the adjective "faint" must NOT
+    # fire the injury/medical floor (those polysemous forms were deliberately left out).
+    ("She passed out the meeting agenda; the server was unresponsive so we rebooted it.",
+     "loss of consciousness"),
+    ("A faint smell of coffee lingered; the wifi signal was faint in the back office.", "fainted"),
 ]
 
 

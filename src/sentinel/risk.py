@@ -31,8 +31,17 @@ TAXONOMY = {
         # "heart attack" won't fire from "heartfelt"/"heart of the matter", and polysemous bare
         # tokens ("stroke" = keystroke/brush stroke/stroke of luck, "seizure" = asset seizure) are
         # deliberately NOT added — that would over-fire, not fix a miss.
+        # "unconscious" sits at critical, but its plain-English synonyms — "lost consciousness" /
+        # "loss of consciousness", the exact phrasing a non-clinical reporter writes for the SAME
+        # event — matched nothing and dropped to LOW: the SAME word-choice asymmetry class as the
+        # heart-attack / not-breathing fixes above. Offline the rule layer is the only floor, so add
+        # these unambiguous phrases. Kept conservative — both are multi-word adjacency phrases with
+        # no benign meaning, and the polysemous single-word synonyms a reporter might use are
+        # deliberately NOT added: "passed out" ("passed out the agenda/flyers" = distribute) and
+        # "unresponsive" ("the server/app is unresponsive" = IT) would over-fire, not fix a miss.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
-                     "casualties", "unconscious", "cardiac arrest", "heart attack", "anaphylaxis",
+                     "casualties", "unconscious", "lost consciousness", "loss of consciousness",
+                     "cardiac arrest", "heart attack", "anaphylaxis",
                      "anaphylactic", "not breathing", "severe bleeding", "amputation",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
@@ -43,12 +52,16 @@ TAXONOMY = {
         # conservative floor — the LLM or a human can raise a specific case to critical; apnea stays
         # critical above). Every added signal is a multi-word adjacency phrase, so a benign lone
         # word ("take a breath", "trouble with the printer", "short of staff") does NOT fire.
+        # "fainted" (a faint = a transient loss of consciousness) is added here at the HIGH floor —
+        # ongoing "lost consciousness" sits at critical above, a brief faint is a conservative HIGH.
+        # The whole-word matcher means the adjective "faint" ("a faint smell", "faint wifi signal")
+        # does NOT fire — only the medical verb "fainted".
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "electrocuted", "overdose",
                      "collapsed", "bleeding", "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",
-                     "gasping for air", "respiratory distress"],
+                     "gasping for air", "respiratory distress", "fainted"],
         "medium":   ["first aid", "minor injury", "slip", "trip", "fall", "fell", "sprain",
                      "bruise", "cut", "laceration", "dizzy", "nausea"],
     },
