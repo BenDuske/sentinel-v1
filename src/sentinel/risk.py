@@ -22,9 +22,19 @@ _INV = {v: k for k, v in _RANK.items()}
 # imply a *minimum* severity, never a maximum (the LLM or a human can raise it).
 TAXONOMY = {
     "injury/medical": {
+        # "cardiac arrest" sits at critical, but its universal LAY synonym "heart attack" — the
+        # phrasing a non-clinical reporter actually writes — matched nothing and dropped to LOW: the
+        # SAME life-threatening event scored CRITICAL or LOW purely on word choice (the exact word-
+        # choice asymmetry class as the gas smell/odor fix below). Anaphylaxis (a rapidly fatal
+        # allergic reaction) was likewise absent. Offline the rule layer is the only floor, so add
+        # these unambiguous acute-emergency terms. Kept conservative: whole-word matchers mean
+        # "heart attack" won't fire from "heartfelt"/"heart of the matter", and polysemous bare
+        # tokens ("stroke" = keystroke/brush stroke/stroke of luck, "seizure" = asset seizure) are
+        # deliberately NOT added — that would over-fire, not fix a miss.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
-                     "casualties", "unconscious", "cardiac arrest", "not breathing",
-                     "severe bleeding", "amputation", "life-threatening", "multiple injured"],
+                     "casualties", "unconscious", "cardiac arrest", "heart attack", "anaphylaxis",
+                     "anaphylactic", "not breathing", "severe bleeding", "amputation",
+                     "life-threatening", "multiple injured"],
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "electrocuted", "overdose",
                      "collapsed", "bleeding", "head injury"],

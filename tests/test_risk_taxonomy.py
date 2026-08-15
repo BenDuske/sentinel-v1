@@ -21,6 +21,10 @@ def test_no_signal_defaults_to_low():
 CASES = [
     ("Two workers injured, one hospitalized after a fall", "high", "injury/medical"),
     ("Fatality on site after equipment failure", "critical", "injury/medical"),
+    # Lay synonyms for the acute-emergency critical floor: "heart attack" (== "cardiac arrest")
+    # and anaphylaxis previously scored LOW while "cardiac arrest" scored CRITICAL.
+    ("Employee is having a heart attack at their desk", "critical", "injury/medical"),
+    ("Anaphylaxis after a bee sting; epinephrine administered", "critical", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
@@ -76,6 +80,9 @@ NO_FALSE_POSITIVE = [
     # odor/leak (a filled gas tank, a gas station errand) must NOT fire the gas/chemical floor.
     ("Refueled the generator; the gas tank is now full.", "gas smell"),
     ("Drove to the gas station for supplies; nothing to report.", "gas odor"),
+    # The new acute-medical terms must stay whole-word: a figurative "heart" mention (heartfelt
+    # thanks, "at the heart of the issue") must NOT fire the injury/medical critical floor.
+    ("A heartfelt thank-you note was left; nothing else to report.", "heart attack"),
 ]
 
 
