@@ -73,6 +73,12 @@ CASES = [
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
     ("Worker pulled from the walk-in freezer, hypothermic and shivering", "high", "injury/medical"),
+    # "heat stroke"/"heatstroke"/"hyperthermia"/"heat exhaustion" is the HOT counterpart to
+    # hypothermia — the same acute exposure emergency, one commit apart — and must reach the same
+    # injury/medical HIGH floor; previously matched nothing and dropped to LOW.
+    ("Roofer collapsed with heat stroke during the afternoon shift", "high", "injury/medical"),
+    ("Worker found hyperthermic and confused in the boiler room", "high", "injury/medical"),
+    ("Two staff treated for heat exhaustion after the outage", "high", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
@@ -190,6 +196,11 @@ NO_FALSE_POSITIVE = [
     # floor — only the whole phrase does.
     ("The workers struck a deal; the union may strike next week and he struck out at the plate.",
      "lightning struck"),
+    # The heat-emergency terms are multi-word adjacency ("heat stroke"/"heat exhaustion") or whole
+    # clinical words ("heatstroke"/"hyperthermia"): a bare "heat" mention with no medical event — a
+    # heat wave, a heat exchanger, "turn up the heat" — must NOT fire the injury/medical floor.
+    ("A heat wave rolled through; the heat exchanger was serviced and we turned up the heat.",
+     "heat stroke"),
 ]
 
 

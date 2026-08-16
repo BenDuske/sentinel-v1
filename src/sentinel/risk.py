@@ -111,9 +111,22 @@ TAXONOMY = {
         # is a whole clinical word with NO benign English meaning, so it closes the miss with zero
         # false-positive risk; added at the conservative HIGH floor (the LLM or a human can raise a
         # specific severe case). Surfaced and flagged safe in the 2026-08-16 rule-probe backlog.
+        # The HOT counterpart to hypothermia was the mirror-image gap: "heat stroke"/"heatstroke"
+        # (and its clinical synonym "hyperthermia"/"hyperthermic", plus the milder "heat exhaustion")
+        # is a life-threatening exposure emergency a reporter names directly — "collapsed with heat
+        # stroke on the roof", "found hyperthermic in the boiler room" — yet all matched nothing and
+        # dropped to LOW while hypothermia now floors at HIGH: the SAME exposure-emergency class, one
+        # commit apart, split only by which extreme the reporter's word points at. Offline the rule
+        # layer is the only floor, so add them at the same conservative HIGH floor as hypothermia.
+        # Kept conservative: "heat stroke"/"heat exhaustion" are multi-word adjacency phrases and
+        # "heatstroke"/"hyperthermia"/"hyperthermic" are whole clinical words with NO benign meaning,
+        # so a bare "heat" mention (a heat wave, a heat exchanger, "turn up the heat", the "heat
+        # advisory" that already sits at weather/medium) does NOT fire the injury/medical floor.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
+                     "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
+                     "heat exhaustion",
                      "electrocuted", "overdose",
                      "collapsed", "bleeding", "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
