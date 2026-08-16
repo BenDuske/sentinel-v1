@@ -97,8 +97,17 @@ TAXONOMY = {
         # seizure"), but the "convuls-" forms carry no such benign collision, so they safely fill
         # that gap at the conservative HIGH floor (the LLM or a human can raise a specific case;
         # ongoing arrest terms stay critical above). Each is a whole word with no benign meaning.
+        # "burn"/"burned" already sit at HIGH, but the PLURAL noun "burns" — the single most common
+        # way a burn injury is actually reported ("severe burns", "third-degree burns", "burns to
+        # the hands") — matched nothing and dropped to LOW, because \bburn\b does not match "burns":
+        # the SAME tokenization miss already fixed for the electrical "electric shocks" plural below.
+        # Offline the rule layer is the only floor, so add it. "impaled" is added alongside as an
+        # unambiguous severe-trauma term the probe surfaced at LOW — a whole word with no benign
+        # English meaning, so it carries no false-positive risk (unlike polysemous neighbors such as
+        # "crushed"/"choking" that were deliberately left out).
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
-                     "fracture", "concussion", "burn", "burned", "electrocuted", "overdose",
+                     "fracture", "concussion", "burn", "burned", "burns", "impaled",
+                     "electrocuted", "overdose",
                      "collapsed", "bleeding", "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",

@@ -63,6 +63,12 @@ CASES = [
     ("Employee collapsed with a suspected brain aneurysm", "critical", "injury/medical"),
     ("Reporter wrote it up as a possible aneurism in the break room", "critical", "injury/medical"),
     ("Worker down; medics suspect a pulmonary embolism", "critical", "injury/medical"),
+    # The plural noun "burns" must reach the same HIGH floor as the singular "burn"/"burned" —
+    # "severe burns" / "third-degree burns" previously matched nothing (\bburn\b does not match
+    # "burns") and dropped to LOW. "impaled" is an unambiguous severe-trauma term at the same floor.
+    ("Worker suffered severe burns on both hands", "high", "injury/medical"),
+    ("Two people treated for third-degree burns after the flash", "high", "injury/medical"),
+    ("Worker impaled on a length of rebar at the site", "high", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
