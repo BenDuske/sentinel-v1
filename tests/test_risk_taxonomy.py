@@ -111,6 +111,11 @@ CASES = [
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),
     ("Tornado warning; high winds and a fallen tree", "critical", "weather"),
+    # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
+    # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
+    # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
+    ("Lightning struck the rooftop antenna array", "high", "weather"),
+    ("A worker was struck by lightning in the north lot", "high", "weather"),
 ]
 
 
@@ -180,6 +185,11 @@ NO_FALSE_POSITIVE = [
     # benign meanings and must NOT fire the injury/medical critical floor — proving we added only the
     # zero-collision clinical words, not their over-firing neighbors.
     ("Swimmer logged a strong stroke; the asset seizure paperwork was filed with legal.", "stroke"),
+    # The lightning verb-forms are multi-word adjacency phrases: a bare "struck"/"strike" with no
+    # "lightning" adjacent (a labor strike, striking a deal, struck out) must NOT fire the weather
+    # floor — only the whole phrase does.
+    ("The workers struck a deal; the union may strike next week and he struck out at the plate.",
+     "lightning struck"),
 ]
 
 

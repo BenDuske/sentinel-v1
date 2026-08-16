@@ -222,7 +222,8 @@ TAXONOMY = {
     "weather": {
         "critical": ["tornado", "hurricane", "earthquake", "flash flood", "wildfire",
                      "tsunami", "severe storm warning"],
-        "high":     ["storm", "lightning strike", "hail", "high winds", "fallen tree",
+        "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
+                     "hail", "high winds", "fallen tree",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
