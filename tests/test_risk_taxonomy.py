@@ -69,6 +69,10 @@ CASES = [
     ("Worker suffered severe burns on both hands", "high", "injury/medical"),
     ("Two people treated for third-degree burns after the flash", "high", "injury/medical"),
     ("Worker impaled on a length of rebar at the site", "high", "injury/medical"),
+    # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
+    # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
+    ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
+    ("Worker pulled from the walk-in freezer, hypothermic and shivering", "high", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.

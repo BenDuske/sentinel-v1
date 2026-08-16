@@ -105,8 +105,15 @@ TAXONOMY = {
         # unambiguous severe-trauma term the probe surfaced at LOW — a whole word with no benign
         # English meaning, so it carries no false-positive risk (unlike polysemous neighbors such as
         # "crushed"/"choking" that were deliberately left out).
+        # "hypothermia" (and the adjective "hypothermic", e.g. "found hypothermic in the walk-in
+        # freezer") is an acute exposure emergency a reporter names directly, yet it matched nothing
+        # and dropped to LOW — the SAME word-choice miss class as aneurysm/embolism/impaled above. It
+        # is a whole clinical word with NO benign English meaning, so it closes the miss with zero
+        # false-positive risk; added at the conservative HIGH floor (the LLM or a human can raise a
+        # specific severe case). Surfaced and flagged safe in the 2026-08-16 rule-probe backlog.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "burns", "impaled",
+                     "hypothermia", "hypothermic",
                      "electrocuted", "overdose",
                      "collapsed", "bleeding", "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
