@@ -69,6 +69,11 @@ CASES = [
     ("Worker suffered severe burns on both hands", "high", "injury/medical"),
     ("Two people treated for third-degree burns after the flash", "high", "injury/medical"),
     ("Worker impaled on a length of rebar at the site", "high", "injury/medical"),
+    # The participle "amputated" must reach the same critical floor as the noun "amputation" — an
+    # acute report is written "his arm was amputated" / "amputated finger", which previously matched
+    # nothing and dropped to LOW purely on verb-vs-noun word form.
+    ("Machinist's hand was amputated in the press", "critical", "injury/medical"),
+    ("Amputated finger recovered at the scene; medics en route", "critical", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
@@ -201,6 +206,10 @@ NO_FALSE_POSITIVE = [
     # heat wave, a heat exchanger, "turn up the heat" — must NOT fire the injury/medical floor.
     ("A heat wave rolled through; the heat exchanger was serviced and we turned up the heat.",
      "heat stroke"),
+    # Only the acute participle "amputated" was added, NOT the chronic descriptor "amputee": a
+    # benign "amputee support group" / "amputee parking" mention is not an acute emergency and must
+    # NOT fire the injury/medical critical floor (\bamputated\b does not match "amputee").
+    ("Posted a flyer for the amputee support group; reserved an amputee parking spot.", "amputated"),
 ]
 
 

@@ -72,12 +72,21 @@ TAXONOMY = {
         # stroke / stroke of luck) and "seizure" (asset seizure) carry benign collisions and would
         # over-fire, but "aneurysm"/"aneurism"/"embolism" are whole clinical words with NO benign
         # English meaning, so they close the miss without any false-positive risk.
+        # The NOUN "amputation" floors at critical here, but the participle/verb form "amputated" —
+        # the way an acute report is actually written ("his arm was amputated", "amputated finger",
+        # "traumatically amputated") — matched nothing and dropped to LOW: the SAME verb-vs-noun
+        # word-form asymmetry already fixed for lightning-struck / smell-gas / electric-shocks, the
+        # same hazard scored critical-or-LOW purely on grammatical form. "amputated" is a whole word
+        # with NO benign English meaning, so it closes the miss at the noun's floor with zero
+        # false-positive risk (the chronic descriptor "amputee" is deliberately NOT added — "amputee
+        # support group" / "amputee parking" is not an acute emergency).
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
-                     "isn't breathing", "wasn't breathing", "severe bleeding", "amputation",
+                     "isn't breathing", "wasn't breathing", "severe bleeding",
+                     "amputation", "amputated",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
