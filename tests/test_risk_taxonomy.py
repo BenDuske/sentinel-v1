@@ -57,6 +57,12 @@ CASES = [
     ("The infant stopped breathing and turned blue", "critical", "injury/medical"),
     ("Found the resident on the floor, no longer breathing", "critical", "injury/medical"),
     ("He isn't breathing — starting rescue breaths now", "critical", "injury/medical"),
+    # Named vascular emergencies must reach the same critical floor as "cardiac arrest"/"heart
+    # attack" — "aneurysm" (incl. the "aneurism" lay spelling) and pulmonary "embolism" previously
+    # matched nothing and dropped to LOW while the polysemous "stroke"/"seizure" stay excluded.
+    ("Employee collapsed with a suspected brain aneurysm", "critical", "injury/medical"),
+    ("Reporter wrote it up as a possible aneurism in the break room", "critical", "injury/medical"),
+    ("Worker down; medics suspect a pulmonary embolism", "critical", "injury/medical"),
     ("Structure fire in the warehouse, building ablaze", "critical", "fire/smoke"),
     # "flames" is the lay word for an active fire and must reach the same critical floor as "fire"
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
@@ -159,6 +165,11 @@ NO_FALSE_POSITIVE = [
     # The apnea phrasings are multi-word adjacency phrases: a benign lone "breathing"/"breath" with
     # no apnea (a breather break, "breathing room" in the schedule) must NOT fire the critical floor.
     ("Team took a breather; there's finally some breathing room in the schedule.", "stopped breathing"),
+    # The polysemous vascular-event synonyms were DELIBERATELY left out when "aneurysm"/"embolism"
+    # were added: "stroke" (a swim stroke / stroke of luck) and "seizure" (asset seizure) carry
+    # benign meanings and must NOT fire the injury/medical critical floor — proving we added only the
+    # zero-collision clinical words, not their over-firing neighbors.
+    ("Swimmer logged a strong stroke; the asset seizure paperwork was filed with legal.", "stroke"),
 ]
 
 

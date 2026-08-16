@@ -63,10 +63,19 @@ TAXONOMY = {
         # Offline the rule layer is the only floor, so add them. Kept conservative: each is a
         # multi-word adjacency phrase describing apnea with no benign meaning, so a lone "breathing"
         # / "breath" mention ("took a breather", "breathing room in the budget") does NOT fire.
+        # A ruptured "aneurysm" and a pulmonary "embolism" are acute, frequently-fatal vascular
+        # emergencies a reporter names directly ("he had a brain aneurysm", "suspected pulmonary
+        # embolism"), yet both matched nothing and dropped to LOW — the SAME word-choice asymmetry
+        # class as the heart-attack / no-pulse fixes above. Offline the rule layer is the only floor,
+        # so add them (plus "aneurism", the common lay misspelling). These are DELIBERATELY safer
+        # additions than the polysemous neighbors still excluded above: "stroke" (keystroke / brush
+        # stroke / stroke of luck) and "seizure" (asset seizure) carry benign collisions and would
+        # over-fire, but "aneurysm"/"aneurism"/"embolism" are whole clinical words with NO benign
+        # English meaning, so they close the miss without any false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
-                     "pulseless", "anaphylaxis",
+                     "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding", "amputation",
                      "life-threatening", "multiple injured"],
