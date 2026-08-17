@@ -74,6 +74,11 @@ CASES = [
     # nothing and dropped to LOW purely on verb-vs-noun word form.
     ("Machinist's hand was amputated in the press", "critical", "injury/medical"),
     ("Amputated finger recovered at the scene; medics en route", "critical", "injury/medical"),
+    # "hemorrhage"/"hemorrhaging" is the clinical synonym of "bleeding" (already HIGH) and must
+    # reach the same HIGH floor — "worker is hemorrhaging" / "massive hemorrhage" previously matched
+    # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.
+    ("Worker is hemorrhaging badly after the press incident", "high", "injury/medical"),
+    ("Massive hemorrhage reported on the floor; responders en route", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
@@ -210,6 +215,11 @@ NO_FALSE_POSITIVE = [
     # benign "amputee support group" / "amputee parking" mention is not an acute emergency and must
     # NOT fire the injury/medical critical floor (\bamputated\b does not match "amputee").
     ("Posted a flyer for the amputee support group; reserved an amputee parking spot.", "amputated"),
+    # "hemorrhage"/"hemorrhaging" are whole words: the benign prefix-sharer "hemorrhoid"/
+    # "hemorrhoids" — a non-emergency condition — must NOT fire the injury/medical floor
+    # (\bhemorrhage\b / \bhemorrhaging\b do not match "hemorrhoid").
+    ("Employee asked about hemorrhoid treatment and hemorrhoids relief, then took a break.",
+     "hemorrhage"),
 ]
 
 

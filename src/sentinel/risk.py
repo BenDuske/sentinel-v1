@@ -131,13 +131,23 @@ TAXONOMY = {
         # "heatstroke"/"hyperthermia"/"hyperthermic" are whole clinical words with NO benign meaning,
         # so a bare "heat" mention (a heat wave, a heat exchanger, "turn up the heat", the "heat
         # advisory" that already sits at weather/medium) does NOT fire the injury/medical floor.
+        # "bleeding" sits at HIGH, but its direct clinical synonym "hemorrhage"/"hemorrhaging" —
+        # the word a report actually uses for profuse blood loss ("worker is hemorrhaging", "massive
+        # hemorrhage") — matched nothing and dropped to LOW: the SAME word-choice asymmetry class as
+        # heart-attack/flames/electric-shock/amputated, the same injury scored HIGH-or-LOW purely on
+        # which synonym the reporter chose. Added at the same HIGH floor as "bleeding" (whose money
+        # metaphor "bleeding cash" already fires there, so this introduces no new over-fire class).
+        # Both the noun and the participle are needed (\bhemorrhage\b does not match "hemorrhaging"),
+        # and whole-word matching keeps the benign prefix-sharer "hemorrhoid"/"hemorrhoids" — not an
+        # acute emergency — from firing.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
                      "fracture", "concussion", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",
                      "electrocuted", "overdose",
-                     "collapsed", "bleeding", "head injury", "trouble breathing",
+                     "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
+                     "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",
                      "gasping for air", "respiratory distress", "fainted",
