@@ -132,6 +132,12 @@ CASES = [
     # injury/medical HIGH floor — both forms previously matched nothing and dropped to LOW.
     ("Worker found with severe frostbite on both hands", "high", "injury/medical"),
     ("The technician was frostbitten after the freezer lockout", "high", "injury/medical"),
+    # "degloved"/"degloving" is a severe avulsion trauma with no benign meaning and must reach the
+    # injury/medical HIGH floor — both forms previously matched nothing and dropped to LOW (the
+    # generic word "injury" floored "degloving injury", but "was degloved" alone scored LOW). These
+    # cases isolate on the term (no other critical/high token present).
+    ("His hand was degloved in the roller mechanism", "high", "injury/medical"),
+    ("The press caught his forearm, degloving it to the wrist", "high", "injury/medical"),
     # "heat stroke"/"heatstroke"/"hyperthermia"/"heat exhaustion" is the HOT counterpart to
     # hypothermia — the same acute exposure emergency, one commit apart — and must reach the same
     # injury/medical HIGH floor; previously matched nothing and dropped to LOW.

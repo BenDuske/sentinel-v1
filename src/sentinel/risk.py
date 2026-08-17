@@ -147,6 +147,16 @@ TAXONOMY = {
         # "heatstroke"/"hyperthermia"/"hyperthermic" are whole clinical words with NO benign meaning,
         # so a bare "heat" mention (a heat wave, a heat exchanger, "turn up the heat", the "heat
         # advisory" that already sits at weather/medium) does NOT fire the injury/medical floor.
+        # "degloved"/"degloving" is a severe avulsion trauma — the skin and soft tissue torn from a
+        # limb, the way a machinery report actually names it ("his hand was degloved in the roller",
+        # "degloving injury to the forearm") — yet BOTH forms matched nothing and dropped to LOW: the
+        # SAME whole-clinical-word absent-term miss class as impaled/frostbite/hypothermia above (the
+        # generic word "injury" floored "degloving injury" at HIGH, but "was degloved" alone scored
+        # LOW). "deglove"/"degloved"/"degloving" has NO benign English meaning — it is exclusively
+        # this avulsion injury — so it closes the miss with zero false-positive risk. Added at the
+        # conservative HIGH floor (a survivable-but-serious trauma; the LLM or a human can raise a
+        # specific case to critical), the participle a separate entry because \bdegloved\b does not
+        # match "degloving". Surfaced in the 2026-08-17 rule-probe backlog.
         # "bleeding" sits at HIGH, but its direct clinical synonym "hemorrhage"/"hemorrhaging" —
         # the word a report actually uses for profuse blood loss ("worker is hemorrhaging", "massive
         # hemorrhage") — matched nothing and dropped to LOW: the SAME word-choice asymmetry class as
@@ -214,6 +224,7 @@ TAXONOMY = {
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",
+                     "degloved", "degloving",
                      "hypothermia", "hypothermic", "frostbite", "frostbitten",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",
