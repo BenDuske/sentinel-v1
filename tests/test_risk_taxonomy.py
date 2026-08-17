@@ -112,6 +112,12 @@ CASES = [
     ("Multiple serious injuries at the site after the scaffold gave way", "high", "injury/medical"),
     ("Several injuries reported when the pallet load shifted", "high", "injury/medical"),
     ("Workers sustained head injuries from falling debris", "high", "injury/medical"),
+    # The British/international spellings must reach the same HIGH floor as their US twins —
+    # "hospitalised" (== "hospitalized") and "haemorrhage"/"haemorrhaging" (== "hemorrhage"/
+    # "hemorrhaging") previously matched nothing and dropped to LOW purely on en-GB orthography.
+    ("Worker hospitalised after the scaffold gave way", "high", "injury/medical"),
+    ("Patient is haemorrhaging badly; responders en route", "high", "injury/medical"),
+    ("Massive haemorrhage reported on the floor", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
@@ -253,6 +259,11 @@ NO_FALSE_POSITIVE = [
     # (\bhemorrhage\b / \bhemorrhaging\b do not match "hemorrhoid").
     ("Employee asked about hemorrhoid treatment and hemorrhoids relief, then took a break.",
      "hemorrhage"),
+    # The en-GB spelling "haemorrhage"/"haemorrhaging" is likewise a whole word: the benign British
+    # prefix-sharer "haemorrhoid"/"haemorrhoids" must NOT fire the injury/medical floor
+    # (\bhaemorrhage\b / \bhaemorrhaging\b do not match "haemorrhoid").
+    ("Employee asked about haemorrhoid treatment and haemorrhoids relief, then took a break.",
+     "haemorrhage"),
     # "broken bones" is a multi-word adjacency phrase, deliberately NOT the bare polysemous "broken":
     # a broken printer / broken window is routine maintenance, not an injury, and must NOT fire the
     # injury/medical floor (only the "broken bone(s)" phrasing does).

@@ -184,7 +184,17 @@ TAXONOMY = {
         # "injury"/"injured". "injuries" is a whole clinical/lay word with NO benign collision (unlike
         # bare "burn" needing care), so this adds no new over-fire class; and because it whole-word
         # matches inside "head injuries", it also closes that plural of the existing "head injury".
-        "high":     ["injury", "injured", "injuries", "hospitalized", "ambulance",
+        # "hospitalized" and "hemorrhage"/"hemorrhaging" sit at HIGH, but their British/international
+        # spellings — "hospitalised" and "haemorrhage"/"haemorrhaging" — matched nothing and dropped
+        # to LOW: the SAME word-form asymmetry class already fixed for the "aneurism" lay misspelling
+        # above, here on en-GB orthography ("worker hospitalised", "patient is haemorrhaging"). Non-US
+        # incident reports are routine (contractors, international tenants, imported PDF templates), so
+        # the same injury scoring HIGH-or-LOW purely on which spelling the reporter learned is exactly
+        # the miss the taxonomy exists to close. Added at the same HIGH floor as their US twins, which
+        # introduces ZERO new over-fire class — the US spelling already fires identically. Whole-word
+        # matching keeps the benign en-GB prefix-sharer "haemorrhoid"/"haemorrhoids" from firing, the
+        # exact parallel to the existing "hemorrhoid" guard.
+        "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",
@@ -193,6 +203,7 @@ TAXONOMY = {
                      "heat exhaustion",
                      "electrocuted", "overdose", "overdosed",
                      "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
+                     "haemorrhage", "haemorrhaging",
                      "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",
