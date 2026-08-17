@@ -85,6 +85,12 @@ CASES = [
     # verb-vs-noun word form.
     ("Worker was concussed after the beam struck his helmet", "high", "injury/medical"),
     ("Employee concussed and disoriented; medics called to the scene", "high", "injury/medical"),
+    # The PLURAL "broken bones" must reach the same HIGH floor as the singular "broken bone" — the
+    # injury is usually reported "multiple broken bones" / "several broken bones", which previously
+    # matched nothing (\bbroken bone\b does not match "broken bones") and dropped to LOW purely on
+    # singular-vs-plural tokenization (the same gap already fixed for "burn"->"burns").
+    ("Worker suffered multiple broken bones when the pallet load shifted", "high", "injury/medical"),
+    ("Several broken bones reported after the ladder gave way", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
@@ -226,6 +232,11 @@ NO_FALSE_POSITIVE = [
     # (\bhemorrhage\b / \bhemorrhaging\b do not match "hemorrhoid").
     ("Employee asked about hemorrhoid treatment and hemorrhoids relief, then took a break.",
      "hemorrhage"),
+    # "broken bones" is a multi-word adjacency phrase, deliberately NOT the bare polysemous "broken":
+    # a broken printer / broken window is routine maintenance, not an injury, and must NOT fire the
+    # injury/medical floor (only the "broken bone(s)" phrasing does).
+    ("The broken printer and a broken window were logged in the maintenance queue.",
+     "broken bones"),
 ]
 
 

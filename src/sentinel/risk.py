@@ -147,7 +147,17 @@ TAXONOMY = {
         # HIGH-or-LOW purely on grammatical form. Added at the noun's HIGH floor. Unlike the
         # deliberately-excluded polysemous "stroke"/"seizure", "concussed" is a whole clinical word
         # with NO benign English meaning, so it closes the miss with zero false-positive risk.
-        "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
+        # "broken bone" sits at HIGH, but the PLURAL "broken bones" — the single most common way the
+        # injury is actually reported ("multiple broken bones", "several broken bones") — matched
+        # nothing and dropped to LOW, because \bbroken bone\b does not match "broken bones": the SAME
+        # plural-tokenization miss already fixed for the singular->plural "burn"->"burns" and the
+        # electrical "electric shock"->"electric shocks" below. Offline the rule layer is the only
+        # floor, so add it. Kept conservative: "broken bones" is a multi-word adjacency phrase with no
+        # benign meaning (unlike bare "broken" = broken machine), so it fires only on the injury
+        # phrasing. The idiom "no broken bones" (= unharmed) over-fires HIGH, but that is NOT a new
+        # over-fire class — the already-accepted singular "broken bone" fires the same way on "no
+        # broken bone", and the rule layer is a conservative floor the LLM/human can lower.
+        "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone", "broken bones",
                      "fracture", "concussion", "concussed", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
