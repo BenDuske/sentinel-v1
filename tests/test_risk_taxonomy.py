@@ -133,6 +133,12 @@ CASES = [
     # — "in flames" / "visible flames" (no literal "fire" token) previously dropped to LOW.
     ("The building is in flames on the east side", "critical", "fire/smoke"),
     ("Visible flames on the roof of the annex", "critical", "fire/smoke"),
+    # The verb "exploded" must reach the same critical floor as the noun "explosion" — an acute
+    # report is written "the transformer exploded" / "a boiler exploded", which previously matched
+    # nothing (\bexplosion\b does not match "exploded") and dropped to LOW purely on verb-vs-noun
+    # word form.
+    ("The transformer exploded near the substation", "critical", "fire/smoke"),
+    ("A boiler exploded in the basement mechanical room", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),

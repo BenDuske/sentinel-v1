@@ -220,8 +220,18 @@ TAXONOMY = {
         # is the only floor, so add it. Whole-word matching keeps it conservative: \bflames\b does
         # not fire from "inflames" or the singular "flame" in "flame-retardant"/"flame war"; only the
         # plural incident-word "flames" (nearly always literal fire) is added, not bare "flame".
-        "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "explosive", "engulfed",
-                     "structure fire", "wildfire", "conflagration"],
+        # The NOUN "explosion" floors at critical, but its verb/participle form "exploded" — how an
+        # acute report is actually written ("the transformer exploded", "a boiler exploded", "the
+        # tank exploded on the roof") — matched nothing (\bexplosion\b does not match "exploded") and
+        # dropped to LOW: the SAME verb-vs-noun word-form gap already fixed for amputation/amputated,
+        # concussion/concussed, fracture/fractured, and hemorrhage/hemorrhaging, the same catastrophic
+        # event scored critical-or-LOW purely on grammatical form. Added at the noun's critical floor.
+        # This introduces NO new over-fire class the accepted noun "explosion" doesn't already carry:
+        # the growth metaphor ("sales exploded") fires the same way the existing "explosion" does on
+        # "explosion of growth"/"population explosion" — and the rule layer is a conservative floor
+        # the LLM/human can lower.
+        "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosive",
+                     "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],
         "medium":   ["overheating", "hot to the touch", "burnt smell"],
