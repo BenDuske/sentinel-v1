@@ -272,7 +272,20 @@ TAXONOMY = {
     "structural": {
         "critical": ["collapse", "collapsed", "building collapse", "structural failure",
                      "imminent collapse", "foundation failure", "roof collapse"],
+        # A "sinkhole" is an acute ground-failure emergency a reporter names directly ("a sinkhole
+        # opened under the parking lot", "sinkhole swallowed the sidewalk"), yet it matched nothing
+        # and dropped to LOW while its slower cousin "subsidence" already floors at HIGH here: the
+        # SAME structural ground-failure class scored HIGH-or-LOW purely on which word the reporter
+        # reached for. Offline the rule layer is the only floor, so add it at the same conservative
+        # HIGH floor as "subsidence"/"sagging"/"buckling" (the LLM or a human can raise a specific
+        # case where a structure is actively involved). "sinkhole" is a whole word with NO benign
+        # English meaning, so it closes the miss with zero false-positive risk — the common word
+        # "sink" (a kitchen sink, to sink a budget) does NOT fire, since \bsinkhole\b does not match
+        # "sink". The plural "sinkholes" needs its own entry (\bsinkhole\b won't match "sinkholes"),
+        # the same singular->plural tokenization discipline already applied to burn/burns and
+        # injury/injuries in injury/medical above.
         "high":     ["crack in wall", "structural crack", "sagging", "buckling", "subsidence",
+                     "sinkhole", "sinkholes",
                      "load-bearing", "compromised", "leaning"],
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
     },

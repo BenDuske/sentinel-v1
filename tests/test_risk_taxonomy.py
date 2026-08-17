@@ -156,6 +156,13 @@ CASES = [
     ("It smells like gas in the mechanical room", "high", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     ("Crack in the load-bearing wall is widening", "high", "structural"),
+    # A "sinkhole" is an acute ground-failure emergency and must reach the same HIGH floor as its
+    # slower cousin "subsidence" — "a sinkhole opened under the parking lot" previously matched
+    # nothing and dropped to LOW. The plural "sinkholes" must also fire (\bsinkhole\b does not match
+    # "sinkholes"), the same singular->plural tokenization gap already fixed for burn/burns.
+    ("A sinkhole opened under the loading dock", "high", "structural"),
+    ("Sinkhole swallowed part of the sidewalk near the entrance", "high", "structural"),
+    ("Multiple sinkholes appeared across the lot overnight", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
@@ -269,6 +276,9 @@ NO_FALSE_POSITIVE = [
     # injury/medical floor (only the "broken bone(s)" phrasing does).
     ("The broken printer and a broken window were logged in the maintenance queue.",
      "broken bones"),
+    # "sinkhole" is a whole word: the common noun "sink" (a kitchen sink) and the verb "sink" (to
+    # sink a budget) must NOT fire the structural floor — \bsinkhole\b does not match "sink".
+    ("The kitchen sink is clogged and we may sink the extra budget into repairs.", "sinkhole"),
 ]
 
 
