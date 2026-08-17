@@ -85,6 +85,12 @@ CASES = [
     # verb-vs-noun word form.
     ("Worker was concussed after the beam struck his helmet", "high", "injury/medical"),
     ("Employee concussed and disoriented; medics called to the scene", "high", "injury/medical"),
+    # The participle "overdosed" must reach the same HIGH floor as the noun "overdose" — an acute
+    # report is written "worker overdosed" / "he overdosed on the dock", which previously matched
+    # nothing (\boverdose\b does not match "overdosed") and dropped to LOW purely on verb-vs-noun
+    # word form (the same gap already fixed for amputation/amputated and concussion/concussed).
+    ("Worker overdosed in the restroom; naloxone administered", "high", "injury/medical"),
+    ("Contractor overdosed on the loading dock, medics en route", "high", "injury/medical"),
     # The PLURAL "broken bones" must reach the same HIGH floor as the singular "broken bone" — the
     # injury is usually reported "multiple broken bones" / "several broken bones", which previously
     # matched nothing (\bbroken bone\b does not match "broken bones") and dropped to LOW purely on

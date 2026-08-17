@@ -157,12 +157,20 @@ TAXONOMY = {
         # phrasing. The idiom "no broken bones" (= unharmed) over-fires HIGH, but that is NOT a new
         # over-fire class — the already-accepted singular "broken bone" fires the same way on "no
         # broken bone", and the rule layer is a conservative floor the LLM/human can lower.
+        # The NOUN "overdose" sits at HIGH, but the participle/verb form "overdosed" — how an acute
+        # report is actually written ("worker overdosed in the restroom", "he overdosed on the
+        # loading dock") — matched nothing (\boverdose\b does not match "overdosed") and dropped to
+        # LOW: the SAME verb-vs-noun form gap already fixed for amputation/amputated,
+        # concussion/concussed, and hemorrhage/hemorrhaging, the same medical emergency scored
+        # HIGH-or-LOW purely on grammatical form. Added at the noun's HIGH floor. "overdosed" is a
+        # whole clinical word with NO benign English meaning, so it closes the miss with zero
+        # false-positive risk (unlike the deliberately-excluded polysemous "stroke"/"seizure").
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone", "broken bones",
                      "fracture", "concussion", "concussed", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",
-                     "electrocuted", "overdose",
+                     "electrocuted", "overdose", "overdosed",
                      "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
                      "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
