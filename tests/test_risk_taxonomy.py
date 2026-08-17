@@ -175,6 +175,13 @@ CASES = [
     ("The worker was asphyxiated in the storage tank", "critical", "gas/chemical"),
     ("Two crew asphyxiated in the confined space", "critical", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
+    # The present participle "collapsing" must reach the same critical floor as the noun "collapse"
+    # / past-tense "collapsed" — "the roof is collapsing" and "walls collapsing" are how an unfolding
+    # structural emergency is written, and previously matched nothing (\bcollapse\b/\bcollapsed\b
+    # match neither) and dropped to LOW purely on verb form (the exploded->exploding gap class).
+    ("The roof is collapsing right now over the loading dock", "critical", "structural"),
+    ("Walls collapsing in the east wing after the impact", "critical", "structural"),
+    ("The mezzanine floor is actively collapsing", "critical", "structural"),
     ("Crack in the load-bearing wall is widening", "high", "structural"),
     # A "sinkhole" is an acute ground-failure emergency and must reach the same HIGH floor as its
     # slower cousin "subsidence" — "a sinkhole opened under the parking lot" previously matched

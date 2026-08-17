@@ -301,7 +301,18 @@ TAXONOMY = {
         "medium":   ["odor", "strong smell", "mild fumes"],
     },
     "structural": {
-        "critical": ["collapse", "collapsed", "building collapse", "structural failure",
+        # The noun/past-tense "collapse"/"collapsed" floor at critical, but the present participle
+        # "collapsing" — how an UNFOLDING structural emergency is actually written ("the roof is
+        # collapsing right now", "walls collapsing in the east wing", "the floor is actively
+        # collapsing") — matched nothing (\bcollapse\b matches neither "collapsing" nor the "-ing"
+        # suffix, and \bcollapsed\b does not either) and dropped to LOW: the SAME verb-form word gap
+        # already fixed for exploded->exploding in fire/smoke, the same live emergency scored
+        # critical-or-LOW purely on grammatical form. Added at the noun's critical floor. It
+        # introduces NO new over-fire class the accepted "collapse"/"collapsed" don't already carry
+        # — the metaphor ("the deal is collapsing", collapsing a menu/table) fires exactly the way
+        # "the deal collapsed"/"collapse the menu" already can — and the rule layer is a conservative
+        # floor the LLM/human can lower.
+        "critical": ["collapse", "collapsed", "collapsing", "building collapse", "structural failure",
                      "imminent collapse", "foundation failure", "roof collapse"],
         # A "sinkhole" is an acute ground-failure emergency a reporter names directly ("a sinkhole
         # opened under the parking lot", "sinkhole swallowed the sidewalk"), yet it matched nothing
