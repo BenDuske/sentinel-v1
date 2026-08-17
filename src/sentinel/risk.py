@@ -140,8 +140,15 @@ TAXONOMY = {
         # Both the noun and the participle are needed (\bhemorrhage\b does not match "hemorrhaging"),
         # and whole-word matching keeps the benign prefix-sharer "hemorrhoid"/"hemorrhoids" — not an
         # acute emergency — from firing.
+        # The NOUN "concussion" sits at HIGH, but the participle "concussed" — how an acute report is
+        # actually written ("worker was concussed", "concussed and disoriented") — matched nothing
+        # (\bconcussion\b does not match "concussed") and dropped to LOW: the SAME verb-vs-noun form
+        # gap as amputation/amputated and hemorrhage/hemorrhaging, the same head injury scored
+        # HIGH-or-LOW purely on grammatical form. Added at the noun's HIGH floor. Unlike the
+        # deliberately-excluded polysemous "stroke"/"seizure", "concussed" is a whole clinical word
+        # with NO benign English meaning, so it closes the miss with zero false-positive risk.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone",
-                     "fracture", "concussion", "burn", "burned", "burns", "impaled",
+                     "fracture", "concussion", "concussed", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",

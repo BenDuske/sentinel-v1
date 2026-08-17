@@ -79,6 +79,12 @@ CASES = [
     # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.
     ("Worker is hemorrhaging badly after the press incident", "high", "injury/medical"),
     ("Massive hemorrhage reported on the floor; responders en route", "high", "injury/medical"),
+    # The participle "concussed" must reach the same HIGH floor as the noun "concussion" — an acute
+    # report is written "worker was concussed" / "concussed and disoriented", which previously
+    # matched nothing (\bconcussion\b does not match "concussed") and dropped to LOW purely on
+    # verb-vs-noun word form.
+    ("Worker was concussed after the beam struck his helmet", "high", "injury/medical"),
+    ("Employee concussed and disoriented; medics called to the scene", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
