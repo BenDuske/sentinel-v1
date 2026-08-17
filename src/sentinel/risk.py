@@ -281,9 +281,18 @@ TAXONOMY = {
         # the noun's critical floor. "asphyxiated" is a whole clinical word with NO benign English
         # meaning, so it closes the miss with zero false-positive risk and introduces no new over-fire
         # class the accepted noun "asphyxiation" doesn't already carry.
+        # The past-tense "asphyxiated" now floors, but the present participle "asphyxiating" — how an
+        # UNFOLDING exposure emergency is actually written ("workers asphyxiating in the tank",
+        # "crews asphyxiating in the confined space") — still matched nothing (\basphyxiation\b does
+        # not match "asphyxiating", and \basphyxiated\b does not either) and dropped to LOW: the SAME
+        # present-participle word-form gap already fixed for exploded->exploding (fire/smoke) and
+        # collapsed->collapsing (structural), the same live emergency scored critical-or-LOW purely on
+        # grammatical form. Added at the noun's critical floor. "asphyxiating" is a whole clinical word
+        # with NO benign English meaning, so it closes the miss with zero false-positive risk and
+        # introduces no new over-fire class the accepted "asphyxiation"/"asphyxiated" don't already carry.
         "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
-                     "hazardous material", "fumes", "asphyxiation", "asphyxiated", "ammonia leak",
-                     "chlorine leak", "explosive gas"],
+                     "hazardous material", "fumes", "asphyxiation", "asphyxiated", "asphyxiating",
+                     "ammonia leak", "chlorine leak", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
         # noun-compounds and their "natural gas ..." variants), but the equally-common VERB-order

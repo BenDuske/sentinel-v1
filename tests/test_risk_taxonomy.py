@@ -174,6 +174,13 @@ CASES = [
     # form (the same gap already fixed for explosion/exploded and amputation/amputated).
     ("The worker was asphyxiated in the storage tank", "critical", "gas/chemical"),
     ("Two crew asphyxiated in the confined space", "critical", "gas/chemical"),
+    # The present participle "asphyxiating" must reach the same critical floor as the noun
+    # "asphyxiation" / past-tense "asphyxiated" — "workers asphyxiating in the tank" is how an
+    # unfolding exposure emergency is written, and previously matched nothing (\basphyxiation\b /
+    # \basphyxiated\b match neither) and dropped to LOW purely on verb form (the exploded->exploding
+    # / collapsed->collapsing present-participle gap class).
+    ("Workers asphyxiating in the storage tank right now", "critical", "gas/chemical"),
+    ("Crew asphyxiating in the confined space after the release", "critical", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     # The present participle "collapsing" must reach the same critical floor as the noun "collapse"
     # / past-tense "collapsed" — "the roof is collapsing" and "walls collapsing" are how an unfolding
