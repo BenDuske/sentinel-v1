@@ -165,8 +165,19 @@ TAXONOMY = {
         # HIGH-or-LOW purely on grammatical form. Added at the noun's HIGH floor. "overdosed" is a
         # whole clinical word with NO benign English meaning, so it closes the miss with zero
         # false-positive risk (unlike the deliberately-excluded polysemous "stroke"/"seizure").
+        # The NOUN "fracture" sits at HIGH, but the participle/verb "fractured" ("fractured his leg",
+        # "fractured skull") and the PLURAL "fractures" ("multiple fractures", "several stress
+        # fractures") — the way a break is actually reported — matched nothing (\bfracture\b does not
+        # match "fractured"/"fractures") and dropped to LOW: the SAME verb-vs-noun + singular->plural
+        # word-form gap already fixed for concussion/concussed, overdose/overdosed, amputation/
+        # amputated, and burn/burns, the same injury scored HIGH-or-LOW purely on grammatical form.
+        # Added at the noun's HIGH floor. This introduces NO new over-fire class the accepted bare
+        # "fracture" doesn't already carry: the money/politics metaphor ("a fractured coalition")
+        # fires the same way the existing "fracture" does on "a fracture in the coalition" — and the
+        # rule layer is a conservative floor the LLM/human can lower.
         "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone", "broken bones",
-                     "fracture", "concussion", "concussed", "burn", "burned", "burns", "impaled",
+                     "fracture", "fractured", "fractures",
+                     "concussion", "concussed", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",

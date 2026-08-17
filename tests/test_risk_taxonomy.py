@@ -97,6 +97,13 @@ CASES = [
     # singular-vs-plural tokenization (the same gap already fixed for "burn"->"burns").
     ("Worker suffered multiple broken bones when the pallet load shifted", "high", "injury/medical"),
     ("Several broken bones reported after the ladder gave way", "high", "injury/medical"),
+    # The participle "fractured" and the plural "fractures" must reach the same HIGH floor as the
+    # noun "fracture" — a break is reported "fractured his leg" / "multiple fractures", which
+    # previously matched nothing (\bfracture\b does not match "fractured"/"fractures") and dropped to
+    # LOW purely on verb-vs-noun + singular-vs-plural word form (the same gap already fixed for
+    # concussion/concussed, overdose/overdosed, and burn/burns).
+    ("Worker fractured his wrist on the stamping press", "high", "injury/medical"),
+    ("Two employees treated for multiple fractures after the fall", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
