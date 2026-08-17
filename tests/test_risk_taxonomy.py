@@ -139,6 +139,14 @@ CASES = [
     # word form.
     ("The transformer exploded near the substation", "critical", "fire/smoke"),
     ("A boiler exploded in the basement mechanical room", "critical", "fire/smoke"),
+    # The plural "explosions" and the present participle "exploding" must reach the same critical
+    # floor as the noun "explosion" / past-tense "exploded" — "secondary explosions" and "a
+    # transformer exploding" are how a multi-blast or unfolding event is written, and previously
+    # matched nothing (\bexplosion\b/\bexploded\b match neither) and dropped to LOW purely on word form.
+    ("Secondary explosions rocked the plant after the initial blast", "critical", "fire/smoke"),
+    ("Multiple explosions reported in the storage yard", "critical", "fire/smoke"),
+    ("A transformer exploding on the roof of the annex", "critical", "fire/smoke"),
+    ("Lithium batteries exploding in the charging bay", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),

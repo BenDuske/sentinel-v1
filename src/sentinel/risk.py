@@ -230,7 +230,19 @@ TAXONOMY = {
         # the growth metaphor ("sales exploded") fires the same way the existing "explosion" does on
         # "explosion of growth"/"population explosion" — and the rule layer is a conservative floor
         # the LLM/human can lower.
-        "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosive",
+        # The past-tense "exploded" now floors, but the PLURAL noun "explosions" ("secondary
+        # explosions rocked the plant", "multiple explosions reported") and the present participle
+        # "exploding" ("a transformer exploding on the roof", "batteries exploding in the bay") — the
+        # equally-common ways an unfolding or multi-blast event is actually written — still matched
+        # nothing (\bexplosion\b matches neither "explosions" nor "exploding", and \bexploded\b matches
+        # neither) and dropped to LOW: the SAME word-form gap already fixed for the past tense
+        # explosion/exploded, plus the singular->plural tokenization discipline applied to burn/burns
+        # and fracture/fractures. Added at the noun's critical floor. These introduce NO new over-fire
+        # class the accepted "explosion"/"exploded" don't already carry — the growth metaphor
+        # ("costs exploding", "population explosions") fires the same way — and the rule layer is a
+        # conservative floor the LLM/human can lower.
+        "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
+                     "exploding", "explosive",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],
