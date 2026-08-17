@@ -128,6 +128,10 @@ CASES = [
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
     ("Worker pulled from the walk-in freezer, hypothermic and shivering", "high", "injury/medical"),
+    # "frostbite"/"frostbitten" is the cold-exposure sibling of hypothermia and must reach the same
+    # injury/medical HIGH floor — both forms previously matched nothing and dropped to LOW.
+    ("Worker found with severe frostbite on both hands", "high", "injury/medical"),
+    ("The technician was frostbitten after the freezer lockout", "high", "injury/medical"),
     # "heat stroke"/"heatstroke"/"hyperthermia"/"heat exhaustion" is the HOT counterpart to
     # hypothermia — the same acute exposure emergency, one commit apart — and must reach the same
     # injury/medical HIGH floor; previously matched nothing and dropped to LOW.

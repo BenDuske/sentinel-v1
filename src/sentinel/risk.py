@@ -129,6 +129,13 @@ TAXONOMY = {
         # is a whole clinical word with NO benign English meaning, so it closes the miss with zero
         # false-positive risk; added at the conservative HIGH floor (the LLM or a human can raise a
         # specific severe case). Surfaced and flagged safe in the 2026-08-16 rule-probe backlog.
+        # "frostbite"/"frostbitten" is the direct cold-exposure sibling of hypothermia (already HIGH):
+        # an acute injury a reporter names outright ("severe frostbite on both hands", "the technician
+        # was frostbitten in the freezer"), yet both forms matched nothing and dropped to LOW — the
+        # SAME whole-clinical-word absent-term miss class as hypothermia/aneurysm above. Both the noun
+        # and the participle are needed (\bfrostbite\b does not match "frostbitten"), each is a whole
+        # word with NO benign English meaning, so they close the miss at zero false-positive risk;
+        # added at the same conservative HIGH floor as hypothermia. Surfaced in the 2026-08-17 probe.
         # The HOT counterpart to hypothermia was the mirror-image gap: "heat stroke"/"heatstroke"
         # (and its clinical synonym "hyperthermia"/"hyperthermic", plus the milder "heat exhaustion")
         # is a life-threatening exposure emergency a reporter names directly — "collapsed with heat
@@ -207,7 +214,7 @@ TAXONOMY = {
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",
-                     "hypothermia", "hypothermic",
+                     "hypothermia", "hypothermic", "frostbite", "frostbitten",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",
                      "electrocuted", "overdose", "overdosed",
