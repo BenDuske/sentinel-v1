@@ -104,6 +104,14 @@ CASES = [
     # concussion/concussed, overdose/overdosed, and burn/burns).
     ("Worker fractured his wrist on the stamping press", "high", "injury/medical"),
     ("Two employees treated for multiple fractures after the fall", "high", "injury/medical"),
+    # The PLURAL "injuries" must reach the same HIGH floor as the singular "injury"/"injured" — a
+    # multi-casualty report is written "multiple injuries" / "several injuries reported", which
+    # previously matched nothing (\binjury\b does not match "injuries") and dropped to LOW purely on
+    # singular-vs-plural tokenization (the same gap already fixed for burn/burns and fracture/
+    # fractures). Whole-word matching inside "head injuries" also covers the plural of "head injury".
+    ("Multiple serious injuries at the site after the scaffold gave way", "high", "injury/medical"),
+    ("Several injuries reported when the pallet load shifted", "high", "injury/medical"),
+    ("Workers sustained head injuries from falling debris", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),

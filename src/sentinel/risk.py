@@ -175,7 +175,17 @@ TAXONOMY = {
         # "fracture" doesn't already carry: the money/politics metaphor ("a fractured coalition")
         # fires the same way the existing "fracture" does on "a fracture in the coalition" — and the
         # rule layer is a conservative floor the LLM/human can lower.
-        "high":     ["injury", "injured", "hospitalized", "ambulance", "broken bone", "broken bones",
+        # The singular "injury" and the participle "injured" both sit at HIGH, but the PLURAL noun
+        # "injuries" — the single most common way a multi-casualty report is actually written
+        # ("multiple injuries", "several injuries reported", "workers sustained injuries") — matched
+        # nothing (\binjury\b does not match "injuries") and dropped to LOW: the SAME singular->plural
+        # tokenization gap already fixed for burn/burns, broken bone/broken bones, and fracture/
+        # fractures, here on the most fundamental injury word of all. Added at the same HIGH floor as
+        # "injury"/"injured". "injuries" is a whole clinical/lay word with NO benign collision (unlike
+        # bare "burn" needing care), so this adds no new over-fire class; and because it whole-word
+        # matches inside "head injuries", it also closes that plural of the existing "head injury".
+        "high":     ["injury", "injured", "injuries", "hospitalized", "ambulance",
+                     "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",
                      "hypothermia", "hypothermic",
