@@ -80,13 +80,22 @@ TAXONOMY = {
         # with NO benign English meaning, so it closes the miss at the noun's floor with zero
         # false-positive risk (the chronic descriptor "amputee" is deliberately NOT added — "amputee
         # support group" / "amputee parking" is not an acute emergency).
+        # A traumatic "decapitation" — and its participle/verb form "decapitated" ("the worker was
+        # decapitated by the machine", "decapitated at the roller") — is an unambiguous, virtually
+        # always-fatal trauma a reporter names directly, yet BOTH the noun and the participle matched
+        # nothing and dropped to LOW: the SAME whole-clinical-word miss class as aneurysm / embolism /
+        # impaled / amputated above — an entire severe-trauma word simply absent from the floor.
+        # Offline the rule layer is the only floor, so add both at critical. Neither has any benign
+        # English meaning (unlike the polysemous neighbors "crushed"/"pinned" deliberately excluded),
+        # so they close the miss with zero false-positive risk; the participle is a separate entry
+        # because \bdecapitation\b does not match "decapitated".
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
-                     "amputation", "amputated",
+                     "amputation", "amputated", "decapitation", "decapitated",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing

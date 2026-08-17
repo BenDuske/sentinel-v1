@@ -74,6 +74,12 @@ CASES = [
     # nothing and dropped to LOW purely on verb-vs-noun word form.
     ("Machinist's hand was amputated in the press", "critical", "injury/medical"),
     ("Amputated finger recovered at the scene; medics en route", "critical", "injury/medical"),
+    # "decapitation"/"decapitated" is an unambiguous, virtually always-fatal trauma a reporter names
+    # directly ("the worker was decapitated by the machine", "traumatic decapitation at the press"),
+    # yet BOTH the noun and the participle previously matched nothing and dropped to LOW — a whole
+    # severe-trauma word simply absent from the critical floor (same class as amputated/impaled).
+    ("The worker was decapitated by the unguarded machine", "critical", "injury/medical"),
+    ("Traumatic decapitation at the stamping press; responders en route", "critical", "injury/medical"),
     # "hemorrhage"/"hemorrhaging" is the clinical synonym of "bleeding" (already HIGH) and must
     # reach the same HIGH floor — "worker is hemorrhaging" / "massive hemorrhage" previously matched
     # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.
