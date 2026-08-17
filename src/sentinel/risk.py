@@ -260,8 +260,17 @@ TAXONOMY = {
         "medium":   ["flickering lights", "tripped breaker", "loose outlet", "brownout"],
     },
     "gas/chemical": {
+        # The NOUN "asphyxiation" floors at critical, but its verb/participle form "asphyxiated" —
+        # how an acute report is actually written ("the worker was asphyxiated in the tank",
+        # "asphyxiated in the confined space") — matched nothing (\basphyxiation\b does not match
+        # "asphyxiated") and dropped to LOW: the SAME verb-vs-noun word-form gap already fixed for
+        # explosion/exploded, amputation/amputated, concussion/concussed, and hemorrhage/hemorrhaging,
+        # the same life-threatening event scored critical-or-LOW purely on grammatical form. Added at
+        # the noun's critical floor. "asphyxiated" is a whole clinical word with NO benign English
+        # meaning, so it closes the miss with zero false-positive risk and introduces no new over-fire
+        # class the accepted noun "asphyxiation" doesn't already carry.
         "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
-                     "hazardous material", "fumes", "asphyxiation", "ammonia leak",
+                     "hazardous material", "fumes", "asphyxiation", "asphyxiated", "ammonia leak",
                      "chlorine leak", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"

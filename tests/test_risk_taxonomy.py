@@ -160,6 +160,12 @@ CASES = [
     ("Tenant called: I smell gas in the second-floor hallway", "high", "gas/chemical"),
     ("Staff report they smell natural gas near the meter", "high", "gas/chemical"),
     ("It smells like gas in the mechanical room", "high", "gas/chemical"),
+    # The verb "asphyxiated" must reach the same critical floor as the noun "asphyxiation" — an acute
+    # report is written "the worker was asphyxiated in the tank", which previously matched nothing
+    # (\basphyxiation\b does not match "asphyxiated") and dropped to LOW purely on verb-vs-noun word
+    # form (the same gap already fixed for explosion/exploded and amputation/amputated).
+    ("The worker was asphyxiated in the storage tank", "critical", "gas/chemical"),
+    ("Two crew asphyxiated in the confined space", "critical", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     ("Crack in the load-bearing wall is widening", "high", "structural"),
     # A "sinkhole" is an acute ground-failure emergency and must reach the same HIGH floor as its
