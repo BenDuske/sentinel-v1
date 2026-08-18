@@ -286,6 +286,12 @@ CASES = [
     ("Two tornados reported across the county", "critical", "weather"),
     ("Several hurricanes are forecast to make landfall this week", "critical", "weather"),
     ("A series of earthquakes rattled the region overnight", "critical", "weather"),
+    # "typhoon"/"typhoons" (the Northwest-Pacific regional name for a hurricane) must reach the same
+    # CRITICAL floor as "hurricane" — the identical event scored critical-or-LOW purely on which
+    # regional word the reporter used, the same class as the en-GB spelling and lay-synonym fixes.
+    # Whole words with no benign polysemy; plural is a distinct token needing its own entry.
+    ("A typhoon is forecast to make landfall near the coastal plant", "critical", "weather"),
+    ("Two typhoons battered the offshore facility this season", "critical", "weather"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
@@ -403,6 +409,12 @@ NO_FALSE_POSITIVE = [
     # none of them) — proving we added only the zero-collision noun, not its over-firing neighbors.
     ("Staff felt suffocated by the workload amid the suffocating heat and suffocating bureaucracy.",
      "suffocation"),
+    # Only the unambiguous tropical-cyclone synonym "typhoon" was added, NOT the polysemous "cyclone":
+    # a "cyclone fence" (chain-link fencing) and a "cyclone separator" (industrial dust collector) are
+    # routine facilities/equipment terms and must NOT fire the weather critical floor — proving we
+    # added only the zero-collision synonym, not its over-firing neighbor.
+    ("The cyclone fence along the perimeter and the cyclone separator on line 3 both need service.",
+     "cyclone"),
 ]
 
 

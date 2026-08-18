@@ -497,7 +497,23 @@ TAXONOMY = {
                      "latency", "timeout"],
     },
     "weather": {
+        # "hurricane" floors at critical, but its exact meteorological twin "typhoon" — the SAME event
+        # (a tropical cyclone), just the regional name used in the Northwest Pacific — matched nothing
+        # and dropped to LOW: the SAME event scored critical-or-LOW purely on which regional word the
+        # reporter reached for, the identical class as the en-GB spelling fix (hospitalised/haemorrhage)
+        # and the lay-synonym fixes (heart attack/cardiac arrest). Non-US/international incident reports
+        # are routine (overseas facilities, imported PDF templates, contractors), so a Pacific-region
+        # report writing "typhoon" instead of "hurricane" is exactly the miss the taxonomy exists to
+        # close. Added at the same critical floor as "hurricane"; the plural "typhoons" needs its own
+        # entry (\btyphoon\b won't match "typhoons"), the same singular→plural tokenization discipline
+        # already applied to hurricanes/tornadoes/earthquakes. "typhoon" is a whole word with NO benign
+        # English meaning, so it closes the miss with zero false-positive risk. DELIBERATELY EXCLUDES the
+        # other tropical-cyclone synonym "cyclone" — it is polysemous ("cyclone fence" = chain-link
+        # fence, "cyclone separator" = industrial dust collector) and would over-fire on routine
+        # facilities text; only the unambiguous "typhoon"/"typhoons" are added. Surfaced in the
+        # 2026-08-18 rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
+                     "typhoon", "typhoons",
                      "earthquake", "earthquakes", "flash flood", "wildfire",
                      "tsunami", "severe storm warning"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
