@@ -114,6 +114,12 @@ CASES = [
     # severe-trauma word simply absent from the critical floor (same class as amputated/impaled).
     ("The worker was decapitated by the unguarded machine", "critical", "injury/medical"),
     ("Traumatic decapitation at the stamping press; responders en route", "critical", "injury/medical"),
+    # "dismemberment"/"dismembered" is a catastrophic trauma on par with decapitation/amputation, yet
+    # BOTH the noun and the participle previously matched nothing and dropped to LOW — a whole severe-
+    # trauma word simply absent from the critical floor (same class as amputated/decapitated). Both
+    # cases below isolate on the new terms (no other floored token), so removing them regresses to LOW.
+    ("The worker was dismembered by the unguarded conveyor", "critical", "injury/medical"),
+    ("Traumatic dismemberment at the rolling mill; responders en route", "critical", "injury/medical"),
     # "hemorrhage"/"hemorrhaging" is the clinical synonym of "bleeding" (already HIGH) and must
     # reach the same HIGH floor — "worker is hemorrhaging" / "massive hemorrhage" previously matched
     # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.

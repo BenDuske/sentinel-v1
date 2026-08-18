@@ -89,6 +89,15 @@ TAXONOMY = {
         # English meaning (unlike the polysemous neighbors "crushed"/"pinned" deliberately excluded),
         # so they close the miss with zero false-positive risk; the participle is a separate entry
         # because \bdecapitation\b does not match "decapitated".
+        # "dismemberment" — and its participle "dismembered" ("the worker was dismembered by the
+        # machine", "traumatic dismemberment at the press") — is a catastrophic trauma on par with
+        # decapitation / amputation (both already critical here), yet BOTH the noun and the participle
+        # matched nothing and dropped to LOW: the SAME whole-clinical-word absent-term miss class.
+        # Offline the rule layer is the only floor, so add both at critical beside decapitation. In an
+        # incident report "dismembered"/"dismemberment" denotes only the physical trauma — the rare
+        # literary figurative ("dismembered his argument") does not appear in operational incident text,
+        # the same tolerance already accepted for "decapitated"; the participle is a separate entry
+        # because \bdismemberment\b does not match "dismembered".
         # "cardiac arrest" floors at critical, but its clinical twin "respiratory arrest" — and
         # "cardiopulmonary arrest", the combined-arrest phrasing a responder writes — matched
         # nothing and dropped to LOW: the SAME word-choice asymmetry class as the cardiac-arrest /
@@ -107,6 +116,7 @@ TAXONOMY = {
                      "isn't breathing", "wasn't breathing", "severe bleeding",
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "amputation", "amputated", "decapitation", "decapitated",
+                     "dismemberment", "dismembered",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
