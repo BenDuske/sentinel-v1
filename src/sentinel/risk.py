@@ -178,6 +178,14 @@ TAXONOMY = {
         # Both the noun and the participle are needed (\bhemorrhage\b does not match "hemorrhaging"),
         # and whole-word matching keeps the benign prefix-sharer "hemorrhoid"/"hemorrhoids" — not an
         # acute emergency — from firing.
+        # Surfaced in the 2026-08-17 rule-probe backlog (next-pick after stab wound).
+        # "bleeding"/"hemorrhage" sit at HIGH, but the plain-English phrase a report actually uses for
+        # the same emergency — "blood loss" ("severe blood loss", "massive blood loss", "the worker
+        # suffered significant blood loss") — matched nothing and dropped to LOW: the SAME word-choice
+        # asymmetry class as bleeding/hemorrhage, the same injury scored HIGH-or-LOW purely on which
+        # synonym the reporter chose. Added the whole two-word clinical phrase at the same HIGH floor;
+        # it has near-zero benign meaning and, matched as a phrase, cannot fire from the bare token
+        # "blood" (blood drive/blood pressure/bloodline) — no new over-fire class.
         # The NOUN "concussion" sits at HIGH, but the participle "concussed" — how an acute report is
         # actually written ("worker was concussed", "concussed and disoriented") — matched nothing
         # (\bconcussion\b does not match "concussed") and dropped to LOW: the SAME verb-vs-noun form
@@ -243,7 +251,7 @@ TAXONOMY = {
                      "heat exhaustion",
                      "electrocuted", "overdose", "overdosed",
                      "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
-                     "haemorrhage", "haemorrhaging",
+                     "haemorrhage", "haemorrhaging", "blood loss",
                      "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",

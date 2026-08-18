@@ -143,6 +143,11 @@ CASES = [
     # "burn"/"burns" scored HIGH. These cases isolate on the term (no "burn" token present).
     ("The operator was scalded by steam from the ruptured line", "high", "injury/medical"),
     ("A scald to the forearm from the hot water valve", "high", "injury/medical"),
+    # "blood loss" is the plain-English phrase for the same emergency as "bleeding"/"hemorrhage" and
+    # must reach the same injury/medical HIGH floor — previously matched nothing and dropped to LOW.
+    # These cases isolate on the phrase (no "bleeding"/"hemorrhage" token present).
+    ("The victim suffered severe blood loss after the guard rail failed", "high", "injury/medical"),
+    ("Massive blood loss reported at the scene of the machinery incident", "high", "injury/medical"),
     # "heat stroke"/"heatstroke"/"hyperthermia"/"heat exhaustion" is the HOT counterpart to
     # hypothermia — the same acute exposure emergency, one commit apart — and must reach the same
     # injury/medical HIGH floor; previously matched nothing and dropped to LOW.
