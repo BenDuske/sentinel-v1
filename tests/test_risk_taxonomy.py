@@ -213,6 +213,12 @@ CASES = [
     # / collapsed->collapsing present-participle gap class).
     ("Workers asphyxiating in the storage tank right now", "critical", "gas/chemical"),
     ("Crew asphyxiating in the confined space after the release", "critical", "gas/chemical"),
+    # The lay noun "suffocation" is the plain-English synonym of the clinical "asphyxiation" (same
+    # oxygen-deprivation death event) and must reach the same critical floor — "death by suffocation"
+    # previously matched nothing and dropped to LOW purely on clinical-vs-lay word choice. No other
+    # critical/high token appears in these cases, so they isolate on the new term.
+    ("The confined-space entrant succumbed to suffocation", "critical", "gas/chemical"),
+    ("Incident report cites suffocation as the cause", "critical", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     # The present participle "collapsing" must reach the same critical floor as the noun "collapse"
     # / past-tense "collapsed" — "the roof is collapsing" and "walls collapsing" are how an unfolding
@@ -365,6 +371,12 @@ NO_FALSE_POSITIVE = [
     # "sinkhole" is a whole word: the common noun "sink" (a kitchen sink) and the verb "sink" (to
     # sink a budget) must NOT fire the structural floor — \bsinkhole\b does not match "sink".
     ("The kitchen sink is clogged and we may sink the extra budget into repairs.", "sinkhole"),
+    # Only the literal noun "suffocation" was added, NOT the metaphor-heavy verb/adjective forms:
+    # "suffocated by the workload", "suffocating heat", and "the suffocating bureaucracy" are common
+    # figurative usages and must NOT fire the gas/chemical critical floor (\bsuffocation\b matches
+    # none of them) — proving we added only the zero-collision noun, not its over-firing neighbors.
+    ("Staff felt suffocated by the workload amid the suffocating heat and suffocating bureaucracy.",
+     "suffocation"),
 ]
 
 

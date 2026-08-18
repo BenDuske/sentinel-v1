@@ -349,9 +349,20 @@ TAXONOMY = {
         # grammatical form. Added at the noun's critical floor. "asphyxiating" is a whole clinical word
         # with NO benign English meaning, so it closes the miss with zero false-positive risk and
         # introduces no new over-fire class the accepted "asphyxiation"/"asphyxiated" don't already carry.
+        # The clinical noun "asphyxiation" floors at critical, but its universal LAY synonym for the SAME
+        # event — "suffocation" ("suffocation reported at the plant", "death by suffocation") — matched
+        # nothing and dropped to LOW: the SAME word-choice asymmetry class as asphyxiation/heart-attack,
+        # the same life-threatening oxygen-deprivation event scored critical-or-LOW purely on whether the
+        # reporter reached for the clinical or the plain word. Added the NOUN at the critical floor beside
+        # asphyxiation. DELIBERATELY only the noun: unlike "asphyxiated"/"asphyxiating" (zero benign
+        # meaning), the verb/adjective forms "suffocated"/"suffocating" carry heavy figurative usage
+        # ("suffocated by the workload", "suffocating heat", "the suffocating bureaucracy") and would
+        # over-fire — the same polysemy discipline that added "scald"/"scalded" but excluded the
+        # metaphor-heavy "scalding". \bsuffocation\b matches only the literal noun, so this closes the
+        # miss with zero false-positive risk.
         "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
                      "hazardous material", "fumes", "asphyxiation", "asphyxiated", "asphyxiating",
-                     "ammonia leak", "chlorine leak", "explosive gas"],
+                     "suffocation", "ammonia leak", "chlorine leak", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
         # noun-compounds and their "natural gas ..." variants), but the equally-common VERB-order
