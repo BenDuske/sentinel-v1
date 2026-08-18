@@ -224,6 +224,12 @@ CASES = [
     ("Gunshots heard in the parking garage", "critical", "security/intrusion"),
     ("Reports of gunfire near the loading dock", "critical", "security/intrusion"),
     ("A shooting occurred at the north entrance", "critical", "security/intrusion"),
+    # "stab wound"/"stab wounds" is the bladed-weapon sibling of "gunshot wound" (critical via
+    # "gunshot"): a directly-named violent penetrating trauma that previously matched nothing and
+    # dropped to LOW. Multi-word phrase — no independent critical/high token in these cases, so they
+    # isolate on the new term. Same weapon word-choice class as the firearm terms already here.
+    ("The victim has a stab wound to the chest; assailant fled", "critical", "security/intrusion"),
+    ("Knife attack in the break room; multiple stab wounds reported", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),
@@ -303,6 +309,11 @@ NO_FALSE_POSITIVE = [
     # floor — a pulse oximeter reading, "the pulse of the organization", an electrical pulse.
     ("Checked the pulse oximeter; the pulse of the team is good and we logged a clean signal pulse.",
      "no pulse"),
+    # "stab wound(s)" is a multi-word adjacency phrase, so the bare polysemous "stab"/"stabbing"/
+    # "stabbed" must NOT fire the security/intrusion floor: a "stabbing pain" (benign medical),
+    # "took a stab at it" / "stabbed at the food" (idiom). Only the whole phrase "stab wound" does.
+    ("He reported a stabbing pain in his side; took a stab at fixing it and stabbed at his lunch.",
+     "stab wound"),
     # The apnea phrasings are multi-word adjacency phrases: a benign lone "breathing"/"breath" with
     # no apnea (a breather break, "breathing room" in the schedule) must NOT fire the critical floor.
     ("Team took a breather; there's finally some breathing room in the schedule.", "stopped breathing"),

@@ -389,9 +389,18 @@ TAXONOMY = {
         # tests; only discharge/active-threat terms are added here. Word boundaries (\b, below) keep
         # these from firing inside benign words — "shooter" not in "troubleshooter"/"sharpshooter",
         # "shooting" not in "troubleshooting".
+        # "stab wound"/"stab wounds" is the bladed-weapon sibling of "gunshot wound" — a directly-named
+        # violent penetrating trauma. "gunshot wound" already reaches this critical floor via "gunshot",
+        # but the knife-assault equivalent ("victim has a stab wound", "multiple stab wounds", "knife
+        # attack, stab wounds") matched nothing and dropped to LOW: the SAME weapon-vs-weapon word-choice
+        # asymmetry as flames/electric-shock/hemorrhage. Deliberately a MULTI-WORD adjacency phrase, NOT
+        # the bare polysemous "stab"/"stabbed"/"stabbing" — those carry benign collisions ("stabbing
+        # pain", "stabbed at the food", "took a stab at it") and are guarded LOW; only the whole phrase
+        # "stab wound(s)" (zero benign meaning) fires here.
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
                      "intruder armed", "kidnapping", "gunshot", "gunshots", "gunfire",
-                     "shots fired", "active shooting", "shooter", "shooting"],
+                     "shots fired", "active shooting", "shooter", "shooting",
+                     "stab wound", "stab wounds"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
                      "unauthorized access", "forced entry", "trespass", "assault",
                      "data breach", "breach", "ransomware", "malware", "compromised account"],
