@@ -157,6 +157,18 @@ TAXONOMY = {
         # conservative HIGH floor (a survivable-but-serious trauma; the LLM or a human can raise a
         # specific case to critical), the participle a separate entry because \bdegloved\b does not
         # match "degloving". Surfaced in the 2026-08-17 rule-probe backlog.
+        # "scald"/"scalded" is the thermal-burn sibling of "burn"/"burns" (already HIGH): a burn from
+        # hot liquid or steam, an acute injury a reporter names outright ("scalded by steam", "the
+        # worker was scalded", "a scald from the hot water line"), yet both forms matched nothing and
+        # dropped to LOW while "burn"/"burns" score HIGH — the SAME word-choice asymmetry as
+        # bleeding/hemorrhage, the same thermal injury scored HIGH-or-LOW purely on which word the
+        # reporter chose. Both the noun/verb "scald" and the participle "scalded" are needed
+        # (\bscald\b does not match "scalded"), each a whole word for a thermal injury. Added at the
+        # same HIGH floor as "burn". DELIBERATELY EXCLUDES the participle-adjective "scalding" —
+        # unlike "scald"/"scalded" it is polysemous (the harsh-criticism metaphor "scalding review",
+        # "scalding rebuke", and the intensifier "scalding hot"), so adding it would over-fire on
+        # non-incident text; whole-word matching keeps \bscald\b/\bscalded\b from touching "scalding".
+        # Surfaced in the 2026-08-17 rule-probe backlog.
         # "bleeding" sits at HIGH, but its direct clinical synonym "hemorrhage"/"hemorrhaging" —
         # the word a report actually uses for profuse blood loss ("worker is hemorrhaging", "massive
         # hemorrhage") — matched nothing and dropped to LOW: the SAME word-choice asymmetry class as
@@ -224,6 +236,7 @@ TAXONOMY = {
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",
+                     "scald", "scalded",
                      "degloved", "degloving",
                      "hypothermia", "hypothermic", "frostbite", "frostbitten",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",

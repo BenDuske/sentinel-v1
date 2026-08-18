@@ -138,6 +138,11 @@ CASES = [
     # cases isolate on the term (no other critical/high token present).
     ("His hand was degloved in the roller mechanism", "high", "injury/medical"),
     ("The press caught his forearm, degloving it to the wrist", "high", "injury/medical"),
+    # "scald"/"scalded" is the thermal-burn sibling of "burn"/"burns" and must reach the same
+    # injury/medical HIGH floor — both forms previously matched nothing and dropped to LOW while
+    # "burn"/"burns" scored HIGH. These cases isolate on the term (no "burn" token present).
+    ("The operator was scalded by steam from the ruptured line", "high", "injury/medical"),
+    ("A scald to the forearm from the hot water valve", "high", "injury/medical"),
     # "heat stroke"/"heatstroke"/"hyperthermia"/"heat exhaustion" is the HOT counterpart to
     # hypothermia — the same acute exposure emergency, one commit apart — and must reach the same
     # injury/medical HIGH floor; previously matched nothing and dropped to LOW.
