@@ -105,7 +105,7 @@ TAXONOMY = {
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
-                     "respiratory arrest", "cardiopulmonary arrest",
+                     "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
@@ -260,8 +260,21 @@ TAXONOMY = {
         # not critical). Deliberately NOT bare "punctured" — that is polysemous ("punctured tire",
         # "punctured the drywall") and would over-fire; the two-word phrase cannot fire from it (both
         # live-verified LOW). Surfaced in the 2026-08-18 rule-probe.
+        # Sepsis - the body's life-threatening response to infection - is an acute medical emergency a
+        # reporter names directly ("the patient is in sepsis", "worker went septic after the wound
+        # infected"), yet "sepsis" matched nothing and dropped to LOW, and its terminal form "septic
+        # shock" (circulatory collapse, ~30-40% mortality) also matched nothing: the SAME
+        # whole-clinical-word absent-term miss class as aneurysm/embolism/anaphylaxis above. Added
+        # "sepsis" at the conservative HIGH floor (serious but develops over hours and is treatable -
+        # the LLM or a human can raise a specific case) and "septic shock" at CRITICAL alongside
+        # "anaphylactic"/"respiratory arrest" (a named shock state = imminent circulatory collapse, the
+        # same critical tier as the other shock/arrest phrases). DELIBERATELY EXCLUDES the bare
+        # adjective "septic" - it is polysemous ("septic tank", "septic system", "the septic line
+        # backed up") and would over-fire on routine plumbing/facilities text; whole-word matching
+        # keeps \bsepsis\b and the two-word \bseptic shock\b from ever firing off bare "septic".
+        # Surfaced in the 2026-08-18 rule-probe.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
-                     "punctured lung",
+                     "punctured lung", "sepsis",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",

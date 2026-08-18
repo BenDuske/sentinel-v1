@@ -81,6 +81,14 @@ CASES = [
     # tire"). No other high/critical token appears in these cases, so they isolate on the new term.
     ("The worker suffered a punctured lung when the scaffold gave way", "high", "injury/medical"),
     ("Punctured lung suspected after the rib cage took the blow", "high", "injury/medical"),
+    # "sepsis" is a life-threatening infection response and must reach the HIGH floor; "septic shock"
+    # is its terminal circulatory-collapse form and must reach CRITICAL alongside anaphylactic/
+    # respiratory-arrest. Both previously matched nothing and dropped to LOW. The bare adjective
+    # "septic" is deliberately EXCLUDED (septic tank/system polysemy) - whole-word matching keeps
+    # \bsepsis\b and the two-word \bseptic shock\b from firing off it. No other high/critical token
+    # appears in these cases, so they isolate on the new terms.
+    ("The patient is in sepsis after the wound became infected", "high", "injury/medical"),
+    ("Responders report the worker went into septic shock", "critical", "injury/medical"),
     # The participle "amputated" must reach the same critical floor as the noun "amputation" — an
     # acute report is written "his arm was amputated" / "amputated finger", which previously matched
     # nothing and dropped to LOW purely on verb-vs-noun word form.
