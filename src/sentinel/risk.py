@@ -251,7 +251,17 @@ TAXONOMY = {
         # introduces ZERO new over-fire class — the US spelling already fires identically. Whole-word
         # matching keeps the benign en-GB prefix-sharer "haemorrhoid"/"haemorrhoids" from firing, the
         # exact parallel to the existing "hemorrhoid" guard.
+        # A "punctured lung" (traumatic pneumothorax/hemothorax) is a serious acute chest trauma a
+        # reporter names directly ("the worker suffered a punctured lung", "punctured lung from a
+        # broken rib"), yet an ISOLATED report of it matched nothing and dropped to LOW — the phrasings
+        # that scored above only fired off an incidental "fall"/"fracture", not the injury itself.
+        # Added as the MULTI-WORD phrase "punctured lung" at the same conservative HIGH floor as
+        # impaled/blood loss (the LLM or a human can raise a specific case; serious-but-survivable so
+        # not critical). Deliberately NOT bare "punctured" — that is polysemous ("punctured tire",
+        # "punctured the drywall") and would over-fire; the two-word phrase cannot fire from it (both
+        # live-verified LOW). Surfaced in the 2026-08-18 rule-probe.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
+                     "punctured lung",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",

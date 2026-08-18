@@ -75,6 +75,12 @@ CASES = [
     ("Worker suffered severe burns on both hands", "high", "injury/medical"),
     ("Two people treated for third-degree burns after the flash", "high", "injury/medical"),
     ("Worker impaled on a length of rebar at the site", "high", "injury/medical"),
+    # A "punctured lung" (traumatic pneumothorax) is serious acute chest trauma and must reach the
+    # same HIGH floor as impaled/blood loss — an isolated report of it previously matched nothing and
+    # dropped to LOW. The MULTI-WORD phrase cannot fire from bare polysemous "punctured" ("punctured
+    # tire"). No other high/critical token appears in these cases, so they isolate on the new term.
+    ("The worker suffered a punctured lung when the scaffold gave way", "high", "injury/medical"),
+    ("Punctured lung suspected after the rib cage took the blow", "high", "injury/medical"),
     # The participle "amputated" must reach the same critical floor as the noun "amputation" — an
     # acute report is written "his arm was amputated" / "amputated finger", which previously matched
     # nothing and dropped to LOW purely on verb-vs-noun word form.
