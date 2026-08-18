@@ -285,8 +285,21 @@ TAXONOMY = {
         # "near" implies survived/rescued - the LLM or a human can raise a specific case to critical,
         # and an active submersion still floors critical via water/flood). Surfaced in the 2026-08-18
         # rule-probe backlog as the safest of the water-emergency candidates.
+        # A "puncture wound" is a penetrating trauma a reporter names directly ("the victim has a
+        # puncture wound to the chest", "multiple puncture wounds from the nail gun", "deep puncture
+        # wound to the abdomen"), yet an ISOLATED report of it matched nothing and dropped to LOW,
+        # while its weapon-implying siblings "stab wound"/"gunshot wound" already floor CRITICAL. It
+        # is the penetrating-trauma twin of "punctured lung" above and the medical-descriptor cousin
+        # of stab/gunshot wound. Added as the MULTI-WORD phrase "puncture wound"/"puncture wounds" at
+        # the same conservative HIGH floor (NOT critical) as punctured lung/impaled — unlike a
+        # stab/gunshot wound it carries no weapon connotation and is routinely minor (nail, needle,
+        # animal bite), so HIGH is the defensible floor; the LLM or a human can raise a specific case.
+        # Deliberately NOT bare "puncture" — that is polysemous ("punctured tire", "puncture in the
+        # fuel line", "puncture-resistant gloves") and would over-fire; the two-word phrase cannot
+        # fire from it (all decoys live-verified LOW). Surfaced in the 2026-08-18 rule-probe backlog.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
-                     "punctured lung", "sepsis", "near drowning", "near-drowning",
+                     "punctured lung", "puncture wound", "puncture wounds",
+                     "sepsis", "near drowning", "near-drowning",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",

@@ -81,6 +81,14 @@ CASES = [
     # tire"). No other high/critical token appears in these cases, so they isolate on the new term.
     ("The worker suffered a punctured lung when the scaffold gave way", "high", "injury/medical"),
     ("Punctured lung suspected after the rib cage took the blow", "high", "injury/medical"),
+    # A "puncture wound" is penetrating trauma and must reach the same conservative HIGH floor as
+    # punctured lung/impaled — an isolated report previously matched nothing and dropped to LOW while
+    # weapon-implying "stab wound"/"gunshot wound" already floor CRITICAL. HIGH (not critical) because
+    # a puncture wound is routinely minor (nail/needle/bite) and carries no weapon connotation. The
+    # MULTI-WORD phrase cannot fire from bare polysemous "puncture" ("punctured tire", "puncture-
+    # resistant gloves"). No other high/critical token appears in these cases, so they isolate.
+    ("The line worker sustained a deep puncture wound to the thigh", "high", "injury/medical"),
+    ("Medics dressed multiple puncture wounds after the tool slipped", "high", "injury/medical"),
     # "sepsis" is a life-threatening infection response and must reach the HIGH floor; "septic shock"
     # is its terminal circulatory-collapse form and must reach CRITICAL alongside anaphylactic/
     # respiratory-arrest. Both previously matched nothing and dropped to LOW. The bare adjective
