@@ -89,12 +89,23 @@ TAXONOMY = {
         # English meaning (unlike the polysemous neighbors "crushed"/"pinned" deliberately excluded),
         # so they close the miss with zero false-positive risk; the participle is a separate entry
         # because \bdecapitation\b does not match "decapitated".
+        # "cardiac arrest" floors at critical, but its clinical twin "respiratory arrest" — and
+        # "cardiopulmonary arrest", the combined-arrest phrasing a responder writes — matched
+        # nothing and dropped to LOW: the SAME word-choice asymmetry class as the cardiac-arrest /
+        # heart-attack fixes, one arrest phrasing critical and its equally-severe sibling LOW purely
+        # on which clinical term the reporter chose. The lay apnea phrasings ("stopped breathing",
+        # "not breathing") already floor, but the clinical phrase "respiratory arrest" itself is not
+        # a substring of any of them. Offline the rule layer is the only floor, so add both at the
+        # noun's critical floor. Both are multi-word clinical phrases with NO benign English meaning
+        # (unlike the polysemous "stroke"/"seizure" deliberately excluded), so they close the miss
+        # with zero false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
+                     "respiratory arrest", "cardiopulmonary arrest",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "life-threatening", "multiple injured"],
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")

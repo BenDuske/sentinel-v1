@@ -63,6 +63,12 @@ CASES = [
     ("Employee collapsed with a suspected brain aneurysm", "critical", "injury/medical"),
     ("Reporter wrote it up as a possible aneurism in the break room", "critical", "injury/medical"),
     ("Worker down; medics suspect a pulmonary embolism", "critical", "injury/medical"),
+    # The clinical phrase "respiratory arrest" (and "cardiopulmonary arrest") must reach the same
+    # critical floor as its twin "cardiac arrest" — an equally life-threatening arrest that
+    # previously matched nothing and dropped to LOW purely on which clinical term the reporter chose
+    # ("respiratory arrest" is not a substring of the apnea phrasings that already floor).
+    ("Patient went into respiratory arrest before EMS arrived", "critical", "injury/medical"),
+    ("Responders report cardiopulmonary arrest at the scene", "critical", "injury/medical"),
     # The plural noun "burns" must reach the same HIGH floor as the singular "burn"/"burned" —
     # "severe burns" / "third-degree burns" previously matched nothing (\bburn\b does not match
     # "burns") and dropped to LOW. "impaled" is an unambiguous severe-trauma term at the same floor.
