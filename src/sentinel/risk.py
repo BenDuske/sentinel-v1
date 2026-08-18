@@ -400,7 +400,8 @@ TAXONOMY = {
                      "latency", "timeout"],
     },
     "weather": {
-        "critical": ["tornado", "hurricane", "earthquake", "flash flood", "wildfire",
+        "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
+                     "earthquake", "earthquakes", "flash flood", "wildfire",
                      "tsunami", "severe storm warning"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",

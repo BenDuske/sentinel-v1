@@ -223,6 +223,15 @@ CASES = [
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),
     ("Tornado warning; high winds and a fallen tree", "critical", "weather"),
+    # Plural weather catastrophes must reach the same CRITICAL floor as their singular — the
+    # whole-word matcher scores "tornado"/"hurricane"/"earthquake" critical but the plural spelling
+    # ("tornadoes"/"tornados"/"hurricanes"/"earthquakes") is a distinct token that previously matched
+    # nothing and dropped to LOW. Same singular→plural tokenization class already fixed for
+    # burns/injuries/fractures/explosions. Plurals are whole words with no benign polysemy.
+    ("Multiple tornadoes touched down near the plant", "critical", "weather"),
+    ("Two tornados reported across the county", "critical", "weather"),
+    ("Several hurricanes are forecast to make landfall this week", "critical", "weather"),
+    ("A series of earthquakes rattled the region overnight", "critical", "weather"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
