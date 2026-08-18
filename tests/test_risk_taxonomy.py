@@ -89,6 +89,12 @@ CASES = [
     # appears in these cases, so they isolate on the new terms.
     ("The patient is in sepsis after the wound became infected", "high", "injury/medical"),
     ("Responders report the worker went into septic shock", "critical", "injury/medical"),
+    # "near drowning"/"near-drowning" (a nonfatal submersion event) must reach the HIGH floor; both
+    # the spaced and hyphenated forms previously matched nothing and dropped to LOW. Bare "drowning"/
+    # "drowned" is deliberately EXCLUDED (polysemy: "drowning in debt", the idiom "drowned out"), so
+    # these isolate on the new two-word/hyphenated phrase — no other high/critical token appears.
+    ("Lifeguard reports a near drowning at the aquatics center", "high", "injury/medical"),
+    ("Child recovered after a near-drowning; medics en route", "high", "injury/medical"),
     # The participle "amputated" must reach the same critical floor as the noun "amputation" — an
     # acute report is written "his arm was amputated" / "amputated finger", which previously matched
     # nothing and dropped to LOW purely on verb-vs-noun word form.

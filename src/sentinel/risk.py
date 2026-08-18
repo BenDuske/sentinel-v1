@@ -273,8 +273,20 @@ TAXONOMY = {
         # backed up") and would over-fire on routine plumbing/facilities text; whole-word matching
         # keeps \bsepsis\b and the two-word \bseptic shock\b from ever firing off bare "septic".
         # Surfaced in the 2026-08-18 rule-probe.
+        # A near-drowning (a nonfatal submersion event) is an acute emergency a reporter names
+        # directly ("child pulled from the pool in a near-drowning", "near drowning at the facility
+        # pool"), yet both the spaced and hyphenated forms matched nothing and dropped to LOW. The
+        # water/flood floor already covers "submerged" at critical, but a rescue reported by the
+        # clinical phrase alone (victim already out of the water) fired nothing. DELIBERATELY EXCLUDES
+        # bare "drowning"/"drowned" - "drowning" is polysemous ("drowning in debt/paperwork") and
+        # "drowned" collides with the idiom "drowned out"; the two-word/hyphenated "near drowning"/
+        # "near-drowning" has NO benign meaning, so it closes the miss with zero false-positive risk
+        # (both decoys live-verified LOW). Added at the conservative HIGH floor (serious but the
+        # "near" implies survived/rescued - the LLM or a human can raise a specific case to critical,
+        # and an active submersion still floors critical via water/flood). Surfaced in the 2026-08-18
+        # rule-probe backlog as the safest of the water-emergency candidates.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
-                     "punctured lung", "sepsis",
+                     "punctured lung", "sepsis", "near drowning", "near-drowning",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
                      "concussion", "concussed", "burn", "burned", "burns", "impaled",
