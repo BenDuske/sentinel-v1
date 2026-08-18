@@ -219,6 +219,12 @@ CASES = [
     # critical/high token appears in these cases, so they isolate on the new term.
     ("The confined-space entrant succumbed to suffocation", "critical", "gas/chemical"),
     ("Incident report cites suffocation as the cause", "critical", "gas/chemical"),
+    # The bare clinical ROOT noun "asphyxia" (as in "traumatic asphyxia" / "positional asphyxia") must
+    # reach the same critical floor as its derived forms asphyxiation/asphyxiated/asphyxiating —
+    # \basphyxiation\b does not match the shorter "asphyxia", so it previously dropped to LOW purely on
+    # word form. No other critical/high token appears in these cases, so they isolate on the new term.
+    ("The medic recorded traumatic asphyxia at the scene", "critical", "gas/chemical"),
+    ("Positional asphyxia suspected during the restraint", "critical", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
     # The present participle "collapsing" must reach the same critical floor as the noun "collapse"
     # / past-tense "collapsed" — "the roof is collapsing" and "walls collapsing" are how an unfolding

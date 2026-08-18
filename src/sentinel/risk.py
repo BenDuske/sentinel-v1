@@ -360,8 +360,18 @@ TAXONOMY = {
         # over-fire — the same polysemy discipline that added "scald"/"scalded" but excluded the
         # metaphor-heavy "scalding". \bsuffocation\b matches only the literal noun, so this closes the
         # miss with zero false-positive risk.
+        # The derived forms "asphyxiation"/"asphyxiated"/"asphyxiating" all floor at critical, but the
+        # bare clinical ROOT noun "asphyxia" — the exact word a medical/coroner report uses ("traumatic
+        # asphyxia", "positional asphyxia", "asphyxia due to the confined space") — matched nothing and
+        # dropped to LOW, because \basphyxiation\b does NOT match "asphyxia" (no word boundary before the
+        # "-tion" suffix) and neither do the other forms: the SAME whole-clinical-word absent-term miss
+        # class as decapitation/aneurysm. "asphyxia" is a whole clinical word with essentially zero
+        # benign English meaning — even less figurative than the accepted "asphyxiating" — so it closes
+        # the miss with no new over-fire class the accepted "asphyxiation" doesn't already carry.
+        # Surfaced in the 2026-08-18 rule-probe.
         "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
-                     "hazardous material", "fumes", "asphyxiation", "asphyxiated", "asphyxiating",
+                     "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
+                     "asphyxiating",
                      "suffocation", "ammonia leak", "chlorine leak", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
