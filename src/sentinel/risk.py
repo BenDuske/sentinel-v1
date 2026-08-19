@@ -576,7 +576,22 @@ TAXONOMY = {
                      "loitering", "phishing", "failed login", "unauthorized attempt"],
     },
     "theft": {
-        "critical": ["armed robbery", "robbery at gunpoint"],
+        # A "carjacking" (taking a vehicle from an occupant by force or threat) is a directly-named
+        # violent robbery a reporter writes outright ("employee carjacked at gunpoint in the parking
+        # garage", "a carjacking at the north entrance overnight"), yet it matched nothing and dropped
+        # to LOW while its siblings "armed robbery"/"robbery at gunpoint" already floor at critical
+        # here: the SAME weapon/force-theft class scored critical-or-LOW purely on which word the
+        # reporter reached for, the identical miss class as the molotov / stab-wound violent-attack
+        # fixes. Added at the theft critical floor beside "armed robbery" (a carjacking is armed
+        # robbery of a vehicle; the LLM or a human can lower a specific case). "carjacking"/"carjacked"
+        # denote EXCLUSIVELY the crime — NO benign English meaning (the bare token "car" is deliberately
+        # NOT added: a car park / company car is routine), so this closes the miss with zero false-
+        # positive risk. The verb "carjacked" and the plural "carjackings" each need their own entry —
+        # \bcarjacking\b matches neither — the same verb-vs-noun + singular->plural tokenization
+        # discipline already applied to molotov/molotovs and burn/burns. Surfaced in the 2026-08-19
+        # rule-probe (violent-theft sibling of the armed-robbery floor).
+        "critical": ["armed robbery", "robbery at gunpoint",
+                     "carjacking", "carjacked", "carjackings"],
         "high":     ["theft", "stolen", "robbery", "burglary", "looting", "embezzlement",
                      "missing equipment", "missing inventory"],
         "medium":   ["shoplifting", "petty theft", "missing item", "misplaced"],

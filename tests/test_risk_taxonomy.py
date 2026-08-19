@@ -322,6 +322,14 @@ CASES = [
     ("A molotov cocktail was thrown through the front window", "critical", "security/intrusion"),
     ("Protesters hurled molotovs at the guard shack overnight", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
+    # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
+    # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
+    # nothing and dropped to LOW. The verb "carjacked" and plural "carjackings" are distinct tokens
+    # needing their own entries (\bcarjacking\b matches neither), the same verb/plural tokenization
+    # class already fixed for molotov/molotovs and burn/burns. Whole words with no benign polysemy.
+    ("A carjacking occurred at the north entrance overnight", "critical", "theft"),
+    ("Employee was carjacked at gunpoint in the parking garage", "critical", "theft"),
+    ("Two carjackings reported in the visitor lot this month", "critical", "theft"),
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),
     ("Tornado warning; high winds and a fallen tree", "critical", "weather"),
@@ -467,6 +475,10 @@ NO_FALSE_POSITIVE = [
     # has no word boundary before them, so \barson\b must NOT fire the fire/smoke critical floor —
     # the exact armed/unarmed, fire/firearm guard applied to the new intentional-fire term.
     ("The parson led the memorial service in the chapel; nothing else to report.", "arson"),
+    # The whole crime-word "carjacking"/"carjacked" was added, NOT the bare token "car": a company
+    # car, a car park, and a parked car are routine facilities mentions and must NOT fire the theft
+    # critical floor — proving we added only the zero-collision crime word, not its over-firing root.
+    ("The company car was serviced and the car park resurfaced; a parked car was moved.", "carjacking"),
 ]
 
 
