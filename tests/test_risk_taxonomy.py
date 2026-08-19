@@ -219,6 +219,15 @@ CASES = [
     ("Multiple explosions reported in the storage yard", "critical", "fire/smoke"),
     ("A transformer exploding on the roof of the annex", "critical", "fire/smoke"),
     ("Lithium batteries exploding in the charging bay", "critical", "fire/smoke"),
+    # The synonym "detonation" and its verb forms must reach the same critical floor as the
+    # explosion family — "the device detonated" / "a detonation was heard" / "a car bomb detonated"
+    # is how a blast is written, and previously matched nothing (\bexplosion\b/\bexploded\b match no
+    # "deton-" form) and dropped to LOW purely on word choice. Every "deton-" form is exclusively an
+    # explosion (zero benign meaning).
+    ("The device detonated near the main entrance", "critical", "fire/smoke"),
+    ("A car bomb detonated in the parking structure", "critical", "fire/smoke"),
+    ("A detonation was heard on the third floor", "critical", "fire/smoke"),
+    ("Crews report a charge detonating in the quarry pit", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),

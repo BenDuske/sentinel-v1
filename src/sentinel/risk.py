@@ -366,8 +366,26 @@ TAXONOMY = {
         # class the accepted "explosion"/"exploded" don't already carry — the growth metaphor
         # ("costs exploding", "population explosions") fires the same way — and the rule layer is a
         # conservative floor the LLM/human can lower.
+        # The whole explosion word-family floors at critical, but its direct synonym "detonation" and
+        # its verb forms "detonate"/"detonated"/"detonating" — how a blast/bomb report is actually
+        # written ("the device detonated near the entrance", "a car bomb detonated in the structure",
+        # "a detonation was heard on the third floor") — matched nothing (\bexplosion\b/\bexploded\b
+        # match none of the "deton-" forms) and dropped to LOW: the SAME synonym + verb-vs-noun
+        # word-form gap already fixed for explosion/exploded/exploding, the same catastrophic blast
+        # scored critical-or-LOW purely on which word the reporter chose. Added at the noun's critical
+        # floor. Every "deton-" form denotes EXCLUSIVELY an explosion — there is NO benign English
+        # meaning (unlike the growth-metaphor "exploded" already accepted), so this closes the miss
+        # with zero false-positive risk. Each form is a separate entry because the whole-word matcher
+        # won't cross the suffix boundary (\bdetonate\b does not match "detonated"/"detonation"/
+        # "detonating"); the noun "detonation" also subsumes "car bomb"/"pipe bomb ... detonation".
+        # DELIBERATELY EXCLUDES the device noun "detonator" — mere presence of a detonator (bomb squad
+        # inventory, a demolition-supplies audit) is not itself a blast, the same discipline that added
+        # discharge/active-threat terms but excluded the bare "firearm"; whole-word matching keeps the
+        # "deton-" verb/noun forms from ever firing off "detonator". Surfaced in the 2026-08-19
+        # rule-probe (twin of the accepted explosion/exploded family).
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
+                     "detonation", "detonate", "detonated", "detonating",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],
