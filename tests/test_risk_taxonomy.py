@@ -321,6 +321,12 @@ CASES = [
     # so they isolate on the new term. Same weapon-word class as the firearm/stab-wound terms here.
     ("A molotov cocktail was thrown through the front window", "critical", "security/intrusion"),
     ("Protesters hurled molotovs at the guard shack overnight", "critical", "security/intrusion"),
+    # "kidnapped"/"kidnappings" are the verb and plural of "kidnapping" (security critical): the same
+    # violent crime that previously matched nothing and dropped to LOW purely on word form. Distinct
+    # tokens needing their own entries (\bkidnapping\b matches neither), same verb/plural class as
+    # carjacking/carjacked/carjackings. Whole words with no benign polysemy.
+    ("A worker was kidnapped from the loading dock overnight", "critical", "security/intrusion"),
+    ("Two kidnappings reported near the visitor lot this month", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
@@ -479,6 +485,12 @@ NO_FALSE_POSITIVE = [
     # car, a car park, and a parked car are routine facilities mentions and must NOT fire the theft
     # critical floor — proving we added only the zero-collision crime word, not its over-firing root.
     ("The company car was serviced and the car park resurfaced; a parked car was moved.", "carjacking"),
+    # Only the unambiguous crime word "kidnapped" was added, NOT the polysemous legal synonym
+    # "abduction"/"abducted": in an injury/rehab context "abduction" is the anatomical range-of-motion
+    # term ("limited shoulder abduction", "hip abduction exercises") a PT/ergonomics note routinely
+    # uses, so it must NOT fire the security critical floor — proving we added only the zero-collision
+    # crime word, not its over-firing medical homograph.
+    ("PT noted limited shoulder abduction; hip abduction exercises were prescribed.", "kidnapped"),
 ]
 
 

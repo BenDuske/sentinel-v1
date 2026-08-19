@@ -565,8 +565,24 @@ TAXONOMY = {
         # "dismembered" (which likewise fire on their rare figurative use); a critical floor a
         # human/LLM can lower on the astronomically rare historical mention is far safer than a
         # missed incendiary attack.
+        # The NOUN "kidnapping" floors at critical, but the participle/verb "kidnapped" — how an
+        # abduction is actually reported ("a worker was kidnapped from the loading dock", "employee
+        # kidnapped at the north gate") — and the PLURAL "kidnappings" ("two kidnappings reported in
+        # the visitor lot") matched nothing (\bkidnapping\b matches neither "kidnapped" nor
+        # "kidnappings") and dropped to LOW: the SAME verb-vs-noun + singular->plural word-form gap
+        # already fixed for carjacking/carjacked/carjackings and molotov/molotovs, the same violent
+        # crime scored critical-or-LOW purely on grammatical form. Added at the noun's critical floor.
+        # Both "kidnapped" and "kidnappings" are whole words denoting EXCLUSIVELY the crime — NO benign
+        # English meaning — so they close the miss with zero false-positive risk. DELIBERATELY EXCLUDES
+        # the legal synonyms "abduction"/"abducted": unlike "kidnapped" they are polysemous — in an
+        # injury/rehab context "abduction" is the anatomical range-of-motion term ("limited shoulder
+        # abduction", "hip abduction exercises") a PT/ergonomics note routinely uses — so adding them
+        # would over-fire CRITICAL on benign medical text, the SAME polysemy discipline that added the
+        # unambiguous "typhoon"/"arson" but excluded the polysemous "cyclone"/"detonator"/"septic".
+        # Surfaced in the 2026-08-19 rule-probe (word-form sibling of the carjacking fix).
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
-                     "intruder armed", "kidnapping", "gunshot", "gunshots", "gunfire",
+                     "intruder armed", "kidnapping", "kidnapped", "kidnappings",
+                     "gunshot", "gunshots", "gunfire",
                      "shots fired", "active shooting", "shooter", "shooting",
                      "stab wound", "stab wounds", "molotov", "molotovs"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
