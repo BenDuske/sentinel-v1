@@ -259,6 +259,14 @@ CASES = [
     # word choice previously left the more common lay phrasing at LOW.
     ("Worker got an electric shock from the panel", "high", "electrical/power"),
     ("He received repeated electric shocks servicing the unit", "high", "electrical/power"),
+    # The verb/participle forms of "electrocution" (critical) must reach the SAME critical floor —
+    # the participle "electrocuted" previously caught only the injury/medical HIGH floor, and
+    # "electrocute"/"electrocuting" matched nothing and dropped to LOW; the same lethal event scored
+    # critical-or-lower purely on grammatical form. Each case isolates on the electrocution term.
+    ("A lineman was electrocuted by the exposed bus bar", "critical", "electrical/power"),
+    ("The energized panel could electrocute anyone who touches it", "critical", "electrical/power"),
+    ("Two contractors were electrocuting themselves on the live rail", "critical", "electrical/power"),
+    ("This fault electrocutes crews the instant the breaker recloses", "critical", "electrical/power"),
     ("Gas leak reported; carbon monoxide alarm triggered", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
@@ -514,6 +522,12 @@ NO_FALSE_POSITIVE = [
     # uses, so it must NOT fire the security critical floor — proving we added only the zero-collision
     # crime word, not its over-firing medical homograph.
     ("PT noted limited shoulder abduction; hip abduction exercises were prescribed.", "kidnapped"),
+    # The electrocution verb family is whole-word: benign "electro-" neighbors — an
+    # "electrocardiogram" (ECG), an "electrode" on a monitor, an "electrolyte" panel — share the
+    # prefix but have no word boundary before "-cute", so \belectrocuted\b / \belectrocute\b /
+    # \belectrocutes\b / \belectrocuting\b must NOT fire the electrical/power critical floor.
+    ("The clinic scheduled an electrocardiogram, replaced a monitor electrode, and ran an electrolyte panel.",
+     "electrocuted"),
 ]
 
 

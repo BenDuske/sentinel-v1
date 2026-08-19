@@ -350,7 +350,7 @@ TAXONOMY = {
                      "hypothermia", "hypothermic", "frostbite", "frostbitten",
                      "heat stroke", "heatstroke", "hyperthermia", "hyperthermic",
                      "heat exhaustion",
-                     "electrocuted", "overdose", "overdosed",
+                     "overdose", "overdosed",
                      "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
                      "haemorrhage", "haemorrhaging", "blood loss",
                      "head injury", "trouble breathing",
@@ -447,7 +447,24 @@ TAXONOMY = {
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },
     "electrical/power": {
-        "critical": ["live wire", "arc flash", "electrocution", "electrical fire"],
+        # The NOUN "electrocution" floors at critical, but its verb/participle forms — how an acute
+        # report is actually written ("a lineman was electrocuted", "the arc will electrocute anyone
+        # who touches it", "workers electrocuting themselves on the exposed bus") — scored LOWER: the
+        # participle "electrocuted" caught only the injury/medical HIGH floor (a burn-family neighbor),
+        # and "electrocute"/"electrocutes"/"electrocuting" matched nothing and dropped to LOW. The SAME
+        # lethal event — death or grave injury by electric current — was scored critical-or-lower purely
+        # on grammatical form, the identical verb-vs-noun word-form gap already fixed for
+        # explosion/exploded, asphyxiation/asphyxiated, and collapse/collapsing. Added the whole verb
+        # family at the noun's critical floor beside "electrocution". By definition "electrocute" means
+        # to kill/severely injure by electric shock — the forms carry essentially NO benign or
+        # figurative meaning (unlike the deliberately-HIGH "electric shock", which can be minor or the
+        # idiom "the news was an electric shock"), so this closes the miss with zero over-fire risk and
+        # introduces no new class the accepted noun "electrocution" doesn't already carry. Each derived
+        # form needs its own entry — \belectrocution\b matches none of them. Surfaced in the 2026-08-19
+        # rule-probe (verb-form twin of the electrocution critical floor).
+        "critical": ["live wire", "arc flash", "electrocution",
+                     "electrocuted", "electrocute", "electrocutes", "electrocuting",
+                     "electrical fire"],
         # A person receiving an "electric shock" is an injury/hazard the taxonomy already floors at
         # HIGH via "electrical" — but ONLY for the adjective "electrical". The far more common lay
         # phrasing "electric shock" (adjective "electric", no -al) matched nothing and dropped to
