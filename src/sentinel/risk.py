@@ -122,7 +122,8 @@ TAXONOMY = {
         # risk; the participle is a separate entry because \bexsanguination\b does not match "exsanguinated".
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
-                     "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
+                     "cardiac arrest", "heart attack", "myocardial infarction",
+                     "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
@@ -131,6 +132,16 @@ TAXONOMY = {
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
                      "life-threatening", "multiple injured"],
+        # "heart attack" floors at critical, but its clinical twin "myocardial infarction" — the
+        # term an EMS/medical report actually uses ("suspected myocardial infarction", "acute
+        # myocardial infarction confirmed") — matched nothing and dropped to LOW: the SAME
+        # word-choice asymmetry class already fixed for heart-attack/cardiac-arrest, hemorrhage,
+        # exsanguination and scald; the same life-threatening cardiac event scored critical-or-LOW
+        # purely on which synonym the reporter chose. It is a whole multi-word clinical phrase with
+        # ZERO benign English meaning, so it closes the miss at the heart-attack floor with no new
+        # over-fire class. DELIBERATELY NOT the bare acronym "MI" (massively polysemous — Michigan,
+        # "mi", mile) nor the polysemous "flatline"/"flatlined" ("sales flatlined", "the economy
+        # flatlined" — both live-verified LOW, would over-fire); those stay Ben-review.
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
         # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched

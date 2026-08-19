@@ -32,6 +32,11 @@ CASES = [
     # and anaphylaxis previously scored LOW while "cardiac arrest" scored CRITICAL.
     ("Employee is having a heart attack at their desk", "critical", "injury/medical"),
     ("Anaphylaxis after a bee sting; epinephrine administered", "critical", "injury/medical"),
+    # "myocardial infarction" is the clinical twin of "heart attack" (critical) — an EMS/medical
+    # report writes it this way, yet it previously matched nothing and dropped to LOW. Both cases
+    # isolate on the term (no other critical/high token fires).
+    ("Radiology tech suffered a myocardial infarction mid-shift", "critical", "injury/medical"),
+    ("Acute myocardial infarction confirmed by the responding paramedic", "critical", "injury/medical"),
     # Plain-English synonyms for "unconscious" (critical): "lost consciousness" / "loss of
     # consciousness" previously matched nothing and dropped to LOW while "unconscious" scored
     # critical. A transient faint reaches the HIGH floor.
