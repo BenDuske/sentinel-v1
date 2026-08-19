@@ -126,6 +126,12 @@ CASES = [
     # cases below isolate on the new terms (no other floored token), so removing them regresses to LOW.
     ("The worker was dismembered by the unguarded conveyor", "critical", "injury/medical"),
     ("Traumatic dismemberment at the rolling mill; responders en route", "critical", "injury/medical"),
+    # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
+    # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
+    # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
+    # bleeding" token present), so removing them regresses to LOW/MEDIUM.
+    ("The patient exsanguinated before EMS arrived on scene", "critical", "injury/medical"),
+    ("Massive exsanguination from the laceration; responders en route", "critical", "injury/medical"),
     # "hemorrhage"/"hemorrhaging" is the clinical synonym of "bleeding" (already HIGH) and must
     # reach the same HIGH floor — "worker is hemorrhaging" / "massive hemorrhage" previously matched
     # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.

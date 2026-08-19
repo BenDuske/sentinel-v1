@@ -108,12 +108,25 @@ TAXONOMY = {
         # noun's critical floor. Both are multi-word clinical phrases with NO benign English meaning
         # (unlike the polysemous "stroke"/"seizure" deliberately excluded), so they close the miss
         # with zero false-positive risk.
+        # "severe bleeding" floors at critical and its clinical synonym "hemorrhage" sits at HIGH, but
+        # the clinical term for fatal blood loss itself — "exsanguination" / the participle
+        # "exsanguinated" ("the patient exsanguinated before EMS arrived", "cause of injury:
+        # exsanguination") — matched nothing and dropped to LOW/MEDIUM: the SAME word-choice asymmetry
+        # class as the heart-attack / hemorrhage fixes, the fatal endpoint of bleeding scored LOW purely
+        # because the reporter used the clinical word. The lay phrasings a report actually writes ("bled
+        # to death", "bleeding to death") already floor via the "death" token, but the bare clinical
+        # word does not. Offline the rule layer is the only floor, so add both at the noun's critical
+        # floor beside "severe bleeding". "exsanguination"/"exsanguinated" are whole clinical words with
+        # NO benign English meaning (unlike the polysemous "bleed out" — "bleed out the brake line" /
+        # "bleed the radiator" — deliberately excluded), so they close the miss with zero false-positive
+        # risk; the participle is a separate entry because \bexsanguination\b does not match "exsanguinated".
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
+                     "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
