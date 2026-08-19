@@ -244,6 +244,11 @@ CASES = [
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
+    # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
+    # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
+    # plurals. Both cases isolate on the new terms — no independent critical token fires.
+    ("Floodwaters rose to the second floor of the plant", "critical", "water/flood"),
+    ("Rising floodwater poured through the loading dock doors", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.

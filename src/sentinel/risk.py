@@ -422,8 +422,15 @@ TAXONOMY = {
         "medium":   ["overheating", "hot to the touch", "burnt smell"],
     },
     "water/flood": {
-        "critical": ["flood", "flooding", "flooded", "submerged", "sewage backup",
-                     "burst main", "dam failure"],
+        # "flood"/"flooding"/"flooded" all floor at critical, but the noun "floodwater"/"floodwaters"
+        # — the way an active inundation is actually reported ("floodwaters rose to the second floor",
+        # "rising floodwaters trapped staff") — is a distinct whole-word token that \bflood\b does not
+        # match (no boundary before "water"), so it dropped to LOW: the SAME singular/compound-word
+        # tokenization gap already fixed for burns/injuries/fractures and the weather plurals. Both
+        # forms are whole words with NO benign English meaning, so zero over-fire risk; the plural
+        # "floodwaters" needs its own entry because \bfloodwater\b won't match it.
+        "critical": ["flood", "flooding", "flooded", "floodwater", "floodwaters",
+                     "submerged", "sewage backup", "burst main", "dam failure"],
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
