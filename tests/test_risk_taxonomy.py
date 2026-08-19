@@ -293,6 +293,12 @@ CASES = [
     # isolate on the new term. Same weapon word-choice class as the firearm terms already here.
     ("The victim has a stab wound to the chest; assailant fled", "critical", "security/intrusion"),
     ("Knife attack in the break room; multiple stab wounds reported", "critical", "security/intrusion"),
+    # "molotov"/"molotovs" (a thrown incendiary weapon) is the sibling of bomb-threat/gunshot/
+    # stab-wound: a directly-named violent attack that previously matched nothing and dropped to LOW.
+    # Neither case has an independent critical/high token (bare "molotov" covers "molotov cocktail"),
+    # so they isolate on the new term. Same weapon-word class as the firearm/stab-wound terms here.
+    ("A molotov cocktail was thrown through the front window", "critical", "security/intrusion"),
+    ("Protesters hurled molotovs at the guard shack overnight", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),

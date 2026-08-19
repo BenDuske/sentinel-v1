@@ -503,10 +503,24 @@ TAXONOMY = {
         # the bare polysemous "stab"/"stabbed"/"stabbing" — those carry benign collisions ("stabbing
         # pain", "stabbed at the food", "took a stab at it") and are guarded LOW; only the whole phrase
         # "stab wound(s)" (zero benign meaning) fires here.
+        # A "molotov" (Molotov cocktail) is a thrown incendiary weapon — an unambiguous violent
+        # attack a reporter names directly ("a molotov cocktail was thrown through the window",
+        # "protesters hurled molotovs at the guard shack"), yet it matched nothing and dropped to
+        # LOW while its sibling violent-attack terms (bomb threat / gunshot / stab wound) already
+        # floor at critical: the SAME weapon-word miss class as the stab-wound fix above. Bare
+        # "molotov" is a whole word that also covers "molotov cocktail(s)" (\bmolotov\b matches
+        # inside the phrase); the plural "molotovs" needs its own entry (\bmolotov\b does not match
+        # it), the same singular->plural tokenization discipline applied to burns/injuries/typhoons.
+        # The ONLY benign collision is the historical surname "Molotov" (the Soviet foreign
+        # minister) — a proper noun essentially absent from operational facility/security incident
+        # text, so this is the SAME negligible tolerance already accepted for "decapitated"/
+        # "dismembered" (which likewise fire on their rare figurative use); a critical floor a
+        # human/LLM can lower on the astronomically rare historical mention is far safer than a
+        # missed incendiary attack.
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
                      "intruder armed", "kidnapping", "gunshot", "gunshots", "gunfire",
                      "shots fired", "active shooting", "shooter", "shooting",
-                     "stab wound", "stab wounds"],
+                     "stab wound", "stab wounds", "molotov", "molotovs"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
                      "unauthorized access", "forced entry", "trespass", "assault",
                      "data breach", "breach", "ransomware", "malware", "compromised account"],
