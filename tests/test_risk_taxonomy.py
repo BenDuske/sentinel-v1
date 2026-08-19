@@ -75,6 +75,12 @@ CASES = [
     ("Worker suffered severe burns on both hands", "high", "injury/medical"),
     ("Two people treated for third-degree burns after the flash", "high", "injury/medical"),
     ("Worker impaled on a length of rebar at the site", "high", "injury/medical"),
+    # The NOUN "impalement" is the word-form twin of the participle "impaled" (already HIGH) and must
+    # reach the same floor — an isolated report of it previously matched nothing (\bimpaled\b does not
+    # match "impalement") and dropped to LOW, the same participle-vs-noun gap as concussion/concussed.
+    # Both cases below isolate on the new noun (no other floored token), so removing it regresses LOW.
+    ("Traumatic impalement on the fence stake; the crew freed the worker", "high", "injury/medical"),
+    ("Responders reported an impalement after the guardrail sheared away", "high", "injury/medical"),
     # A "punctured lung" (traumatic pneumothorax) is serious acute chest trauma and must reach the
     # same HIGH floor as impaled/blood loss — an isolated report of it previously matched nothing and
     # dropped to LOW. The MULTI-WORD phrase cannot fire from bare polysemous "punctured" ("punctured

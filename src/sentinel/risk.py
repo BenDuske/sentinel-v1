@@ -307,12 +307,20 @@ TAXONOMY = {
         # Deliberately NOT bare "puncture" — that is polysemous ("punctured tire", "puncture in the
         # fuel line", "puncture-resistant gloves") and would over-fire; the two-word phrase cannot
         # fire from it (all decoys live-verified LOW). Surfaced in the 2026-08-18 rule-probe backlog.
+        # The participle "impaled" sits at HIGH, but the NOUN form "impalement" ("suffered an
+        # impalement", "an impalement injury on the rebar") matched nothing (\bimpaled\b does not
+        # match "impalement") and dropped to LOW: the SAME participle/verb-vs-noun word-form gap
+        # already fixed for decapitation/decapitated, amputation/amputated, and concussion/concussed —
+        # here in reverse, the participle present and the noun absent — the same penetrating trauma
+        # scored HIGH-or-LOW purely on grammatical form. Added at the participle's existing HIGH floor
+        # (NOT a new severity call). "impalement" is a whole word with NO benign English meaning, so it
+        # closes the miss with zero false-positive risk. Surfaced in the 2026-08-18 rule-probe backlog.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
                      "punctured lung", "puncture wound", "puncture wounds",
                      "sepsis", "near drowning", "near-drowning",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
-                     "concussion", "concussed", "burn", "burned", "burns", "impaled",
+                     "concussion", "concussed", "burn", "burned", "burns", "impaled", "impalement",
                      "scald", "scalded",
                      "degloved", "degloving",
                      "hypothermia", "hypothermic", "frostbite", "frostbitten",
