@@ -396,9 +396,26 @@ TAXONOMY = {
         # discharge/active-threat terms but excluded the bare "firearm"; whole-word matching keeps the
         # "deton-" verb/noun forms from ever firing off "detonator". Surfaced in the 2026-08-19
         # rule-probe (twin of the accepted explosion/exploded family).
+        # "arson"/"arsonist" — an intentionally-set fire named by its crime — was absent from the
+        # whole fire word-family, so a report that names the act rather than the flame ("suspected
+        # arson at the vacant warehouse overnight", "arsonist set the dumpster alight") matched
+        # nothing and dropped to LOW while the plain word "fire" floors at critical: the SAME
+        # word-choice miss class as molotov/detonation, an unambiguous fire event scored
+        # critical-or-LOW purely on whether the reporter wrote the flame or the crime. Placed at
+        # fire/smoke critical (not security) because the physical hazard and the offline next-step
+        # actions — evacuate, confirm the fire is out, notify the fire department, preserve the scene
+        # for cause investigation — are the fire/smoke ones, the same home as "structure fire"/
+        # "wildfire". Both "arson" (the act) and "arsonist" (the actor) are added: neither is a
+        # substring of the other under whole-word matching (\barson\b does not match "arsonist"), the
+        # same discipline applied to decapitation/decapitated. Each is a whole word denoting ONLY
+        # deliberate fire-setting — NO benign English meaning (unlike the polysemous neighbors left
+        # out elsewhere) — so this closes the miss with zero false-positive risk; whole-word matching
+        # keeps \barson\b from firing inside the benign "parson" (the exact armed/unarmed guard).
+        # Surfaced in the 2026-08-19 rule-probe (sibling of the molotov incendiary-attack fix).
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
                      "detonation", "detonate", "detonated", "detonating",
+                     "arson", "arsonist",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],

@@ -234,6 +234,13 @@ CASES = [
     ("A car bomb detonated in the parking structure", "critical", "fire/smoke"),
     ("A detonation was heard on the third floor", "critical", "fire/smoke"),
     ("Crews report a charge detonating in the quarry pit", "critical", "fire/smoke"),
+    # "arson"/"arsonist" (an intentionally-set fire named by its crime) must reach the same critical
+    # floor as the plain word "fire" — a report that names the act rather than the flame previously
+    # matched nothing and dropped to LOW purely on word choice. Neither case has an independent
+    # critical/high token, so they isolate on the new term; "arson" denotes only deliberate
+    # fire-setting (zero benign meaning), the same class as the molotov/detonation fixes.
+    ("Suspected arson at the vacant warehouse overnight", "critical", "fire/smoke"),
+    ("An arsonist set the dumpster alight behind the loading dock", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
@@ -456,6 +463,10 @@ NO_FALSE_POSITIVE = [
     # added only the zero-collision synonym, not its over-firing neighbor.
     ("The cyclone fence along the perimeter and the cyclone separator on line 3 both need service.",
      "cyclone"),
+    # "arson" is whole-word: the benign noun "parson" (a clergyman) embeds the letters a-r-s-o-n but
+    # has no word boundary before them, so \barson\b must NOT fire the fire/smoke critical floor —
+    # the exact armed/unarmed, fire/firearm guard applied to the new intentional-fire term.
+    ("The parson led the memorial service in the chapel; nothing else to report.", "arson"),
 ]
 
 
