@@ -587,11 +587,30 @@ TAXONOMY = {
         # would over-fire CRITICAL on benign medical text, the SAME polysemy discipline that added the
         # unambiguous "typhoon"/"arson" but excluded the polysemous "cyclone"/"detonator"/"septic".
         # Surfaced in the 2026-08-19 rule-probe (word-form sibling of the carjacking fix).
+        # A "pistol-whipping" (beating a victim with a firearm used as a bludgeon) is a directly-named
+        # ARMED violent assault a reporter writes outright ("the guard was pistol-whipped during the
+        # robbery", "suspect pistol whipped the cashier"), yet it matched nothing and dropped to LOW
+        # while its sibling armed-violence terms (armed / weapon / gunshot / stab wound / molotov)
+        # already floor at critical: the SAME weapon-word miss class as the stab-wound and molotov
+        # fixes. It belongs at critical, not merely at the "assault" HIGH floor, precisely because an
+        # armed offender is present — the same reason "armed"/"weapon" are already critical here (a
+        # human/LLM can lower a specific case). The compound has ZERO benign English meaning, so it
+        # closes the miss with no false-positive risk — bare "whipped" (whipped cream, "whipped the
+        # team") is deliberately NOT added; only the two-word/hyphenated compound fires. Reports write
+        # it both hyphenated and spaced, and as the past participle and the gerund/noun, so each needs
+        # its own entry (\bpistol-whipped\b matches none of the others): "pistol-whipped"/"pistol
+        # whipped" (the assault happened) + "pistol-whipping"/"pistol whipping" (the event as a noun),
+        # the same multi-form tokenization discipline as molotov/molotovs and the hyphenated
+        # "load-bearing". Surfaced in the 2026-08-19 structural/security-violence rule-probe. Left the
+        # polysemous assault-family verbs (assaulted/brawl/fistfight — real figurative use: "political
+        # brawl", "fistfight of ideas") for Ben-review, per the polysemous-token discipline.
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire",
                      "shots fired", "active shooting", "shooter", "shooting",
-                     "stab wound", "stab wounds", "molotov", "molotovs"],
+                     "stab wound", "stab wounds", "molotov", "molotovs",
+                     "pistol-whipped", "pistol whipped",
+                     "pistol-whipping", "pistol whipping"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
                      "unauthorized access", "forced entry", "trespass", "assault",
                      "data breach", "breach", "ransomware", "malware", "compromised account"],

@@ -326,6 +326,14 @@ CASES = [
     # so they isolate on the new term. Same weapon-word class as the firearm/stab-wound terms here.
     ("A molotov cocktail was thrown through the front window", "critical", "security/intrusion"),
     ("Protesters hurled molotovs at the guard shack overnight", "critical", "security/intrusion"),
+    # "pistol-whipped"/"pistol whipped"/"pistol-whipping"/"pistol whipping" (beating a victim with a
+    # firearm) is the armed-assault sibling of gunshot/stab-wound/molotov: a directly-named armed
+    # violent attack that previously matched nothing and dropped to LOW. Reports write it hyphenated
+    # and spaced, as past participle and gerund, so each is a distinct token needing its own entry.
+    # No independent critical/high token in these cases, so they isolate on the new terms; the
+    # compound has no benign polysemy (bare "whipped" is not added).
+    ("The night-shift guard was pistol-whipped near the turnstile", "critical", "security/intrusion"),
+    ("Suspect pistol whipped the attendant and fled the booth", "critical", "security/intrusion"),
     # "kidnapped"/"kidnappings" are the verb and plural of "kidnapping" (security critical): the same
     # violent crime that previously matched nothing and dropped to LOW purely on word form. Distinct
     # tokens needing their own entries (\bkidnapping\b matches neither), same verb/plural class as
@@ -430,6 +438,11 @@ NO_FALSE_POSITIVE = [
     # "took a stab at it" / "stabbed at the food" (idiom). Only the whole phrase "stab wound" does.
     ("He reported a stabbing pain in his side; took a stab at fixing it and stabbed at his lunch.",
      "stab wound"),
+    # "pistol-whipped"/"pistol whipping" is a two-word/hyphenated compound, so the bare "whipped"/
+    # "whipping" must NOT fire the security/intrusion floor: whipped cream, "whipped the team into
+    # shape", a whipping wind. Only the whole "pistol" compound does.
+    ("The chef whipped the cream while the whipping wind whipped the team into finishing early.",
+     "pistol-whipped"),
     # The apnea phrasings are multi-word adjacency phrases: a benign lone "breathing"/"breath" with
     # no apnea (a breather break, "breathing room" in the schedule) must NOT fire the critical floor.
     ("Team took a breather; there's finally some breathing room in the schedule.", "stopped breathing"),
