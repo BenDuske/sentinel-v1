@@ -42,6 +42,12 @@ CASES = [
     # Both cases isolate on the term (no other critical/high token fires).
     ("Patient found in ventricular fibrillation; AED advised a shock", "critical", "injury/medical"),
     ("Confirmed ventricular fibrillation on the cardiac monitor", "critical", "injury/medical"),
+    # "cardiac tamponade" / "pericardial tamponade" is an immediately life-threatening compression of
+    # the heart (critical) an EMS/ED/echo report names directly, yet it previously matched nothing and
+    # dropped to LOW. Both cases isolate on the term (no other critical/high token fires); the bare
+    # word "tamponade" is NOT floored (polysemous therapeutic maneuver — balloon/uterine tamponade).
+    ("Entrant developed cardiac tamponade after the chest impact", "critical", "injury/medical"),
+    ("Responding medic confirmed pericardial tamponade on the echo", "critical", "injury/medical"),
     # Plain-English synonyms for "unconscious" (critical): "lost consciousness" / "loss of
     # consciousness" previously matched nothing and dropped to LOW while "unconscious" scored
     # critical. A transient faint reaches the HIGH floor.
@@ -549,6 +555,12 @@ NO_FALSE_POSITIVE = [
     # \belectrocutes\b / \belectrocuting\b must NOT fire the electrical/power critical floor.
     ("The clinic scheduled an electrocardiogram, replaced a monitor electrode, and ran an electrolyte panel.",
      "electrocuted"),
+    # Only the whole-phrase "cardiac tamponade"/"pericardial tamponade" (the emergency) was added, NOT
+    # the bare word "tamponade": inside medicine "tamponade" is polysemous — a therapeutic maneuver to
+    # stop bleeding (balloon/uterine/nasal tamponade) — so a treatment note using it must NOT fire the
+    # injury/medical critical floor.
+    ("Nursing note: balloon tamponade was placed and uterine tamponade held during the procedure.",
+     "cardiac tamponade"),
 ]
 
 

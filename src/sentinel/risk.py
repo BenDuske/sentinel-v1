@@ -124,6 +124,7 @@ TAXONOMY = {
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
                      "ventricular fibrillation",
+                     "cardiac tamponade", "pericardial tamponade",
                      "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
@@ -153,6 +154,19 @@ TAXONOMY = {
         # with no new over-fire class. DELIBERATELY NOT the bare acronym "v-fib" (needs the spelled-
         # out form; acronym polysemy) nor "ventricular tachycardia" (VT can be stable/pulsed — a
         # genuine severity judgment, not a clean miss); both stay Ben-review.
+        # "cardiac arrest" floors at critical, and "cardiac tamponade" / "pericardial tamponade" —
+        # compression of the heart by pericardial fluid/blood under pressure, an immediately
+        # life-threatening emergency an EMS/ED/echo report names directly ("developed cardiac
+        # tamponade after the chest trauma", "confirmed pericardial tamponade on the echo") — matched
+        # nothing and dropped to LOW: the SAME word-choice asymmetry class as heart-attack/myocardial-
+        # infarction/ventricular-fibrillation; a critical cardiac event scored critical-or-LOW purely
+        # on which clinical phrase the reporter chose. Both are whole multi-word clinical phrases with
+        # ZERO benign English meaning, so they close the miss at the cardiac floor with no new
+        # over-fire class ("pericardial tamponade" is a separate entry — \bcardiac tamponade\b does
+        # not match it). DELIBERATELY NOT the bare word "tamponade": inside medicine it is polysemous
+        # — a therapeutic maneuver to stop bleeding ("balloon tamponade of the varix", "uterine
+        # tamponade", "nasal tamponade") — so the bare token would over-fire on a treatment note; it
+        # stays Ben-review.
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
         # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched
