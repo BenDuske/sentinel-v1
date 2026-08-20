@@ -156,10 +156,23 @@ TAXONOMY = {
         # can be stable and merely monitored — a genuine severity judgment, not a clean miss — so the
         # bare token would over-fire on a routine chest note; it stays Ben-review. \btension pneumothorax\b
         # matches only the lethal qualified form, so it closes the miss with zero false-positive risk.
+        # "cardiac arrest" floors at critical, and "asystole" is the flatline rhythm that IS a pulseless
+        # cardiac arrest — zero cardiac electrical activity, the immediately-fatal non-shockable end of
+        # the same event "ventricular fibrillation" (already critical) begins, the term an AED/monitor/
+        # EMS report writes directly ("monitor showed asystole", "patient in asystole; CPR continued",
+        # "asystole confirmed on the rhythm strip") — yet it matched nothing and dropped to LOW: the
+        # SAME word-choice asymmetry class as heart-attack/myocardial-infarction and ventricular-
+        # fibrillation; the same immediately-fatal cardiac event scored critical-or-LOW purely on which
+        # clinical term the reporter chose. It is a whole clinical word with ZERO benign English meaning,
+        # so it closes the miss at the cardiac-arrest floor with no new over-fire class. \basystole\b is
+        # a distinct token from the routine cardiac-cycle words "systole"/"diastole"/"systolic" (which
+        # appear in normal blood-pressure notes — "systole 120, diastole 80" — and must NOT fire); the
+        # whole-word matcher means adding asystole does not touch those, so it closes the miss with zero
+        # false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
-                     "ventricular fibrillation",
+                     "ventricular fibrillation", "asystole",
                      "cardiac tamponade", "pericardial tamponade",
                      "tension pneumothorax",
                      "cpr", "no pulse", "no heartbeat",

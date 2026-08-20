@@ -159,6 +159,12 @@ CASES = [
     # "tension pneumothorax" regresses to LOW.
     ("Responders report a tension pneumothorax; emergency needle decompression underway", "critical", "injury/medical"),
     ("Tension pneumothorax confirmed on scene; chest decompression performed by EMS", "critical", "injury/medical"),
+    # "asystole" is the flatline rhythm that IS a pulseless cardiac arrest (critical) — the non-shockable
+    # sibling of the already-critical "ventricular fibrillation" — an AED/monitor/EMS report writes it
+    # this way, yet it previously matched nothing and dropped to LOW. Both cases isolate on the term (no
+    # other floored token), so removing "asystole" regresses to LOW.
+    ("Monitor showed asystole; the rhythm strip was flat", "critical", "injury/medical"),
+    ("Asystole confirmed by the responding paramedic on the cardiac monitor", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -590,6 +596,13 @@ NO_FALSE_POSITIVE = [
     # injury/medical critical floor.
     ("Nursing note: balloon tamponade was placed and uterine tamponade held during the procedure.",
      "cardiac tamponade"),
+    # Only the distinct clinical word "asystole" was added — NOT the routine cardiac-cycle words
+    # "systole"/"diastole"/"systolic" that appear in every normal blood-pressure note. \basystole\b is
+    # a separate whole word and does NOT match them, so a routine vitals note must NOT fire the
+    # injury/medical critical floor — proving we added only the lethal-rhythm term, not its benign
+    # look-alikes.
+    ("Routine vitals charted: systole 120, diastole 80, systolic trend stable.",
+     "asystole"),
 ]
 
 
