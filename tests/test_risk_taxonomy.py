@@ -179,6 +179,12 @@ CASES = [
     # case isolates on the phrase (no other floored token), so removing it regresses to LOW.
     ("Patient in status epilepticus on arrival; benzodiazepines administered", "critical", "injury/medical"),
     ("Convulsive status epilepticus reported; the fits would not stop", "critical", "injury/medical"),
+    # "aortic dissection" is a tear splitting the aortic wall — an immediately-fatal arterial
+    # catastrophe (distinct from the already-critical "aneurysm" bulge) the term an EMS/CT report
+    # names directly — yet it previously matched nothing and dropped to LOW. Each case isolates on
+    # the phrase (no other floored token), so removing it regresses to LOW.
+    ("Acute aortic dissection on CT; to the OR emergently", "critical", "injury/medical"),
+    ("EMS reports a Type A aortic dissection on arrival", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -629,6 +635,11 @@ NO_FALSE_POSITIVE = [
     # look-alike.
     ("Ops status update: the on-call status is green and the status meeting is at noon.",
      "status epilepticus"),
+    # Only the QUALIFIED two-word phrase "aortic dissection" was added — NOT the polysemous bare
+    # word "dissection". A routine surgical/anatomical/figurative "dissection" note must NOT fire the
+    # injury/medical critical floor — proving the phrase matcher added only the vascular emergency.
+    ("Lab log: the careful surgical dissection of the tissue plane and the frog dissection both went well.",
+     "aortic dissection"),
 ]
 
 

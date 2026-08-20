@@ -197,6 +197,21 @@ TAXONOMY = {
         # "status meeting", "on-call status") nor the bare "seizure" (already excluded above for its
         # "asset seizure" polysemy); the phrase matcher means \bstatus epilepticus\b cannot fire from
         # any routine "status" note, so it closes the miss at zero false-positive risk.
+        # "aortic dissection" — a tear in the aortic wall letting blood split the layers apart, an
+        # immediately life-threatening arterial catastrophe (Type A ~1-2% mortality PER HOUR
+        # untreated) the term an EMS/ED/CT report names directly ("acute aortic dissection on CT",
+        # "Type A aortic dissection, to the OR emergently") — yet it matched nothing and dropped to
+        # LOW: the SAME word-choice asymmetry class as the tension-pneumothorax / cardiac-tamponade
+        # fixes, an immediately-fatal vascular event scored critical-or-LOW purely on which clinical
+        # phrase the reporter chose. It is a whole two-word clinical phrase with ZERO benign English
+        # meaning, and it is a DISTINCT pathology from the already-critical "aneurysm" (a bulge, not a
+        # tear — "aortic aneurysm" fires today, "aortic dissection" does not), so it closes the miss
+        # at the aneurysm/tamponade floor with no new over-fire class. DELIBERATELY the QUALIFIED
+        # phrase only — never the bare word "dissection", which is heavily polysemous (the routine
+        # surgical/anatomical sense: "careful surgical dissection of the tissue plane", "the frog
+        # dissection in the lab", and the figurative "a dissection of the argument"), all live-verified
+        # LOW; the phrase matcher means \baortic dissection\b cannot fire from any of those, so it
+        # closes the miss with zero false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -210,7 +225,7 @@ TAXONOMY = {
                      "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "cardiogenic shock", "hypovolemic shock",
-                     "status epilepticus",
+                     "status epilepticus", "aortic dissection",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
                      "evisceration", "eviscerated", "strangulation",
