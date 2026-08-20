@@ -142,6 +142,12 @@ CASES = [
     # cases below isolate on the new terms (no other floored token), so removing them regresses to LOW.
     ("The worker was dismembered by the unguarded conveyor", "critical", "injury/medical"),
     ("Traumatic dismemberment at the rolling mill; responders en route", "critical", "injury/medical"),
+    # "evisceration"/"eviscerated" is a catastrophic trauma on par with decapitation/dismemberment, yet
+    # BOTH the noun and the participle previously matched nothing and dropped to LOW — a whole severe-
+    # trauma word simply absent from the critical floor (same class as amputated/decapitated/dismembered).
+    # Both cases below isolate on the new terms (no other floored token), so removing them regresses to LOW.
+    ("The worker was eviscerated by the unguarded machine", "critical", "injury/medical"),
+    ("Traumatic abdominal evisceration at the press; responders en route", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe

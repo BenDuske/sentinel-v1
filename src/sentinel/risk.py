@@ -120,6 +120,15 @@ TAXONOMY = {
         # NO benign English meaning (unlike the polysemous "bleed out" — "bleed out the brake line" /
         # "bleed the radiator" — deliberately excluded), so they close the miss with zero false-positive
         # risk; the participle is a separate entry because \bexsanguination\b does not match "exsanguinated".
+        # "evisceration" — and its participle "eviscerated" ("the worker was eviscerated by the machine",
+        # "traumatic abdominal evisceration at the press") — is a catastrophic trauma on par with
+        # decapitation / dismemberment / amputation / impalement (all already critical here), yet BOTH the
+        # noun and the participle matched nothing and dropped to LOW: the SAME whole-clinical-word absent-
+        # term miss class as those trauma words. Offline the rule layer is the only floor, so add both at
+        # critical beside dismemberment. In operational incident text "eviscerated"/"evisceration" denotes
+        # only the physical trauma — the rare literary figurative ("eviscerated his argument") does not
+        # appear in incident reports, the same tolerance already accepted for "decapitated"/"dismembered";
+        # the participle is a separate entry because \bevisceration\b does not match "eviscerated".
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -133,6 +142,7 @@ TAXONOMY = {
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
+                     "evisceration", "eviscerated",
                      "life-threatening", "multiple injured"],
         # "heart attack" floors at critical, but its clinical twin "myocardial infarction" — the
         # term an EMS/medical report actually uses ("suspected myocardial infarction", "acute
