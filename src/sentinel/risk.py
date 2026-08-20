@@ -129,6 +129,20 @@ TAXONOMY = {
         # only the physical trauma — the rare literary figurative ("eviscerated his argument") does not
         # appear in incident reports, the same tolerance already accepted for "decapitated"/"dismembered";
         # the participle is a separate entry because \bevisceration\b does not match "eviscerated".
+        # "strangulation" — mechanical neck compression cutting off the airway/carotid flow, an
+        # immediately life-threatening trauma a report names directly ("manual strangulation of the
+        # worker caught in the machine", "death by strangulation confirmed by the coroner") — matched
+        # nothing and dropped to LOW unless a coincident token (death/assault) happened to fire: the
+        # SAME whole-clinical-word absent-term miss class as asphyxiation/suffocation (both already
+        # critical in the gas category) and decapitation/dismemberment/evisceration here, the same
+        # fatal airway-occlusion event scored critical-or-LOW purely on whether another word coincided.
+        # Offline the rule layer is the only floor, so add the noun at critical. DELIBERATELY only the
+        # noun: exactly the tolerance boundary already drawn for "suffocation" (added) vs "suffocated"/
+        # "suffocating" (excluded — heavy figurative usage) — the participle "strangled" and gerund
+        # "strangling" carry benign figurative meaning ("a strangled cry", "the merger strangled
+        # competition", "strangling the budget"), all live-verified LOW, so they would over-fire, not
+        # fix a miss. \bstrangulation\b matches only the literal noun, so it closes the miss with zero
+        # false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -142,7 +156,7 @@ TAXONOMY = {
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
-                     "evisceration", "eviscerated",
+                     "evisceration", "eviscerated", "strangulation",
                      "life-threatening", "multiple injured"],
         # "heart attack" floors at critical, but its clinical twin "myocardial infarction" — the
         # term an EMS/medical report actually uses ("suspected myocardial infarction", "acute

@@ -148,6 +148,11 @@ CASES = [
     # Both cases below isolate on the new terms (no other floored token), so removing them regresses to LOW.
     ("The worker was eviscerated by the unguarded machine", "critical", "injury/medical"),
     ("Traumatic abdominal evisceration at the press; responders en route", "critical", "injury/medical"),
+    # "strangulation" is a fatal airway-occlusion trauma (sibling of asphyxiation/suffocation) — the noun
+    # previously matched nothing and dropped to LOW unless a coincident token (death/assault) fired. Both
+    # cases below isolate on the noun (no other floored token), so removing "strangulation" regresses to LOW.
+    ("Manual strangulation of the worker caught in the machine", "critical", "injury/medical"),
+    ("Confined-space incident: strangulation on the conveyor guard", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -535,6 +540,12 @@ NO_FALSE_POSITIVE = [
     # none of them) — proving we added only the zero-collision noun, not its over-firing neighbors.
     ("Staff felt suffocated by the workload amid the suffocating heat and suffocating bureaucracy.",
      "suffocation"),
+    # Only the literal noun "strangulation" was added, NOT the metaphor-heavy participle/gerund forms:
+    # "a strangled cry", "the merger strangled competition", and "strangling the budget" are common
+    # figurative usages and must NOT fire the injury/medical critical floor (\bstrangulation\b matches
+    # none of them) — the exact tolerance boundary already drawn for suffocation vs suffocated.
+    ("A strangled cry was heard as the merger strangled competition and kept strangling the budget.",
+     "strangulation"),
     # Only the unambiguous tropical-cyclone synonym "typhoon" was added, NOT the polysemous "cyclone":
     # a "cyclone fence" (chain-link fencing) and a "cyclone separator" (industrial dust collector) are
     # routine facilities/equipment terms and must NOT fire the weather critical floor — proving we
