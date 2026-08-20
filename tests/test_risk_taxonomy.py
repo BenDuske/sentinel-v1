@@ -165,6 +165,14 @@ CASES = [
     # other floored token), so removing "asystole" regresses to LOW.
     ("Monitor showed asystole; the rhythm strip was flat", "critical", "injury/medical"),
     ("Asystole confirmed by the responding paramedic on the cardiac monitor", "critical", "injury/medical"),
+    # "cardiogenic shock" / "hypovolemic shock" are the immediately-lethal shock siblings of the
+    # already-critical "septic shock" — pump-failure shock (post-MI/arrest) and circulatory collapse
+    # from massive blood loss — yet both previously matched nothing and dropped to LOW. Each case
+    # isolates on the term (no other floored token), so removing the phrase regresses to LOW.
+    ("EMS on scene reports the patient is in cardiogenic shock", "critical", "injury/medical"),
+    ("Cardiogenic shock developed; pressors started per protocol", "critical", "injury/medical"),
+    ("Responders note hypovolemic shock; rapid transfusion begun", "critical", "injury/medical"),
+    ("Hypovolemic shock on arrival, transferred to the trauma bay", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -603,6 +611,12 @@ NO_FALSE_POSITIVE = [
     # look-alikes.
     ("Routine vitals charted: systole 120, diastole 80, systolic trend stable.",
      "asystole"),
+    # Only the QUALIFIED two-word phrases "cardiogenic shock" / "hypovolemic shock" were added —
+    # NOT the polysemous bare word "shock". A non-medical "shock" note (a shock absorber, being "in
+    # shock" emotionally) must NOT fire the injury/medical critical floor — proving the phrase matcher
+    # added only the lethal shock states, not their benign look-alikes.
+    ("Maintenance note: replaced the worn shock absorber on the forklift; driver was in shock over the cost.",
+     "cardiogenic shock"),
 ]
 
 

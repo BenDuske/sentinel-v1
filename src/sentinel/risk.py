@@ -169,6 +169,21 @@ TAXONOMY = {
         # appear in normal blood-pressure notes — "systole 120, diastole 80" — and must NOT fire); the
         # whole-word matcher means adding asystole does not touch those, so it closes the miss with zero
         # false-positive risk.
+        # "septic shock" floors at critical, but its immediately-lethal shock SIBLINGS — "cardiogenic
+        # shock" (the heart can no longer pump enough blood, the pump-failure shock that follows the
+        # already-critical MI / cardiac arrest, ~50% mortality) and "hypovolemic shock" (circulatory
+        # collapse from massive blood/fluid loss, the shock state of the already-critical exsanguination
+        # / severe-bleeding pathway) — matched nothing and dropped to LOW: the SAME word-choice
+        # asymmetry class as heart-attack/myocardial-infarction and septic shock itself, the same
+        # immediately-life-threatening shock state scored critical-or-LOW purely on which qualifier the
+        # reporter chose ("EMS reports the patient is in cardiogenic shock", "hypovolemic shock on
+        # arrival; rapid transfusion begun"). Both are whole two-word clinical phrases with ZERO benign
+        # English meaning, so they close the miss at the septic-shock floor with no new over-fire class.
+        # DELIBERATELY the QUALIFIED two-word phrases only — never the bare word "shock", which is
+        # heavily polysemous (emotional "in shock", "electric shock" which already floors at electrical
+        # HIGH, "shock absorber", "shock of the near miss"); the phrase matcher means \bcardiogenic
+        # shock\b / \bhypovolemic shock\b cannot fire from any of those, so they close the miss with
+        # zero false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -181,6 +196,7 @@ TAXONOMY = {
                      "isn't breathing", "wasn't breathing", "severe bleeding",
                      "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
+                     "cardiogenic shock", "hypovolemic shock",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
                      "evisceration", "eviscerated", "strangulation",
