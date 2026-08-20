@@ -173,6 +173,12 @@ CASES = [
     ("Cardiogenic shock developed; pressors started per protocol", "critical", "injury/medical"),
     ("Responders note hypovolemic shock; rapid transfusion begun", "critical", "injury/medical"),
     ("Hypovolemic shock on arrival, transferred to the trauma bay", "critical", "injury/medical"),
+    # "status epilepticus" is the non-stopping, life-threatening escalation of the already-HIGH
+    # convulsion floor — a continuous seizure that causes brain injury/death if not aborted, the term
+    # an EMS/ED report names directly — yet it previously matched nothing and dropped to LOW. Each
+    # case isolates on the phrase (no other floored token), so removing it regresses to LOW.
+    ("Patient in status epilepticus on arrival; benzodiazepines administered", "critical", "injury/medical"),
+    ("Convulsive status epilepticus reported; the fits would not stop", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -617,6 +623,12 @@ NO_FALSE_POSITIVE = [
     # added only the lethal shock states, not their benign look-alikes.
     ("Maintenance note: replaced the worn shock absorber on the forklift; driver was in shock over the cost.",
      "cardiogenic shock"),
+    # Only the QUALIFIED two-word phrase "status epilepticus" was added — NOT the massively polysemous
+    # bare word "status". A routine "status update/report/meeting" note must NOT fire the injury/medical
+    # critical floor — proving the phrase matcher added only the neurological emergency, not its benign
+    # look-alike.
+    ("Ops status update: the on-call status is green and the status meeting is at noon.",
+     "status epilepticus"),
 ]
 
 

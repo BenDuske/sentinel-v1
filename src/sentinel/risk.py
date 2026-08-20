@@ -184,6 +184,19 @@ TAXONOMY = {
         # HIGH, "shock absorber", "shock of the near miss"); the phrase matcher means \bcardiogenic
         # shock\b / \bhypovolemic shock\b cannot fire from any of those, so they close the miss with
         # zero false-positive risk.
+        # "status epilepticus" — a continuous or back-to-back seizure that does not stop on its own
+        # (>5 min / no recovery of consciousness between fits), a true neurological emergency that
+        # causes hypoxic brain injury and death if not aborted, the term an EMS/ED report names
+        # directly ("patient in status epilepticus, benzodiazepines given", "convulsive status
+        # epilepticus on arrival") — yet it matched nothing and dropped to LOW: the SAME word-choice
+        # asymmetry class as the cardiogenic-shock / asystole fixes, and specifically the critical
+        # escalation of the already-HIGH convulsion floor below ("convulsing"/"convulsions" sit at
+        # HIGH; their non-stopping, life-threatening form belongs at critical). It is a whole two-word
+        # clinical phrase with ZERO benign English meaning. DELIBERATELY the QUALIFIED phrase only —
+        # never the bare word "status" (massively polysemous: "status update", "status report",
+        # "status meeting", "on-call status") nor the bare "seizure" (already excluded above for its
+        # "asset seizure" polysemy); the phrase matcher means \bstatus epilepticus\b cannot fire from
+        # any routine "status" note, so it closes the miss at zero false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -197,6 +210,7 @@ TAXONOMY = {
                      "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest", "septic shock",
                      "cardiogenic shock", "hypovolemic shock",
+                     "status epilepticus",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
                      "evisceration", "eviscerated", "strangulation",
