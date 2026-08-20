@@ -37,6 +37,11 @@ CASES = [
     # isolate on the term (no other critical/high token fires).
     ("Radiology tech suffered a myocardial infarction mid-shift", "critical", "injury/medical"),
     ("Acute myocardial infarction confirmed by the responding paramedic", "critical", "injury/medical"),
+    # "ventricular fibrillation" is the lethal shockable rhythm of a pulseless cardiac arrest (critical)
+    # — an AED/monitor report writes it this way, yet it previously matched nothing and dropped to LOW.
+    # Both cases isolate on the term (no other critical/high token fires).
+    ("Patient found in ventricular fibrillation; AED advised a shock", "critical", "injury/medical"),
+    ("Confirmed ventricular fibrillation on the cardiac monitor", "critical", "injury/medical"),
     # Plain-English synonyms for "unconscious" (critical): "lost consciousness" / "loss of
     # consciousness" previously matched nothing and dropped to LOW while "unconscious" scored
     # critical. A transient faint reaches the HIGH floor.

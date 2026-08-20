@@ -123,6 +123,7 @@ TAXONOMY = {
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
+                     "ventricular fibrillation",
                      "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
@@ -142,6 +143,16 @@ TAXONOMY = {
         # over-fire class. DELIBERATELY NOT the bare acronym "MI" (massively polysemous — Michigan,
         # "mi", mile) nor the polysemous "flatline"/"flatlined" ("sales flatlined", "the economy
         # flatlined" — both live-verified LOW, would over-fire); those stay Ben-review.
+        # "cardiac arrest" floors at critical, and "ventricular fibrillation" is the lethal shockable
+        # rhythm that IS a pulseless cardiac arrest — the term an AED/EMS/monitor report actually
+        # writes ("patient in ventricular fibrillation", "confirmed ventricular fibrillation on the
+        # monitor") — yet it matched nothing and dropped to LOW: the SAME word-choice asymmetry class
+        # as heart-attack/myocardial-infarction; the same immediately-fatal cardiac event scored
+        # critical-or-LOW purely on which term the reporter chose. It is a whole multi-word clinical
+        # phrase with ZERO benign English meaning, so it closes the miss at the cardiac-arrest floor
+        # with no new over-fire class. DELIBERATELY NOT the bare acronym "v-fib" (needs the spelled-
+        # out form; acronym polysemy) nor "ventricular tachycardia" (VT can be stable/pulsed — a
+        # genuine severity judgment, not a clean miss); both stay Ben-review.
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
         # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched
