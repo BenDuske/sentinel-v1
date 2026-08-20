@@ -690,10 +690,22 @@ TAXONOMY = {
         # fence, "cyclone separator" = industrial dust collector) and would over-fire on routine
         # facilities text; only the unambiguous "typhoon"/"typhoons" are added. Surfaced in the
         # 2026-08-18 rule-probe.
+        # The plural spellings of the remaining weather catastrophes were the last gap in this list's
+        # singular→plural coverage: "wildfire"/"flash flood"/"tsunami" floor at critical, but the
+        # plurals a reporter actually writes — "wildfires" ("three wildfires threatening the north
+        # perimeter"), "flash floods" ("flash floods reported across the county"), "tsunamis"
+        # ("tsunamis following the offshore quake") — are distinct tokens that \bwildfire\b /
+        # \bflash\s+flood\b / \btsunami\b do NOT match, so they dropped to LOW: the SAME singular→plural
+        # tokenization miss already closed for tornado(es)/hurricane(s)/typhoon(s)/earthquake(s) right
+        # above, the same catastrophe scored critical-or-LOW purely on singular-vs-plural form. Added
+        # each plural beside its singular. They are whole words with no benign polysemy, so this finishes
+        # the list's plural coverage with zero false-positive risk. Surfaced in the 2026-08-19
+        # weather-plural rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
-                     "earthquake", "earthquakes", "flash flood", "wildfire",
-                     "tsunami", "severe storm warning"],
+                     "earthquake", "earthquakes",
+                     "flash flood", "flash floods", "wildfire", "wildfires",
+                     "tsunami", "tsunamis", "severe storm warning"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "downed line", "ice storm", "blizzard"],

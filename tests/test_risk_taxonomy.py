@@ -380,6 +380,13 @@ CASES = [
     # Whole words with no benign polysemy; plural is a distinct token needing its own entry.
     ("A typhoon is forecast to make landfall near the coastal plant", "critical", "weather"),
     ("Two typhoons battered the offshore facility this season", "critical", "weather"),
+    # The plural spellings of the remaining weather-critical singulars must reach the same CRITICAL
+    # floor — "wildfire"/"flash flood"/"tsunami" scored critical but "wildfires"/"flash floods"/
+    # "tsunamis" are distinct tokens that previously matched nothing and dropped to LOW, the same
+    # singular→plural gap already closed for tornado(es)/hurricane(s)/typhoon(s)/earthquake(s).
+    ("Three wildfires are threatening the north perimeter", "critical", "weather"),
+    ("Flash floods reported across the county overnight", "critical", "weather"),
+    ("Tsunamis following the offshore quake are inbound", "critical", "weather"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
