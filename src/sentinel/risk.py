@@ -143,11 +143,25 @@ TAXONOMY = {
         # competition", "strangling the budget"), all live-verified LOW, so they would over-fire, not
         # fix a miss. \bstrangulation\b matches only the literal noun, so it closes the miss with zero
         # false-positive risk.
+        # "cardiac tamponade" floors at critical, and "tension pneumothorax" is its direct respiratory
+        # sibling — a one-way-valve lung collapse building pressure that compresses the heart and great
+        # vessels into obstructive shock, an immediately lethal emergency needing emergency needle/chest
+        # decompression, the term an EMS/ED report names directly ("tension pneumothorax on scene,
+        # needle decompression performed", "developed a tension pneumothorax after the chest trauma") —
+        # yet it matched nothing and dropped to LOW: the SAME word-choice asymmetry class as cardiac-
+        # tamponade / ventricular-fibrillation; an immediately-fatal event scored critical-or-LOW purely
+        # on which clinical phrase the reporter chose. It is a whole multi-word clinical phrase with ZERO
+        # benign English meaning, so it closes the miss at the tamponade floor with no new over-fire
+        # class. DELIBERATELY NOT the bare word "pneumothorax": a small spontaneous/simple pneumothorax
+        # can be stable and merely monitored — a genuine severity judgment, not a clean miss — so the
+        # bare token would over-fire on a routine chest note; it stays Ben-review. \btension pneumothorax\b
+        # matches only the lethal qualified form, so it closes the miss with zero false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
                      "ventricular fibrillation",
                      "cardiac tamponade", "pericardial tamponade",
+                     "tension pneumothorax",
                      "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",

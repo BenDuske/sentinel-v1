@@ -153,6 +153,12 @@ CASES = [
     # cases below isolate on the noun (no other floored token), so removing "strangulation" regresses to LOW.
     ("Manual strangulation of the worker caught in the machine", "critical", "injury/medical"),
     ("Confined-space incident: strangulation on the conveyor guard", "critical", "injury/medical"),
+    # "tension pneumothorax" is an immediately-lethal obstructive-shock emergency (respiratory sibling of
+    # the already-critical cardiac tamponade) — the qualified phrase previously matched nothing and
+    # dropped to LOW. Both cases below isolate on the phrase (no other floored token), so removing
+    # "tension pneumothorax" regresses to LOW.
+    ("Responders report a tension pneumothorax; emergency needle decompression underway", "critical", "injury/medical"),
+    ("Tension pneumothorax confirmed on scene; chest decompression performed by EMS", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -546,6 +552,12 @@ NO_FALSE_POSITIVE = [
     # none of them) — the exact tolerance boundary already drawn for suffocation vs suffocated.
     ("A strangled cry was heard as the merger strangled competition and kept strangling the budget.",
      "strangulation"),
+    # Only the lethal qualified phrase "tension pneumothorax" was added, NOT the bare "pneumothorax":
+    # a small spontaneous/simple pneumothorax can be stable and merely monitored, so the bare token must
+    # NOT fire the injury/medical critical floor (\btension pneumothorax\b does not match it) — the exact
+    # bare-vs-qualified boundary already drawn for tamponade (excluded) vs cardiac/pericardial tamponade.
+    ("A small spontaneous pneumothorax was monitored overnight and resolved on its own.",
+     "tension pneumothorax"),
     # Only the unambiguous tropical-cyclone synonym "typhoon" was added, NOT the polysemous "cyclone":
     # a "cyclone fence" (chain-link fencing) and a "cyclone separator" (industrial dust collector) are
     # routine facilities/equipment terms and must NOT fire the weather critical floor — proving we
