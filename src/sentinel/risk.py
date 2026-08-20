@@ -235,6 +235,17 @@ TAXONOMY = {
         # and whole-word matching keeps the benign prefix-sharer "hemorrhoid"/"hemorrhoids" — not an
         # acute emergency — from firing.
         # Surfaced in the 2026-08-17 rule-probe backlog (next-pick after stab wound).
+        # "hemorrhage"/"hemorrhaging" sit at HIGH, but their ADJECTIVE form "hemorrhagic" — the word a
+        # trauma/clinical report actually writes ("patient in hemorrhagic shock", "hemorrhagic stroke
+        # suspected", "hemorrhagic fever outbreak") — matched nothing and dropped to LOW: the SAME
+        # tokenization miss already fixed for burns/electric-shocks/hemorrhaging (\bhemorrhage\b does
+        # not match "hemorrhagic"), the same profuse-bleeding emergency scored HIGH-or-LOW purely on
+        # the grammatical form. "hemorrhagic" has ZERO benign English meaning — it exclusively denotes
+        # bleeding — so it closes the miss at the same HIGH floor with no new over-fire class; every
+        # phrase it appears in (hemorrhagic shock/stroke/fever) is itself a bleeding emergency. Both
+        # the US and British spellings are needed (as with hemorrhage/haemorrhage), and whole-word
+        # matching still keeps the prefix-sharer "hemorrhoid" from firing. Surfaced in the 2026-08-20
+        # rule-probe backlog (adjectival sibling; next after the hemorrhage/hemorrhaging pair).
         # "bleeding"/"hemorrhage" sit at HIGH, but the plain-English phrase a report actually uses for
         # the same emergency — "blood loss" ("severe blood loss", "massive blood loss", "the worker
         # suffered significant blood loss") — matched nothing and dropped to LOW: the SAME word-choice
@@ -364,6 +375,7 @@ TAXONOMY = {
                      "overdose", "overdosed",
                      "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
                      "haemorrhage", "haemorrhaging", "blood loss",
+                     "hemorrhagic", "haemorrhagic",
                      "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",

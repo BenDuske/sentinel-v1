@@ -147,6 +147,15 @@ CASES = [
     # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.
     ("Worker is hemorrhaging badly after the press incident", "high", "injury/medical"),
     ("Massive hemorrhage reported on the floor; responders en route", "high", "injury/medical"),
+    # The adjective "hemorrhagic" (== the HIGH nouns "hemorrhage"/"hemorrhaging") must reach the same
+    # HIGH floor — "hemorrhagic shock" / "hemorrhagic stroke" previously matched nothing (\bhemorrhage\b
+    # does not match "hemorrhagic") and dropped to LOW. Both cases isolate on the adjective (no
+    # "bleeding"/"hemorrhage"/"stroke" HIGH-or-above token present; "stroke" is deliberately unlisted).
+    ("Patient is in hemorrhagic shock; responders en route", "high", "injury/medical"),
+    ("Suspected hemorrhagic stroke after the fall", "high", "injury/medical"),
+    # British spelling "haemorrhagic" must reach the same HIGH floor purely on en-GB orthography;
+    # isolates on the adjective (no other critical/high token present).
+    ("The technician turned haemorrhagic before help arrived", "high", "injury/medical"),
     # The participle "concussed" must reach the same HIGH floor as the noun "concussion" — an acute
     # report is written "worker was concussed" / "concussed and disoriented", which previously
     # matched nothing (\bconcussion\b does not match "concussed") and dropped to LOW purely on
