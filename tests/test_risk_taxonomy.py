@@ -196,6 +196,12 @@ CASES = [
     # the phrase (no other floored token), so removing it regresses to LOW.
     ("Acute aortic dissection on CT; to the OR emergently", "critical", "injury/medical"),
     ("EMS reports a Type A aortic dissection on arrival", "critical", "injury/medical"),
+    # "subarachnoid hemorrhage" is the clinical name for a ruptured cerebral aneurysm (already
+    # critical) — a hyperacute, ~50%-mortality catastrophe — yet it previously fired only HIGH via the
+    # bare "hemorrhage" bleeding term. Both spellings must reach critical. Each case isolates on the
+    # qualified phrase (no "aneurysm"/"death" token), so removing it regresses to the HIGH bleeding floor.
+    ("Acute subarachnoid hemorrhage on CT; to the OR emergently", "critical", "injury/medical"),
+    ("Hunt-Hess IV subarachnoid haemorrhage on arrival", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -677,6 +683,17 @@ NO_FALSE_POSITIVE = [
     ("Health screening: cardiorespiratory monitor attached, cardiorespiratory fitness test normal.",
      "cardiorespiratory arrest"),
 ]
+
+
+def test_intracranial_hemorrhage_stays_high_not_critical():
+    # The QUALIFIED "subarachnoid hemorrhage" escalates to critical (ruptured-aneurysm event), but
+    # the broader umbrella "intracranial hemorrhage" was DELIBERATELY left at the HIGH bleeding floor
+    # — it can name a slow chronic subdural, not always a hyperacute emergency. Assert exact HIGH so a
+    # future careless escalation of the umbrella term is caught. Both spellings, isolated on the phrase.
+    for text in ("Intracranial hemorrhage noted on the follow-up scan",
+                 "Chronic subdural intracranial haemorrhage under observation"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "high", f"{text!r} -> {sev}, expected exactly high (must not escalate to critical)"
 
 
 def test_embedded_substring_does_not_fire_floor():

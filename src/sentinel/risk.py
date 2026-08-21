@@ -243,6 +243,23 @@ TAXONOMY = {
         # word: "cardiorespiratory monitor", "cardiorespiratory fitness test", "cardiorespiratory
         # exam normal", all benign); the phrase matcher means \bcardiorespiratory arrest\b cannot
         # fire from any of those, so it closes the miss with zero false-positive risk.
+        # "aneurysm" floors at critical, but the clinical name for the event a RUPTURED cerebral
+        # aneurysm actually IS — "subarachnoid hemorrhage" (~85% of spontaneous SAH is a berry-
+        # aneurysm rupture, ~50% mortality, the hyperacute catastrophe a CT/ED report names directly:
+        # "acute subarachnoid hemorrhage on CT, to the OR emergently", "Hunt-Hess IV subarachnoid
+        # haemorrhage") — fires only HIGH today, via the bare "hemorrhage"/"haemorrhage" bleeding term
+        # below: the SAME under-scored-synonym class as hemorrhagic shock and myocardial infarction,
+        # the same immediately-fatal ruptured-aneurysm event scored HIGH-not-critical purely on whether
+        # the reporter wrote "aneurysm" or its clinical result "subarachnoid hemorrhage". It is not a
+        # substring of "aneurysm" (different words entirely), so the escalation is a clean miss. Both
+        # US and British spellings are needed (as with hemorrhage/haemorrhage), and each is a whole
+        # two-word clinical phrase with ZERO benign English meaning. DELIBERATELY the QUALIFIED
+        # "subarachnoid" phrase only — never the bare "hemorrhage"/"haemorrhage" (which stay at their
+        # conservative HIGH bleeding floor below), and NOT the umbrella "intracranial hemorrhage"
+        # (which can name a slow chronic subdural, not always a hyperacute emergency); \bsubarachnoid
+        # h(a)?emorrhage\b cannot fire from either, so it closes the miss at the aneurysm floor with no
+        # new over-fire class. Surfaced in the 2026-08-21 rule-probe backlog (vascular-catastrophe
+        # sibling; next after aortic dissection).
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -258,6 +275,7 @@ TAXONOMY = {
                      "cardiorespiratory arrest", "septic shock",
                      "cardiogenic shock", "hypovolemic shock", "hemorrhagic shock",
                      "status epilepticus", "aortic dissection",
+                     "subarachnoid hemorrhage", "subarachnoid haemorrhage",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
                      "evisceration", "eviscerated", "strangulation",
