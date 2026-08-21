@@ -349,6 +349,13 @@ CASES = [
     ("The energized panel could electrocute anyone who touches it", "critical", "electrical/power"),
     ("Two contractors were electrocuting themselves on the live rail", "critical", "electrical/power"),
     ("This fault electrocutes crews the instant the breaker recloses", "critical", "electrical/power"),
+    # "arc blast" is the concussive pressure-wave sibling of the already-critical "arc flash" (the
+    # thermal/radiant component) — a distinct electrical hazard an OSHA/incident report names in its
+    # own right, but \barc flash\b does not match "arc blast", so a directly-named blast dropped to
+    # LOW. Both cases isolate on the term (no other independent critical/high token) → without it they
+    # drop below the electrical critical floor. Surfaced in the 2026-08-20 rule-probe (sibling of arc flash).
+    ("The arc blast hurled the electrician across the switchgear room", "critical", "electrical/power"),
+    ("Arc blast reported during the breaker replacement at the substation", "critical", "electrical/power"),
     ("Gas leak reported; carbon monoxide alarm triggered", "critical", "gas/chemical"),
     # "hydrogen sulfide" (H2S, the lethal rotten-egg / sour gas) is the sibling always-a-hazard
     # multi-word gas name of "carbon monoxide" but previously had ZERO gas/chemical coverage (no bare

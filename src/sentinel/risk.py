@@ -648,7 +648,17 @@ TAXONOMY = {
         # introduces no new class the accepted noun "electrocution" doesn't already carry. Each derived
         # form needs its own entry — \belectrocution\b matches none of them. Surfaced in the 2026-08-19
         # rule-probe (verb-form twin of the electrocution critical floor).
-        "critical": ["live wire", "arc flash", "electrocution",
+        # "arc blast" is the pressure-wave/concussive component of an arc-flash event — the explosive
+        # blast of superheated air and vaporized metal that hurls workers, ruptures eardrums and drives
+        # shrapnel, a distinct hazard an electrical/OSHA incident report names in its own right ("an arc
+        # blast threw the electrician across the room", "arc blast during the breaker replacement"). Its
+        # sibling "arc flash" (the thermal/radiant component) already floors at critical, but the two-word
+        # phrase "arc blast" matched nothing (\barc flash\b does not match "arc blast") and dropped to LOW
+        # unless a coincident token happened to fire: the SAME whole-hazard absent-term miss class as
+        # "hydrogen sulfide" beside "carbon monoxide". It is an unambiguous electrical catastrophe with
+        # ZERO benign English meaning — the same tolerance as "arc flash" itself — so it closes the miss
+        # with no new over-fire class. Surfaced in the 2026-08-20 rule-probe (sibling of arc flash).
+        "critical": ["live wire", "arc flash", "arc blast", "electrocution",
                      "electrocuted", "electrocute", "electrocutes", "electrocuting",
                      "electrical fire"],
         # A person receiving an "electric shock" is an injury/hazard the taxonomy already floors at
