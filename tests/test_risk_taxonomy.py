@@ -344,6 +344,13 @@ CASES = [
     ("Two contractors were electrocuting themselves on the live rail", "critical", "electrical/power"),
     ("This fault electrocutes crews the instant the breaker recloses", "critical", "electrical/power"),
     ("Gas leak reported; carbon monoxide alarm triggered", "critical", "gas/chemical"),
+    # "hydrogen sulfide" (H2S, the lethal rotten-egg / sour gas) is the sibling always-a-hazard
+    # multi-word gas name of "carbon monoxide" but previously had ZERO gas/chemical coverage (no bare
+    # entry, no "…leak" phrase), so a directly-named release dropped to LOW/HIGH-off-"leak". Both
+    # cases isolate on the term (no other independent critical token) → without it they drop below
+    # the gas/chemical critical floor. Surfaced in the 2026-08-20 rule-probe.
+    ("Hydrogen sulfide detected in the sewer wet well", "critical", "gas/chemical"),
+    ("Crews evacuated the pad after hydrogen sulfide filled the vault", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
     ("Strong gas smell reported in the mechanical room", "high", "gas/chemical"),

@@ -686,7 +686,18 @@ TAXONOMY = {
         # benign English meaning — even less figurative than the accepted "asphyxiating" — so it closes
         # the miss with no new over-fire class the accepted "asphyxiation" doesn't already carry.
         # Surfaced in the 2026-08-18 rule-probe.
-        "critical": ["gas leak", "carbon monoxide", "toxic", "chemical spill", "hazmat",
+        # "hydrogen sulfide" is a lethal confined-space/sour-gas toxicant (H2S) — the classic
+        # "rotten-egg gas" that kills wastewater, oil-and-gas and vault workers. It had ZERO
+        # gas/chemical coverage: no bare-name entry AND no "hydrogen sulfide leak" phrase (only
+        # "ammonia leak"/"chlorine leak" existed), so "hydrogen sulfide detected in the sump" and
+        # even "a hydrogen sulfide leak" dropped to LOW/HIGH-off-"leak" while "carbon monoxide" (the
+        # sibling always-a-hazard multi-word gas name) floors CRITICAL. Added the whole two-word
+        # chemical name at critical beside "carbon monoxide"; like CO it has ZERO benign English
+        # meaning → no new over-fire class. DELIBERATELY NOT the bare single words "chlorine"/
+        # "ammonia" (routine pool-treatment / cleaning-product uses → polysemous, Ben-review) nor the
+        # acronym "h2s" (short/ambiguous, same exclusion class as v-fib/MI). Surfaced 2026-08-20.
+        "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "toxic", "chemical spill",
+                     "hazmat",
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
                      "asphyxiating",
                      "suffocation", "ammonia leak", "chlorine leak", "explosive gas"],
