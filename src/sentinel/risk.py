@@ -621,10 +621,28 @@ TAXONOMY = {
         # out elsewhere) — so this closes the miss with zero false-positive risk; whole-word matching
         # keeps \barson\b from firing inside the benign "parson" (the exact armed/unarmed guard).
         # Surfaced in the 2026-08-19 rule-probe (sibling of the molotov incendiary-attack fix).
+        # "thermal runaway" — the self-sustaining exothermic chain reaction inside a lithium-ion cell
+        # (battery/EV/BESS/ESS) that vents flammable + toxic gas and drives fire/explosion, cell-to-cell,
+        # essentially unstoppable once started — was absent from the whole fire word-family, so a report
+        # that names the runaway rather than the resulting flame ("the ESS went into thermal runaway",
+        # "thermal runaway detected in the lithium-ion cells", "thermal runaway of the EV battery in the
+        # parking garage") matched nothing and dropped to LOW, while the same event WITH a coincident
+        # "fire" token floored critical off "fire" — the SAME whole-hazard absent-term miss class as
+        # "arc blast" beside "arc flash" and "hydrogen sulfide" beside "carbon monoxide": a directly-named
+        # battery catastrophe scored critical-or-LOW purely on whether the reporter wrote the runaway or
+        # the flame. Placed at fire/smoke critical (the physical hazard + offline next-steps — evacuate,
+        # keep clear of the vent/off-gas cloud, let the fire service manage re-ignition — are the
+        # fire/smoke ones), a sibling of "structure fire"/"wildfire". The two-word phrase denotes ONLY the
+        # uncontrolled exothermic runaway (battery, chemical reactor, semiconductor — every sense is a
+        # hazardous condition); it has ZERO benign English meaning, so it carries the SAME conservative-
+        # floor tolerance already accepted for "arc flash"/"carbon monoxide" (a spec/PM mention like
+        # "the BMS is designed to prevent thermal runaway" floors the same way those already do, and the
+        # rule layer is a floor the LLM/human can lower) — no NEW over-fire class. Surfaced in the
+        # 2026-08-20 rule-probe, queued as the next clean candidate by the 2026-08-21 arc-blast cycle.
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
                      "detonation", "detonate", "detonated", "detonating",
-                     "arson", "arsonist",
+                     "arson", "arsonist", "thermal runaway",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],

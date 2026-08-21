@@ -333,6 +333,15 @@ CASES = [
     # fire-setting (zero benign meaning), the same class as the molotov/detonation fixes.
     ("Suspected arson at the vacant warehouse overnight", "critical", "fire/smoke"),
     ("An arsonist set the dumpster alight behind the loading dock", "critical", "fire/smoke"),
+    # "thermal runaway" — the self-sustaining exothermic battery/BESS/EV runaway that drives fire and
+    # off-gas explosion — must reach the same critical floor as the plain word "fire": a report that
+    # names the runaway rather than the flame previously matched nothing and dropped to LOW purely on
+    # word choice. Neither case carries an independent critical/high token (no "fire"/"explosion"/
+    # "battery-fire" word), so they isolate on the new term; "thermal runaway" denotes only the
+    # hazardous uncontrolled exothermic event (zero benign meaning), the same class as arc-blast/
+    # hydrogen-sulfide whole-hazard fixes.
+    ("The ESS battery rack went into thermal runaway during the overnight charge", "critical", "fire/smoke"),
+    ("Thermal runaway detected in the lithium-ion cells inside the parking-garage EV", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
