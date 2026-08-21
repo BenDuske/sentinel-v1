@@ -260,6 +260,17 @@ TAXONOMY = {
         # h(a)?emorrhage\b cannot fire from either, so it closes the miss at the aneurysm floor with no
         # new over-fire class. Surfaced in the 2026-08-21 rule-probe backlog (vascular-catastrophe
         # sibling; next after aortic dissection).
+        # "aortic rupture" / "ruptured aorta" is the frank blow-out of the aortic wall — the terminal,
+        # even-more-immediately-fatal endpoint of the already-critical "aortic dissection" (a dissection
+        # that tears fully through) an EMS/CT/trauma report names directly ("confirmed aortic rupture on
+        # CT, massive hemothorax", "the patient suffered a ruptured aorta before EMS arrived") — yet BOTH
+        # word orders matched nothing and dropped to LOW: the SAME word-choice asymmetry class as the
+        # aortic-dissection / subarachnoid-hemorrhage vascular fixes, one aortic catastrophe critical and
+        # its terminal twin LOW purely on which phrase the reporter chose. Both are whole multi-word
+        # phrases with ZERO benign English meaning ("aorta"/"aortic" appears in no benign context and is
+        # a substring of no other floored term — \baortic dissection\b cannot match either), so they close
+        # the miss at the dissection floor with no new over-fire class. Next after subarachnoid hemorrhage
+        # in the 2026-08-21 vascular-catastrophe backlog.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -275,6 +286,7 @@ TAXONOMY = {
                      "cardiorespiratory arrest", "septic shock",
                      "cardiogenic shock", "hypovolemic shock", "hemorrhagic shock",
                      "status epilepticus", "aortic dissection",
+                     "aortic rupture", "ruptured aorta",
                      "subarachnoid hemorrhage", "subarachnoid haemorrhage",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",

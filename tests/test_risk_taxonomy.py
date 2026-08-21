@@ -196,6 +196,11 @@ CASES = [
     # the phrase (no other floored token), so removing it regresses to LOW.
     ("Acute aortic dissection on CT; to the OR emergently", "critical", "injury/medical"),
     ("EMS reports a Type A aortic dissection on arrival", "critical", "injury/medical"),
+    # "aortic rupture"/"ruptured aorta" is the frank wall blow-out — the terminal twin of the already-
+    # critical "aortic dissection" — yet both word orders previously matched nothing and dropped to LOW.
+    # Each case isolates on the phrase (no other floored token), so removing it regresses to LOW.
+    ("Confirmed aortic rupture on CT with a massive hemothorax", "critical", "injury/medical"),
+    ("The patient suffered a ruptured aorta before EMS arrived", "critical", "injury/medical"),
     # "subarachnoid hemorrhage" is the clinical name for a ruptured cerebral aneurysm (already
     # critical) — a hyperacute, ~50%-mortality catastrophe — yet it previously fired only HIGH via the
     # bare "hemorrhage" bleeding term. Both spellings must reach critical. Each case isolates on the
