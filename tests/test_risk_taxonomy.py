@@ -430,6 +430,17 @@ CASES = [
     # compound has no benign polysemy (bare "whipped" is not added).
     ("The night-shift guard was pistol-whipped near the turnstile", "critical", "security/intrusion"),
     ("Suspect pistol whipped the attendant and fled the booth", "critical", "security/intrusion"),
+    # The knife-assault EVENT terms — "knife attack", "stabbing attack"/"stabbing spree"/"mass
+    # stabbing", and the bladed sibling of "gunpoint" ("knifepoint") — are directly-named armed
+    # attacks that previously matched nothing and dropped to LOW, while the firearm-event family
+    # (gunshot / shots fired / active shooting) already floors critical. Multi-word phrases or the
+    # unambiguous single word "knifepoint" (no benign meaning); each case isolates on the new term
+    # (no other critical/high token present), and none touch the bare "stab"/"stabbing" FP guard.
+    ("A stabbing attack unfolded in the third-floor cafeteria", "critical", "security/intrusion"),
+    ("A mass stabbing at the food court left several people hurt", "critical", "security/intrusion"),
+    ("Reports of a stabbing spree along the east corridor", "critical", "security/intrusion"),
+    ("Knife attack in the main lobby; the assailant fled", "critical", "security/intrusion"),
+    ("A visitor was held at knifepoint near the loading dock", "critical", "security/intrusion"),
     # "kidnapped"/"kidnappings" are the verb and plural of "kidnapping" (security critical): the same
     # violent crime that previously matched nothing and dropped to LOW purely on word form. Distinct
     # tokens needing their own entries (\bkidnapping\b matches neither), same verb/plural class as

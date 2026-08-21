@@ -811,11 +811,25 @@ TAXONOMY = {
         # "load-bearing". Surfaced in the 2026-08-19 structural/security-violence rule-probe. Left the
         # polysemous assault-family verbs (assaulted/brawl/fistfight — real figurative use: "political
         # brawl", "fistfight of ideas") for Ben-review, per the polysemous-token discipline.
+        # The knife-assault ACT is only half-covered: "stab wound(s)" (the injury) floors critical,
+        # but the way a reporter actually names the EVENT — "a stabbing attack in the cafeteria",
+        # "a mass stabbing at the mall", "stabbing spree on campus", "knife attack in the lobby,
+        # assailant fled", "held at knifepoint" — matched nothing and dropped to LOW, while the
+        # firearm EVENT family (gunshot / shots fired / active shooting / shooter) is fully covered:
+        # the SAME weapon-event miss class as the stab-wound / molotov / pistol-whipping fixes. These
+        # belong at critical (an armed offender is present), the same reason "armed"/"weapon"/"active
+        # shooter" already do. Each is a MULTI-WORD adjacency phrase or the unambiguous single word
+        # "knifepoint" (zero benign meaning — the bladed sibling of "gunpoint") — DELIBERATELY still
+        # excluding the bare polysemous "stab"/"stabbed"/"stabbing"/"stabbings" guarded LOW above
+        # ("stabbing pain", "took a stab at it", "back-stabbing"); only whole violent-act phrases fire.
+        # Surfaced in the 2026-08-21 weapon-event rule-probe.
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire",
                      "shots fired", "active shooting", "shooter", "shooting",
                      "stab wound", "stab wounds", "molotov", "molotovs",
+                     "knife attack", "stabbing attack", "stabbing spree",
+                     "mass stabbing", "knifepoint",
                      "pistol-whipped", "pistol whipped",
                      "pistol-whipping", "pistol whipping"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
