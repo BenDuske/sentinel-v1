@@ -178,6 +178,12 @@ CASES = [
     ("Cardiogenic shock developed; pressors started per protocol", "critical", "injury/medical"),
     ("Responders note hypovolemic shock; rapid transfusion begun", "critical", "injury/medical"),
     ("Hypovolemic shock on arrival, transferred to the trauma bay", "critical", "injury/medical"),
+    # "hemorrhagic shock" is the clinical synonym of "hypovolemic shock" for the blood-loss case —
+    # circulatory collapse from massive hemorrhage. It previously fired only HIGH via the bare
+    # "hemorrhagic" bleeding signal; the added critical phrase escalates it to the shock-sibling floor.
+    # Each case isolates on the phrase, so removing it regresses to HIGH (still not critical).
+    ("Patient in hemorrhagic shock from the leg wound; massive transfusion begun", "critical", "injury/medical"),
+    ("Class IV hemorrhagic shock on arrival, transferred to the trauma bay", "critical", "injury/medical"),
     # "status epilepticus" is the non-stopping, life-threatening escalation of the already-HIGH
     # convulsion floor — a continuous seizure that causes brain injury/death if not aborted, the term
     # an EMS/ED report names directly — yet it previously matched nothing and dropped to LOW. Each
@@ -202,10 +208,12 @@ CASES = [
     ("Worker is hemorrhaging badly after the press incident", "high", "injury/medical"),
     ("Massive hemorrhage reported on the floor; responders en route", "high", "injury/medical"),
     # The adjective "hemorrhagic" (== the HIGH nouns "hemorrhage"/"hemorrhaging") must reach the same
-    # HIGH floor — "hemorrhagic shock" / "hemorrhagic stroke" previously matched nothing (\bhemorrhage\b
+    # HIGH floor — "hemorrhagic rash" / "hemorrhagic stroke" previously matched nothing (\bhemorrhage\b
     # does not match "hemorrhagic") and dropped to LOW. Both cases isolate on the adjective (no
     # "bleeding"/"hemorrhage"/"stroke" HIGH-or-above token present; "stroke" is deliberately unlisted).
-    ("Patient is in hemorrhagic shock; responders en route", "high", "injury/medical"),
+    # NOTE the bare adjective stays HIGH here — the QUALIFIED "hemorrhagic shock" phrase escalates to
+    # critical above (its own case), so these examples deliberately avoid the word "shock".
+    ("Patient developed a hemorrhagic rash; responders en route", "high", "injury/medical"),
     ("Suspected hemorrhagic stroke after the fall", "high", "injury/medical"),
     # British spelling "haemorrhagic" must reach the same HIGH floor purely on en-GB orthography;
     # isolates on the adjective (no other critical/high token present).

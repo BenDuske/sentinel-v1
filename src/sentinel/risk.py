@@ -184,6 +184,22 @@ TAXONOMY = {
         # HIGH, "shock absorber", "shock of the near miss"); the phrase matcher means \bcardiogenic
         # shock\b / \bhypovolemic shock\b cannot fire from any of those, so they close the miss with
         # zero false-positive risk.
+        # "hypovolemic shock" floors at critical, and "hemorrhagic shock" is its direct clinical
+        # synonym for the blood-loss case — circulatory collapse specifically from massive hemorrhage,
+        # the shock endpoint of the already-critical exsanguination / severe-bleeding pathway, the term
+        # an EMS/trauma report writes directly ("in hemorrhagic shock from the leg wound", "class IV
+        # hemorrhagic shock, massive transfusion protocol activated"). Today the phrase fires only HIGH
+        # via the bare "hemorrhagic" bleeding adjective below — the SAME under-scored-synonym class as
+        # myocardial-infarction (the clinical twin of the already-critical heart attack) and
+        # cardiorespiratory arrest: the same immediately-life-threatening shock state scored HIGH-not-
+        # critical purely on which qualifier the reporter chose, when its physiologic twin "hypovolemic
+        # shock" is critical. It is not a substring of "hypovolemic shock" (different first word), so
+        # the escalation is a clean miss. A whole two-word clinical phrase with ZERO benign English
+        # meaning, so it closes the miss at the shock-sibling floor with no new over-fire class.
+        # DELIBERATELY the QUALIFIED phrase only — never the bare "shock" (polysemous, excluded above)
+        # nor the bare "hemorrhagic" (which stays at its conservative HIGH bleeding floor below);
+        # \bhemorrhagic\s+shock\b cannot fire from either, so it closes the miss with zero false-
+        # positive risk.
         # "status epilepticus" — a continuous or back-to-back seizure that does not stop on its own
         # (>5 min / no recovery of consciousness between fits), a true neurological emergency that
         # causes hypoxic brain injury and death if not aborted, the term an EMS/ED report names
@@ -240,7 +256,7 @@ TAXONOMY = {
                      "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest",
                      "cardiorespiratory arrest", "septic shock",
-                     "cardiogenic shock", "hypovolemic shock",
+                     "cardiogenic shock", "hypovolemic shock", "hemorrhagic shock",
                      "status epilepticus", "aortic dissection",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
@@ -362,16 +378,19 @@ TAXONOMY = {
         # acute emergency — from firing.
         # Surfaced in the 2026-08-17 rule-probe backlog (next-pick after stab wound).
         # "hemorrhage"/"hemorrhaging" sit at HIGH, but their ADJECTIVE form "hemorrhagic" — the word a
-        # trauma/clinical report actually writes ("patient in hemorrhagic shock", "hemorrhagic stroke
-        # suspected", "hemorrhagic fever outbreak") — matched nothing and dropped to LOW: the SAME
-        # tokenization miss already fixed for burns/electric-shocks/hemorrhaging (\bhemorrhage\b does
-        # not match "hemorrhagic"), the same profuse-bleeding emergency scored HIGH-or-LOW purely on
-        # the grammatical form. "hemorrhagic" has ZERO benign English meaning — it exclusively denotes
-        # bleeding — so it closes the miss at the same HIGH floor with no new over-fire class; every
-        # phrase it appears in (hemorrhagic shock/stroke/fever) is itself a bleeding emergency. Both
-        # the US and British spellings are needed (as with hemorrhage/haemorrhage), and whole-word
-        # matching still keeps the prefix-sharer "hemorrhoid" from firing. Surfaced in the 2026-08-20
-        # rule-probe backlog (adjectival sibling; next after the hemorrhage/hemorrhaging pair).
+        # trauma/clinical report actually writes ("hemorrhagic stroke suspected", "hemorrhagic fever
+        # outbreak") — matched nothing and dropped to LOW: the SAME tokenization miss already fixed for
+        # burns/electric-shocks/hemorrhaging (\bhemorrhage\b does not match "hemorrhagic"), the same
+        # profuse-bleeding emergency scored HIGH-or-LOW purely on the grammatical form. "hemorrhagic"
+        # has ZERO benign English meaning — it exclusively denotes bleeding — so it closes the miss at
+        # the same HIGH floor with no new over-fire class; every phrase it appears in (hemorrhagic
+        # stroke/fever) is itself a bleeding emergency. Both the US and British spellings are needed
+        # (as with hemorrhage/haemorrhage), and whole-word matching still keeps the prefix-sharer
+        # "hemorrhoid" from firing. Surfaced in the 2026-08-20 rule-probe backlog (adjectival sibling;
+        # next after the hemorrhage/hemorrhaging pair). NOTE: the one phrase where this adjective names
+        # an immediately-lethal SHOCK state — "hemorrhagic shock" — is escalated to CRITICAL up in the
+        # shock-sibling block above (beside hypovolemic/cardiogenic shock); the bare adjective and its
+        # non-shock phrases stay at this HIGH floor.
         # "bleeding"/"hemorrhage" sit at HIGH, but the plain-English phrase a report actually uses for
         # the same emergency — "blood loss" ("severe blood loss", "massive blood loss", "the worker
         # suffered significant blood loss") — matched nothing and dropped to LOW: the SAME word-choice
