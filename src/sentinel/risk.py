@@ -212,6 +212,21 @@ TAXONOMY = {
         # dissection in the lab", and the figurative "a dissection of the argument"), all live-verified
         # LOW; the phrase matcher means \baortic dissection\b cannot fire from any of those, so it
         # closes the miss with zero false-positive risk.
+        # "cardiopulmonary arrest" floors at critical, but its British/international synonym
+        # "cardiorespiratory arrest" — the exact same immediately-fatal event (heart and breathing
+        # both stopped), just the term a UK/Commonwealth EMS/ED report writes ("patient in
+        # cardiorespiratory arrest", "cardiorespiratory arrest on arrival, CPR commenced") — matched
+        # nothing and dropped to LOW: the SAME orthographic/word-choice asymmetry class already fixed
+        # for the en-GB hospitalised/haemorrhage spellings, here on the combined-arrest phrasing. It
+        # is not a substring of "cardiopulmonary arrest" (different middle word) nor of the bare
+        # "arrest" (deliberately excluded for its police-"arrested" polysemy), so the same fatal
+        # arrest scored critical-or-LOW purely on which clinical tradition the reporter learned. It
+        # is a whole two-word clinical phrase with ZERO benign English meaning, so it closes the miss
+        # at the cardiopulmonary-arrest floor with no new over-fire class. DELIBERATELY the qualified
+        # two-word phrase only — never the bare adjective "cardiorespiratory" (a routine monitoring
+        # word: "cardiorespiratory monitor", "cardiorespiratory fitness test", "cardiorespiratory
+        # exam normal", all benign); the phrase matcher means \bcardiorespiratory arrest\b cannot
+        # fire from any of those, so it closes the miss with zero false-positive risk.
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -223,7 +238,8 @@ TAXONOMY = {
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
                      "exsanguination", "exsanguinated",
-                     "respiratory arrest", "cardiopulmonary arrest", "septic shock",
+                     "respiratory arrest", "cardiopulmonary arrest",
+                     "cardiorespiratory arrest", "septic shock",
                      "cardiogenic shock", "hypovolemic shock",
                      "status epilepticus", "aortic dissection",
                      "amputation", "amputated", "decapitation", "decapitated",

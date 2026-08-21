@@ -85,6 +85,11 @@ CASES = [
     # ("respiratory arrest" is not a substring of the apnea phrasings that already floor).
     ("Patient went into respiratory arrest before EMS arrived", "critical", "injury/medical"),
     ("Responders report cardiopulmonary arrest at the scene", "critical", "injury/medical"),
+    # "cardiorespiratory arrest" is the British/international synonym of "cardiopulmonary arrest" and
+    # must reach the same critical floor — the identical immediately-fatal event, previously matched
+    # nothing and dropped to LOW purely on which orthographic tradition the reporter learned (it is
+    # not a substring of "cardiopulmonary arrest" nor of the deliberately-excluded bare "arrest").
+    ("EMS logged a cardiorespiratory arrest on the loading dock", "critical", "injury/medical"),
     # The plural noun "burns" must reach the same HIGH floor as the singular "burn"/"burned" —
     # "severe burns" / "third-degree burns" previously matched nothing (\bburn\b does not match
     # "burns") and dropped to LOW. "impaled" is an unambiguous severe-trauma term at the same floor.
@@ -640,6 +645,11 @@ NO_FALSE_POSITIVE = [
     # injury/medical critical floor — proving the phrase matcher added only the vascular emergency.
     ("Lab log: the careful surgical dissection of the tissue plane and the frog dissection both went well.",
      "aortic dissection"),
+    # Only the QUALIFIED two-word phrase "cardiorespiratory arrest" was added — NOT the bare
+    # adjective "cardiorespiratory". A routine cardiorespiratory monitoring/fitness note must NOT
+    # fire the injury/medical critical floor — proving the phrase matcher added only the fatal arrest.
+    ("Health screening: cardiorespiratory monitor attached, cardiorespiratory fitness test normal.",
+     "cardiorespiratory arrest"),
 ]
 
 
