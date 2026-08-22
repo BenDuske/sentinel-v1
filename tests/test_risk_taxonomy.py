@@ -396,6 +396,14 @@ CASES = [
     ("Phosgene detected downwind of the isocyanate reactor", "critical", "gas/chemical"),
     ("Hydrogen cyanide filled the plating shop after the tank ruptured", "critical", "gas/chemical"),
     ("Cyanide gas release forced evacuation of the fumigation bay", "critical", "gas/chemical"),
+    # "hydrofluoric acid" (aqueous HF) and "hydrogen fluoride" (anhydrous gas) are the same lethal
+    # industrial toxicant in two lexically-distinct forms a report names — sibling always-a-hazard named
+    # chemicals of carbon monoxide / hydrogen sulfide / phosgene / cyanide, so a directly-named exposure
+    # must reach the same critical floor (a bare splash previously dropped to LOW; "…burn" only reached
+    # HIGH off "burn"). Each case isolates on the new term (no other independent critical token — "line"/
+    # "gas"/"vessel" do not floor). Surfaced in the 2026-08-21 toxic-gas rule-probe.
+    ("The operator was splashed with hydrofluoric acid on the etch line", "critical", "gas/chemical"),
+    ("Exposure to hydrogen fluoride in the sealed process vessel", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
     ("Strong gas smell reported in the mechanical room", "high", "gas/chemical"),
@@ -726,6 +734,11 @@ NO_FALSE_POSITIVE = [
     # \bphosgene\b matched only the toxic gases, not the color or the phosphorus compounds.
     ("Replaced the cyan ink cartridge; the phosphorescent exit sign and the phosphate rinse are fine.",
      "cyanide"),
+    # The HF entries are the full two-word names, NOT bare "fluoride": a routine dental/water note
+    # ("fluoride toothpaste", "water fluoridation") must NOT fire the gas/chemical critical floor —
+    # proving the phrase matchers added only the toxicant, not the benign fluoride compound.
+    ("Reminder: the fluoride toothpaste order and the water fluoridation report are on file.",
+     "hydrofluoric acid"),
 ]
 
 

@@ -798,7 +798,25 @@ TAXONOMY = {
         # \bcyanide\b / \bphosgene\b from firing inside the benign prefix-sharers "cyan" (cyan ink) and
         # "phosphorescent"/"phosphate". Surfaced in the 2026-08-21 toxic-gas rule-probe (named-gas
         # siblings of the hydrogen-sulfide fix).
+        # "hydrofluoric acid" (aqueous HF) and "hydrogen fluoride" (the anhydrous gas — the SAME compound
+        # in two forms a report names distinctly) are the other canonical lethal industrial toxicant
+        # missing from the family. HF is a mass-casualty acid/gas in semiconductor etching, oil-refinery
+        # alkylation, and rust/scale removal — beyond the skin burn it drives fatal systemic hypocalcemia
+        # from a small splash — yet a directly-named exposure ("splashed with hydrofluoric acid on the
+        # line", "exposure to hydrogen fluoride gas") dropped to LOW, and even "hydrofluoric acid burn"
+        # only reached HIGH off the generic word "burn" — the SAME whole-hazard / word-choice absent-term
+        # miss class as hydrogen-sulfide, phosgene, and cyanide beside carbon monoxide. Both are whole
+        # two-word chemical names denoting EXCLUSIVELY the toxicant (ZERO benign English meaning), so they
+        # belong at the same critical floor beside carbon monoxide / hydrogen sulfide / phosgene / cyanide.
+        # They are lexically distinct tokens (\bhydrofluoric acid\b does NOT match "hydrogen fluoride"), so
+        # each gets its own entry — the same two-form discipline as "cardiac tamponade"/"pericardial
+        # tamponade". DELIBERATELY NOT bare "fluoride" (benign in "fluoride toothpaste"/"water
+        # fluoridation" → would over-fire) nor bare "hydrofluoric" (rare, but the full "hydrofluoric acid"
+        # is what reports write). Carries only the SAME conservative-floor tolerance already accepted for
+        # carbon monoxide / cyanide (an inventory mention floors the same way, and the rule layer is a
+        # floor the LLM/human can lower). Surfaced in the 2026-08-21 22:0x toxic-gas rule-probe.
         "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
+                     "hydrofluoric acid", "hydrogen fluoride",
                      "toxic", "chemical spill",
                      "hazmat",
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
