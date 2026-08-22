@@ -431,6 +431,16 @@ CASES = [
     # O2-displacement rule-probe.
     ("Atmospheric test showed an oxygen deficient atmosphere before tank entry", "critical", "gas/chemical"),
     ("Entrant overcome by an oxygen-deficient atmosphere in the vault", "critical", "gas/chemical"),
+    # "grain engulfment" is the NOUN form of a leading OSHA agricultural fatality — the confined-space
+    # burial/suffocation death an ag/OSHA report names directly ("a grain engulfment at the feed mill").
+    # The verb sibling "engulfed" already floors critical (via fire/smoke's "engulfed"), but the noun
+    # phrasing matched nothing and dropped to LOW. Added as the full two-word phrase at the confined-space
+    # fatal floor beside oxygen-deficient-atmosphere / asphyxiation — NOT bare "engulfment" (it has a
+    # benign biology sense: macrophage engulfment of apoptotic cells). Each case isolates on the new term
+    # (no other independent floored token — "feed mill"/"storage bin"/"unloading" do not floor). Surfaced
+    # in the 2026-08-22 confined-space/agricultural rule-probe.
+    ("Investigators documented a grain engulfment at the feed mill this morning", "critical", "gas/chemical"),
+    ("Grain engulfment in the number three storage bin during unloading", "critical", "gas/chemical"),
     # Named chemical-warfare agents ("nerve agent"/"mustard gas") are always-a-hazard siblings of the
     # already-floored "phosgene" (itself a WWI CW agent), so a directly-named release must reach the same
     # gas/chemical critical floor — a directly-named agent previously matched nothing and dropped to LOW.
@@ -850,6 +860,12 @@ NO_FALSE_POSITIVE = [
     # a larger unrelated word.
     ("The gunmetal gray cabinet was installed in the server room; nothing else to report.",
      "gunman"),
+    # "grain engulfment" is the full two-word phrase, NOT bare "engulfment": the benign biology sense
+    # (macrophage engulfment of apoptotic cells / engulfment of a pathogen) must NOT fire the gas/chemical
+    # critical floor — proving the phrase matcher added only the confined-space agricultural hazard, not
+    # the polysemous root.
+    ("The lab documented macrophage engulfment of apoptotic cells during the pathogen study.",
+     "grain engulfment"),
 ]
 
 

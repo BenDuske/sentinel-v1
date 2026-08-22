@@ -890,6 +890,7 @@ TAXONOMY = {
                      "nerve agent", "nerve agents", "mustard gas",
                      "hydrofluoric acid", "hydrogen fluoride",
                      "oxygen deficient atmosphere", "oxygen-deficient atmosphere",
+                     "grain engulfment",
                      "toxic", "chemical spill",
                      "hazmat",
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
