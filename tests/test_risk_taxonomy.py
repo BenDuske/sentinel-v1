@@ -558,6 +558,31 @@ CASES = [
     # carjacking/carjacked/carjackings. Whole words with no benign polysemy.
     ("A worker was kidnapped from the loading dock overnight", "critical", "security/intrusion"),
     ("Two kidnappings reported near the visitor lot this month", "critical", "security/intrusion"),
+    # "gunpoint" is the firearm-coercion sibling of "knifepoint" (critical) — the knifepoint comment
+    # already names it as its sibling — but the word lived ONLY inside theft's "robbery at gunpoint",
+    # so a gunpoint incident with no "robbery" token previously matched nothing and dropped to LOW.
+    # Whole word, no benign meaning; these cases carry no "robbery"/"armed" token so they isolate on
+    # the new security-critical entry (not on theft's "robbery at gunpoint").
+    ("Staff were held at gunpoint while the vault was opened", "critical", "security/intrusion"),
+    ("The suspect fled at gunpoint after ordering everyone down", "critical", "security/intrusion"),
+    # "grenade"/"grenades" (a thrown explosive weapon) is the device sibling of pipe bomb / molotov /
+    # car bomb (all critical): a directly-named explosive attack that previously matched nothing and
+    # dropped to LOW. Whole words, no benign operational polysemy; the plural is a distinct token.
+    # Neutral verb (thrown/recovered) so each isolates on the new term with no explosion token.
+    ("A grenade was thrown into the ground-floor lobby", "critical", "security/intrusion"),
+    ("Two grenades were recovered from the abandoned vehicle", "critical", "security/intrusion"),
+    # "IED"/"IEDs" is the standard acronym for "improvised explosive device" (critical): a responder
+    # writes the acronym far more often than the spelled-out phrase, yet it previously matched nothing
+    # and dropped to LOW while the full phrase floored critical — the acronym-vs-phrase miss class of
+    # CPR. Word-boundary-guarded (does not fire inside "studied"/"tied"); plural is a distinct token.
+    ("An IED was discovered in the mailroom", "critical", "security/intrusion"),
+    ("Two IEDs were found along the perimeter fence", "critical", "security/intrusion"),
+    # "sniper"/"snipers" is the concealed-shooter sibling of "shooter"/"active shooter"/"gunman"
+    # (critical): a directly-named active lethal threat that previously matched nothing and dropped to
+    # LOW. Whole words, no benign meaning in incident text (the metaphor is the gerund "sniping", not
+    # added); each case isolates on the new term with no other critical/high token, plural distinct.
+    ("A sniper was reported on the parking-garage roof", "critical", "security/intrusion"),
+    ("Two snipers positioned near the north gate, per the guard", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched

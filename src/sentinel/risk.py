@@ -1051,6 +1051,34 @@ TAXONOMY = {
         # singular->plural miss class as hostage/hostages, molotov/molotovs. Both are whole words with
         # ZERO benign English meaning; the word boundary keeps them from firing inside "gunmetal". Added
         # in the 2026-08-22 security/violence rule-probe.
+        # "gunpoint" (the firearm-coercion event a report writes as "held at gunpoint", "robbed at
+        # gunpoint", "employees ordered around at gunpoint") is the firearm sibling of the already-
+        # critical "knifepoint" — and the comment on knifepoint above already NAMES gunpoint as its
+        # sibling — yet the bare word lived ONLY inside theft's "robbery at gunpoint", so a gunpoint
+        # incident WITHOUT the word "robbery" ("staff held at gunpoint", "suspect fled at gunpoint")
+        # matched nothing here and dropped to LOW. \bgunpoint\b is a whole word with ZERO benign
+        # English meaning, so its own entry closes the miss with no over-fire (theft's "robbery at
+        # gunpoint" still fires too; both are critical, security wins the tie by category order).
+        # "grenade"/"grenades" (a thrown explosive weapon) is the sibling of the already-critical
+        # "pipe bomb"/"molotov"/"car bomb": a directly-named explosive-device attack a report writes
+        # plainly ("a grenade was thrown into the lobby", "grenades recovered from the vehicle"), yet
+        # both matched nothing and dropped to LOW. Whole words with no benign OPERATIONAL polysemy in
+        # incident text; the plural is a distinct token needing its own entry (\bgrenade\b lacks a
+        # boundary before the trailing "s"), same singular->plural class as pipe bomb/pipe bombs.
+        # "ied"/"ieds" is the universal military/EMS acronym for the already-critical "improvised
+        # explosive device" (gas/chemical + here): a first responder or guard writes "IED discovered
+        # in the lobby" far more often than the spelled-out phrase, yet the acronym matched nothing
+        # and dropped to LOW while the full phrase floored critical — the SAME acronym-vs-phrase miss
+        # class as CPR (== cardiac arrest). \bied\b / \bieds\b are word-boundary-guarded, so they do
+        # NOT fire inside "studied"/"tied"/"applied" (no boundary before the internal "ied"); no
+        # English word IS "ied", so zero false-positive risk. Plural is a distinct token.
+        # "sniper"/"snipers" (a concealed shooter deliberately targeting people) is the active-shooter
+        # sibling of the already-critical "shooter"/"active shooter"/"gunman": a report names it
+        # directly ("sniper on the parking-garage roof", "reports of a sniper near the north gate"),
+        # yet both matched nothing and dropped to LOW. Whole words; in operational incident text a
+        # "sniper" is an active lethal threat with no benign meaning (the metaphor is the GERUND
+        # "sniping", deliberately NOT added). Plural is a distinct token. Added in the 2026-08-22
+        # security/violence rule-probe (gunpoint / grenade / IED / sniper).
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
@@ -1058,7 +1086,9 @@ TAXONOMY = {
                      "shots fired", "active shooting", "shooter", "shooting",
                      "stab wound", "stab wounds", "molotov", "molotovs",
                      "knife attack", "stabbing attack", "stabbing spree",
-                     "mass stabbing", "knifepoint",
+                     "mass stabbing", "knifepoint", "gunpoint",
+                     "grenade", "grenades", "ied", "ieds",
+                     "sniper", "snipers",
                      "pistol-whipped", "pistol whipped",
                      "pistol-whipping", "pistol whipping"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
