@@ -342,6 +342,16 @@ CASES = [
     # hydrogen-sulfide whole-hazard fixes.
     ("The ESS battery rack went into thermal runaway during the overnight charge", "critical", "fire/smoke"),
     ("Thermal runaway detected in the lithium-ion cells inside the parking-garage EV", "critical", "fire/smoke"),
+    # "flashover" and "backdraft" — the two lethal fire-BEHAVIOR events — must reach the same critical
+    # floor as the plain word "fire": a report that names the behavior rather than the flame previously
+    # matched nothing and dropped to LOW purely on word choice, the same whole-hazard class as thermal
+    # runaway/arc-blast. Neither case carries an independent critical/high token (no "fire"/"smoke"/
+    # "explosion" word), so each isolates on the new term; both are whole words with zero benign meaning
+    # (every real sense — fire behavior, insulator flashover arc, flue backdraft/CO spill — is a hazard).
+    ("Crews reported a flashover in the second-floor compartment", "critical", "fire/smoke"),
+    ("Conditions in the stairwell were deteriorating toward flashover", "critical", "fire/smoke"),
+    ("A backdraft threw the nozzleman off the landing when the door was forced", "critical", "fire/smoke"),
+    ("Command warned of backdraft potential in the sealed basement", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),

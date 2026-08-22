@@ -639,10 +639,33 @@ TAXONOMY = {
         # "the BMS is designed to prevent thermal runaway" floors the same way those already do, and the
         # rule layer is a floor the LLM/human can lower) — no NEW over-fire class. Surfaced in the
         # 2026-08-20 rule-probe, queued as the next clean candidate by the 2026-08-21 arc-blast cycle.
+        # "flashover" and "backdraft" — the two lethal fire-BEHAVIOR events a compartment fire produces —
+        # were absent from the whole fire word-family, so a report that names the fire behavior rather than
+        # the flame ("flashover in the second-floor compartment", "conditions deteriorating toward
+        # flashover", "a backdraft threw the nozzleman off the landing when the door was opened") matched
+        # nothing and dropped to LOW, while the same event WITH a coincident "fire"/"smoke" token floored
+        # off that other word — the SAME whole-hazard absent-term miss class as "thermal runaway" beside
+        # "fire", "arc blast" beside "arc flash", and "hydrogen sulfide" beside "carbon monoxide": a
+        # directly-named fire catastrophe scored critical-or-LOW purely on whether the reporter wrote the
+        # behavior or the flame. A flashover (near-simultaneous auto-ignition of every exposed combustible
+        # in a space) and a backdraft (the smoke/deflagration explosion when air suddenly reaches an
+        # oxygen-starved fire) are the classic firefighter-killing events; they belong at fire/smoke
+        # critical (the physical hazard + offline next-steps — evacuate, keep clear, let the fire service
+        # manage the space — are the fire/smoke ones), siblings of "structure fire"/"thermal runaway".
+        # Each is a whole single word denoting ONLY a hazardous condition — EVERY real sense is a hazard
+        # ("flashover" also = the electrical disruptive-discharge arc across an insulator; "backdraft" also
+        # = the reverse-flow flue/chimney condition that spills combustion gas/CO indoors) — so like
+        # "thermal runaway" they carry ZERO benign English meaning and the SAME conservative-floor
+        # tolerance (a training/spec mention floors the same way, and the rule layer is a floor the
+        # LLM/human can lower) with NO new over-fire class. DELIBERATELY singular-only: the plurals
+        # "flashovers"/"backdrafts" are vanishingly rare in incident text (the event is written singular
+        # or as "flashover conditions"), the same scope discipline as the singular-dominant terms; add a
+        # plural entry only if a real plural miss surfaces. Surfaced in the 2026-08-21 fire-behavior
+        # rule-probe (sibling of the thermal-runaway whole-hazard fix).
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
                      "detonation", "detonate", "detonated", "detonating",
-                     "arson", "arsonist", "thermal runaway",
+                     "arson", "arsonist", "thermal runaway", "flashover", "backdraft",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],
