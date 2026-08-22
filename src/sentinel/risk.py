@@ -965,7 +965,24 @@ TAXONOMY = {
         # excluding the bare polysemous "stab"/"stabbed"/"stabbing"/"stabbings" guarded LOW above
         # ("stabbing pain", "took a stab at it", "back-stabbing"); only whole violent-act phrases fire.
         # Surfaced in the 2026-08-21 weapon-event rule-probe.
+        # The explosive-device family is only HALF-covered: "bomb threat" floors critical, but by
+        # substring \bbomb\s+threat\b matches ONLY the THREAT — an actual found or detonated DEVICE a
+        # reporter names outright ("a pipe bomb was found in the lobby", "car bomb detonated in the
+        # lot", "two pipe bombs left at the north gate") matched nothing and dropped to LOW: the SAME
+        # threat-vs-device miss class as the stab-wound (injury) vs stabbing-attack (event) split just
+        # fixed above, the same hazard scored critical-or-LOW purely on which half of the event the
+        # words name. These belong at critical beside "bomb threat"/"molotov" (an actual explosive is
+        # present). Each is a MULTI-WORD adjacency phrase denoting EXCLUSIVELY an explosive device
+        # (zero benign meaning), and the plurals need their own entries (\bpipe\s+bomb\b won't match
+        # "pipe bombs"), the same singular->plural tokenization discipline as molotov/molotovs and
+        # kidnapping/kidnappings. DELIBERATELY EXCLUDES the bare polysemous "bomb" — "bath bomb",
+        # "photobomb", "the movie bombed", "bombed the interview" all carry benign collisions — the
+        # SAME whole-phrase-only discipline that added "stab wound"/"pistol-whipped" but excluded the
+        # bare "stab"/"whipped". ("car bomb detonated" already fires fire/smoke via \bdetonated\b; this
+        # closes the FOUND/undetonated-device case that carries no explosion token.) Surfaced in the
+        # 2026-08-22 explosive-device rule-probe (threat-vs-device sibling of the stabbing-event fix).
         "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
+                     "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire",
                      "shots fired", "active shooting", "shooter", "shooting",

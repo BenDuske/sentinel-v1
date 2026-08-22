@@ -505,6 +505,17 @@ CASES = [
     ("Reports of a stabbing spree along the east corridor", "critical", "security/intrusion"),
     ("Knife attack in the main lobby; the assailant fled", "critical", "security/intrusion"),
     ("A visitor was held at knifepoint near the loading dock", "critical", "security/intrusion"),
+    # The explosive-DEVICE terms — "pipe bomb"/"pipe bombs"/"car bomb"/"car bombs" — are the found/
+    # planted-device sibling of "bomb threat" (security critical): \bbomb\s+threat\b matches only the
+    # THREAT, so a directly-named device previously matched nothing and dropped to LOW, the same
+    # threat-vs-device split as stab-wound (injury) vs stabbing-attack (event). Multi-word phrases with
+    # no benign polysemy (bare "bomb" is NOT added — bath bomb / photobomb / "the movie bombed"); the
+    # plurals are distinct tokens needing their own entries. Each case uses a neutral verb (found/
+    # discovered/reported) so it isolates on the new term with no explosion token present.
+    ("A pipe bomb was found in the mailroom", "critical", "security/intrusion"),
+    ("Two pipe bombs were left at the north gate", "critical", "security/intrusion"),
+    ("A car bomb was discovered under the delivery van", "critical", "security/intrusion"),
+    ("Multiple car bombs were reported outside the annex", "critical", "security/intrusion"),
     # "kidnapped"/"kidnappings" are the verb and plural of "kidnapping" (security critical): the same
     # violent crime that previously matched nothing and dropped to LOW purely on word form. Distinct
     # tokens needing their own entries (\bkidnapping\b matches neither), same verb/plural class as
@@ -750,6 +761,11 @@ NO_FALSE_POSITIVE = [
     # proving the phrase matchers added only the toxicant, not the benign fluoride compound.
     ("Reminder: the fluoride toothpaste order and the water fluoridation report are on file.",
      "hydrofluoric acid"),
+    # The explosive-device phrases ("pipe bomb"/"car bomb") are multi-word adjacency phrases, so the
+    # bare polysemous "bomb" must NOT fire the security/intrusion critical floor: "bath bomb",
+    # "photobomb", "the movie bombed" all embed the token benignly and none is adjacent to pipe/car.
+    ("The gift shop restocked bath bombs, someone photobombed the banner, and the film bombed.",
+     "pipe bomb"),
 ]
 
 
