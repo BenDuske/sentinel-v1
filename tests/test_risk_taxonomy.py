@@ -572,6 +572,15 @@ CASES = [
     ("Three wildfires are threatening the north perimeter", "critical", "weather"),
     ("Flash floods reported across the county overnight", "critical", "weather"),
     ("Tsunamis following the offshore quake are inbound", "critical", "weather"),
+    # The volcanic members of the natural-catastrophe family must reach the same CRITICAL floor as
+    # earthquake/tsunami — "volcanic eruption" (the event), "pyroclastic flow" (its lethal mechanism)
+    # and "lava flow" (the advancing molten hazard) previously matched nothing and dropped to LOW, the
+    # same whole-catastrophe absent-term gap as typhoon beside hurricane. Each is a MULTI-WORD phrase
+    # with zero benign meaning; each case isolates on the new phrase (no other floored token), so
+    # removing it regresses the case to LOW.
+    ("A volcanic eruption forced evacuation of the coastal site", "critical", "weather"),
+    ("A pyroclastic flow swept down toward the perimeter fence", "critical", "weather"),
+    ("The lava flow advanced across the access road overnight", "critical", "weather"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
@@ -795,6 +804,12 @@ NO_FALSE_POSITIVE = [
     # the phrase matcher added only the diving injury, not the polysemous root.
     ("Ran archive decompression and completed the pressure-vessel decompression per procedure.",
      "decompression sickness"),
+    # The volcanic-catastrophe phrases are MULTI-WORD, NOT the bare polysemous roots: a figurative
+    # "erupted" and the geographic mention of a dormant "volcano" (neither an incident) must NOT fire
+    # the weather CRITICAL floor (the phrase matchers match none of them), proving only the whole
+    # zero-benign phrases were added.
+    ("The team erupted in applause after the demo; the site sits miles from a dormant volcano.",
+     "volcanic eruption"),
 ]
 
 

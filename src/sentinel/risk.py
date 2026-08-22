@@ -1087,11 +1087,26 @@ TAXONOMY = {
         # each plural beside its singular. They are whole words with no benign polysemy, so this finishes
         # the list's plural coverage with zero false-positive risk. Surfaced in the 2026-08-19
         # weather-plural rule-probe.
+        # The natural-catastrophe family is missing its volcanic members: "earthquake"/"tsunami"/
+        # "hurricane"/"typhoon"/"wildfire" all floor at critical, but a "volcanic eruption" — a named
+        # natural disaster on exactly the same footing, with "pyroclastic flow" as its lethal mechanism
+        # (the superheated gas/ash surge that is the actual killer, the volcanic analogue of the tsunami
+        # that follows a quake) and "lava flow" as the advancing molten hazard — all matched nothing and
+        # dropped to LOW: the SAME whole-catastrophe absent-term miss class as typhoon beside hurricane,
+        # the same event scored critical-or-LOW purely on which natural disaster it names. Added the
+        # three MULTI-WORD phrases at the same critical floor as earthquake/tsunami. Each denotes
+        # EXCLUSIVELY the volcanic hazard — ZERO benign English meaning — so this closes the miss with
+        # no false-positive risk. DELIBERATELY EXCLUDES the bare polysemous roots "volcano" (a dormant
+        # volcano near a site is geography, not an incident — same non-incident-presence discipline that
+        # excluded bare "firearm"/"bomb") and "erupted"/"eruption" (heavy figurative use — "the crowd
+        # erupted", "violence erupted", "an eruption of applause", "a rash erupted" — all guarded LOW);
+        # only the whole zero-benign phrases fire. Surfaced in the 2026-08-22 natural-disaster rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "earthquake", "earthquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
-                     "tsunami", "tsunamis", "severe storm warning"],
+                     "tsunami", "tsunamis", "severe storm warning",
+                     "volcanic eruption", "pyroclastic flow", "lava flow"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "downed line", "ice storm", "blizzard"],
