@@ -711,8 +711,29 @@ TAXONOMY = {
         # "hydrogen sulfide" beside "carbon monoxide". It is an unambiguous electrical catastrophe with
         # ZERO benign English meaning — the same tolerance as "arc flash" itself — so it closes the miss
         # with no new over-fire class. Surfaced in the 2026-08-20 rule-probe (sibling of arc flash).
+        # A "downed power line" is the canonical fallen live-conductor hazard a utility/storm/first-
+        # responder incident names directly ("a downed power line across the road", "downed power lines
+        # near the substation", "crews found a downed powerline at the perimeter"). Standard practice is
+        # to treat EVERY downed line as energized and lethal — it is the contact-electrocution twin of
+        # "live wire" (already critical here), plus arc and ignition risk. Yet a directly-named downed
+        # power line matched nothing and dropped to LOW: the ONLY existing token was the generic "downed
+        # line" over in the WEATHER category at HIGH, and \bdowned\s+line\b does not match "downed POWER
+        # line" (the word "power" breaks the adjacency), so the specific electrical hazard fell through —
+        # the SAME whole-hazard absent-term miss class as arc blast beside arc flash. Added the phrase at
+        # electrical CRITICAL beside "live wire" (not the weather HIGH floor: a generic "downed line" may
+        # be a phone/data/guy line and correctly stays a conservative HIGH, but a "downed power line" is
+        # unambiguously an energized-conductor emergency). "power line"/"powerline" denotes EXCLUSIVELY
+        # electrical distribution and "downed" makes it a hazard → ZERO benign English meaning, so it
+        # carries no new over-fire class (benign "the production/phone/assembly line went down", "he
+        # downed a glass" all live-verified LOW — \bdowned power line\b never touches them). Reports write
+        # it two-word AND one-word ("powerline"), singular AND plural, so each is a lexically-distinct
+        # token needing its own entry (\bdowned power line\b matches none of the other three) — the same
+        # multi-form discipline as tornado/tornadoes and molotov/molotovs. Surfaced in the 2026-08-21
+        # 23:3x rule-probe (sibling of arc blast / live wire).
         "critical": ["live wire", "arc flash", "arc blast", "electrocution",
                      "electrocuted", "electrocute", "electrocutes", "electrocuting",
+                     "downed power line", "downed power lines", "downed powerline",
+                     "downed powerlines",
                      "electrical fire"],
         # A person receiving an "electric shock" is an injury/hazard the taxonomy already floors at
         # HIGH via "electrical" — but ONLY for the adjective "electrical". The far more common lay

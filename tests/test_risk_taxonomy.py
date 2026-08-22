@@ -380,6 +380,17 @@ CASES = [
     # drop below the electrical critical floor. Surfaced in the 2026-08-20 rule-probe (sibling of arc flash).
     ("The arc blast hurled the electrician across the switchgear room", "critical", "electrical/power"),
     ("Arc blast reported during the breaker replacement at the substation", "critical", "electrical/power"),
+    # A "downed power line" is the fallen live-conductor hazard — the contact-electrocution twin of
+    # "live wire" (always treat every downed line as energized), yet a directly-named report dropped to
+    # LOW: the only existing token was the generic "downed line" over in WEATHER at HIGH, and \bdowned
+    # line\b does not match "downed POWER line". Added at electrical CRITICAL beside "live wire" in all
+    # four forms a report writes (two-word/one-word, singular/plural). Each case isolates on the new term
+    # (no other independent critical/high token — "road"/"yard"/"perimeter" do not floor) → without it
+    # they drop to LOW. Surfaced in the 2026-08-21 23:3x rule-probe (sibling of arc blast / live wire).
+    ("A downed power line lay across the access road", "critical", "electrical/power"),
+    ("Crews reported downed power lines behind the north yard", "critical", "electrical/power"),
+    ("A downed powerline was found at the site perimeter", "critical", "electrical/power"),
+    ("Utility crews flagged downed powerlines near the retention pond", "critical", "electrical/power"),
     ("Gas leak reported; carbon monoxide alarm triggered", "critical", "gas/chemical"),
     # "hydrogen sulfide" (H2S, the lethal rotten-egg / sour gas) is the sibling always-a-hazard
     # multi-word gas name of "carbon monoxide" but previously had ZERO gas/chemical coverage (no bare
