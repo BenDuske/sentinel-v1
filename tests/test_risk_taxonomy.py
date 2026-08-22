@@ -116,6 +116,14 @@ CASES = [
     # resistant gloves"). No other high/critical token appears in these cases, so they isolate.
     ("The line worker sustained a deep puncture wound to the thigh", "high", "injury/medical"),
     ("Medics dressed multiple puncture wounds after the tool slipped", "high", "injury/medical"),
+    # "decompression sickness" (DCS, "the bends") is the diving/hyperbaric/caisson injury and must reach
+    # the same conservative HIGH floor as frostbite/hypothermia/punctured lung — an isolated report
+    # previously matched nothing and dropped to LOW. HIGH (not critical) because DCS is routinely
+    # survivable and treated by hyperbaric recompression. The MULTI-WORD phrase cannot fire from bare
+    # polysemous "decompression" (archive/pressure-vessel/needle-chest decompression). No other high/
+    # critical token appears in these cases, so they isolate on the new term.
+    ("The diver developed decompression sickness after the rapid ascent", "high", "injury/medical"),
+    ("Caisson worker suffered decompression sickness on the job", "high", "injury/medical"),
     # "sepsis" is a life-threatening infection response and must reach the HIGH floor; "septic shock"
     # is its terminal circulatory-collapse form and must reach CRITICAL alongside anaphylactic/
     # respiratory-arrest. Both previously matched nothing and dropped to LOW. The bare adjective
@@ -780,6 +788,13 @@ NO_FALSE_POSITIVE = [
     # confined-space hazard, not the benign gas mention.
     ("The oxygen tank was refilled and supplemental oxygen is stocked for the liquid oxygen delivery.",
      "oxygen deficient atmosphere"),
+    # "decompression sickness" is the full two-word phrase, NOT bare "decompression": a routine benign
+    # decompression note — archive decompression, decompression of a pressure vessel per procedure, or
+    # the emergency "needle/chest decompression" done FOR a tension pneumothorax — must NOT fire the
+    # injury/medical HIGH floor on its own (\bdecompression\s+sickness\b matches none of them), proving
+    # the phrase matcher added only the diving injury, not the polysemous root.
+    ("Ran archive decompression and completed the pressure-vessel decompression per procedure.",
+     "decompression sickness"),
 ]
 
 

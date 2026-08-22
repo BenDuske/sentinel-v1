@@ -536,8 +536,23 @@ TAXONOMY = {
         # scored HIGH-or-LOW purely on grammatical form. Added at the participle's existing HIGH floor
         # (NOT a new severity call). "impalement" is a whole word with NO benign English meaning, so it
         # closes the miss with zero false-positive risk. Surfaced in the 2026-08-18 rule-probe backlog.
+        # "decompression sickness" (DCS, "the bends") is the diving/hyperbaric/caisson injury a report
+        # names directly ("the diver developed decompression sickness after the rapid ascent",
+        # "decompression sickness confirmed after the commercial dive", "caisson worker suffered
+        # decompression sickness") — yet an isolated report matched nothing and dropped to LOW: the
+        # SAME whole-hazard absent-term miss class as frostbite/hypothermia/punctured lung above. Added
+        # as the MULTI-WORD phrase at the same conservative HIGH floor (NOT critical) as those exposure/
+        # trauma siblings: DCS spans mild (joint pain, "niggles") to fatal (neurological/pulmonary), but
+        # is routinely survivable and treated by hyperbaric recompression, so HIGH is the defensible
+        # floor (the LLM or a human can raise a specific fatal case). Deliberately NOT bare
+        # "decompression" — that is polysemous ("archive decompression", "needle/chest decompression"
+        # for a tension pneumothorax, "decompression of the pressure vessel") and would over-fire; the
+        # two-word phrase \bdecompression\s+sickness\b cannot fire from any of them (all decoys live-
+        # verified LOW, and the existing needle/chest-decompression CASES still floor critical off
+        # "tension pneumothorax", not this term). Surfaced in the 2026-08-22 rule-probe backlog.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
                      "punctured lung", "puncture wound", "puncture wounds",
+                     "decompression sickness",
                      "sepsis", "near drowning", "near-drowning",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",
