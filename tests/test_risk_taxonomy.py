@@ -581,6 +581,12 @@ CASES = [
     ("A volcanic eruption forced evacuation of the coastal site", "critical", "weather"),
     ("A pyroclastic flow swept down toward the perimeter fence", "critical", "weather"),
     ("The lava flow advanced across the access road overnight", "critical", "weather"),
+    # "storm surge" is the lethal mechanism of a hurricane — the deadliest coastal hazard — and must
+    # reach the same CRITICAL floor as the hurricane it accompanies. It previously scored only HIGH:
+    # the bare word "storm" floors at weather HIGH, so the phrase matched "storm" and under-floored one
+    # level. The only floored tokens here are the new "storm surge" (CRITICAL) and "storm" (HIGH), so
+    # removing the phrase regresses this case to HIGH and fails the CRITICAL assertion (isolation).
+    ("A storm surge is overtopping the seawall at the coastal site", "critical", "weather"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
@@ -810,6 +816,11 @@ NO_FALSE_POSITIVE = [
     # zero-benign phrases were added.
     ("The team erupted in applause after the demo; the site sits miles from a dormant volcano.",
      "volcanic eruption"),
+    # "storm surge" is the adjacent two-word phrase, NOT the polysemous half "surge": a benign traffic
+    # surge (or power/demand/adrenaline surge) with no storm-surge phrasing must NOT fire the weather
+    # CRITICAL floor. Kept storm-free so the whole case stays LOW — proving only the whole phrase fires.
+    ("A traffic surge overwhelmed the checkout page during the sale; nothing else to report.",
+     "storm surge"),
 ]
 
 

@@ -1101,12 +1101,24 @@ TAXONOMY = {
         # excluded bare "firearm"/"bomb") and "erupted"/"eruption" (heavy figurative use — "the crowd
         # erupted", "violence erupted", "an eruption of applause", "a rash erupted" — all guarded LOW);
         # only the whole zero-benign phrases fire. Surfaced in the 2026-08-22 natural-disaster rule-probe.
+        # "storm surge" is the LETHAL MECHANISM of a hurricane/typhoon — the wind-driven wall of seawater
+        # that is historically the LEADING cause of hurricane deaths (the Katrina killer), exactly the
+        # tsunami-after-the-quake / pyroclastic-flow-of-the-volcano class of "the named catastrophe's
+        # actual killer." Yet it scored only HIGH, not critical: the bare word "storm" sits at the weather
+        # HIGH floor, so "storm surge" matched "storm" and floored one level LOW of the hurricane it
+        # accompanies — WORSE than a pure absent-term miss, an active UNDER-floor of the deadliest coastal
+        # hazard. Added the whole phrase at the hurricane/tsunami critical floor. "storm surge" has ZERO
+        # benign English meaning (unlike the polysemous half "surge" — a power surge, a demand/traffic
+        # surge, a surge of adrenaline — which is DELIBERATELY EXCLUDED and left to the existing whole
+        # phrase "power surge"; only the adjacent two-word storm-surge phrase fires). Surfaced in the
+        # 2026-08-22 natural-disaster rule-probe alongside the volcanic members.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "earthquake", "earthquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "tsunami", "tsunamis", "severe storm warning",
-                     "volcanic eruption", "pyroclastic flow", "lava flow"],
+                     "volcanic eruption", "pyroclastic flow", "lava flow",
+                     "storm surge"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "downed line", "ice storm", "blizzard"],
