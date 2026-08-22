@@ -388,6 +388,14 @@ CASES = [
     # the gas/chemical critical floor. Surfaced in the 2026-08-20 rule-probe.
     ("Hydrogen sulfide detected in the sewer wet well", "critical", "gas/chemical"),
     ("Crews evacuated the pad after hydrogen sulfide filled the vault", "critical", "gas/chemical"),
+    # "phosgene" (COCl2) and "cyanide" (HCN + salts) are the two remaining canonical lethal toxic gases
+    # missing from the family — sibling always-a-hazard named gases of "carbon monoxide"/"hydrogen
+    # sulfide", so a directly-named release must reach the same critical floor. Bare "cyanide" subsumes
+    # "hydrogen cyanide"/"cyanide gas"/"cyanide poisoning" via \bcyanide\b. Each case isolates on the new
+    # term (no other independent critical token). Surfaced in the 2026-08-21 toxic-gas rule-probe.
+    ("Phosgene detected downwind of the isocyanate reactor", "critical", "gas/chemical"),
+    ("Hydrogen cyanide filled the plating shop after the tank ruptured", "critical", "gas/chemical"),
+    ("Cyanide gas release forced evacuation of the fumigation bay", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
     ("Strong gas smell reported in the mechanical room", "high", "gas/chemical"),
@@ -713,6 +721,11 @@ NO_FALSE_POSITIVE = [
     # fire the injury/medical critical floor — proving the phrase matcher added only the fatal arrest.
     ("Health screening: cardiorespiratory monitor attached, cardiorespiratory fitness test normal.",
      "cardiorespiratory arrest"),
+    # "cyanide" and "phosgene" are whole words: the benign prefix-sharers "cyan" (cyan ink/toner) and
+    # "phosphorescent"/"phosphate" must NOT fire the gas/chemical critical floor — proving \bcyanide\b /
+    # \bphosgene\b matched only the toxic gases, not the color or the phosphorus compounds.
+    ("Replaced the cyan ink cartridge; the phosphorescent exit sign and the phosphate rinse are fine.",
+     "cyanide"),
 ]
 
 

@@ -777,7 +777,29 @@ TAXONOMY = {
         # meaning → no new over-fire class. DELIBERATELY NOT the bare single words "chlorine"/
         # "ammonia" (routine pool-treatment / cleaning-product uses → polysemous, Ben-review) nor the
         # acronym "h2s" (short/ambiguous, same exclusion class as v-fib/MI). Surfaced 2026-08-20.
-        "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "toxic", "chemical spill",
+        # "phosgene" (COCl2) and "cyanide" (HCN and its salts) are the two remaining canonical lethal
+        # industrial/confined-space toxicants absent from the whole gas/chemical family, so a report that
+        # names the agent directly ("phosgene detected in the tank farm", "hydrogen cyanide in the
+        # confined space", "cyanide gas release in the plating shop", "collapsed from cyanide poisoning")
+        # matched nothing and dropped to LOW while their sibling always-a-hazard named gases "carbon
+        # monoxide" and "hydrogen sulfide" (the latter added 2026-08-20) floor CRITICAL — the SAME
+        # named-gas whole-hazard absent-term miss class as hydrogen-sulfide beside carbon-monoxide. Both
+        # are canonical mass-casualty toxic gases (phosgene = the WWI choking agent still used in
+        # isocyanate/plastics manufacture; cyanide = plating, fumigation, gold leaching, combustion of
+        # plastics), so they belong at the same critical floor beside carbon monoxide / hydrogen sulfide.
+        # Bare "phosgene" is a whole word denoting EXCLUSIVELY the gas (ZERO benign English meaning), and
+        # bare "cyanide" likewise denotes only the toxicant — and being bare it subsumes every phrasing a
+        # reporter writes ("hydrogen cyanide", "cyanide gas", "cyanide poisoning", "sodium/potassium
+        # cyanide") via \bcyanide\b, so no separate multi-word entry is needed. Neither has any figurative
+        # use, so they carry only the SAME conservative-floor tolerance already accepted for carbon
+        # monoxide / hydrogen sulfide (a spec/inventory mention — "the lab stores sodium cyanide for the
+        # assay" — floors the same way "the CO detector is tested monthly" already does, and the rule
+        # layer is a floor the LLM/human can lower) with NO new over-fire class. Whole-word matching keeps
+        # \bcyanide\b / \bphosgene\b from firing inside the benign prefix-sharers "cyan" (cyan ink) and
+        # "phosphorescent"/"phosphate". Surfaced in the 2026-08-21 toxic-gas rule-probe (named-gas
+        # siblings of the hydrogen-sulfide fix).
+        "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
+                     "toxic", "chemical spill",
                      "hazmat",
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
                      "asphyxiating",
