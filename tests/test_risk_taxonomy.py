@@ -601,9 +601,16 @@ CASES = [
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
     # floored word is the new "hostages"), so removing the entry regresses this case to LOW and fails
-    # the CRITICAL assertion (isolation).
-    ("The gunman took hostages inside the control room", "critical", "security/intrusion"),
+    # the CRITICAL assertion (isolation). Kept "gunman"-free (the suspect) so it isolates on "hostages".
+    ("The suspect took hostages inside the control room", "critical", "security/intrusion"),
     ("Multiple hostages are being held in the vault", "critical", "security/intrusion"),
+    # "gunman"/"gunmen" name the armed offender exactly as a report writes it — the sibling of the
+    # already-critical "shooter"/"active shooter". The irregular plural means \bgunman\b does not match
+    # "gunmen", so each is a distinct entry. Neither sentence carries any other floored token (a bare
+    # "gunman opened fire" line would falsely floor off "fire", so these avoid it), so removing the
+    # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A lone gunman barricaded himself on the third floor", "critical", "security/intrusion"),
+    ("Two gunmen entered the facility through the loading dock", "critical", "security/intrusion"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
@@ -838,6 +845,11 @@ NO_FALSE_POSITIVE = [
     # CRITICAL floor. Kept storm-free so the whole case stays LOW — proving only the whole phrase fires.
     ("A traffic surge overwhelmed the checkout page during the sale; nothing else to report.",
      "storm surge"),
+    # "gunman"/"gunmen" match on whole-word boundaries only: the benign "gunmetal" color must NOT fire
+    # the security CRITICAL floor, proving the word boundary keeps the offender terms from firing inside
+    # a larger unrelated word.
+    ("The gunmetal gray cabinet was installed in the server room; nothing else to report.",
+     "gunman"),
 ]
 
 

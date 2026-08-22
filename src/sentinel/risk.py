@@ -1041,10 +1041,19 @@ TAXONOMY = {
         # kidnapping/kidnappings and the weather plurals. "hostages" is a whole word with ZERO benign
         # English meaning, so its own entry closes the miss with no new over-fire class. Surfaced in
         # the 2026-08-22 security/violence rule-probe.
+        # "gunman"/"gunmen" name the armed offender in an active-shooter/armed-intrusion event exactly
+        # as a report writes it ("a lone gunman barricaded on the third floor", "two gunmen entered the
+        # facility") — the sibling of the already-critical "shooter"/"active shooter", yet both matched
+        # nothing and dropped to LOW (a "gunman opened fire" line only floored off the coincidental
+        # "fire" token, not the offender). The irregular plural means \bgunman\b does NOT match "gunmen"
+        # (the a->e vowel change breaks it, no trailing-s form), so each needs its own entry — the SAME
+        # singular->plural miss class as hostage/hostages, molotov/molotovs. Both are whole words with
+        # ZERO benign English meaning; the word boundary keeps them from firing inside "gunmetal". Added
+        # in the 2026-08-22 security/violence rule-probe.
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
-                     "gunshot", "gunshots", "gunfire",
+                     "gunshot", "gunshots", "gunfire", "gunman", "gunmen",
                      "shots fired", "active shooting", "shooter", "shooting",
                      "stab wound", "stab wounds", "molotov", "molotovs",
                      "knife attack", "stabbing attack", "stabbing spree",
