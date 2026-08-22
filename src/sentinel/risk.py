@@ -869,7 +869,25 @@ TAXONOMY = {
         # oxygen tank, supplemental oxygen administered, a liquid-oxygen delivery) is NOT adjacent to
         # "deficient atmosphere" and correctly stays LOW. Surfaced in the 2026-08-22 confined-space
         # O2-displacement rule-probe.
+        # "phosgene" — a WWI chemical-warfare agent that is also an industrial gas — already floors
+        # CRITICAL here, but its named chemical-weapon siblings a report would write outright ("nerve
+        # agent released in the mailroom", "responders treating mustard gas exposure at the loading
+        # dock", "multiple nerve agents suspected in the ventilation") matched nothing and dropped to
+        # LOW: the SAME whole-hazard absent-term miss class as typhoon-beside-hurricane and hydrogen-
+        # sulfide-beside-carbon-monoxide, the same lethal agent scored critical-or-LOW purely on which
+        # named toxin the reporter reached for. Live-probed the miss first (all phrasings LOW). Added
+        # at gas/chemical CRITICAL beside phosgene. Each is a whole word / multi-word phrase denoting
+        # EXCLUSIVELY a chemical-weapon exposure with ZERO benign English meaning AND no routine-
+        # presence collision (unlike "anhydrous ammonia", a named refrigerant whose mere presence is
+        # routine and is therefore DELIBERATELY EXCLUDED — the same non-incident-presence discipline
+        # that excluded bare "volcano"/"firearm"/"bomb"). The plural "nerve agents" needs its own entry
+        # (\bnerve\s+agent\b does not match the trailing "s"), the same singular->plural discipline as
+        # hostage/hostages and pipe bomb/pipe bombs. The bare polysemous name "sarin" is DELIBERATELY
+        # EXCLUDED (a surname collision — "reported by J. Sarin" — the same bare-token caution that
+        # excluded "stab"/"whipped"); the unambiguous "mustard gas" phrase fires while the condiment
+        # "mustard" alone does not. Surfaced in the 2026-08-22 chemical-weapon rule-probe.
         "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
+                     "nerve agent", "nerve agents", "mustard gas",
                      "hydrofluoric acid", "hydrogen fluoride",
                      "oxygen deficient atmosphere", "oxygen-deficient atmosphere",
                      "toxic", "chemical spill",

@@ -431,6 +431,16 @@ CASES = [
     # O2-displacement rule-probe.
     ("Atmospheric test showed an oxygen deficient atmosphere before tank entry", "critical", "gas/chemical"),
     ("Entrant overcome by an oxygen-deficient atmosphere in the vault", "critical", "gas/chemical"),
+    # Named chemical-warfare agents ("nerve agent"/"mustard gas") are always-a-hazard siblings of the
+    # already-floored "phosgene" (itself a WWI CW agent), so a directly-named release must reach the same
+    # gas/chemical critical floor — a directly-named agent previously matched nothing and dropped to LOW.
+    # The plural "nerve agents" is a distinct token from "nerve agent" (\bnerve\s+agent\b won't match the
+    # trailing "s"). Each case isolates on the new term (no other independent critical token — "detected"/
+    # "ventilation"/"exposure"/"loading dock" do not floor). Surfaced in the 2026-08-22 chemical-weapon
+    # rule-probe.
+    ("A nerve agent was detected in the ventilation duct", "critical", "gas/chemical"),
+    ("Multiple nerve agents suspected across the ventilation system", "critical", "gas/chemical"),
+    ("Responders treating mustard gas exposure at the loading dock", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
     ("Strong gas smell reported in the mechanical room", "high", "gas/chemical"),
