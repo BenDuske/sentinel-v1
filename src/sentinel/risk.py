@@ -1015,7 +1015,15 @@ TAXONOMY = {
         # bare "stab"/"whipped". ("car bomb detonated" already fires fire/smoke via \bdetonated\b; this
         # closes the FOUND/undetonated-device case that carries no explosion token.) Surfaced in the
         # 2026-08-22 explosive-device rule-probe (threat-vs-device sibling of the stabbing-event fix).
-        "critical": ["active shooter", "armed", "weapon", "hostage", "bomb threat",
+        # The singular "hostage" floors CRITICAL, but its plural "hostages" — how an active abduction
+        # crisis is actually reported ("the gunman took hostages in the control room", "multiple
+        # hostages held in the vault") — is a distinct token that \bhostage\b does NOT match (no
+        # boundary before the trailing "s"), so it dropped to LOW: the SAME singular->plural
+        # tokenization miss already closed for molotov/molotovs, pipe bomb/pipe bombs,
+        # kidnapping/kidnappings and the weather plurals. "hostages" is a whole word with ZERO benign
+        # English meaning, so its own entry closes the miss with no new over-fire class. Surfaced in
+        # the 2026-08-22 security/violence rule-probe.
+        "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire",

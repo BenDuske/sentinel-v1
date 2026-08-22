@@ -587,6 +587,13 @@ CASES = [
     # level. The only floored tokens here are the new "storm surge" (CRITICAL) and "storm" (HIGH), so
     # removing the phrase regresses this case to HIGH and fails the CRITICAL assertion (isolation).
     ("A storm surge is overtopping the seawall at the coastal site", "critical", "weather"),
+    # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
+    # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
+    # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
+    # floored word is the new "hostages"), so removing the entry regresses this case to LOW and fails
+    # the CRITICAL assertion (isolation).
+    ("The gunman took hostages inside the control room", "critical", "security/intrusion"),
+    ("Multiple hostages are being held in the vault", "critical", "security/intrusion"),
     # Verb-order lightning reports must reach the same HIGH floor as the noun "lightning strike" —
     # "lightning struck the ..." / "struck by lightning" is how a person actually reports it, and
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
