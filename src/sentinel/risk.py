@@ -836,8 +836,27 @@ TAXONOMY = {
         # is what reports write). Carries only the SAME conservative-floor tolerance already accepted for
         # carbon monoxide / cyanide (an inventory mention floors the same way, and the rule layer is a
         # floor the LLM/human can lower). Surfaced in the 2026-08-21 22:0x toxic-gas rule-probe.
+        # "oxygen deficient atmosphere" / "oxygen-deficient atmosphere" is the canonical OSHA confined-
+        # space killer — an atmosphere below ~19.5% O2 that renders a tank/vault/silo/pit immediately
+        # dangerous to life (O2 displaced by inert gas purge, rust/oxidation, decomposition, or an
+        # inert-gas leak). It is the leading cause of confined-space fatalities, yet a directly-named
+        # report ("atmospheric test showed an oxygen-deficient atmosphere before entry", "entrant
+        # overcome in an oxygen deficient atmosphere") matched nothing and dropped to LOW: the SAME
+        # whole-hazard absent-term miss class as hydrogen sulfide beside carbon monoxide — its own
+        # asphyxiation sibling "nitrogen asphyxiation" already floors CRITICAL off \basphyxiation\b, but
+        # the O2-deficiency phrasing had no coverage. Live-probed the miss first (all four isolated
+        # phrasings LOW). Added at gas/chemical CRITICAL beside asphyxiation. Two lexically-distinct
+        # forms a report writes — spaced and hyphenated (\boxygen\s+deficient\s+atmosphere\b does NOT
+        # match "oxygen-deficient atmosphere", the hyphen breaks the \s+ adjacency) — so each gets its
+        # own entry, the same spaced/hyphenated discipline as "downed power line"/"downed powerline".
+        # Each is a whole three-word/two-word phrase denoting EXCLUSIVELY the confined-space hazard with
+        # ZERO benign English meaning → no new over-fire class; a bare benign "oxygen" mention (a refilled
+        # oxygen tank, supplemental oxygen administered, a liquid-oxygen delivery) is NOT adjacent to
+        # "deficient atmosphere" and correctly stays LOW. Surfaced in the 2026-08-22 confined-space
+        # O2-displacement rule-probe.
         "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
                      "hydrofluoric acid", "hydrogen fluoride",
+                     "oxygen deficient atmosphere", "oxygen-deficient atmosphere",
                      "toxic", "chemical spill",
                      "hazmat",
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",

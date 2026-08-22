@@ -415,6 +415,14 @@ CASES = [
     # "gas"/"vessel" do not floor). Surfaced in the 2026-08-21 toxic-gas rule-probe.
     ("The operator was splashed with hydrofluoric acid on the etch line", "critical", "gas/chemical"),
     ("Exposure to hydrogen fluoride in the sealed process vessel", "critical", "gas/chemical"),
+    # "oxygen deficient atmosphere" / "oxygen-deficient atmosphere" is the canonical OSHA confined-space
+    # killer (O2 below ~19.5%), the leading cause of confined-space fatalities, yet a directly-named
+    # report previously matched nothing and dropped to LOW. Both spaced and hyphenated forms must reach
+    # the gas/chemical critical floor. Each case isolates on the new term (no other independent critical
+    # token — "tank"/"gas meter"/"manway" do not floor). Surfaced in the 2026-08-22 confined-space
+    # O2-displacement rule-probe.
+    ("Atmospheric test showed an oxygen deficient atmosphere before tank entry", "critical", "gas/chemical"),
+    ("Entrant overcome by an oxygen-deficient atmosphere in the vault", "critical", "gas/chemical"),
     # A gas ODOR is a HIGH floor regardless of word order — the noun-compound and "natural gas"
     # phrasings a person actually writes must reach the same floor as "smell of gas"/"odor of gas".
     ("Strong gas smell reported in the mechanical room", "high", "gas/chemical"),
@@ -766,6 +774,12 @@ NO_FALSE_POSITIVE = [
     # "photobomb", "the movie bombed" all embed the token benignly and none is adjacent to pipe/car.
     ("The gift shop restocked bath bombs, someone photobombed the banner, and the film bombed.",
      "pipe bomb"),
+    # The O2-deficiency entries are the full phrase "oxygen deficient/-deficient atmosphere", NOT bare
+    # "oxygen": a routine benign oxygen note (a refilled oxygen tank, supplemental oxygen, a liquid-oxygen
+    # delivery) must NOT fire the gas/chemical critical floor — proving the phrase matchers added only the
+    # confined-space hazard, not the benign gas mention.
+    ("The oxygen tank was refilled and supplemental oxygen is stocked for the liquid oxygen delivery.",
+     "oxygen deficient atmosphere"),
 ]
 
 
