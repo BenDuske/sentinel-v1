@@ -56,6 +56,15 @@ CASES = [
     ("Patient arrested from cardiac rupture minutes after the infarct", "critical", "injury/medical"),
     ("Autopsy confirmed left ventricular free-wall myocardial rupture", "critical", "injury/medical"),
     ("Surgeon documented a ventricular rupture at thoracotomy", "critical", "injury/medical"),
+    # The lay name for an intracranial hemorrhage — a "brain bleed" — floors at HIGH like its
+    # clinical umbrella "intracranial/cerebral/brain hemorrhage" (NOT critical: can be a slow chronic
+    # subdural), yet previously matched nothing and dropped to LOW because the bare token is "bleed",
+    # not the already-floored "bleeding". Each case isolates on the added phrase; bare "bleed"/"brain"
+    # stay unfloored, so a benign non-adjacent sentence (FP guard below) stays LOW.
+    ("CT confirmed a large brain bleed", "high", "injury/medical"),
+    ("Both patients presented with brain bleeds on imaging", "high", "injury/medical"),
+    ("Neurologist noted an active bleed on the brain", "high", "injury/medical"),
+    ("The scan showed she had bled on the brain overnight", "high", "injury/medical"),
     # Plain-English synonyms for "unconscious" (critical): "lost consciousness" / "loss of
     # consciousness" previously matched nothing and dropped to LOW while "unconscious" scored
     # critical. A transient faint reaches the HIGH floor.
@@ -849,6 +858,13 @@ NO_FALSE_POSITIVE = [
     # these cardiac phrases — proving the phrase matcher added only the heart-wall catastrophe.
     ("Warehouse note: a seal rupture on the compressor; cardiac rehab class and ventricular assist device demo both ran fine.",
      "cardiac rupture"),
+    # Only the QUALIFIED brain-adjacency phrases "brain bleed"/"brain bleeds"/"bleed on the brain"
+    # were added — NOT the polysemous bare "bleed" ("bleed the brakes", a "bleed valve", "colors
+    # bleed", "bleeding-edge"). A maintenance note with "bleed" and "brain" as non-adjacent words must
+    # NOT fire the injury/medical HIGH floor — proving the phrase matcher added only the cranial-bleed
+    # synonyms, not the bare word.
+    ("Engineers ran a bleed-the-brakes check on the forklift; the brain-teaser kiosk and a bleed valve on the tank both passed.",
+     "brain bleed"),
     # Only the QUALIFIED two-word phrases "cardiogenic shock" / "hypovolemic shock" were added —
     # NOT the polysemous bare word "shock". A non-medical "shock" note (a shock absorber, being "in
     # shock" emotionally) must NOT fire the injury/medical critical floor — proving the phrase matcher

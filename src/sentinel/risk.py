@@ -425,6 +425,23 @@ TAXONOMY = {
         # and whole-word matching keeps the benign prefix-sharer "hemorrhoid"/"hemorrhoids" — not an
         # acute emergency — from firing.
         # Surfaced in the 2026-08-17 rule-probe backlog (next-pick after stab wound).
+        # The clinical synonyms "intracranial hemorrhage"/"cerebral hemorrhage"/"brain hemorrhage" and
+        # the phrase "bleeding on the brain" all fire HIGH (via the bare "hemorrhage"/"bleeding" floor),
+        # but the everyday LAY name for the identical event — a "brain bleed" ("CT confirmed a large
+        # brain bleed", "she had a brain bleed after the fall", "the scan showed she'd bled on the
+        # brain") — matched NOTHING and dropped to LOW: the SAME word-choice asymmetry class as
+        # hemorrhage/hemorrhaging and hospitalised/haemorrhage, an intracranial hemorrhage scored
+        # HIGH-or-LOW purely on whether the reporter reached for the clinical "hemorrhage"/"bleeding"
+        # or the plain-English "bleed". Added the whole adjacency phrases at the SAME HIGH bleeding
+        # floor as "intracranial hemorrhage" (deliberately NOT critical — the lay umbrella, like its
+        # clinical umbrella, can name a slow chronic subdural, not always a hyperacute emergency; the
+        # QUALIFIED "subarachnoid hemorrhage" is the only intracranial form that escalates). Both the
+        # noun ("brain bleed"/"brain bleeds") and the "…on the brain" forms are needed because the bare
+        # token is "bleed", NOT the already-floored "bleeding" (\bbrain bleed\b does not match "brain
+        # bleeds"; neither shares a boundary with "bleeding"). DELIBERATELY NEVER the bare polysemous
+        # "bleed" ("bleeding-edge tech", "bleed the brakes", "colors bleed", "bleed cash") — only the
+        # zero-benign brain-adjacency phrases fire, so a benign sentence with "brain" and "bleed" as
+        # non-adjacent words stays LOW. Surfaced in the 2026-08-23 cranial-bleed rule-probe.
         # "hemorrhage"/"hemorrhaging" sit at HIGH, but their ADJECTIVE form "hemorrhagic" — the word a
         # trauma/clinical report actually writes ("hemorrhagic stroke suspected", "hemorrhagic fever
         # outbreak") — matched nothing and dropped to LOW: the SAME tokenization miss already fixed for
@@ -598,6 +615,8 @@ TAXONOMY = {
                      "overdose", "overdosed",
                      "collapsed", "bleeding", "hemorrhage", "hemorrhaging",
                      "haemorrhage", "haemorrhaging", "blood loss",
+                     "brain bleed", "brain bleeds",
+                     "bleed on the brain", "bled on the brain",
                      "hemorrhagic", "haemorrhagic",
                      "head injury", "trouble breathing",
                      "difficulty breathing", "can't breathe", "cannot breathe",
