@@ -550,9 +550,24 @@ TAXONOMY = {
         # two-word phrase \bdecompression\s+sickness\b cannot fire from any of them (all decoys live-
         # verified LOW, and the existing needle/chest-decompression CASES still floor critical off
         # "tension pneumothorax", not this term). Surfaced in the 2026-08-22 rule-probe backlog.
+        # "crush syndrome" (traumatic rhabdomyolysis) — the systemic, potentially-fatal complication of
+        # prolonged crushing/entrapment: on release the damaged muscle floods the circulation with
+        # myoglobin + potassium, risking hyperkalemic cardiac arrest and acute kidney injury. A responder/
+        # EMS report names it directly ("crush syndrome suspected after the worker was freed from under
+        # the machinery", "treated for crush syndrome following the prolonged entrapment"), yet an isolated
+        # report matched nothing and dropped to LOW: the SAME whole-hazard absent-term miss class as
+        # sepsis / near-drowning / decompression sickness above. Added as the MULTI-WORD phrase at the same
+        # conservative HIGH floor (NOT critical) as those siblings — like sepsis it is serious but evolves
+        # over hours after extrication and is treatable (aggressive fluids, dialysis), so HIGH is the
+        # defensible floor (the LLM or a human can raise a specific arrest to critical, and a coincident
+        # cardiac-arrest term still floors critical on its own). DELIBERATELY the two-word phrase, NEVER
+        # the bare polysemous "crush"/"crushed" — heavily figurative ("crushed the sprint goal", "crushed
+        # gravel", "the merger crushed competition") and deliberately excluded elsewhere in this file, so
+        # bare "crush" would over-fire; \bcrush\s+syndrome\b cannot fire from any of them, closing the miss
+        # with zero false-positive risk. Surfaced in the 2026-08-23 rule-probe backlog.
         "high":     ["injury", "injured", "injuries", "hospitalized", "hospitalised", "ambulance",
                      "punctured lung", "puncture wound", "puncture wounds",
-                     "decompression sickness",
+                     "decompression sickness", "crush syndrome",
                      "sepsis", "near drowning", "near-drowning",
                      "broken bone", "broken bones",
                      "fracture", "fractured", "fractures",

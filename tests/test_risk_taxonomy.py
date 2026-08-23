@@ -124,6 +124,14 @@ CASES = [
     # critical token appears in these cases, so they isolate on the new term.
     ("The diver developed decompression sickness after the rapid ascent", "high", "injury/medical"),
     ("Caisson worker suffered decompression sickness on the job", "high", "injury/medical"),
+    # "crush syndrome" (traumatic rhabdomyolysis) is the systemic, potentially-fatal complication of
+    # prolonged crushing/entrapment and must reach the same conservative HIGH floor as sepsis/near-
+    # drowning/decompression sickness — an isolated report previously matched nothing and dropped to LOW.
+    # HIGH (not critical) because, like sepsis, it evolves over hours after extrication and is treatable.
+    # The MULTI-WORD phrase cannot fire from bare polysemous "crush"/"crushed". Both cases below avoid
+    # "collapsed"/"injured"/"fall" so they isolate on the new term — removing it regresses them to LOW.
+    ("Crush syndrome suspected after the worker was freed from under the machinery", "high", "injury/medical"),
+    ("Medics treated the crew for crush syndrome following the prolonged entrapment", "high", "injury/medical"),
     # "sepsis" is a life-threatening infection response and must reach the HIGH floor; "septic shock"
     # is its terminal circulatory-collapse form and must reach CRITICAL alongside anaphylactic/
     # respiratory-arrest. Both previously matched nothing and dropped to LOW. The bare adjective
@@ -877,6 +885,12 @@ NO_FALSE_POSITIVE = [
     # the phrase matcher added only the diving injury, not the polysemous root.
     ("Ran archive decompression and completed the pressure-vessel decompression per procedure.",
      "decompression sickness"),
+    # "crush syndrome" is the full two-word phrase, NOT the bare polysemous "crush"/"crushed": a benign
+    # figurative use — crushing a sprint goal, crushed gravel/aggregate, a merger crushing a rival — must
+    # NOT fire the injury/medical HIGH floor (\bcrush\s+syndrome\b matches none of them), proving the
+    # phrase matcher added only the clinical trauma condition, not the heavily-figurative root.
+    ("The team crushed the sprint goal, crushed gravel for the walkway, and the merger crushed the rival.",
+     "crush syndrome"),
     # The volcanic-catastrophe phrases are MULTI-WORD, NOT the bare polysemous roots: a figurative
     # "erupted" and the geographic mention of a dormant "volcano" (neither an incident) must NOT fire
     # the weather CRITICAL floor (the phrase matchers match none of them), proving only the whole
