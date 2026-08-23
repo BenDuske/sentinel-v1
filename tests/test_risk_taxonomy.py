@@ -191,6 +191,12 @@ CASES = [
     # cases below isolate on the noun (no other floored token), so removing "strangulation" regresses to LOW.
     ("Manual strangulation of the worker caught in the machine", "critical", "injury/medical"),
     ("Confined-space incident: strangulation on the conveyor guard", "critical", "injury/medical"),
+    # "agonal" is the terminal gasping respiration of a dying/arresting patient (respiratory sibling of
+    # the already-critical respiratory arrest / not-breathing) — the term previously matched nothing and
+    # dropped to LOW. Both cases below isolate on "agonal" (no other floored token), so removing it
+    # regresses to LOW. The word-boundary cases further down guard the diagonal/hexagonal substring class.
+    ("Patient has agonal breathing; EMS performing resuscitation", "critical", "injury/medical"),
+    ("Found the man with agonal respirations on the loading dock", "critical", "injury/medical"),
     # "tension pneumothorax" is an immediately-lethal obstructive-shock emergency (respiratory sibling of
     # the already-critical cardiac tamponade) — the qualified phrase previously matched nothing and
     # dropped to LOW. Both cases below isolate on the phrase (no other floored token), so removing
@@ -943,6 +949,12 @@ NO_FALSE_POSITIVE = [
     # the polysemous root.
     ("The lab documented macrophage engulfment of apoptotic cells during the pathogen study.",
      "grain engulfment"),
+    # "agonal" matches on whole-word boundaries only: the routine geometry/structural words that merely
+    # embed the substring "agonal" — a diagonal brace, a hexagonal bolt, an octagonal duct — have no word
+    # boundary before the "a", so \bagonal\b must NOT fire the injury/medical critical floor, proving the
+    # terminal-respiration term cannot fire from inside a larger unrelated word.
+    ("The diagonal brace, hexagonal bolt, and octagonal duct were inspected; nothing else to report.",
+     "agonal"),
 ]
 
 

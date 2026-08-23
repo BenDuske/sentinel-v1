@@ -271,6 +271,19 @@ TAXONOMY = {
         # a substring of no other floored term — \baortic dissection\b cannot match either), so they close
         # the miss at the dissection floor with no new over-fire class. Next after subarachnoid hemorrhage
         # in the 2026-08-21 vascular-catastrophe backlog.
+        # "respiratory arrest" / "not breathing" floor at critical, but "agonal" — the terminal
+        # gasping respiration of a dying or actively-arresting patient ("agonal breathing", "agonal
+        # respirations", "the patient is agonal"), a near-universal EMS/ED marker of imminent death
+        # that IS effective apnea (ineffective, non-perfusing gasps) — matched nothing and dropped to
+        # LOW: the SAME word-choice asymmetry class as respiratory-arrest / not-breathing; the same
+        # immediately-fatal event scored critical-or-LOW purely on which term the reporter chose. The
+        # bare word "agonal" has ZERO benign English meaning (it means "pertaining to the death
+        # agony"), so it closes the miss at the respiratory-arrest floor with no new over-fire class —
+        # and the whole-word matcher means it CANNOT fire from the words that merely contain the
+        # substring "agonal" ("diagonal", "hexagonal", "octagonal", "pentagonal"; all live-verified
+        # non-firing). Bare "agonal" covers the phrase forms ("agonal breathing/respirations/gasps")
+        # in one term. Surfaced in the 2026-08-23 respiratory-terminal rule-probe (sibling of the
+        # respiratory-arrest / apnea cluster).
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -284,6 +297,7 @@ TAXONOMY = {
                      "isn't breathing", "wasn't breathing", "severe bleeding",
                      "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest",
+                     "agonal",
                      "cardiorespiratory arrest", "septic shock",
                      "cardiogenic shock", "hypovolemic shock", "hemorrhagic shock",
                      "status epilepticus", "aortic dissection",
