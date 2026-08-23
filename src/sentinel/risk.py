@@ -1079,11 +1079,23 @@ TAXONOMY = {
         # "sniper" is an active lethal threat with no benign meaning (the metaphor is the GERUND
         # "sniping", deliberately NOT added). Plural is a distinct token. Added in the 2026-08-22
         # security/violence rule-probe (gunpoint / grenade / IED / sniper).
+        # The passive/fatal report forms of a stabbing — "was stabbed" ("a worker was stabbed in the
+        # parking lot", "the guard was stabbed"), "stabbed to death", "fatally stabbed" — are the way
+        # an assault is actually written up, yet they matched nothing and dropped to LOW while the NOUN
+        # "stab wound" and the event phrase "stabbing attack" floor critical: the SAME word-form
+        # asymmetry class as amputation->amputated / decapitation->decapitated. Offline the rule layer
+        # is the only floor, so add these at critical beside "stab wound". DELIBERATELY qualified
+        # multi-word phrases, NOT the bare participle "stabbed" — the existing FP guard proves "stabbed"
+        # is polysemous ("stabbed at his lunch" = poked, "took a stab at it"), so bare "stabbed" would
+        # over-fire; "was stabbed" / "stabbed to death" / "fatally stabbed" carry no benign sense (the
+        # same qualified-phrase discipline used for "cardiogenic shock" over bare "shock"). Added in
+        # the 2026-08-22 security/violence rule-probe.
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire", "gunman", "gunmen",
                      "shots fired", "active shooting", "shooter", "shooting",
+                     "was stabbed", "stabbed to death", "fatally stabbed",
                      "stab wound", "stab wounds", "molotov", "molotovs",
                      "knife attack", "stabbing attack", "stabbing spree",
                      "mass stabbing", "knifepoint", "gunpoint",

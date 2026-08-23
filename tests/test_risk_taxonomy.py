@@ -583,6 +583,14 @@ CASES = [
     # added); each case isolates on the new term with no other critical/high token, plural distinct.
     ("A sniper was reported on the parking-garage roof", "critical", "security/intrusion"),
     ("Two snipers positioned near the north gate, per the guard", "critical", "security/intrusion"),
+    # "was stabbed"/"stabbed to death"/"fatally stabbed" are the passive/fatal report forms of a
+    # stabbing (critical via "stab wound"/"stabbing attack") that previously matched nothing and
+    # dropped to LOW. Same word-form class as amputated/decapitated. Qualified phrases, NOT bare
+    # "stabbed" (that stays low — see the "stabbed at his lunch" FP guard). Each case isolates on the
+    # new term (no other critical/high token: "parking lot"/"loading dock" carry none).
+    ("A worker was stabbed in the parking lot", "critical", "security/intrusion"),
+    ("The night attendant was stabbed near the loading dock and fled", "critical", "security/intrusion"),
+    ("A visitor was stabbed to death outside the east entrance", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
