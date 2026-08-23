@@ -276,6 +276,7 @@ TAXONOMY = {
                      "cardiac arrest", "heart attack", "myocardial infarction",
                      "ventricular fibrillation", "asystole",
                      "cardiac tamponade", "pericardial tamponade",
+                     "cardiac rupture", "myocardial rupture", "ventricular rupture",
                      "tension pneumothorax",
                      "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
@@ -325,6 +326,23 @@ TAXONOMY = {
         # — a therapeutic maneuver to stop bleeding ("balloon tamponade of the varix", "uterine
         # tamponade", "nasal tamponade") — so the bare token would over-fire on a treatment note; it
         # stays Ben-review.
+        # "heart attack" / "myocardial infarction" floor at critical, but the terminal MECHANICAL
+        # complication of an MI — rupture of the heart wall itself ("cardiac rupture" / "myocardial
+        # rupture" / "ventricular rupture", i.e. free-wall or septal blow-out, an almost uniformly
+        # fatal event an ED/cath-lab/autopsy report names directly: "arrested from cardiac rupture
+        # post-MI", "autopsy confirmed left ventricular free-wall rupture") — matched nothing and
+        # dropped to LOW: the SAME word-choice asymmetry class as heart-attack/myocardial-infarction/
+        # ventricular-fibrillation/tamponade; the same immediately-fatal cardiac catastrophe scored
+        # critical-or-LOW purely on which phrase the reporter chose. Each is a whole two-word clinical
+        # phrase with ZERO benign English meaning, and NONE is a substring of any floored term
+        # (\bmyocardial rupture\b cannot fire from "myocardial infarction"; \bcardiac rupture\b cannot
+        # fire from "cardiac arrest"/"cardiac tamponade"/"cardiac rehab"; \bventricular rupture\b cannot
+        # fire from "ventricular fibrillation"/"ventricular assist device") — all live-verified LOW
+        # today, so they close the miss at the cardiac floor with no new over-fire class. DELIBERATELY
+        # NOT the bare word "rupture" (heavily polysemous — "water main rupture", "disc rupture",
+        # "spleen rupture" spanning many severities and categories); the phrase matcher means the
+        # three adjacency phrases cannot fire from any of those. Surfaced in the 2026-08-23 cardiac
+        # rule-probe (heart-wall-rupture sibling of the MI/tamponade cluster).
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
         # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched

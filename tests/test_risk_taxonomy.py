@@ -48,6 +48,14 @@ CASES = [
     # word "tamponade" is NOT floored (polysemous therapeutic maneuver — balloon/uterine tamponade).
     ("Entrant developed cardiac tamponade after the chest impact", "critical", "injury/medical"),
     ("Responding medic confirmed pericardial tamponade on the echo", "critical", "injury/medical"),
+    # Heart-wall rupture is the terminal MECHANICAL complication of an MI (critical) — "cardiac
+    # rupture" / "myocardial rupture" / "ventricular rupture" — an almost uniformly fatal blow-out an
+    # ED/cath-lab/autopsy report names directly, yet each previously matched nothing and dropped to
+    # LOW. Each case isolates on the term (no other critical/high token fires); the bare word
+    # "rupture" is NOT floored (polysemous — water main / disc / spleen rupture across categories).
+    ("Patient arrested from cardiac rupture minutes after the infarct", "critical", "injury/medical"),
+    ("Autopsy confirmed left ventricular free-wall myocardial rupture", "critical", "injury/medical"),
+    ("Surgeon documented a ventricular rupture at thoracotomy", "critical", "injury/medical"),
     # Plain-English synonyms for "unconscious" (critical): "lost consciousness" / "loss of
     # consciousness" previously matched nothing and dropped to LOW while "unconscious" scored
     # critical. A transient faint reaches the HIGH floor.
@@ -835,6 +843,12 @@ NO_FALSE_POSITIVE = [
     # look-alikes.
     ("Routine vitals charted: systole 120, diastole 80, systolic trend stable.",
      "asystole"),
+    # Only the QUALIFIED two-word phrases "cardiac/myocardial/ventricular rupture" were added — NOT
+    # the massively polysemous bare word "rupture" (a burst pipe, a herniated disc, a torn membrane).
+    # A facilities note about a water-main rupture must NOT fire the injury/medical critical floor from
+    # these cardiac phrases — proving the phrase matcher added only the heart-wall catastrophe.
+    ("Warehouse note: a seal rupture on the compressor; cardiac rehab class and ventricular assist device demo both ran fine.",
+     "cardiac rupture"),
     # Only the QUALIFIED two-word phrases "cardiogenic shock" / "hypovolemic shock" were added —
     # NOT the polysemous bare word "shock". A non-medical "shock" note (a shock absorber, being "in
     # shock" emotionally) must NOT fire the injury/medical critical floor — proving the phrase matcher
