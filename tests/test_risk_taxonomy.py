@@ -186,6 +186,14 @@ CASES = [
     # Both cases below isolate on the new terms (no other floored token), so removing them regresses to LOW.
     ("The worker was eviscerated by the unguarded machine", "critical", "injury/medical"),
     ("Traumatic abdominal evisceration at the press; responders en route", "critical", "injury/medical"),
+    # The PRESENT participles "amputating"/"decapitating"/"dismembering" must reach the same critical
+    # floor as their nouns/past participles — an ACTIVE machine-trauma report writes "the press was
+    # amputating fingers", which previously matched neither the noun nor the past participle ("-ing" is
+    # a distinct token) and dropped to LOW/MEDIUM (same verb-form asymmetry class as exsanguinating).
+    # Each case isolates on the new term (no other floored token), so removing it regresses below critical.
+    ("The industrial press was amputating fingers on every cycle", "critical", "injury/medical"),
+    ("The rotating blade was decapitating the worker who reached in", "critical", "injury/medical"),
+    ("The auger was dismembering the worker who fell into it", "critical", "injury/medical"),
     # "strangulation" is a fatal airway-occlusion trauma (sibling of asphyxiation/suffocation) — the noun
     # previously matched nothing and dropped to LOW unless a coincident token (death/assault) fired. Both
     # cases below isolate on the noun (no other floored token), so removing "strangulation" regresses to LOW.

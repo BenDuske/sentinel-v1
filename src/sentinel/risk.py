@@ -137,6 +137,22 @@ TAXONOMY = {
         # only the physical trauma — the rare literary figurative ("eviscerated his argument") does not
         # appear in incident reports, the same tolerance already accepted for "decapitated"/"dismembered";
         # the participle is a separate entry because \bevisceration\b does not match "eviscerated".
+        # The PRESENT participles "amputating" / "decapitating" / "dismembering" — the way an ACTIVE
+        # machine-trauma report is written ("the press was amputating fingers on every cycle", "the
+        # rotating blade was decapitating the worker who reached in", "the auger was dismembering the
+        # worker who fell into it") — matched neither the noun nor the past participle (\b on the
+        # "-ing" form is a distinct token) and dropped to LOW/MEDIUM: the SAME verb-form asymmetry
+        # already closed for exsanguination→exsanguinating, the same catastrophic trauma scored
+        # critical-or-LOW purely on grammatical tense. Each noun AND its past participle are ALREADY
+        # critical here (amputation/amputated, decapitation/decapitated, dismemberment/dismembered), so
+        # the present participle introduces NO new over-fire class the accepted forms don't already
+        # carry — the rare literary figurative ("dismembering his argument") does not appear in
+        # operational incident text, the same tolerance already accepted for "decapitated"/"dismembered".
+        # "eviscerating" and "strangling" are DELIBERATELY excluded: both carry live figurative meaning
+        # ("an eviscerating critique", "strangling the budget") the taxonomy already keeps out at the
+        # noun/participle level. Each present participle needs its own entry — \bamputation\b/\bamputated\b
+        # match none of them. Surfaced in the 2026-08-24 present-participle rule-probe (sibling of the
+        # exsanguinating verb-form floor).
         # "strangulation" — mechanical neck compression cutting off the airway/carotid flow, an
         # immediately life-threatening trauma a report names directly ("manual strangulation of the
         # worker caught in the machine", "death by strangulation confirmed by the coroner") — matched
@@ -346,8 +362,9 @@ TAXONOMY = {
                      "subarachnoid hemorrhage", "subarachnoid haemorrhage",
                      "brain herniation", "cerebral herniation", "uncal herniation",
                      "transtentorial herniation", "tonsillar herniation",
-                     "amputation", "amputated", "decapitation", "decapitated",
-                     "dismemberment", "dismembered",
+                     "amputation", "amputated", "amputating",
+                     "decapitation", "decapitated", "decapitating",
+                     "dismemberment", "dismembered", "dismembering",
                      "evisceration", "eviscerated", "strangulation",
                      "life-threatening", "multiple injured"],
         # "heart attack" floors at critical, but its clinical twin "myocardial infarction" — the
