@@ -262,6 +262,12 @@ CASES = [
     # bleeding" token present), so removing them regresses to LOW/MEDIUM.
     ("The patient exsanguinated before EMS arrived on scene", "critical", "injury/medical"),
     ("Massive exsanguination from the laceration; responders en route", "critical", "injury/medical"),
+    # The PRESENT participle "exsanguinating" must reach the same critical floor as the noun
+    # "exsanguination"/past participle "exsanguinated" — an active trauma report writes "patient is
+    # actively exsanguinating", which previously matched neither ("-ating" is a distinct token) and
+    # dropped to LOW (same verb-form asymmetry class as amputated/decapitated). Case isolates on the new
+    # term (no "death"/"severe bleeding"/"hemorrhage" token), so removing it regresses to LOW.
+    ("Patient is actively exsanguinating from the femoral wound", "critical", "injury/medical"),
     # "massive/catastrophic/uncontrolled hemorrhage" (+ British "haemorrhage") are the clinical
     # QUALIFIED synonyms of the already-critical lay "severe bleeding" — the same immediately-fatal
     # exsanguinating bleed, previously scored only HIGH via the bare "hemorrhage" term. Each case

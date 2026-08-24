@@ -120,6 +120,14 @@ TAXONOMY = {
         # NO benign English meaning (unlike the polysemous "bleed out" — "bleed out the brake line" /
         # "bleed the radiator" — deliberately excluded), so they close the miss with zero false-positive
         # risk; the participle is a separate entry because \bexsanguination\b does not match "exsanguinated".
+        # The PRESENT participle "exsanguinating" — the way an active trauma report is actually written
+        # ("patient is actively exsanguinating", "exsanguinating hemorrhage from the femoral wound",
+        # "massive exsanguinating injury") — matched neither "exsanguination" nor "exsanguinated" (\b on
+        # either side means the "-ating" form is a distinct token) and dropped to LOW/HIGH: the SAME
+        # verb-form asymmetry already fixed for amputation→amputated / decapitation→decapitated, the same
+        # immediately-fatal blood-loss event scored critical-or-LOW purely on grammatical tense. It is a
+        # whole clinical word with NO benign English meaning, so it closes the miss at the noun's critical
+        # floor with zero false-positive risk (the polysemous "bleed out" stays deliberately excluded).
         # "evisceration" — and its participle "eviscerated" ("the worker was eviscerated by the machine",
         # "traumatic abdominal evisceration at the press") — is a catastrophic trauma on par with
         # decapitation / dismemberment / amputation / impalement (all already critical here), yet BOTH the
@@ -328,7 +336,7 @@ TAXONOMY = {
                      "massive hemorrhage", "massive haemorrhage",
                      "catastrophic hemorrhage", "catastrophic haemorrhage",
                      "uncontrolled hemorrhage", "uncontrolled haemorrhage",
-                     "exsanguination", "exsanguinated",
+                     "exsanguination", "exsanguinated", "exsanguinating",
                      "respiratory arrest", "cardiopulmonary arrest",
                      "agonal",
                      "cardiorespiratory arrest", "septic shock",
