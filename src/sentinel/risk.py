@@ -1025,8 +1025,26 @@ TAXONOMY = {
         # "sink". The plural "sinkholes" needs its own entry (\bsinkhole\b won't match "sinkholes"),
         # the same singular->plural tokenization discipline already applied to burn/burns and
         # injury/injuries in injury/medical above.
+        # A trench/excavation/mine "cave-in" — soil or rock giving way into an open excavation, a
+        # LEADING cause of construction fatality (OSHA) a reporter names directly ("the trench
+        # caved in on the crew", "a cave-in buried the excavation", "cave-in at the north dig") —
+        # matched nothing and dropped to LOW: unlike "collapse"/"structural failure"/"foundation
+        # failure" (critical) it contains NO floored substring, and unlike "sinkhole"/"subsidence"
+        # (HIGH) the earth-movement sibling term itself was simply absent — the SAME whole-hazard
+        # absent-term miss class as sinkhole above, one excavation over. Added at the SAME
+        # conservative HIGH floor as "sinkhole"/"subsidence" (the earth/ground-failure precedent, not
+        # the built-structure "collapse" critical floor): a cave-in ranges from an empty-trench slump
+        # to a fatal burial, so HIGH is the defensible floor the LLM/human can raise — and a cave-in
+        # that buries or injures a worker independently floors critical via the injury/medical terms.
+        # DELIBERATELY the HYPHENATED noun "cave-in"/"cave-ins" ONLY, NEVER the spaced idiom "cave
+        # in" (to "cave in to demands/pressure", the negotiation metaphor) — \bcave\-in\b requires a
+        # literal hyphen so it cannot fire from "cave in to", closing the miss with zero
+        # false-positive risk. The plural "cave-ins" needs its own entry (\bcave\-in\b won't match
+        # "cave-ins"), the same singular->plural tokenization discipline as sinkhole/sinkholes.
+        # Surfaced in the 2026-08-24 structural earth-failure rule-probe (excavation sibling of the
+        # sinkhole/subsidence ground-failure cluster).
         "high":     ["crack in wall", "structural crack", "sagging", "buckling", "subsidence",
-                     "sinkhole", "sinkholes",
+                     "sinkhole", "sinkholes", "cave-in", "cave-ins",
                      "load-bearing", "compromised", "leaning"],
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
     },

@@ -545,6 +545,13 @@ CASES = [
     ("A sinkhole opened under the loading dock", "high", "structural"),
     ("Sinkhole swallowed part of the sidewalk near the entrance", "high", "structural"),
     ("Multiple sinkholes appeared across the lot overnight", "high", "structural"),
+    # A trench/excavation "cave-in" is the excavation sibling of "sinkhole"/"subsidence" and must
+    # reach the same HIGH ground-failure floor — the hyphenated noun previously matched nothing (it
+    # contains no floored substring) and dropped to LOW. The plural "cave-ins" needs to fire too
+    # (\bcave\-in\b does not match "cave-ins"), the same singular->plural gap as sinkhole/sinkholes.
+    ("A cave-in buried part of the excavation on the north side", "high", "structural"),
+    ("Reported a cave-in at the trench where the crew was digging", "high", "structural"),
+    ("Multiple cave-ins along the pipeline trench after the rain", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
@@ -811,6 +818,10 @@ NO_FALSE_POSITIVE = [
     # "sinkhole" is a whole word: the common noun "sink" (a kitchen sink) and the verb "sink" (to
     # sink a budget) must NOT fire the structural floor — \bsinkhole\b does not match "sink".
     ("The kitchen sink is clogged and we may sink the extra budget into repairs.", "sinkhole"),
+    # Only the HYPHENATED noun "cave-in" was added, NOT the spaced negotiation idiom "cave in":
+    # "cave in to demands/pressure" is a common figurative usage and must NOT fire the structural
+    # HIGH floor — \bcave\-in\b requires a literal hyphen, so the spaced idiom cannot match it.
+    ("Management chose to cave in to the union's demands during the meeting.", "cave-in"),
     # Only the literal noun "suffocation" was added, NOT the metaphor-heavy verb/adjective forms:
     # "suffocated by the workload", "suffocating heat", and "the suffocating bureaucracy" are common
     # figurative usages and must NOT fire the gas/chemical critical floor (\bsuffocation\b matches
