@@ -1234,11 +1234,30 @@ TAXONOMY = {
         # over-fire; "was stabbed" / "stabbed to death" / "fatally stabbed" carry no benign sense (the
         # same qualified-phrase discipline used for "cardiogenic shock" over bare "shock"). Added in
         # the 2026-08-22 security/violence rule-probe.
+        # The fatal-SHOOTING victim-outcome phrasings are the exact twins of the stabbing forms just
+        # above, yet only the stabbing side was covered: "fatally stabbed"/"stabbed to death" floor
+        # critical, but their firearm siblings — "fatally shot", "shot to death", "shot and killed",
+        # the way a fatal shooting is actually written up ("the victim was fatally shot in the lot",
+        # "a man was shot to death outside", "the guard was shot and killed by an intruder") — matched
+        # NOTHING and dropped to LOW. The firearm EVENT/OFFENDER family (gunshot / gunfire / shots fired
+        # / shooter / gunman) is fully covered, but NONE of its tokens appear in "the victim was fatally
+        # shot", so that report currently scores LOW — the SAME word-form asymmetry class as
+        # fatally-stabbed vs stab-wound, one weapon's fatal-outcome phrasing critical and the other's
+        # LOW purely on word choice. "opened fire" is the twin of the already-critical "shots fired":
+        # by substring it only ever floored off the COINCIDENTAL "fire" token (fire/smoke), giving the
+        # RIGHT severity for the WRONG reason (a shooting mis-attributed to fire) — its own entry fixes
+        # the rationale, not just the score. All four are qualified MULTI-WORD adjacency phrases with no
+        # benign sense (the same discipline as "was stabbed"/"stabbed to death"): DELIBERATELY NOT the
+        # bare polysemous "shot" ("photo shot", "flu shot", "gave it a shot", "shot down the proposal")
+        # nor "shot dead" (real benign "shot dead center" in archery/aim text) nor "gunned down" (the
+        # driving sense "gunned down the highway") — only the whole fatal-shooting phrases fire. Added
+        # in the 2026-08-24 security/violence rule-probe (firearm twin of the fatally-stabbed fix).
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire", "gunman", "gunmen",
                      "shots fired", "active shooting", "shooter", "shooting",
+                     "fatally shot", "shot to death", "shot and killed", "opened fire",
                      "was stabbed", "stabbed to death", "fatally stabbed",
                      "stab wound", "stab wounds", "molotov", "molotovs",
                      "knife attack", "stabbing attack", "stabbing spree",

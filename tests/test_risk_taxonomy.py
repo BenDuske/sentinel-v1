@@ -663,6 +663,20 @@ CASES = [
     ("A worker was stabbed in the parking lot", "critical", "security/intrusion"),
     ("The night attendant was stabbed near the loading dock and fled", "critical", "security/intrusion"),
     ("A visitor was stabbed to death outside the east entrance", "critical", "security/intrusion"),
+    # The fatal-SHOOTING victim-outcome phrasings are the firearm twins of the stabbing forms just
+    # above — "fatally shot"/"shot to death"/"shot and killed" — the way a fatal shooting is written
+    # up, yet only the stabbing side floored critical; the firearm EVENT/OFFENDER family
+    # (gunshot/shooter/shots fired) has NO token inside "the victim was fatally shot", so it dropped
+    # to LOW. "opened fire" is the twin of "shots fired": it previously floored only off the
+    # coincidental "fire" token (wrong category — fire/smoke), so its own security entry fixes the
+    # RATIONALE. Qualified multi-word phrases, NOT bare "shot" (see the FP guard below). Isolation:
+    # "fatally shot"/"shot and killed" carry no other floored token; "shot to death" also fires
+    # injury/medical via "death" and "opened fire" also fires fire/smoke via "fire", so for those two
+    # the security/intrusion category assertion (only the new entry supplies it) guards the addition.
+    ("The victim was fatally shot in the parking lot", "critical", "security/intrusion"),
+    ("A man was shot to death outside the loading dock", "critical", "security/intrusion"),
+    ("A worker was shot and killed near the north gate and the suspect fled", "critical", "security/intrusion"),
+    ("The suspect opened fire in the third-floor lobby", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
@@ -797,6 +811,16 @@ NO_FALSE_POSITIVE = [
     # "took a stab at it" / "stabbed at the food" (idiom). Only the whole phrase "stab wound" does.
     ("He reported a stabbing pain in his side; took a stab at fixing it and stabbed at his lunch.",
      "stab wound"),
+    # The fatal-shooting phrases are qualified multi-word adjacency, so the bare polysemous "shot" must
+    # NOT fire the security floor: "gave it a shot", a photo "shot on location", a "flu shot". Only the
+    # whole fatal phrases ("fatally shot"/"shot to death"/"shot and killed") do.
+    ("She gave it a shot at the interview; the photo was shot on location and he booked his flu shot.",
+     "fatally shot"),
+    # The excluded neighbors of the fatal-shooting phrases must NOT fire: "shot dead" was left out for
+    # the benign "shot dead center" (archery/aim), and "gunned down" for the driving sense "gunned down
+    # the highway" — proving only the zero-collision phrases were added, not their over-firing kin.
+    ("The arrow landed shot dead center on the range as they gunned down the highway to the meeting.",
+     "shot dead"),
     # "pistol-whipped"/"pistol whipping" is a two-word/hyphenated compound, so the bare "whipped"/
     # "whipping" must NOT fire the security/intrusion floor: whipped cream, "whipped the team into
     # shape", a whipping wind. Only the whole "pistol" compound does.
