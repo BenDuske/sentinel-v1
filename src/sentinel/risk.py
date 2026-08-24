@@ -271,6 +271,18 @@ TAXONOMY = {
         # a substring of no other floored term — \baortic dissection\b cannot match either), so they close
         # the miss at the dissection floor with no new over-fire class. Next after subarachnoid hemorrhage
         # in the 2026-08-21 vascular-catastrophe backlog.
+        # "subarachnoid hemorrhage" and the vascular catastrophes above floor at critical, but brain
+        # HERNIATION — the terminal endpoint of raised intracranial pressure, where brain tissue is
+        # forced across a dural fold and crushes the brainstem — matched nothing and dropped to LOW: the
+        # SAME word-choice asymmetry class, the same immediately-fatal neuro-emergency scored
+        # critical-or-LOW purely on which term the reporter chose. The qualified phrases a neuro/ICU/CT
+        # report actually writes ("uncal herniation on CT", "signs of brain herniation", "transtentorial
+        # herniation", "tonsillar herniation / coning") are whole clinical phrases with ZERO benign
+        # English meaning, so they close the miss at the vascular-catastrophe floor with no new over-fire
+        # class. DELIBERATELY the QUALIFIED brain phrases only — NEVER the bare "herniation" or "hernia",
+        # which the whole-word matcher keeps benign ("disc herniation" in L5, an "inguinal hernia" repair
+        # are routine, NOT critical — both live-verified LOW and STAY low). Surfaced in the 2026-08-24
+        # intracranial-catastrophe rule-probe (sibling of subarachnoid hemorrhage / aortic rupture).
         # "respiratory arrest" / "not breathing" floor at critical, but "agonal" — the terminal
         # gasping respiration of a dying or actively-arresting patient ("agonal breathing", "agonal
         # respirations", "the patient is agonal"), a near-universal EMS/ED marker of imminent death
@@ -324,6 +336,8 @@ TAXONOMY = {
                      "status epilepticus", "aortic dissection",
                      "aortic rupture", "ruptured aorta",
                      "subarachnoid hemorrhage", "subarachnoid haemorrhage",
+                     "brain herniation", "cerebral herniation", "uncal herniation",
+                     "transtentorial herniation", "tonsillar herniation",
                      "amputation", "amputated", "decapitation", "decapitated",
                      "dismemberment", "dismembered",
                      "evisceration", "eviscerated", "strangulation",

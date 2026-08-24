@@ -246,6 +246,16 @@ CASES = [
     # qualified phrase (no "aneurysm"/"death" token), so removing it regresses to the HIGH bleeding floor.
     ("Acute subarachnoid hemorrhage on CT; to the OR emergently", "critical", "injury/medical"),
     ("Hunt-Hess IV subarachnoid haemorrhage on arrival", "critical", "injury/medical"),
+    # Brain HERNIATION is the terminal endpoint of raised intracranial pressure (brainstem crush) — a
+    # neuro sibling of the already-critical subarachnoid hemorrhage — yet the qualified clinical phrases
+    # previously matched nothing and dropped to LOW. Each case isolates on the herniation phrase (no
+    # other floored token), so removing the terms regresses to LOW. The benign disc/inguinal hernia
+    # cases in test_bare_herniation_stays_low guard the deliberately-excluded bare "herniation"/"hernia".
+    ("CT shows uncal herniation; neurosurgery notified", "critical", "injury/medical"),
+    ("Signs of brain herniation on the repeat scan", "critical", "injury/medical"),
+    ("Transtentorial herniation noted; pupils blown", "critical", "injury/medical"),
+    ("Tonsillar herniation confirmed on imaging", "critical", "injury/medical"),
+    ("Cerebral herniation imminent per the neuro exam", "critical", "injury/medical"),
     # "exsanguination"/"exsanguinated" is the clinical term for fatal blood loss — the fatal endpoint
     # of "severe bleeding" (already critical) — yet both the noun and the participle previously matched
     # nothing and dropped to LOW/MEDIUM. Both cases isolate on the new terms (no "death"/"severe
@@ -977,6 +987,20 @@ NO_FALSE_POSITIVE = [
     ("The diagonal brace, hexagonal bolt, and octagonal duct were inspected; nothing else to report.",
      "agonal"),
 ]
+
+
+def test_bare_herniation_stays_low():
+    # The QUALIFIED brain-herniation phrases (uncal/brain/transtentorial/tonsillar/cerebral) escalate
+    # to critical, but the bare "herniation"/"hernia" was DELIBERATELY excluded — a disc herniation or
+    # an inguinal/hiatal hernia is routine, NOT a critical emergency. \bherniation\b / \bhernia\b are
+    # not taxonomy signals, so these benign cases must fall through to the LOW default; a future
+    # careless add of the bare noun would fire them critical and this catches it.
+    for text in ("Patient has a disc herniation at L5",
+                 "Inguinal hernia repair scheduled next week",
+                 "Hiatal hernia found on endoscopy"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare hernia is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
 
 
 def test_intracranial_hemorrhage_stays_high_not_critical():
