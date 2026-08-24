@@ -284,6 +284,24 @@ TAXONOMY = {
         # non-firing). Bare "agonal" covers the phrase forms ("agonal breathing/respirations/gasps")
         # in one term. Surfaced in the 2026-08-23 respiratory-terminal rule-probe (sibling of the
         # respiratory-arrest / apnea cluster).
+        # "severe bleeding" floors at critical, but its clinical QUALIFIED synonyms — "massive
+        # hemorrhage" / "catastrophic hemorrhage" / "uncontrolled hemorrhage" (and the British
+        # "haemorrhage" spellings), the exact terms a trauma/EMS report writes for the SAME
+        # immediately-fatal exsanguinating bleed ("massive hemorrhage, activated the massive
+        # transfusion protocol", "catastrophic haemorrhage from the femoral wound", "uncontrolled
+        # hemorrhage, could not stop it") — fired only HIGH, via the bare "hemorrhage"/"haemorrhage"
+        # bleeding term below: the SAME word-choice asymmetry class as subarachnoid-hemorrhage and
+        # hemorrhagic shock, the same life-threatening bleed scored critical-or-HIGH purely on whether
+        # the reporter wrote the lay "severe bleeding" or its clinical equal. Each is a whole
+        # two-word clinical phrase with ZERO benign English meaning that names the massive-transfusion /
+        # <C>-catastrophic-hemorrhage life-threat, so they close the miss at the "severe bleeding" floor
+        # with no new over-fire class. DELIBERATELY the QUALIFIED phrases only — never the bare
+        # "hemorrhage"/"haemorrhage" (which stay at their conservative HIGH bleeding floor below), and
+        # NOT the lay "massive/uncontrolled/catastrophic bleeding" (the "bleeding" token carries the
+        # business metaphor "bleeding cash/talent" the taxonomy already tolerates only at HIGH — the
+        # -rrhage matcher cannot fire from any of those). Live-verified: the metaphor "hemorrhaged our
+        # budget" stays LOW (\bhemorrhage\b won't fire from "hemorrhaged"). Surfaced in the 2026-08-24
+        # exsanguination-cluster rule-probe (sibling of severe-bleeding / exsanguination).
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
@@ -295,6 +313,9 @@ TAXONOMY = {
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
                      "isn't breathing", "wasn't breathing", "severe bleeding",
+                     "massive hemorrhage", "massive haemorrhage",
+                     "catastrophic hemorrhage", "catastrophic haemorrhage",
+                     "uncontrolled hemorrhage", "uncontrolled haemorrhage",
                      "exsanguination", "exsanguinated",
                      "respiratory arrest", "cardiopulmonary arrest",
                      "agonal",

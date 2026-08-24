@@ -252,11 +252,21 @@ CASES = [
     # bleeding" token present), so removing them regresses to LOW/MEDIUM.
     ("The patient exsanguinated before EMS arrived on scene", "critical", "injury/medical"),
     ("Massive exsanguination from the laceration; responders en route", "critical", "injury/medical"),
+    # "massive/catastrophic/uncontrolled hemorrhage" (+ British "haemorrhage") are the clinical
+    # QUALIFIED synonyms of the already-critical lay "severe bleeding" — the same immediately-fatal
+    # exsanguinating bleed, previously scored only HIGH via the bare "hemorrhage" term. Each case
+    # isolates on the new phrase (no "death"/"severe bleeding"/"exsanguination" token present), so
+    # removing the phrases regresses to HIGH (via bare "hemorrhage"), proving the escalation.
+    ("Trauma bay: massive hemorrhage, activated the transfusion protocol", "critical", "injury/medical"),
+    ("Catastrophic haemorrhage from the femoral wound; responders en route", "critical", "injury/medical"),
+    ("Uncontrolled hemorrhage on scene, could not stop it before EMS", "critical", "injury/medical"),
     # "hemorrhage"/"hemorrhaging" is the clinical synonym of "bleeding" (already HIGH) and must
-    # reach the same HIGH floor — "worker is hemorrhaging" / "massive hemorrhage" previously matched
-    # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW.
+    # reach the same HIGH floor — "worker is hemorrhaging" / a bare "hemorrhage" previously matched
+    # nothing (neither "bleeding" nor "severe bleeding" is a substring) and dropped to LOW. NOTE the
+    # BARE term stays HIGH; the QUALIFIED "massive/catastrophic/uncontrolled hemorrhage" phrases
+    # escalate to critical above (their own cases), so these examples avoid those qualifiers.
     ("Worker is hemorrhaging badly after the press incident", "high", "injury/medical"),
-    ("Massive hemorrhage reported on the floor; responders en route", "high", "injury/medical"),
+    ("Hemorrhage reported on the floor; responders en route", "high", "injury/medical"),
     # The adjective "hemorrhagic" (== the HIGH nouns "hemorrhage"/"hemorrhaging") must reach the same
     # HIGH floor — "hemorrhagic rash" / "hemorrhagic stroke" previously matched nothing (\bhemorrhage\b
     # does not match "hemorrhagic") and dropped to LOW. Both cases isolate on the adjective (no
@@ -306,7 +316,7 @@ CASES = [
     # "hemorrhaging") previously matched nothing and dropped to LOW purely on en-GB orthography.
     ("Worker hospitalised after the scaffold gave way", "high", "injury/medical"),
     ("Patient is haemorrhaging badly; responders en route", "high", "injury/medical"),
-    ("Massive haemorrhage reported on the floor", "high", "injury/medical"),
+    ("Haemorrhage reported on the floor", "high", "injury/medical"),
     # "hypothermia"/"hypothermic" is an acute exposure emergency with no benign meaning and must
     # reach the injury/medical HIGH floor — previously matched nothing and dropped to LOW.
     ("Employee found with severe hypothermia after exposure", "high", "injury/medical"),
@@ -967,6 +977,25 @@ def test_intracranial_hemorrhage_stays_high_not_critical():
                  "Chronic subdural intracranial haemorrhage under observation"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "high", f"{text!r} -> {sev}, expected exactly high (must not escalate to critical)"
+
+
+def test_qualified_hemorrhage_escalates_bare_and_metaphor_do_not():
+    # The QUALIFIED "massive/catastrophic/uncontrolled hemorrhage" phrases escalate to critical
+    # (life-threatening exsanguinating bleed), while the BARE clinical term stays at the conservative
+    # HIGH bleeding floor and the business metaphor "hemorrhaged" must not fire at all.
+    for text in ("Massive hemorrhage, transfusion protocol active",
+                 "Uncontrolled haemorrhage before EMS arrived"):
+        sev, _ = risk.rule_layer(text)
+        assert sev == "critical", f"{text!r} -> {sev}, expected critical (qualified hemorrhage)"
+    # Bare, unqualified hemorrhage holds at exactly HIGH (not escalated by the new phrases).
+    sev, _ = risk.rule_layer("Hemorrhage noted; responders en route")
+    assert sev == "high", f"bare hemorrhage -> {sev}, expected exactly high"
+    # The "hemorrhaged"/"bleeding cash" business metaphors carry no life-threat and must stay LOW —
+    # \bhemorrhage\b cannot fire from the participle "hemorrhaged", and "bleeding" is deliberately not
+    # escalated by a "massive"/"catastrophic" qualifier.
+    sev, reasons = risk.rule_layer("The massive turnout hemorrhaged our budget forecast this quarter")
+    assert sev == "low", f"budget metaphor -> {sev}, expected low"
+    assert "no risk taxonomy signals" in reasons[0].lower()
 
 
 def test_embedded_substring_does_not_fire_floor():
