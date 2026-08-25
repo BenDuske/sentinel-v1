@@ -1475,6 +1475,21 @@ TAXONOMY = {
         # same singular->plural tokenization discipline applied to hurricanes/typhoons/earthquakes/lahars.
         # Zero benign English meaning -> zero operational false-positive risk. Surfaced in the 2026-08-25
         # tropical-cyclone-umbrella rule-probe.
+        # "megatsunami"/"megatsunamis" is a great tsunami (wave amplitude far beyond an ordinary tsunami,
+        # typically from a landslide/volcanic-flank collapse/asteroid impact rather than a fault rupture):
+        # the 1958 Lituya Bay megatsunami ran up ~524 m, and a future Cumbre Vieja (La Palma) flank collapse
+        # is the textbook Atlantic megatsunami scenario. It is the EXACT tsunami analogue of "megaquake"
+        # (added in the same 2026-08-25 seismic-magnitude probe): a mega- prefix on an already-critical root,
+        # denoting a strictly-worse version of the catastrophe, so flooring it CRITICAL can only ever be
+        # correct. Its sibling "tsunami"/"tsunamis" is right here at the critical floor, yet "megatsunami"
+        # matched nothing and dropped to LOW — \btsunami\b does NOT match "megatsunami" (no word boundary
+        # before "tsunami" inside the compound), the SAME compound-prefix tokenization miss already closed
+        # for megaquake-beside-earthquake. Added both forms; the plural "megatsunamis" needs its own entry
+        # (\bmegatsunami\b does not match "megatsunamis"), the same singular->plural discipline applied to
+        # earthquakes/temblors/megaquakes/tsunamis/hurricanes/typhoons/derechos/lahars. "megatsunami" is a
+        # whole word denoting EXCLUSIVELY a very large tsunami — zero benign English meaning (unlike the
+        # polysemous bare "wave"/"surge", deliberately not floored on their own) — so this closes the miss
+        # with no operational false-positive risk. Surfaced in the 2026-08-25 tsunami-magnitude rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1483,7 +1498,7 @@ TAXONOMY = {
                      "temblor", "temblors",
                      "megaquake", "megaquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
-                     "tsunami", "tsunamis", "severe storm warning",
+                     "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "lava flow",
                      "lahar", "lahars",
                      "storm surge"],

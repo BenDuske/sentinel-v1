@@ -793,6 +793,15 @@ CASES = [
     # case to LOW and fails the CRITICAL assertion (isolation).
     ("A megaquake could level the coastal plant", "critical", "weather"),
     ("Two megaquakes struck the fault zone this decade", "critical", "weather"),
+    # "megatsunami"/"megatsunamis" name a great tsunami (Lituya Bay 1958, the Cumbre Vieja flank-collapse
+    # scenario) — the tsunami analogue of the already-critical "megaquake", strictly worse than the
+    # already-critical "tsunami", yet it previously matched nothing and dropped to LOW because \btsunami\b
+    # does not match inside the compound "megatsunami". The compound plural likewise means \bmegatsunami\b
+    # does not match "megatsunamis", so each is a distinct entry. Neither sentence carries any other floored
+    # token (no bare "tsunami"/"wave"/"storm"), so removing the entries regresses each case to LOW and fails
+    # the CRITICAL assertion (isolation).
+    ("A megatsunami could inundate the coastal plant", "critical", "weather"),
+    ("Two megatsunamis followed the offshore flank collapse", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
