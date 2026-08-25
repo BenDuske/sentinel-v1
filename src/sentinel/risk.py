@@ -1082,8 +1082,25 @@ TAXONOMY = {
         # "cave-ins"), the same singular->plural tokenization discipline as sinkhole/sinkholes.
         # Surfaced in the 2026-08-24 structural earth-failure rule-probe (excavation sibling of the
         # sinkhole/subsidence ground-failure cluster).
+        # A "rockslide" — a mass of rock breaking loose and sliding down a slope onto a road, rail
+        # line, quarry, or work area (burying/crushing whatever is below) — is the same acute
+        # earth-movement emergency a reporter names directly ("a rockslide buried the highway",
+        # "rockslide at the quarry trapped two workers"), yet it matched nothing and dropped to LOW
+        # while its ground-failure siblings "sinkhole"/"cave-in"/"subsidence" already floor at HIGH:
+        # the SAME whole-hazard absent-term miss class, one slope over. Added at the SAME conservative
+        # HIGH earth-failure floor (a rockslide ranges from an empty-road slump to a fatal burial, so
+        # HIGH is the defensible floor the LLM/human can raise — and one that buries or injures a
+        # worker independently floors critical via the injury/medical terms). The plural "rockslides"
+        # needs its own entry (\brockslide\b does not match "rockslides"), the same singular->plural
+        # tokenization discipline as sinkhole/sinkholes and cave-in/cave-ins. DELIBERATELY the
+        # ONE-WORD "rockslide"/"rockslides" ONLY — NEVER the polysemous earth-disaster siblings
+        # "landslide" ("a landslide victory"), "mudslide" (the cocktail/ice-cream), or "avalanche"
+        # ("an avalanche of tickets/complaints"), all live-verified LOW and left Ben-review; and NOT
+        # the spaced "rock slide" (a playground/water-park attraction). \brockslide\b as one word has
+        # zero benign English meaning, so it closes the miss with zero false-positive risk (bare
+        # "rock" and "slide" do not fire). Surfaced in the 2026-08-25 earth-movement rule-probe.
         "high":     ["crack in wall", "structural crack", "sagging", "buckling", "subsidence",
-                     "sinkhole", "sinkholes", "cave-in", "cave-ins",
+                     "sinkhole", "sinkholes", "cave-in", "cave-ins", "rockslide", "rockslides",
                      "load-bearing", "compromised", "leaning"],
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
     },

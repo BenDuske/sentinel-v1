@@ -576,6 +576,13 @@ CASES = [
     ("A cave-in buried part of the excavation on the north side", "high", "structural"),
     ("Reported a cave-in at the trench where the crew was digging", "high", "structural"),
     ("Multiple cave-ins along the pipeline trench after the rain", "high", "structural"),
+    # A "rockslide" is the earth-movement sibling of "sinkhole"/"cave-in"/"subsidence" and must reach
+    # the same HIGH ground-failure floor — the one-word noun previously matched nothing (it contains
+    # no floored substring) and dropped to LOW. The plural "rockslides" must fire too (\brockslide\b
+    # does not match "rockslides"), the same singular->plural gap as sinkhole/sinkholes.
+    ("A rockslide buried the access road below the quarry face", "high", "structural"),
+    ("Rockslide came down onto the rail line and blocked the tunnel mouth", "high", "structural"),
+    ("Repeated rockslides closed the canyon highway overnight", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
@@ -888,6 +895,12 @@ NO_FALSE_POSITIVE = [
     # "cave in to demands/pressure" is a common figurative usage and must NOT fire the structural
     # HIGH floor — \bcave\-in\b requires a literal hyphen, so the spaced idiom cannot match it.
     ("Management chose to cave in to the union's demands during the meeting.", "cave-in"),
+    # Only the one-word "rockslide"/"rockslides" was added, NOT the polysemous earth-disaster siblings
+    # "landslide" (a "landslide victory"), "mudslide" (the cocktail), or "avalanche" (an "avalanche of
+    # tickets"): those common figurative usages must NOT fire the structural HIGH floor — none of them
+    # is a match for \brockslide\b, proving we added only the zero-collision term, not its neighbors.
+    ("The mayor won in a landslide, the bar served a mudslide, and support saw an avalanche of tickets.",
+     "rockslide"),
     # Only the literal noun "suffocation" was added, NOT the metaphor-heavy verb/adjective forms:
     # "suffocated by the workload", "suffocating heat", and "the suffocating bureaucracy" are common
     # figurative usages and must NOT fire the gas/chemical critical floor (\bsuffocation\b matches
