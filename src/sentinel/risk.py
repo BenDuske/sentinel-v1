@@ -1264,6 +1264,22 @@ TAXONOMY = {
         # figurative "acid test" all carry benign senses (live-verified LOW) — only the whole
         # "acid attack" adjacency fires, so this closes the miss with zero false-positive risk.
         # Added in the 2026-08-25 security/violence rule-probe (corrosive-assault sibling of knife attack).
+        # A "firebomb" — an incendiary weapon/attack a reporter names outright ("the office was
+        # firebombed overnight", "a firebomb was thrown through the window", "firebombs hurled at the
+        # gate") — matched NOTHING and dropped to LOW, even though its direct synonym "molotov" already
+        # floors CRITICAL right here and "arson"/"ablaze" floor CRITICAL in fire/smoke: the SAME
+        # incendiary-attack event scored critical-or-LOW purely on which word the reporter reached for.
+        # A firebomb IS a molotov/incendiary device, so it belongs at the assault-family critical floor
+        # beside "molotov". This is also a rationale twin of the "opened fire" fix — one might expect it
+        # to at least floor off the "fire" token, but whole-word \bfire\b does NOT match inside
+        # "firebomb"/"firebombed", so the report scored a true LOW, not merely a mis-attributed hit.
+        # Each surface form needs its own entry — \bfirebomb\b matches neither "firebombs" (plural) nor
+        # "firebombed" (verb) nor "firebombing" (gerund), the same verb/plural tokenization discipline as
+        # molotov/molotovs and carjacking/carjacked/carjackings. "firebomb-" denotes EXCLUSIVELY the
+        # incendiary weapon/act — NO benign English meaning (unlike the polysemous bare "fire" = fire
+        # someone / open fire / fire drill, deliberately not leaned on) — so this closes the miss with
+        # zero false-positive risk. Added in the 2026-08-25 security/violence rule-probe (incendiary-
+        # weapon sibling of molotov).
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
@@ -1272,6 +1288,7 @@ TAXONOMY = {
                      "fatally shot", "shot to death", "shot and killed", "opened fire",
                      "was stabbed", "stabbed to death", "fatally stabbed",
                      "stab wound", "stab wounds", "molotov", "molotovs",
+                     "firebomb", "firebombs", "firebombed", "firebombing",
                      "knife attack", "stabbing attack", "stabbing spree",
                      "mass stabbing", "knifepoint", "gunpoint",
                      "grenade", "grenades", "ied", "ieds",

@@ -685,6 +685,16 @@ CASES = [
     ("An acid attack on the technician at the loading dock", "critical", "security/intrusion"),
     ("The victim of an acid attack was treated at the gate", "critical", "security/intrusion"),
     ("Two acid attacks reported near the north entrance this month", "critical", "security/intrusion"),
+    # "firebomb"/"firebombs"/"firebombed"/"firebombing" (an incendiary weapon/attack) is the direct
+    # synonym of "molotov" (security critical): a named incendiary assault that previously matched
+    # nothing and dropped to LOW — whole-word \bfire\b does NOT fire inside "firebomb", so it was a
+    # true LOW, not a mis-attributed fire/smoke hit. The verb, plural, and gerund are distinct tokens
+    # needing their own entries (\bfirebomb\b matches none of them), the same tokenization class as
+    # molotov/molotovs. Whole words with no benign polysemy; each case isolates on the new term.
+    ("The office was firebombed overnight and the suspect fled", "critical", "security/intrusion"),
+    ("A firebomb was thrown through the front window", "critical", "security/intrusion"),
+    ("Firebombs were hurled at the guard shack", "critical", "security/intrusion"),
+    ("A firebombing at the north depot early this morning", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
@@ -1092,6 +1102,19 @@ def test_bare_acid_stays_low():
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare acid is not critical)"
         assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_firebomb_whole_word_guard():
+    # The firebomb family floors security/intrusion critical only as a WHOLE word — the matcher must
+    # not fire from a larger benign word. "firebombproof" (a cladding descriptor) embeds "firebomb"
+    # but is not an attack, and "fireside"/"you're fired" are unrelated "fire*" words. All must stay
+    # off the firebomb critical floor; a future switch to substring matching would regress this.
+    for text in ("Firebombproof cladding was installed on the exterior wall",
+                 "The team held a fireside planning meeting",
+                 "You are fired, effective immediately"):
+        sev, reasons = risk.rule_layer(text)
+        hit_terms = " ".join(reasons).lower()
+        assert "firebomb" not in hit_terms, f"{text!r} wrongly matched a firebomb token: {reasons}"
 
 
 def test_embedded_substring_does_not_fire_floor():
