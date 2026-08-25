@@ -775,6 +775,14 @@ CASES = [
     # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
     ("A strong temblor struck the facility overnight", "critical", "weather"),
     ("Two temblors rattled the plant this week", "critical", "weather"),
+    # "megaquake"/"megaquakes" name a great earthquake (magnitude ~8+) — a directly-named seismic
+    # catastrophe (Cascadia/Nankai megaquake) strictly worse than the already-critical "earthquake"/
+    # "temblor", yet it previously matched nothing and dropped to LOW. The compound plural means
+    # \bmegaquake\b does not match "megaquakes", so each is a distinct entry. Neither sentence carries any
+    # other floored token (no bare "earthquake"/"quake"/"storm"), so removing the entries regresses each
+    # case to LOW and fails the CRITICAL assertion (isolation).
+    ("A megaquake could level the coastal plant", "critical", "weather"),
+    ("Two megaquakes struck the fault zone this decade", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

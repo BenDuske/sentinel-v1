@@ -1445,11 +1445,25 @@ TAXONOMY = {
         # this is the SAME negligible cross-language tolerance already accepted for
         # "typhoon"/"derecho"/"lahar"/"molotov" and closes the miss with no operational false-positive risk.
         # Surfaced in the 2026-08-25 seismic-synonym rule-probe.
+        # "megaquake"/"megaquakes" is a great earthquake (moment magnitude ~8+): the Cascadia, Nankai,
+        # and Alaska "megaquake" is a directly-named seismic catastrophe journalism and hazard agencies
+        # use routinely for the largest, most destructive quakes. Its exact sibling "earthquake"/"temblor"
+        # already floors CRITICAL here, yet "megaquake" matched nothing and dropped to LOW: the SAME
+        # synonym-of-a-critical-term miss as temblor-beside-earthquake — and STRICTLY worse, since a
+        # megaquake is by definition a catastrophic earthquake, so flooring it CRITICAL can only ever be
+        # correct. Added both forms at the same critical floor as "earthquake"; the plural "megaquakes"
+        # needs its own entry (\bmegaquake\b does not match "megaquakes"), the same singular->plural
+        # tokenization discipline already applied to earthquakes/temblors/hurricanes/typhoons/derechos/lahars.
+        # "megaquake" is a whole word denoting EXCLUSIVELY a very large earthquake — it has zero benign
+        # English meaning (unlike the polysemous bare "quake", which can mean "quake with fear" and is
+        # deliberately left out), so this closes the miss with no operational false-positive risk. Surfaced
+        # in the 2026-08-25 seismic-magnitude rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "derecho", "derechos",
                      "earthquake", "earthquakes",
                      "temblor", "temblors",
+                     "megaquake", "megaquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "tsunami", "tsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "lava flow",
