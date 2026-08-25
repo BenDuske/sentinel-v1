@@ -1431,10 +1431,25 @@ TAXONOMY = {
         # meaning, so this is the SAME negligible cross-language tolerance already accepted for
         # "typhoon"/"derecho"/"molotov" and closes the miss with no operational false-positive risk. Surfaced
         # in the 2026-08-25 volcanic-hazard rule-probe.
+        # "temblor"/"temblors" is the English-adopted loanword synonym for "earthquake" (Merriam-Webster
+        # defines it simply as "earthquake"; from Spanish temblor = trembling). US and international
+        # journalism reach for it routinely as a same-meaning variant ("a strong temblor struck the
+        # region"), so an incident report is as likely to write "temblor" as "earthquake" — yet its exact
+        # critical sibling "earthquake"/"earthquakes" is right here at the critical floor while "temblor"
+        # matched nothing and dropped to LOW: the SAME synonym-of-a-critical-term miss as typhoon-beside-
+        # hurricane, the same event scored critical-or-LOW purely on which word the reporter used. Added
+        # both forms at the same critical floor as "earthquake"; the plural "temblors" needs its own entry
+        # (\btemblor\b does not match "temblors"), the same singular->plural tokenization discipline
+        # already applied to earthquakes/hurricanes/typhoons/derechos/lahars. As a Spanish loanword adopted
+        # into English, "temblor" denotes EXCLUSIVELY an earthquake — it has zero benign English meaning, so
+        # this is the SAME negligible cross-language tolerance already accepted for
+        # "typhoon"/"derecho"/"lahar"/"molotov" and closes the miss with no operational false-positive risk.
+        # Surfaced in the 2026-08-25 seismic-synonym rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "derecho", "derechos",
                      "earthquake", "earthquakes",
+                     "temblor", "temblors",
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "tsunami", "tsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "lava flow",

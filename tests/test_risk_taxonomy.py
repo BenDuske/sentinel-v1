@@ -767,6 +767,14 @@ CASES = [
     # the entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
     ("A lahar is descending the volcano toward the plant", "critical", "weather"),
     ("Two lahars swept through the valley last week", "critical", "weather"),
+    # "temblor"/"temblors" is the English-adopted loanword synonym for "earthquake" (Merriam-Webster:
+    # "temblor: earthquake") — a report is as likely to write "temblor" as "earthquake", yet it
+    # previously matched nothing and dropped to LOW while its exact sibling "earthquake" floors CRITICAL.
+    # The loanword plural means \btemblor\b does not match "temblors", so each is a distinct entry.
+    # Neither sentence carries any other floored token (no "earthquake"/"quake"/"storm"), so removing the
+    # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A strong temblor struck the facility overnight", "critical", "weather"),
+    ("Two temblors rattled the plant this week", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
