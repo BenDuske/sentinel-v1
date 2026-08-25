@@ -751,6 +751,14 @@ CASES = [
     # level. The only floored tokens here are the new "storm surge" (CRITICAL) and "storm" (HIGH), so
     # removing the phrase regresses this case to HIGH and fails the CRITICAL assertion (isolation).
     ("A storm surge is overtopping the seawall at the coastal site", "critical", "weather"),
+    # "derecho"/"derechos" name a widespread straight-line windstorm (hurricane-force gusts over a
+    # 240+ mile swath) — a directly-named weather catastrophe on the same footing as tornado/hurricane/
+    # typhoon, yet it previously matched nothing and dropped to LOW. The irregular loanword plural means
+    # \bderecho\b does not match "derechos", so each is a distinct entry. Neither sentence carries any
+    # other floored token (no "storm"/"winds"), so removing the entries regresses each case to LOW and
+    # fails the CRITICAL assertion (isolation).
+    ("A derecho is forecast to reach the plant this evening", "critical", "weather"),
+    ("Two derechos battered the region earlier this summer", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

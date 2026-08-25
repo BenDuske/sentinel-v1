@@ -1400,8 +1400,25 @@ TAXONOMY = {
         # surge, a surge of adrenaline — which is DELIBERATELY EXCLUDED and left to the existing whole
         # phrase "power surge"; only the adjacent two-word storm-surge phrase fires). Surfaced in the
         # 2026-08-22 natural-disaster rule-probe alongside the volcanic members.
+        # A "derecho" is a widespread, long-lived, fast-moving STRAIGHT-LINE WINDSTORM — hurricane-force
+        # gusts (58+ mph, often 80-100+) along a damage swath 240+ miles long, a directly-named, NWS-warned
+        # convective catastrophe (the 2012 mid-Atlantic and 2020 Iowa derechos each killed people, caused
+        # billions in damage, and left millions without power). It is a named natural disaster on exactly
+        # the same footing as its critical siblings tornado/hurricane/typhoon — NOT the generic "storm"/
+        # "high winds" that sit at the weather HIGH floor — yet it matched nothing and dropped to LOW: the
+        # SAME whole-catastrophe absent-term miss class as typhoon-beside-hurricane and volcanic-eruption,
+        # the same event scored critical-or-LOW purely on which named storm it is. Added the whole word at
+        # the tornado/hurricane critical floor; the plural "derechos" needs its own entry (\bderecho\b
+        # won't match "derechos"), the same singular->plural tokenization discipline already applied to
+        # tornadoes/hurricanes/typhoons. As an English loanword "derecho" denotes EXCLUSIVELY this
+        # windstorm — its Spanish sense ("right"/"straight"/"law") appears only in Spanish-language text,
+        # never in English facility/incident reporting, so this is the SAME negligible cross-language
+        # tolerance already accepted for "typhoon"/"molotov" and closes the miss with no operational
+        # false-positive risk (bare "storm"/"winds" continue to floor HIGH on their own). Surfaced in the
+        # 2026-08-25 severe-weather rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
+                     "derecho", "derechos",
                      "earthquake", "earthquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "tsunami", "tsunamis", "severe storm warning",
