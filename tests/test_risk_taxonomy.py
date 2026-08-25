@@ -729,6 +729,16 @@ CASES = [
     # Whole words with no benign polysemy; plural is a distinct token needing its own entry.
     ("A typhoon is forecast to make landfall near the coastal plant", "critical", "weather"),
     ("Two typhoons battered the offshore facility this season", "critical", "weather"),
+    # "tropical cyclone"/"tropical cyclones" is the formal WMO/NWS umbrella for the same storm regionally
+    # named "hurricane"/"typhoon" (both already CRITICAL) — Cyclone Idai/Nargis are directly-named
+    # tropical-cyclone catastrophes, yet the phrase previously matched nothing and dropped to LOW. The
+    # QUALIFIER "tropical" disambiguates the polysemous bare "cyclone" (fence/separator, excluded), so the
+    # qualified multi-word phrase floors CRITICAL with zero collision. The plural is a distinct token
+    # (\btropical\s+cyclone\b won't match "tropical cyclones"), needing its own entry. Neither sentence
+    # carries any other floored token (no bare "cyclone"/"storm"), so removing the entries regresses each
+    # case to LOW and fails the CRITICAL assertion (isolation).
+    ("A tropical cyclone is bearing down on the coastal facility", "critical", "weather"),
+    ("Two tropical cyclones intensified over the gulf this week", "critical", "weather"),
     # The plural spellings of the remaining weather-critical singulars must reach the same CRITICAL
     # floor — "wildfire"/"flash flood"/"tsunami" scored critical but "wildfires"/"flash floods"/
     # "tsunamis" are distinct tokens that previously matched nothing and dropped to LOW, the same
@@ -951,10 +961,11 @@ NO_FALSE_POSITIVE = [
     # bare-vs-qualified boundary already drawn for tamponade (excluded) vs cardiac/pericardial tamponade.
     ("A small spontaneous pneumothorax was monitored overnight and resolved on its own.",
      "tension pneumothorax"),
-    # Only the unambiguous tropical-cyclone synonym "typhoon" was added, NOT the polysemous "cyclone":
-    # a "cyclone fence" (chain-link fencing) and a "cyclone separator" (industrial dust collector) are
-    # routine facilities/equipment terms and must NOT fire the weather critical floor — proving we
-    # added only the zero-collision synonym, not its over-firing neighbor.
+    # Only the unambiguous tropical-cyclone terms "typhoon" and the QUALIFIED "tropical cyclone" were
+    # added, NOT the polysemous bare "cyclone": a "cyclone fence" (chain-link fencing) and a "cyclone
+    # separator" (industrial dust collector) are routine facilities/equipment terms and must NOT fire the
+    # weather critical floor — \btropical\s+cyclone\b cannot match either, proving the qualified phrase
+    # closes the synonym gap without reopening its over-firing bare root.
     ("The cyclone fence along the perimeter and the cyclone separator on line 3 both need service.",
      "cyclone"),
     # "arson" is whole-word: the benign noun "parson" (a clergyman) embeds the letters a-r-s-o-n but

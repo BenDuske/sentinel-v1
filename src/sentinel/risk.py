@@ -1458,8 +1458,26 @@ TAXONOMY = {
         # English meaning (unlike the polysemous bare "quake", which can mean "quake with fear" and is
         # deliberately left out), so this closes the miss with no operational false-positive risk. Surfaced
         # in the 2026-08-25 seismic-magnitude rule-probe.
+        # "tropical cyclone"/"tropical cyclones" is the FORMAL meteorological umbrella (WMO/NWS/JTWC/BoM)
+        # for the exact same storm that is regionally named "hurricane" (Atlantic/E-Pacific) or "typhoon"
+        # (NW-Pacific) — both of which already floor CRITICAL here. Cyclone Idai (Mozambique) and Cyclone
+        # Nargis (Myanmar, ~138,000 dead) are directly-named tropical-cyclone catastrophes agencies and
+        # international journalism report routinely, yet "tropical cyclone" matched nothing and dropped to
+        # LOW: the SAME whole-catastrophe absent-term miss class as typhoon-beside-hurricane, the same event
+        # scored critical-or-LOW purely on which regional/umbrella word the reporter reached for. The bare
+        # root "cyclone" was DELIBERATELY excluded above as polysemous ("cyclone fence" = chain-link fence,
+        # "cyclone separator" = industrial dust collector); the QUALIFIER "tropical" removes that ambiguity
+        # entirely — \btropical\s+cyclone\b cannot match a cyclone fence/separator — so the qualified phrase
+        # closes the synonym gap WITHOUT reopening the excluded polysemous root, the exact bare-vs-qualified
+        # discipline already drawn for tamponade (excluded) vs "cardiac tamponade" and pneumothorax
+        # (excluded) vs "tension pneumothorax". Added both at the hurricane/typhoon critical floor; the
+        # plural "tropical cyclones" needs its own entry (\btropical\s+cyclone\b won't match the plural), the
+        # same singular->plural tokenization discipline applied to hurricanes/typhoons/earthquakes/lahars.
+        # Zero benign English meaning -> zero operational false-positive risk. Surfaced in the 2026-08-25
+        # tropical-cyclone-umbrella rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
+                     "tropical cyclone", "tropical cyclones",
                      "derecho", "derechos",
                      "earthquake", "earthquakes",
                      "temblor", "temblors",
