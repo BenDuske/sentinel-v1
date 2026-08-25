@@ -677,6 +677,14 @@ CASES = [
     ("A man was shot to death outside the loading dock", "critical", "security/intrusion"),
     ("A worker was shot and killed near the north gate and the suspect fled", "critical", "security/intrusion"),
     ("The suspect opened fire in the third-floor lobby", "critical", "security/intrusion"),
+    # "acid attack"/"acid attacks" (a corrosive-substance assault) is the violent-assault sibling of
+    # "knife attack"/"stabbing attack" (security critical): a directly-named attack that previously
+    # matched nothing and dropped to LOW. Only the qualified two-word phrase is added — bare "acid"
+    # (acid wash / acid rain / lactic acid / "acid test") stays LOW (see the FP guard). The plural is a
+    # distinct token needing its own entry. Each case isolates on the new term (no other floored token).
+    ("An acid attack on the technician at the loading dock", "critical", "security/intrusion"),
+    ("The victim of an acid attack was treated at the gate", "critical", "security/intrusion"),
+    ("Two acid attacks reported near the north entrance this month", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
@@ -1069,6 +1077,21 @@ def test_qualified_hemorrhage_escalates_bare_and_metaphor_do_not():
     sev, reasons = risk.rule_layer("The massive turnout hemorrhaged our budget forecast this quarter")
     assert sev == "low", f"budget metaphor -> {sev}, expected low"
     assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_acid_stays_low():
+    # The QUALIFIED "acid attack"/"acid attacks" phrase floors security/intrusion critical (a
+    # corrosive-substance assault), but the bare token "acid" was DELIBERATELY excluded — an acid
+    # wash, acid rain, lactic acid buildup, and the figurative "acid test" are all routine/benign.
+    # \bacid attack\b cannot fire from any of them, so these must fall through to the LOW default;
+    # a future careless add of the bare noun would fire them critical and this catches it.
+    for text in ("The technician used an acid wash on the condenser coils",
+                 "Acid rain damaged the rooftop panels overnight",
+                 "Lactic acid buildup flagged in the fermentation tank",
+                 "The rollout was the acid test for the new access policy"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare acid is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
 
 
 def test_embedded_substring_does_not_fire_floor():

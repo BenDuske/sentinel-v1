@@ -1252,6 +1252,18 @@ TAXONOMY = {
         # nor "shot dead" (real benign "shot dead center" in archery/aim text) nor "gunned down" (the
         # driving sense "gunned down the highway") — only the whole fatal-shooting phrases fire. Added
         # in the 2026-08-24 security/violence rule-probe (firearm twin of the fatally-stabbed fix).
+        # An "acid attack" — a corrosive-substance assault, a recognized violent-crime category a
+        # reporter names directly ("victim of an acid attack at the gate", "two acid attacks reported
+        # this month") — matched NOTHING and dropped to LOW, while its direct siblings "knife attack"/
+        # "stabbing attack"/"mass stabbing" already floor at security/intrusion critical: the SAME
+        # weapon/violent-assault miss class scored critical-or-LOW purely on which weapon the reporter
+        # named. Added the qualified two-word phrase (+ plural "acid attacks", a distinct token
+        # \bacid attack\b does NOT match — the same singular->plural discipline as stab wound/stab
+        # wounds and molotov/molotovs) at the assault-family critical floor beside "knife attack".
+        # DELIBERATELY NOT the bare polysemous "acid": "acid wash", "acid rain", "lactic acid", the
+        # figurative "acid test" all carry benign senses (live-verified LOW) — only the whole
+        # "acid attack" adjacency fires, so this closes the miss with zero false-positive risk.
+        # Added in the 2026-08-25 security/violence rule-probe (corrosive-assault sibling of knife attack).
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
@@ -1265,7 +1277,8 @@ TAXONOMY = {
                      "grenade", "grenades", "ied", "ieds",
                      "sniper", "snipers",
                      "pistol-whipped", "pistol whipped",
-                     "pistol-whipping", "pistol whipping"],
+                     "pistol-whipping", "pistol whipping",
+                     "acid attack", "acid attacks"],
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
                      "unauthorized access", "forced entry", "trespass", "assault",
                      "data breach", "breach", "ransomware", "malware", "compromised account"],
