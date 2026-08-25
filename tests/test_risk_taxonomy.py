@@ -759,6 +759,14 @@ CASES = [
     # fails the CRITICAL assertion (isolation).
     ("A derecho is forecast to reach the plant this evening", "critical", "weather"),
     ("Two derechos battered the region earlier this summer", "critical", "weather"),
+    # "lahar"/"lahars" name a volcanic mudflow/debris flow (the 1985 Nevado del Ruiz lahar killed
+    # ~23,000) — a directly-named volcanic catastrophe on the same footing as the already-critical
+    # "volcanic eruption"/"pyroclastic flow"/"lava flow", yet it previously matched nothing and dropped
+    # to LOW. The loanword plural means \blahar\b does not match "lahars", so each is a distinct entry.
+    # Neither sentence carries any other floored token ("volcano"/"valley" are not signals), so removing
+    # the entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A lahar is descending the volcano toward the plant", "critical", "weather"),
+    ("Two lahars swept through the valley last week", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

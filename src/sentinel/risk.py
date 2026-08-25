@@ -1416,6 +1416,21 @@ TAXONOMY = {
         # tolerance already accepted for "typhoon"/"molotov" and closes the miss with no operational
         # false-positive risk (bare "storm"/"winds" continue to floor HIGH on their own). Surfaced in the
         # 2026-08-25 severe-weather rule-probe.
+        # A "lahar" is a volcanic mudflow/debris flow — a fast-moving torrent of volcanic ash, rock, and
+        # water that races down a volcano's flanks, burying everything in its path (the 1985 Nevado del
+        # Ruiz lahar entombed the town of Armero and killed ~23,000 people, one of the deadliest volcanic
+        # disasters in recorded history). It is a directly-named, USGS/NWS-warned volcanic catastrophe on
+        # exactly the same footing as its critical siblings already floored here — "volcanic eruption",
+        # "pyroclastic flow", "lava flow" — yet "lahar" matched nothing and dropped to LOW: the SAME
+        # whole-catastrophe absent-term miss class as derecho-beside-hurricane and typhoon-beside-hurricane,
+        # a named disaster scored critical-or-LOW purely on which volcanic hazard it is. Added the whole word
+        # at the volcanic critical floor; the plural "lahars" needs its own entry (\blahar\b does not match
+        # "lahars"), the same singular->plural tokenization discipline already applied to
+        # tornadoes/hurricanes/typhoons/derechos. As a Javanese/Indonesian loanword adopted into English and
+        # global geology, "lahar" denotes EXCLUSIVELY this volcanic mudflow — it has zero benign English
+        # meaning, so this is the SAME negligible cross-language tolerance already accepted for
+        # "typhoon"/"derecho"/"molotov" and closes the miss with no operational false-positive risk. Surfaced
+        # in the 2026-08-25 volcanic-hazard rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "derecho", "derechos",
@@ -1423,6 +1438,7 @@ TAXONOMY = {
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "tsunami", "tsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "lava flow",
+                     "lahar", "lahars",
                      "storm surge"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
