@@ -750,6 +750,17 @@ CASES = [
     ("Reports of multiple suicide bombings across the district", "critical", "security/intrusion"),
     ("A suicide bomb was left under the bench", "critical", "security/intrusion"),
     ("Suicide bombs recovered from the parked van", "critical", "security/intrusion"),
+    # "car bombing"/"car bombings" (the gerund/event name of the already-critical device "car bomb"/"car
+    # bombs") is the vehicle-borne sibling of the "suicide bombing"/"suicide bombings" gerund: a named
+    # vehicle-borne explosive attack that previously matched nothing and dropped to LOW (bare "bomb" is
+    # deliberately excluded, so the noun floors but the gerund carried no other floored token). The gerund
+    # and its plural are distinct tokens needing their own entries (\bcar\s+bomb\b matches neither
+    # "car bombing" nor "car bombings" — the trailing "ing"/"ings" breaks the boundary), the same
+    # verb/gerund/plural tokenization class as suicide bomb/bombing/bombings and firebomb/firebombing.
+    # Whole multi-word phrases with zero benign polysemy (the cocktail is the noun "Irish Car Bomb", never
+    # "car bombing"); each case isolates on the new gerund with no other floored token.
+    ("A car bombing killed six outside the gate", "critical", "security/intrusion"),
+    ("A series of car bombings struck the district overnight", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched

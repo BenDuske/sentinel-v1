@@ -1414,10 +1414,26 @@ TAXONOMY = {
         # benign senses (live-verified LOW) — only the whole "suicide bomb*" adjacency fires, so this closes
         # the miss with zero false-positive risk. Surfaced in the 2026-08-26 security/violence rule-probe
         # (person-borne explosive-device sibling of pipe bomb / car bomb).
+        # A "car bombing" / "car bombings" — the GERUND/event name of the already-critical device "car bomb"
+        # / "car bombs", the direct sibling of the "suicide bombing"/"suicide bombings" gerund shipped the
+        # same day. A report writing "a car bombing killed six outside the gate" or "a series of car bombings
+        # struck the district" carries no other floored token (bare "bomb" is DELIBERATELY excluded for its
+        # benign collisions — "bath bomb", "photobomb", "the movie bombed"), so the whole vehicle-borne
+        # explosive attack scored LOW while the noun "car bomb" floors critical — the SAME word-choice
+        # (device-noun-vs-event-gerund) asymmetry as suicide bomb/bombing and firebomb/firebombing. The
+        # gerund is a lexically-distinct token needing its own entry — \bcar\s+bomb\b matches neither
+        # "car bombing" (the trailing "ing" breaks the word boundary) nor, once added, does \bcar\s+bombing\b
+        # match "car bombings" (trailing "s") — the SAME verb/gerund/plural tokenization discipline as
+        # suicide bomber/bombing/bombings and firebomb/firebombed/firebombing. "car bombing" denotes
+        # EXCLUSIVELY a vehicle-borne explosive attack with ZERO benign English meaning (the cocktail is the
+        # noun "Irish Car Bomb", never "car bombing"), so it belongs at critical beside "car bomb"/"pipe
+        # bomb"/"suicide bombing". Surfaced in the 2026-08-26 (evening) security/violence rule-probe
+        # (vehicle-borne explosive-device gerund sibling of car bomb / suicide bombing).
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
                      "suicide bomber", "suicide bombers", "suicide bombing", "suicide bombings",
                      "suicide bomb", "suicide bombs",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
+                     "car bombing", "car bombings",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire", "gunman", "gunmen",
                      "shots fired", "active shooting", "shooter", "shooting",
