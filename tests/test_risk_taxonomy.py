@@ -736,6 +736,20 @@ CASES = [
     ("A firebomb was thrown through the front window", "critical", "security/intrusion"),
     ("Firebombs were hurled at the guard shack", "critical", "security/intrusion"),
     ("A firebombing at the north depot early this morning", "critical", "security/intrusion"),
+    # "suicide bomber"/"suicide bombing"/"suicide bomb" (a person-borne explosive attack) is the direct
+    # sibling of the already-critical explosive-device cluster "pipe bomb"/"car bomb"/"bomb threat": a
+    # named person-borne bombing that previously matched nothing and dropped to LOW (bare "bomb" is
+    # deliberately excluded for its benign collisions, so no other token floored it). Each surface form
+    # (bomber/bombers/bombing/bombings/bomb/bombs) is a distinct token needing its own entry
+    # (\bsuicide\s+bomber\b matches none of the others), the same verb/plural tokenization class as
+    # firebomb/firebombs/firebombing. Whole multi-word phrases with zero benign polysemy; each case
+    # isolates on the new term (no other floored token), and the bare "suicide" FP guard stays LOW.
+    ("A suicide bomber approached the north gate this morning", "critical", "security/intrusion"),
+    ("Two suicide bombers were seen near the visitor lobby", "critical", "security/intrusion"),
+    ("A suicide bombing at the market entrance", "critical", "security/intrusion"),
+    ("Reports of multiple suicide bombings across the district", "critical", "security/intrusion"),
+    ("A suicide bomb was left under the bench", "critical", "security/intrusion"),
+    ("Suicide bombs recovered from the parked van", "critical", "security/intrusion"),
     ("Theft of equipment; inventory stolen from the dock", "high", "theft"),
     # "carjacking"/"carjacked"/"carjackings" (taking a vehicle by force) is the violent-theft sibling
     # of "armed robbery" (theft critical): a directly-named violent robbery that previously matched
@@ -1158,6 +1172,20 @@ NO_FALSE_POSITIVE = [
     ("The diagonal brace, hexagonal bolt, and octagonal duct were inspected; nothing else to report.",
      "agonal"),
 ]
+
+
+def test_bare_suicide_stays_low():
+    # The QUALIFIED "suicide bomber/bombing/bomb" phrases escalate to critical (person-borne explosive
+    # attack), but the bare word "suicide" was DELIBERATELY excluded — "suicide prevention", an
+    # insurance "suicide clause", and a hockey "suicide pass" are benign. \bsuicide\b is not a taxonomy
+    # signal, so these must fall through to the LOW default; a future careless add of the bare noun
+    # would fire them critical and this catches it.
+    for text in ("The employee assistance line covers suicide prevention",
+                 "A suicide clause in the group life insurance policy",
+                 "He took a suicide pass in the rec-league hockey game"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'suicide' is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
 
 
 def test_bare_herniation_stays_low():

@@ -1395,7 +1395,28 @@ TAXONOMY = {
         # someone / open fire / fire drill, deliberately not leaned on) — so this closes the miss with
         # zero false-positive risk. Added in the 2026-08-25 security/violence rule-probe (incendiary-
         # weapon sibling of molotov).
+        # A "suicide bomber" / "suicide bombing" / "suicide bomb" — a person-borne explosive attack, the
+        # most iconic mass-casualty device — is the direct sibling of the already-critical explosive-device
+        # cluster "pipe bomb"/"car bomb"/"bomb threat"/"grenade"/"ied", yet EVERY form matched NOTHING and
+        # dropped to LOW: a report writing "a suicide bomber approached the north gate", "a suicide bombing
+        # at the market entrance", or "a suicide bomb left under the bench" carries no other floored token
+        # (bare "bomb" is DELIBERATELY excluded for its benign collisions — "bath bomb", "photobomb", "the
+        # movie bombed" — so \bbomb\b is not in the taxonomy), so the whole attack scored LOW — the SAME
+        # threat-vs-device / half-covered-family miss class as pipe bomb / car bomb beside bomb threat. Each
+        # form is a MULTI-WORD adjacency phrase denoting EXCLUSIVELY a person-borne explosive attack with
+        # ZERO benign English meaning, so they belong at critical beside "pipe bomb"/"car bomb"/"molotov".
+        # Every surface form is a lexically-distinct token needing its own entry — \bsuicide\s+bomber\b
+        # matches neither "suicide bombers" (plural), "suicide bombing" (gerund) nor "suicide bomb" (device;
+        # the trailing "er"/"ers"/"ing"/"ings"/"s" breaks the word boundary) — the SAME verb/plural
+        # tokenization discipline as firebomb/firebombs/firebombed/firebombing and pipe bomb/pipe bombs.
+        # DELIBERATELY the QUALIFIED "suicide …" phrases only, NEVER the bare polysemous "suicide" —
+        # "suicide prevention", a "suicide clause" in an insurance policy, a hockey "suicide pass" all carry
+        # benign senses (live-verified LOW) — only the whole "suicide bomb*" adjacency fires, so this closes
+        # the miss with zero false-positive risk. Surfaced in the 2026-08-26 security/violence rule-probe
+        # (person-borne explosive-device sibling of pipe bomb / car bomb).
         "critical": ["active shooter", "armed", "weapon", "hostage", "hostages", "bomb threat",
+                     "suicide bomber", "suicide bombers", "suicide bombing", "suicide bombings",
+                     "suicide bomb", "suicide bombs",
                      "pipe bomb", "pipe bombs", "car bomb", "car bombs",
                      "intruder armed", "kidnapping", "kidnapped", "kidnappings",
                      "gunshot", "gunshots", "gunfire", "gunman", "gunmen",
