@@ -369,7 +369,7 @@ TAXONOMY = {
                      "ischemic stroke", "ischaemic stroke",
                      "hemorrhagic stroke", "haemorrhagic stroke",
                      "acute stroke", "suspected stroke", "stroke victim",
-                     "cerebrovascular accident",
+                     "cerebrovascular accident", "cerebral infarction",
                      "life-threatening", "multiple injured"],
         # "heart attack" floors at critical, and a STROKE ("brain attack") is the same tier of acute,
         # time-critical emergency — every minute of delay loses brain tissue, so an active stroke is a
@@ -388,6 +388,24 @@ TAXONOMY = {
         # NOT the TRANSIENT/minor forms "TIA"/"transient ischemic attack"/"mini-stroke" (a TIA resolves
         # and is a genuine severity judgment, not a clean miss — same conservative reasoning that holds
         # the "intracranial hemorrhage" umbrella at HIGH). Those stay Ben-review / LLM-raise territory.
+        # The qualified-stroke forms above floor at critical, but the direct CLINICAL name a
+        # radiology/EMS report actually writes for an ischemic stroke — "cerebral infarction" ("CT
+        # confirmed an acute cerebral infarction", "large cerebral infarction on imaging") — matched
+        # nothing and dropped to LOW: the SAME word-choice asymmetry class as heart-attack/myocardial-
+        # infarction, here the exact neuro TWIN of the already-floored "myocardial infarction" (dead
+        # tissue from an occluded artery — cerebral instead of cardiac). Added at the same critical
+        # floor. It is a whole two-word clinical phrase with ZERO benign English meaning, and NOT a
+        # substring of any floored term (\bcerebral infarction\b cannot fire from "myocardial
+        # infarction" — different first word — nor from any stroke/CVA entry), so it closes the miss
+        # with no new over-fire class. This is exactly parallel to "myocardial infarction" itself,
+        # which floors critical unconditionally even though "old myocardial infarction" can be a
+        # chronic ECG finding — the rule layer is a conservative floor the LLM/human lowers on the rare
+        # chronic case. DELIBERATELY NOT the bare short form "cerebral infarct" (an "old cerebral
+        # infarct" is routinely an incidental chronic radiology finding, a genuine severity judgment
+        # not a clean miss — the \bcerebral infarction\b phrase cannot fire from it, live-verified
+        # LOW), and NOT the qualified-idiom risk of "massive stroke" (which fires inside "a massive
+        # stroke of luck", live-verified LOW and left LOW). Surfaced in the 2026-08-26 stroke-cluster
+        # rule-probe (clinical-twin sibling of the qualified-stroke / myocardial-infarction cluster).
         # "heart attack" floors at critical, but its clinical twin "myocardial infarction" — the
         # term an EMS/medical report actually uses ("suspected myocardial infarction", "acute
         # myocardial infarction confirmed") — matched nothing and dropped to LOW: the SAME

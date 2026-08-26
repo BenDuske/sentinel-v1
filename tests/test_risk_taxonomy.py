@@ -37,6 +37,12 @@ CASES = [
     # isolate on the term (no other critical/high token fires).
     ("Radiology tech suffered a myocardial infarction mid-shift", "critical", "injury/medical"),
     ("Acute myocardial infarction confirmed by the responding paramedic", "critical", "injury/medical"),
+    # "cerebral infarction" is the direct clinical name for an ischemic stroke — the neuro TWIN of
+    # "myocardial infarction" (critical) — a radiology/EMS report writes it this way, yet it
+    # previously matched nothing and dropped to LOW. Both cases isolate on the term (no other
+    # critical/high token fires), so removing it regresses them to LOW.
+    ("CT confirmed an acute cerebral infarction", "critical", "injury/medical"),
+    ("Imaging showed a large cerebral infarction in the left hemisphere", "critical", "injury/medical"),
     # "ventricular fibrillation" is the lethal shockable rhythm of a pulseless cardiac arrest (critical)
     # — an AED/monitor report writes it this way, yet it previously matched nothing and dropped to LOW.
     # Both cases isolate on the term (no other critical/high token fires).
@@ -1214,9 +1220,20 @@ def test_qualified_stroke_escalates_bare_and_idiom_do_not():
                  "Hemorrhagic stroke, transported by ambulance",
                  "Acute stroke in progress on the floor",
                  "Stroke victim found unresponsive in the break room",
-                 "EMS report notes a cerebrovascular accident"):
+                 "EMS report notes a cerebrovascular accident",
+                 "CT confirmed an acute cerebral infarction"):
         sev, _ = risk.rule_layer(text)
         assert sev == "critical", f"{text!r} -> {sev}, expected critical (qualified stroke)"
+    # "cerebral infarction" (the clinical twin of "myocardial infarction") floors critical, but the
+    # bare short form "cerebral infarct" was DELIBERATELY excluded — an "old cerebral infarct" is
+    # routinely an incidental chronic radiology finding (a severity judgment, not a clean miss), and
+    # "massive stroke" was excluded because it fires inside the idiom "a massive stroke of luck".
+    # Both must fall through to the LOW default.
+    for text in ("Old cerebral infarct noted incidentally on the scan",
+                 "That was a massive stroke of luck for the whole team"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (excluded stroke short-form/idiom)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
     # The bare polysemous word "stroke" was DELIBERATELY excluded — brush/swim/key strokes, a
     # "stroke of luck/genius", back/breaststroke and a two-stroke engine are all routine/benign and
     # must fall through to the LOW default; a future careless add of the bare noun would fire them.
