@@ -802,6 +802,15 @@ CASES = [
     # the CRITICAL assertion (isolation).
     ("A megatsunami could inundate the coastal plant", "critical", "weather"),
     ("Two megatsunamis followed the offshore flank collapse", "critical", "weather"),
+    # "superstorm"/"superstorms" name an exceptionally destructive storm system (Superstorm Sandy 2012, the
+    # 1993 "Storm of the Century") — a directly-named storm catastrophe strictly worse than the ordinary
+    # "storm" (which floors only HIGH), yet it previously matched nothing and dropped to LOW because
+    # \bstorm\b does not match inside the compound "superstorm". The compound plural likewise means
+    # \bsuperstorm\b does not match "superstorms", so each is a distinct entry. Neither sentence carries any
+    # other floored token (no bare "storm"/"flood"/"hurricane"), so removing the entries regresses each case
+    # to LOW and fails the CRITICAL assertion (isolation).
+    ("A superstorm was bearing down on the coastal plant", "critical", "weather"),
+    ("Two superstorms tracked up the seaboard this season", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

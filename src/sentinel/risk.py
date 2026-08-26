@@ -1490,10 +1490,26 @@ TAXONOMY = {
         # whole word denoting EXCLUSIVELY a very large tsunami — zero benign English meaning (unlike the
         # polysemous bare "wave"/"surge", deliberately not floored on their own) — so this closes the miss
         # with no operational false-positive risk. Surfaced in the 2026-08-25 tsunami-magnitude rule-probe.
+        # "superstorm"/"superstorms" is the media/agency term for an exceptionally large, destructive storm
+        # system that has escaped the ordinary-storm scale — Superstorm Sandy (2012, ~230 dead, ~$70B) and the
+        # 1993 "Storm of the Century" superstorm (~300 dead) are the textbook cases, directly-named storm
+        # catastrophes on the same footing as the critical siblings hurricane/typhoon/derecho already here. It
+        # is the storm analogue of megaquake/megatsunami: a super- prefix on the storm root that denotes a
+        # strictly-worse version of the base hazard. "storm" alone floors only HIGH (a routine thunderstorm is
+        # ordinary), but \bstorm\b does NOT match "superstorm" (no word boundary before "storm" inside the
+        # compound), so the qualified catastrophe dropped to LOW — the SAME compound-prefix tokenization miss
+        # already closed for megaquake-beside-earthquake and megatsunami-beside-tsunami. Added both forms at
+        # the named-catastrophe critical floor beside derecho (NOT the generic "storm" HIGH tier — you do not
+        # call a routine storm a "superstorm"; the word is reserved for genuine catastrophes); the plural
+        # "superstorms" needs its own entry (\bsuperstorm\b does not match "superstorms"), the same
+        # singular->plural discipline applied to hurricanes/typhoons/derechos/megaquakes. "superstorm" is a
+        # whole word denoting EXCLUSIVELY a catastrophic storm — zero benign English meaning — so this closes
+        # the miss with no operational false-positive risk. Surfaced in the 2026-08-26 storm-magnitude rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
                      "derecho", "derechos",
+                     "superstorm", "superstorms",
                      "earthquake", "earthquakes",
                      "temblor", "temblors",
                      "megaquake", "megaquakes",
