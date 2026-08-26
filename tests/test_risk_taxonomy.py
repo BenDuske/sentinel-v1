@@ -1204,3 +1204,33 @@ def test_higher_floor_wins_across_categories():
     assert sev == "critical"
     # most-severe reason should be listed first
     assert "critical" in reasons[0]
+
+
+def test_qualified_stroke_escalates_bare_and_idiom_do_not():
+    # A stroke ("brain attack") is a time-critical emergency on the heart-attack tier: the QUALIFIED
+    # multi-word forms a reporter actually writes must floor injury/medical critical.
+    for text in ("Employee collapsed at the desk, suspected stroke, called 911",
+                 "CT confirmed an ischemic stroke",
+                 "Hemorrhagic stroke, transported by ambulance",
+                 "Acute stroke in progress on the floor",
+                 "Stroke victim found unresponsive in the break room",
+                 "EMS report notes a cerebrovascular accident"):
+        sev, _ = risk.rule_layer(text)
+        assert sev == "critical", f"{text!r} -> {sev}, expected critical (qualified stroke)"
+    # The bare polysemous word "stroke" was DELIBERATELY excluded — brush/swim/key strokes, a
+    # "stroke of luck/genius", back/breaststroke and a two-stroke engine are all routine/benign and
+    # must fall through to the LOW default; a future careless add of the bare noun would fire them.
+    for text in ("The artist added a final brush stroke to the mural",
+                 "It was a lucky stroke of genius by the design team",
+                 "He swam the breaststroke leg of the relay",
+                 "The generator uses a two-stroke engine"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare/idiom stroke is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+    # The idiom-substring forms "having a/suffered a stroke" were excluded so they cannot fire from
+    # inside "having a stroke of genius" / "suffered a stroke of bad luck"; both must stay LOW.
+    for text in ("That was having a stroke of genius on the rollout",
+                 "The startup suffered a stroke of bad luck this quarter"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (stroke idiom must not fire)"
+        assert "no risk taxonomy signals" in reasons[0].lower()

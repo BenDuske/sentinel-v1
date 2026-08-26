@@ -366,7 +366,28 @@ TAXONOMY = {
                      "decapitation", "decapitated", "decapitating",
                      "dismemberment", "dismembered", "dismembering",
                      "evisceration", "eviscerated", "strangulation",
+                     "ischemic stroke", "ischaemic stroke",
+                     "hemorrhagic stroke", "haemorrhagic stroke",
+                     "acute stroke", "suspected stroke", "stroke victim",
+                     "cerebrovascular accident",
                      "life-threatening", "multiple injured"],
+        # "heart attack" floors at critical, and a STROKE ("brain attack") is the same tier of acute,
+        # time-critical emergency — every minute of delay loses brain tissue, so an active stroke is a
+        # 911/thrombolysis event, not a routine report. Yet the lay/EMS phrasings a reporter actually
+        # writes matched nothing and dropped to LOW: the SAME word-choice asymmetry class already fixed
+        # for heart-attack/myocardial-infarction/ventricular-fibrillation — the same life-threatening
+        # neurovascular event scored critical-or-LOW purely on which synonym the reporter chose. Added
+        # only the QUALIFIED multi-word forms with ZERO benign English meaning: "ischemic/ischaemic
+        # stroke" (the commonest type), "hemorrhagic/haemorrhagic stroke", "acute stroke", "suspected
+        # stroke", "stroke victim", and the clinical umbrella "cerebrovascular accident" (CVA). This
+        # mirrors the qualified-escalates / bare-and-umbrella-stays discipline: DELIBERATELY NOT the
+        # bare word "stroke" (massively polysemous — brush/swim/key stroke, "stroke of luck/genius",
+        # back/breaststroke, two-stroke engine; all live-verified LOW and left LOW), NOT the idiom-
+        # substring forms "had a/having a/suffered a stroke" (\bhaving a stroke\b fires inside "having a
+        # stroke of genius"; "suffered a stroke of bad luck" — both live-verified would over-fire), and
+        # NOT the TRANSIENT/minor forms "TIA"/"transient ischemic attack"/"mini-stroke" (a TIA resolves
+        # and is a genuine severity judgment, not a clean miss — same conservative reasoning that holds
+        # the "intracranial hemorrhage" umbrella at HIGH). Those stay Ben-review / LLM-raise territory.
         # "heart attack" floors at critical, but its clinical twin "myocardial infarction" — the
         # term an EMS/medical report actually uses ("suspected myocardial infarction", "acute
         # myocardial infarction confirmed") — matched nothing and dropped to LOW: the SAME
