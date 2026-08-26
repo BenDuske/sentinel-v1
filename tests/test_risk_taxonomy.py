@@ -237,6 +237,14 @@ CASES = [
     # "tension pneumothorax" regresses to LOW.
     ("Responders report a tension pneumothorax; emergency needle decompression underway", "critical", "injury/medical"),
     ("Tension pneumothorax confirmed on scene; chest decompression performed by EMS", "critical", "injury/medical"),
+    # "massive hemothorax" / "tension hemothorax" are the BLOOD twin of tension pneumothorax — blood
+    # (not air) collapsing the lung, an ATLS immediately-life-threatening chest injury needing emergent
+    # thoracostomy. Both qualified phrases (and the British "haemothorax" spelling) previously matched
+    # nothing and dropped to LOW. Each case isolates on the phrase (no other floored token), so removing
+    # the hemothorax terms regresses to LOW.
+    ("Massive hemothorax on the left; chest tube drained 1.8 L, transfusion begun", "critical", "injury/medical"),
+    ("Developed a tension hemothorax after the penetrating chest trauma", "critical", "injury/medical"),
+    ("Massive haemothorax confirmed on the trauma scan", "critical", "injury/medical"),
     # "asystole" is the flatline rhythm that IS a pulseless cardiac arrest (critical) — the non-shockable
     # sibling of the already-critical "ventricular fibrillation" — an AED/monitor/EMS report writes it
     # this way, yet it previously matched nothing and dropped to LOW. Both cases isolate on the term (no
@@ -1005,6 +1013,13 @@ NO_FALSE_POSITIVE = [
     # bare-vs-qualified boundary already drawn for tamponade (excluded) vs cardiac/pericardial tamponade.
     ("A small spontaneous pneumothorax was monitored overnight and resolved on its own.",
      "tension pneumothorax"),
+    # Only the lethal QUALIFIED hemothorax phrases ("massive"/"tension") were added, NOT the bare
+    # "hemothorax": a small or minimal hemothorax is routinely observed or drained with a single chest
+    # tube, so the bare token must NOT fire the injury/medical critical floor (\bmassive hemothorax\b /
+    # \btension hemothorax\b do not match it) — the exact bare-vs-qualified boundary drawn for
+    # pneumothorax (excluded) vs tension pneumothorax, and hemorrhage (HIGH) vs massive hemorrhage.
+    ("A small hemothorax was observed on the scan and managed conservatively with a chest tube.",
+     "massive hemothorax"),
     # Only the unambiguous tropical-cyclone terms "typhoon" and the QUALIFIED "tropical cyclone" were
     # added, NOT the polysemous bare "cyclone": a "cyclone fence" (chain-link fencing) and a "cyclone
     # separator" (industrial dust collector) are routine facilities/equipment terms and must NOT fire the

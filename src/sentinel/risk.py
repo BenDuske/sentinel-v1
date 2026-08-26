@@ -180,6 +180,26 @@ TAXONOMY = {
         # can be stable and merely monitored — a genuine severity judgment, not a clean miss — so the
         # bare token would over-fire on a routine chest note; it stays Ben-review. \btension pneumothorax\b
         # matches only the lethal qualified form, so it closes the miss with zero false-positive risk.
+        # "tension pneumothorax" floors at critical, and hemothorax is its direct BLOOD twin — blood
+        # instead of air filling the pleural space and collapsing the lung. A "massive hemothorax" (the
+        # ATLS immediately-life-threatening chest injury: classically ≥1500 mL of blood or ongoing brisk
+        # loss, driving hypovolemic shock and needing emergent tube thoracostomy / thoracotomy) and a
+        # "tension hemothorax" (the pressurized form directly analogous to tension pneumothorax, shifting
+        # the mediastinum into obstructive shock) are the terms an EMS/trauma/ED report writes directly
+        # ("massive hemothorax on the left, chest tube drained 1.8 L", "developed a tension hemothorax
+        # after the penetrating chest trauma") — yet they matched nothing and dropped to LOW: the SAME
+        # word-choice asymmetry class as tension-pneumothorax / cardiac-tamponade; the same immediately-
+        # fatal chest catastrophe scored critical-or-LOW purely on which clinical phrase the reporter
+        # chose. Each is a whole two-word clinical phrase (British "haemothorax" spelling paired) with
+        # ZERO benign English meaning, and none is a substring of any floored term (\bmassive hemothorax\b
+        # cannot fire from "massive hemorrhage" — different second word — nor from "tension pneumothorax"),
+        # so they close the miss at the tension-pneumothorax floor with no new over-fire class.
+        # DELIBERATELY the QUALIFIED forms only — NEVER the bare "hemothorax"/"haemothorax": a small or
+        # minimal hemothorax is routinely observed or managed with a single chest tube — a genuine
+        # severity judgment, not a clean miss — exactly the tolerance already drawn for bare "pneumothorax"
+        # (excluded) vs "tension pneumothorax" (floored) and bare "hemorrhage" (HIGH) vs "massive
+        # hemorrhage" (critical); the bare token stays Ben-review. Surfaced in the 2026-08-26 chest-
+        # catastrophe rule-probe (blood-twin sibling of the tension-pneumothorax / tamponade cluster).
         # "cardiac arrest" floors at critical, and "asystole" is the flatline rhythm that IS a pulseless
         # cardiac arrest — zero cardiac electrical activity, the immediately-fatal non-shockable end of
         # the same event "ventricular fibrillation" (already critical) begins, the term an AED/monitor/
@@ -346,6 +366,8 @@ TAXONOMY = {
                      "cardiac tamponade", "pericardial tamponade",
                      "cardiac rupture", "myocardial rupture", "ventricular rupture",
                      "tension pneumothorax",
+                     "massive hemothorax", "massive haemothorax",
+                     "tension hemothorax", "tension haemothorax",
                      "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
