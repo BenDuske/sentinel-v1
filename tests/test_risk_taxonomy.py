@@ -48,6 +48,17 @@ CASES = [
     # Both cases isolate on the term (no other critical/high token fires).
     ("Patient found in ventricular fibrillation; AED advised a shock", "critical", "injury/medical"),
     ("Confirmed ventricular fibrillation on the cardiac monitor", "critical", "injury/medical"),
+    # "asystolic" is the adjective clinical twin of "asystole" (critical) — the word a monitor/EMS
+    # report writes for a patient in asystole — yet it is not a substring of the base term and
+    # previously dropped to LOW. Both cases isolate on the term (no other critical/high token fires;
+    # "pulseless"/"CPR" deliberately omitted so the case proves "asystolic" alone floors critical).
+    ("Patient was asystolic on the monitor when the crew arrived", "critical", "injury/medical"),
+    ("Found asystolic and cold in the stairwell", "critical", "injury/medical"),
+    # "cardiac standstill" is the point-of-care-echo / bedside-ultrasound synonym for asystole
+    # (critical) that previously matched nothing and dropped to LOW. Both cases isolate on the term;
+    # the bare word "standstill" (traffic/talks at a standstill) is NOT floored — the two-word phrase.
+    ("POCUS showed cardiac standstill during the code", "critical", "injury/medical"),
+    ("Bedside ultrasound confirmed cardiac standstill", "critical", "injury/medical"),
     # "cardiac tamponade" / "pericardial tamponade" is an immediately life-threatening compression of
     # the heart (critical) an EMS/ED/echo report names directly, yet it previously matched nothing and
     # dropped to LOW. Both cases isolate on the term (no other critical/high token fires); the bare

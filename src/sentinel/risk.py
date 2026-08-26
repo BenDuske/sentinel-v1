@@ -341,7 +341,8 @@ TAXONOMY = {
         "critical": ["fatality", "fatalities", "death", "died", "deceased", "casualty",
                      "casualties", "unconscious", "lost consciousness", "loss of consciousness",
                      "cardiac arrest", "heart attack", "myocardial infarction",
-                     "ventricular fibrillation", "asystole",
+                     "ventricular fibrillation", "asystole", "asystolic",
+                     "cardiac standstill",
                      "cardiac tamponade", "pericardial tamponade",
                      "cardiac rupture", "myocardial rupture", "ventricular rupture",
                      "tension pneumothorax",
@@ -456,6 +457,25 @@ TAXONOMY = {
         # "spleen rupture" spanning many severities and categories); the phrase matcher means the
         # three adjacency phrases cannot fire from any of those. Surfaced in the 2026-08-23 cardiac
         # rule-probe (heart-wall-rupture sibling of the MI/tamponade cluster).
+        # "cardiac arrest" / "asystole" floor at critical, and two of asystole's own clinical
+        # phrasings matched nothing and dropped to LOW: the SAME word-choice asymmetry class as
+        # heart-attack/myocardial-infarction/ventricular-fibrillation. (a) "asystolic" — the adjective
+        # a monitor/EMS/code report actually writes for a patient in asystole ("the patient was
+        # asystolic on arrival", "found asystolic and pulseless") — is NOT a substring match of the
+        # base "asystole" (\basystole\b needs the trailing "e"; "asystolic" ends "olic"), so it slipped
+        # through. Added at the same critical floor, exactly parallel to the single-word medical twins
+        # already present alongside their bases ("exsanguinated"/"amputated"/"decapitated"): a purely
+        # clinical word with ZERO benign English meaning. (b) "cardiac standstill" — the term a
+        # point-of-care echo / bedside-ultrasound report writes for the same no-mechanical-activity
+        # arrest ("POCUS showed cardiac standstill", "echo confirmed cardiac standstill") — is a whole
+        # two-word clinical phrase with ZERO benign English meaning and NOT a substring of any floored
+        # term, so it closes the miss at the cardiac floor with no new over-fire class. DELIBERATELY
+        # NOT the bare word "standstill" (heavily polysemous — "traffic at a standstill", "talks at a
+        # standstill", "production standstill"); the two-word adjacency phrase \bcardiac standstill\b
+        # cannot fire from any of those (different first word), the identical discipline that keeps
+        # "cardiac tamponade" safe from bare "tamponade". Both live-verified LOW before the add.
+        # Surfaced in the 2026-08-26 asystole-cluster rule-probe (adjective/echo-synonym siblings of
+        # the ventricular-fibrillation / cardiac-arrest cluster).
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
         # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched
