@@ -349,7 +349,9 @@ TAXONOMY = {
                      "cpr", "no pulse", "no heartbeat",
                      "pulseless", "anaphylaxis", "aneurysm", "aneurism", "embolism",
                      "anaphylactic", "not breathing", "stopped breathing", "no longer breathing",
-                     "isn't breathing", "wasn't breathing", "severe bleeding",
+                     "isn't breathing", "wasn't breathing",
+                     "airway obstruction", "obstructed airway",
+                     "severe bleeding",
                      "massive hemorrhage", "massive haemorrhage",
                      "catastrophic hemorrhage", "catastrophic haemorrhage",
                      "uncontrolled hemorrhage", "uncontrolled haemorrhage",
@@ -476,6 +478,21 @@ TAXONOMY = {
         # "cardiac tamponade" safe from bare "tamponade". Both live-verified LOW before the add.
         # Surfaced in the 2026-08-26 asystole-cluster rule-probe (adjective/echo-synonym siblings of
         # the ventricular-fibrillation / cardiac-arrest cluster).
+        # "not breathing" / "asphyxiation" / "suffocation" floor at critical, but the direct clinical
+        # MECHANISM a report names when the same person cannot move air — "airway obstruction" /
+        # "obstructed airway" (a blocked airway = the person is not breathing) — matched nothing and
+        # dropped to LOW: the SAME word-choice asymmetry class as the not-breathing / choking cluster.
+        # Both are whole two-word clinical phrases with NO benign everyday meaning, so they close the
+        # miss at the same critical floor with zero new over-fire class. The single "airway obstruction"
+        # signal also covers every qualified variant a clinician writes ("complete/upper/partial/foreign
+        # body airway obstruction") because each CONTAINS it as a substring; "obstructed airway" is added
+        # separately only because the reversed word order is not a substring match. DELIBERATELY NOT the
+        # bare polysemous words "airway" (a flight corridor / ventilation duct) or "obstruction" ("bowel
+        # obstruction" spans severities; "obstruction of justice / an obstruction on the track" are not
+        # medical) — the two-word adjacency phrases cannot fire from any of those, the identical
+        # discipline that keeps "cardiac standstill" safe from bare "standstill". Both live-verified LOW
+        # before the add. Surfaced in the 2026-08-26 airway rule-probe (mechanism twin of the
+        # not-breathing / asphyxiation / suffocation cluster).
         # Respiratory distress is a serious medical emergency, but only apnea ("not breathing")
         # sat at the critical floor — the far more common lay reports of someone STILL breathing
         # but in distress ("trouble breathing", "can't breathe", "shortness of breath") matched

@@ -59,6 +59,15 @@ CASES = [
     # the bare word "standstill" (traffic/talks at a standstill) is NOT floored — the two-word phrase.
     ("POCUS showed cardiac standstill during the code", "critical", "injury/medical"),
     ("Bedside ultrasound confirmed cardiac standstill", "critical", "injury/medical"),
+    # "airway obstruction" / "obstructed airway" is the direct clinical MECHANISM of the already-
+    # critical "not breathing" / "asphyxiation" / "suffocation" (a blocked airway = no air moves),
+    # yet both previously matched nothing and dropped to LOW. Each case isolates on the term (no other
+    # critical/high token fires); "airway obstruction" also covers its qualified variants as a
+    # substring (complete/upper/foreign-body), while the reversed "obstructed airway" is added
+    # separately. The bare words "airway"/"obstruction" are NOT floored (see the FP guard below).
+    ("Crew cleared a complete airway obstruction from the collapsed worker", "critical", "injury/medical"),
+    ("Foreign body airway obstruction; back blows given on scene", "critical", "injury/medical"),
+    ("Patient found with an obstructed airway and cyanotic", "critical", "injury/medical"),
     # "cardiac tamponade" / "pericardial tamponade" is an immediately life-threatening compression of
     # the heart (critical) an EMS/ED/echo report names directly, yet it previously matched nothing and
     # dropped to LOW. Both cases isolate on the term (no other critical/high token fires); the bare
@@ -1192,6 +1201,21 @@ def test_bare_acid_stays_low():
                  "The rollout was the acid test for the new access policy"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare acid is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_airway_and_obstruction_stay_low():
+    # The two-word phrases "airway obstruction"/"obstructed airway" floor injury/medical critical,
+    # but the bare tokens were DELIBERATELY excluded: "airway" (a flight corridor / ventilation duct)
+    # and "obstruction" ("obstruction of justice", "an obstruction on the track", a routine "bowel
+    # obstruction") are not by themselves the airway emergency. The adjacency phrases cannot fire from
+    # any of them, so these must fall through to LOW; a future careless add of a bare token catches here.
+    for text in ("Filed a flight plan along the northern airway",
+                 "Maintenance cleared an obstruction from the ventilation airway duct — reversed order, no adjacency",
+                 "Charged with obstruction of justice after the audit",
+                 "A fallen branch was an obstruction on the access track"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare airway/obstruction is not critical)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
