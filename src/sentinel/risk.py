@@ -1681,6 +1681,23 @@ TAXONOMY = {
         # surge of applause/adrenaline — which stays deliberately unfloored, left to the whole phrases
         # "storm surge"/"power surge") — so this closes the miss with no operational false-positive risk.
         # Surfaced in the 2026-08-27 volcanic-hazard rule-probe (density-current sibling of pyroclastic flow).
+        # "pyroclastic density current"/"pyroclastic density currents" is the USGS/volcanology STANDARD umbrella
+        # term (abbreviated PDC) for exactly the two phenomena already floored critical here — the dense
+        # "pyroclastic flow" and the dilute "pyroclastic surge" — which modern hazard science treats as end-members
+        # of a single continuum. A formal USGS/observatory hazard assessment reaches for "pyroclastic density
+        # current" as the PREFERRED technical name ("PDCs are the deadliest volcanic hazard"), yet it matched
+        # nothing and dropped to LOW: \bpyroclastic\s+flow\b and \bpyroclastic\s+surge\b do NOT match "pyroclastic
+        # density current" (different second word), the SAME whole-hazard absent-term / formal-umbrella miss class
+        # as "tropical cyclone" beside hurricane/typhoon — the identical lethal volcanic hazard scored
+        # critical-or-LOW purely on which of the field's three interchangeable names the reporter used. Added both
+        # forms at the volcanic critical floor beside "pyroclastic flow"/"pyroclastic surge"; the plural
+        # "pyroclastic density currents" needs its own entry (\bpyroclastic\s+density\s+current\b does not match the
+        # plural), the same singular->plural discipline applied to pyroclastic surges/lahars/megafires. The
+        # three-word phrase denotes EXCLUSIVELY the volcanic hazard — zero benign English meaning (the bare
+        # oceanographic "density current" — a gravity-driven sediment/salinity flow along a seabed — stays
+        # deliberately unfloored, so a benign "estuary density current" sentence remains LOW) — so this closes the
+        # miss with no operational false-positive risk. Surfaced in the 2026-08-27 volcanic-hazard rule-probe
+        # (formal umbrella term of the already-critical pyroclastic flow + surge).
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1694,7 +1711,9 @@ TAXONOMY = {
                      "megafire", "megafires",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "pyroclastic surge",
-                     "pyroclastic surges", "lava flow",
+                     "pyroclastic surges",
+                     "pyroclastic density current", "pyroclastic density currents",
+                     "lava flow",
                      "lahar", "lahars",
                      "storm surge"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",

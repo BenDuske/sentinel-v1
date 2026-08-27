@@ -897,6 +897,16 @@ CASES = [
     # so removing the entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
     ("A pyroclastic surge swept down the flank toward the plant", "critical", "weather"),
     ("Successive pyroclastic surges buried the village below the vent", "critical", "weather"),
+    # "pyroclastic density current"/"pyroclastic density currents" is the USGS/volcanology STANDARD umbrella
+    # term (PDC) for exactly the two phenomena already floored critical — the dense "pyroclastic flow" and
+    # the dilute "pyroclastic surge" — and is the PREFERRED technical name in formal hazard assessments. Neither
+    # \bpyroclastic\s+flow\b nor \bpyroclastic\s+surge\b matches "pyroclastic density current" (different second
+    # word), so it previously matched nothing and dropped to LOW; the plural is a distinct token
+    # (\bpyroclastic\s+density\s+current\b does not match "pyroclastic density currents"). Neither sentence carries
+    # any other floored token (the bare oceanographic "density current" is deliberately unfloored), so removing the
+    # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A pyroclastic density current swept down the flank and destroyed the outbuildings", "critical", "weather"),
+    ("Successive pyroclastic density currents buried the coastal town below the vent", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
