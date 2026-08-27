@@ -879,6 +879,15 @@ CASES = [
     # LOW and fails the CRITICAL assertion (isolation).
     ("A bushfire tore through the north perimeter overnight", "critical", "weather"),
     ("Three bushfires are threatening the ridge above the plant", "critical", "weather"),
+    # "megafire"/"megafires" name a great wildfire (the >100,000-acre class NIFC/USFS and the press use for the
+    # worst events — the 2020 August Complex "gigafire" topped a million acres), strictly worse than the
+    # already-critical "wildfire" and the wildfire analogue of the already-critical "megaquake"/"megatsunami".
+    # Bare "megafire" previously matched nothing and the plural "megafires" dropped to LOW: \bwildfire\b does not
+    # fire inside the compound and \bmegafire\b does not match "megafires", so each is a distinct entry. Neither
+    # sentence carries any other floored token (no "wildfire"/"fire"/"blaze"/"burned"/"storm"), so removing the
+    # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A megafire has jumped the containment line north of the plant", "critical", "weather"),
+    ("Two megafires merged into a single front above the ridge", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

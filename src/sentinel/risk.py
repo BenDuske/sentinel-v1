@@ -1655,6 +1655,16 @@ TAXONOMY = {
         # compound word denoting EXCLUSIVELY an uncontrolled wildland fire — zero benign English meaning — so
         # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-27 wildfire-
         # synonym rule-probe.
+        # "megafire"/"megafires" name a great wildfire (the >100,000-acre class NIFC/USFS and the press use for
+        # the worst events — the 2020 August Complex "gigafire" topped a million acres) — a directly-named fire
+        # catastrophe strictly worse than the already-critical "wildfire"/"bushfire", the wildfire analogue of
+        # the already-critical "megaquake"/"megatsunami". Yet bare "megafire" matched nothing (a sample only
+        # reached HIGH incidentally off "burned" in the acreage clause) and the plural "megafires" dropped to
+        # LOW: \bwildfire\b does not fire inside the compound "megafire", and \bmegafire\b does not match the
+        # plural "megafires", so each is a distinct entry — the same "mega-" compound + singular->plural
+        # discipline already applied to megaquake/megaquakes and megatsunami/megatsunamis. "megafire" is a whole
+        # compound word denoting EXCLUSIVELY a catastrophic wildfire — zero benign English meaning — so flooring
+        # it critical can only ever be correct. Surfaced in the 2026-08-27 wildfire-magnitude rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1665,6 +1675,7 @@ TAXONOMY = {
                      "megaquake", "megaquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "bushfire", "bushfires",
+                     "megafire", "megafires",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "lava flow",
                      "lahar", "lahars",
