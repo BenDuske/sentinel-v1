@@ -1665,6 +1665,22 @@ TAXONOMY = {
         # discipline already applied to megaquake/megaquakes and megatsunami/megatsunamis. "megafire" is a whole
         # compound word denoting EXCLUSIVELY a catastrophic wildfire — zero benign English meaning — so flooring
         # it critical can only ever be correct. Surfaced in the 2026-08-27 wildfire-magnitude rule-probe.
+        # "pyroclastic surge"/"pyroclastic surges" is the USGS-distinguished DILUTE, turbulent, fast-moving
+        # volcanic density current — the more diffuse and often MORE lethal sibling of the denser "pyroclastic
+        # flow" already floored critical here. The pyroclastic surge is the historical killer: the 1902 Mont
+        # Pelee surge annihilated St. Pierre (~28,000-30,000 dead), and the surge component is what entombed
+        # Herculaneum/Pompeii. USGS hazard reporting names the two as distinct phenomena ("pyroclastic flows and
+        # surges"), yet \bpyroclastic\s+flow\b does NOT match "pyroclastic surge" (different second word), so the
+        # surge matched nothing and dropped to LOW — the SAME whole-hazard absent-term miss class as "arc blast"
+        # beside "arc flash" and "hydrogen sulfide" beside "carbon monoxide", a directly-named volcanic
+        # catastrophe scored critical-or-LOW purely on which of the two density-current terms the reporter used.
+        # Added both forms at the volcanic critical floor beside "pyroclastic flow"; the plural "pyroclastic
+        # surges" needs its own entry (\bpyroclastic\s+surge\b does not match the plural), the same
+        # singular->plural discipline applied to lahars/megafires. The two-word phrase denotes EXCLUSIVELY the
+        # volcanic hazard — zero benign English meaning (unlike the polysemous bare "surge" — a power surge, a
+        # surge of applause/adrenaline — which stays deliberately unfloored, left to the whole phrases
+        # "storm surge"/"power surge") — so this closes the miss with no operational false-positive risk.
+        # Surfaced in the 2026-08-27 volcanic-hazard rule-probe (density-current sibling of pyroclastic flow).
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1677,7 +1693,8 @@ TAXONOMY = {
                      "bushfire", "bushfires",
                      "megafire", "megafires",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
-                     "volcanic eruption", "pyroclastic flow", "lava flow",
+                     "volcanic eruption", "pyroclastic flow", "pyroclastic surge",
+                     "pyroclastic surges", "lava flow",
                      "lahar", "lahars",
                      "storm surge"],
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",

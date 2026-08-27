@@ -888,6 +888,15 @@ CASES = [
     # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
     ("A megafire has jumped the containment line north of the plant", "critical", "weather"),
     ("Two megafires merged into a single front above the ridge", "critical", "weather"),
+    # "pyroclastic surge"/"pyroclastic surges" name the USGS-distinguished dilute, fast-moving volcanic
+    # density current — the more diffuse and historically MORE lethal sibling of the already-critical
+    # "pyroclastic flow" (the 1902 Mont Pelee surge killed ~28,000 at St. Pierre). \bpyroclastic\s+flow\b
+    # does not match "pyroclastic surge" (different second word), so it previously matched nothing and
+    # dropped to LOW; the plural "pyroclastic surges" is a distinct token (\bpyroclastic\s+surge\b does not
+    # match it). Neither sentence carries any other floored token (bare "surge" is deliberately unfloored),
+    # so removing the entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A pyroclastic surge swept down the flank toward the plant", "critical", "weather"),
+    ("Successive pyroclastic surges buried the village below the vent", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
