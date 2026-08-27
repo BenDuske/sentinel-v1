@@ -1640,6 +1640,21 @@ TAXONOMY = {
         # singular->plural discipline applied to hurricanes/typhoons/derechos/megaquakes. "superstorm" is a
         # whole word denoting EXCLUSIVELY a catastrophic storm — zero benign English meaning — so this closes
         # the miss with no operational false-positive risk. Surfaced in the 2026-08-26 storm-magnitude rule-probe.
+        # "bushfire"/"bushfires" is the Australian/NZ and international-Commonwealth regional name for the EXACT
+        # same event already floored critical here as "wildfire"/"wildfires" — an uncontrolled vegetation fire
+        # (the 2019-20 Australian "Black Summer" bushfires killed 33+ people directly, ~450 more from smoke, and
+        # burned ~24 million hectares, one of the worst natural disasters in Australian history). Yet it matched
+        # nothing and dropped to LOW: the SAME regional-synonym-of-a-critical-term miss as typhoon-beside-
+        # hurricane (NW-Pacific name) and temblor-beside-earthquake (Spanish loanword), the same catastrophe
+        # scored critical-or-LOW purely on which regional word the reporter reached for. Overseas facilities,
+        # imported PDF templates, and Commonwealth contractors write "bushfire" as routinely as a US report
+        # writes "wildfire" — exactly the international-report miss the taxonomy exists to close (the stated
+        # typhoon rationale). Added both forms at the same critical floor as "wildfire"; the plural "bushfires"
+        # needs its own entry (\bbushfire\b does not match "bushfires"), the same singular->plural tokenization
+        # discipline already applied to wildfires/hurricanes/typhoons/derechos/lahars. "bushfire" is a whole
+        # compound word denoting EXCLUSIVELY an uncontrolled wildland fire — zero benign English meaning — so
+        # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-27 wildfire-
+        # synonym rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1649,6 +1664,7 @@ TAXONOMY = {
                      "temblor", "temblors",
                      "megaquake", "megaquakes",
                      "flash flood", "flash floods", "wildfire", "wildfires",
+                     "bushfire", "bushfires",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "lava flow",
                      "lahar", "lahars",

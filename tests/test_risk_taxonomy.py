@@ -870,6 +870,15 @@ CASES = [
     # to LOW and fails the CRITICAL assertion (isolation).
     ("A superstorm was bearing down on the coastal plant", "critical", "weather"),
     ("Two superstorms tracked up the seaboard this season", "critical", "weather"),
+    # "bushfire"/"bushfires" is the Australian/NZ and international-Commonwealth regional name for the exact
+    # same event already CRITICAL as "wildfire"/"wildfires" — the 2019-20 Australian "Black Summer" bushfires
+    # were one of the worst natural disasters in the country's history — yet it previously matched nothing and
+    # dropped to LOW, the same regional-synonym-of-a-critical-term gap as typhoon beside hurricane. The plural
+    # means \bbushfire\b does not match "bushfires", so each is a distinct entry. Neither sentence carries any
+    # other floored token (no "wildfire"/"fire"/"blaze"/"storm"), so removing the entries regresses each case to
+    # LOW and fails the CRITICAL assertion (isolation).
+    ("A bushfire tore through the north perimeter overnight", "critical", "weather"),
+    ("Three bushfires are threatening the ridge above the plant", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
