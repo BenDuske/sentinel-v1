@@ -1665,6 +1665,16 @@ TAXONOMY = {
         # discipline already applied to megaquake/megaquakes and megatsunami/megatsunamis. "megafire" is a whole
         # compound word denoting EXCLUSIVELY a catastrophic wildfire — zero benign English meaning — so flooring
         # it critical can only ever be correct. Surfaced in the 2026-08-27 wildfire-magnitude rule-probe.
+        # "gigafire"/"gigafires" name the >1,000,000-acre wildfire — the press/agency term one order above the
+        # already-critical "megafire" (>100,000 acres), coined for the 2020 August Complex fire that topped a
+        # million acres in California (the very event the megafire rationale above cites). It is the strictly-
+        # worse fire catastrophe, exactly the "giga-" step past "mega-" and the same directly-named-worse-version
+        # relationship megafire has to wildfire. Bare "gigafire" matches nothing already floored: \bwildfire\b and
+        # \bmegafire\b do not fire inside the compound "gigafire", and \bgigafire\b does not match the plural
+        # "gigafires", so each is a distinct entry — the same "-fire" compound + singular->plural discipline just
+        # applied to megafire/megafires. "gigafire" is a whole compound word denoting EXCLUSIVELY a catastrophic
+        # million-acre wildfire — zero benign English meaning — so flooring it critical can only ever be correct.
+        # Surfaced in the 2026-08-27 wildfire-magnitude rule-probe (order-of-magnitude sibling above megafire).
         # "pyroclastic surge"/"pyroclastic surges" is the USGS-distinguished DILUTE, turbulent, fast-moving
         # volcanic density current — the more diffuse and often MORE lethal sibling of the denser "pyroclastic
         # flow" already floored critical here. The pyroclastic surge is the historical killer: the 1902 Mont
@@ -1709,6 +1719,7 @@ TAXONOMY = {
                      "flash flood", "flash floods", "wildfire", "wildfires",
                      "bushfire", "bushfires",
                      "megafire", "megafires",
+                     "gigafire", "gigafires",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "pyroclastic surge",
                      "pyroclastic surges",

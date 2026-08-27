@@ -888,6 +888,14 @@ CASES = [
     # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
     ("A megafire has jumped the containment line north of the plant", "critical", "weather"),
     ("Two megafires merged into a single front above the ridge", "critical", "weather"),
+    # "gigafire"/"gigafires" name the >1,000,000-acre wildfire — the press/agency term one order above the
+    # already-critical "megafire" (the 2020 August Complex "gigafire" topped a million acres), the strictly-worse
+    # "giga-" step past "mega-". Bare "gigafire" matched nothing (\bwildfire\b and \bmegafire\b do not fire inside
+    # the compound) and the plural means \bgigafire\b does not match "gigafires", so each is a distinct entry.
+    # Neither sentence carries any other floored token (no "wildfire"/"fire"/"blaze"/"burned"/"storm"), so removing
+    # the entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
+    ("A gigafire has overrun the valley west of the plant", "critical", "weather"),
+    ("Two gigafires merged into a single million-acre front", "critical", "weather"),
     # "pyroclastic surge"/"pyroclastic surges" name the USGS-distinguished dilute, fast-moving volcanic
     # density current — the more diffuse and historically MORE lethal sibling of the already-critical
     # "pyroclastic flow" (the 1902 Mont Pelee surge killed ~28,000 at St. Pierre). \bpyroclastic\s+flow\b
