@@ -1675,6 +1675,22 @@ TAXONOMY = {
         # applied to megafire/megafires. "gigafire" is a whole compound word denoting EXCLUSIVELY a catastrophic
         # million-acre wildfire — zero benign English meaning — so flooring it critical can only ever be correct.
         # Surfaced in the 2026-08-27 wildfire-magnitude rule-probe (order-of-magnitude sibling above megafire).
+        # "firenado"/"firenados"/"firenadoes" is the press/plain-language name for the fire-generated tornadic
+        # vortex — a whirling column of flame and superheated gas thrown off a large wildfire, EF-scale in the
+        # worst cases: the 2018 Carr Fire firenado was rated EF3-equivalent (~143 mph) and killed a firefighter.
+        # It is a directly-named lethal wildfire hazard on the same footing as the already-critical bare
+        # "tornado", yet it matched NOTHING already floored: it is a single compound word, so \btornado\b does NOT
+        # match it (no word boundary before "tornado" in "fire"+"nado"), and — unlike its spaced siblings —
+        # \bfire\b does NOT match it either (no boundary after "fire"), so it dropped to LOW. The plural/variant
+        # forms are distinct tokens (\bfirenado\b does not match "firenados"/"firenadoes"), the same
+        # singular->plural discipline applied to megafires/gigafires. Its two SPACED siblings are deliberately NOT
+        # added because each is already floored by an existing token: "fire whirl" (the USGS technical name) and
+        # "fire tornado" both carry a bare "fire" as a separate word (\bfire\b, already critical in the fire/smoke
+        # category) and "fire tornado" additionally carries "tornado" — only the closed compound "firenado" is a
+        # genuine miss. It denotes EXCLUSIVELY the wildfire vortex — zero benign English meaning — so flooring
+        # critical can only ever be correct. Surfaced in the 2026-08-27 wildfire-magnitude rule-probe (closed-
+        # compound tornadic sibling of the already-critical wildfire cluster; verified against \bfire\b/\btornado\b
+        # by fault injection).
         # "pyroclastic surge"/"pyroclastic surges" is the USGS-distinguished DILUTE, turbulent, fast-moving
         # volcanic density current — the more diffuse and often MORE lethal sibling of the denser "pyroclastic
         # flow" already floored critical here. The pyroclastic surge is the historical killer: the 1902 Mont
@@ -1720,6 +1736,7 @@ TAXONOMY = {
                      "bushfire", "bushfires",
                      "megafire", "megafires",
                      "gigafire", "gigafires",
+                     "firenado", "firenados", "firenadoes",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
                      "volcanic eruption", "pyroclastic flow", "pyroclastic surge",
                      "pyroclastic surges",

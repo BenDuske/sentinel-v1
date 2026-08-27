@@ -915,6 +915,18 @@ CASES = [
     # entries regresses each case to LOW and fails the CRITICAL assertion (isolation).
     ("A pyroclastic density current swept down the flank and destroyed the outbuildings", "critical", "weather"),
     ("Successive pyroclastic density currents buried the coastal town below the vent", "critical", "weather"),
+    # "firenado"/"firenados"/"firenadoes" is the closed-compound press name for the tornadic fire vortex thrown
+    # off a large wildfire — a directly-named lethal hazard (the 2018 Carr Fire firenado was rated EF3-equivalent
+    # and killed a firefighter), the fire sibling of the already-critical bare "tornado". As a single compound
+    # word \btornado\b does NOT match it, and — unlike the spaced "fire whirl"/"fire tornado", which are already
+    # floored by a bare "fire"/"tornado" token and so are deliberately left out — \bfire\b does NOT match the
+    # compound either (no boundary after "fire"), so it previously dropped to LOW. Plurals/variants are distinct
+    # tokens (\bfirenado\b does not match "firenados"/"firenadoes"). Each sentence is kept free of "wildfire",
+    # bare "fire", and "tornado" so it carries no other floored token — removing the entries regresses each to
+    # LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
+    ("A firenado jumped the containment line north of the ridge", "critical", "weather"),
+    ("Two firenados merged over the dry riverbed east of town", "critical", "weather"),
+    ("Successive firenadoes spun up along the eastern flank", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
