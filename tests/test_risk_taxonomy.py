@@ -962,6 +962,15 @@ CASES = [
     # the entries regresses each case to LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
     ("A bomb cyclone is forecast to slam the seaboard overnight", "critical", "weather"),
     ("Two bomb cyclones spun up off the coast this winter", "critical", "weather"),
+    # "haboob"/"haboobs" (Arabic loanword) is the NWS/meteorological name for an intense wall-of-dust storm — a
+    # directly-named severe weather hazard, a kind of storm no less severe than the generic "storm" already floored
+    # HIGH. As a single loanword it shares no substring with "storm", so \bstorm\b cannot fire inside it and it
+    # previously dropped to LOW; the plural is a distinct token (\bhaboob\b does not match "haboobs"). Floored at HIGH
+    # (visibility/traffic/respiratory hazard, not a guaranteed mass-casualty catastrophe). Each sentence is kept free
+    # of any other floored token (no "storm"/"dust storm"/injury word), so removing the entries regresses each case to
+    # LOW and fails the HIGH assertion (isolation; confirmed by fault injection).
+    ("A haboob rolled across the site late this afternoon", "high", "weather"),
+    ("Two haboobs were reported near the desert compound this month", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

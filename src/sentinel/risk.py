@@ -1813,8 +1813,23 @@ TAXONOMY = {
                      "lava flow",
                      "lahar", "lahars",
                      "storm surge"],
+        # "haboob"/"haboobs" (Arabic for "blasting/drifting") is the meteorological/NWS name for an intense
+        # wall-of-dust storm driven by thunderstorm-outflow winds — the dramatic Phoenix/Sahel dust storms that
+        # drop highway visibility to zero and cause deadly multi-vehicle pileups (the 2011 Phoenix haboob; chronic
+        # I-10 dust-storm pileups in Arizona). It is a directly-named severe weather hazard, a kind of storm no less
+        # severe than the generic "storm" already floored HIGH, yet it matched nothing and dropped to LOW: as a
+        # single loanword it shares no substring with "storm", so \bstorm\b cannot fire inside it — the SAME
+        # regional/loanword tokenization miss as derecho/typhoon/medicane, one severity tier down. Floored at HIGH,
+        # NOT critical: a haboob is a visibility/traffic/respiratory hazard rather than the guaranteed mass-casualty
+        # catastrophe that warrants the CRITICAL floor (hurricane/derecho/tsunami); HIGH is the defensible floor a
+        # human/LLM can raise, and one that injures a worker independently floors critical via injury/medical. Added
+        # both forms at the "storm" HIGH floor; the plural "haboobs" needs its own entry (\bhaboob\b does not match
+        # "haboobs"), the same singular->plural discipline applied to hurricanes/typhoons/derechos/lahars. "haboob"
+        # is a whole loanword denoting EXCLUSIVELY the dust storm — zero benign English meaning — so this closes the
+        # miss with no operational false-positive risk. Surfaced in the 2026-08-28 severe-weather rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
+                     "haboob", "haboobs",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
