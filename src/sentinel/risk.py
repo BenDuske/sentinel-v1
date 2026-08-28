@@ -1757,9 +1757,43 @@ TAXONOMY = {
         # EVENT is floored, mirroring "volcano" vs "volcanic eruption"), so this closes the miss with no
         # operational false-positive risk. Surfaced in the 2026-08-27 volcanic-magnitude rule-probe (VEI-8 sibling
         # one step above the already-critical volcanic-eruption cluster; verified LOW->CRITICAL by fault injection).
+        #
+        # "medicane"/"medicanes" (a portmanteau of "Mediterranean" + "hurricane") is the media/agency name for a
+        # tropical-LIKE cyclone over the Mediterranean — a warm-core storm with a hurricane-style eye and eyewall,
+        # the exact same phenomenon as its already-critical siblings "hurricane"/"typhoon"/"tropical cyclone", just
+        # the regional name for the Mediterranean basin. It is a directly-named, mass-casualty catastrophe: Medicane
+        # Ianos (2020) killed four in Greece, and Medicane Daniel (2023) drove the catastrophic rainfall that
+        # collapsed two dams above Derna, Libya and killed ~11,000+ people, one of the deadliest weather disasters in
+        # African history. Yet "medicane" matched nothing and dropped to LOW: the SAME regional-synonym-of-a-critical-
+        # term miss as typhoon-beside-hurricane (NW-Pacific name) and bushfire-beside-wildfire (Commonwealth name),
+        # the same event scored critical-or-LOW purely on which regional word the reporter reached for. Overseas
+        # facilities, imported PDF templates, and Mediterranean-basin contractors write "medicane" as routinely as an
+        # Atlantic report writes "hurricane" — exactly the international-report miss the taxonomy exists to close (the
+        # stated typhoon rationale). Added both forms at the same critical floor as "hurricane"; the plural "medicanes"
+        # needs its own entry (\bmedicane\b does not match "medicanes"), the same singular->plural tokenization
+        # discipline applied to hurricanes/typhoons/derechos/lahars. "medicane" is a whole portmanteau word denoting
+        # EXCLUSIVELY the Mediterranean tropical-like cyclone — zero benign English meaning — so this closes the miss
+        # with no operational false-positive risk. Surfaced in the 2026-08-28 tropical-cyclone-synonym rule-probe.
+        #
+        # "bomb cyclone"/"bomb cyclones" is the NWS/media name for a rapidly intensifying extratropical cyclone
+        # (bombogenesis: central pressure dropping >=24 mb in 24 h) — a directly-named winter-storm catastrophe on the
+        # same footing as its critical siblings derecho/superstorm/tropical cyclone: the December 2022 bomb cyclone
+        # ("Storm Elliott") drove the Buffalo blizzard that killed ~40+ people, and bomb cyclones routinely produce
+        # blizzard whiteouts, hurricane-force winds, and coastal flooding. Yet it matched nothing and dropped to LOW.
+        # The bare root "cyclone" was DELIBERATELY excluded above as polysemous ("cyclone fence" = chain-link fence,
+        # "cyclone separator" = industrial dust collector); the QUALIFIER "bomb" removes that ambiguity entirely —
+        # \bbomb\s+cyclone\b cannot match a cyclone fence/separator — so the qualified phrase closes the synonym gap
+        # WITHOUT reopening the excluded polysemous root, the exact bare-vs-qualified discipline already drawn for
+        # "cyclone" (excluded) vs "tropical cyclone" and tamponade (excluded) vs "cardiac tamponade". Added both at the
+        # derecho/superstorm critical floor; the plural "bomb cyclones" needs its own entry (\bbomb\s+cyclone\b won't
+        # match the plural), the same singular->plural discipline applied to tropical cyclones/derechos. The two-word
+        # phrase denotes EXCLUSIVELY the meteorological catastrophe — zero benign English meaning — so this closes the
+        # miss with no operational false-positive risk. Surfaced in the 2026-08-28 tropical-cyclone-synonym rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
+                     "medicane", "medicanes",
+                     "bomb cyclone", "bomb cyclones",
                      "derecho", "derechos",
                      "superstorm", "superstorms",
                      "earthquake", "earthquakes",

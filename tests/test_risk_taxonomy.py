@@ -946,6 +946,22 @@ CASES = [
     # to LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
     ("A supereruption from the caldera buried the region under meters of ash", "critical", "weather"),
     ("Two supereruptions in the geologic record dwarfed every historic blast", "critical", "weather"),
+    # "medicane"/"medicanes" (Mediterranean + hurricane) is the regional name for a tropical-like Mediterranean
+    # cyclone, the same event as the already-critical "hurricane"/"typhoon" — Medicane Daniel (2023) drove the
+    # Derna, Libya dam-collapse flood that killed ~11,000+. \bhurricane\b does not match the portmanteau "medicane",
+    # so it previously matched nothing and dropped to LOW; the plural is a distinct token (\bmedicane\b does not
+    # match "medicanes"). Each sentence is kept free of any other floored token (no "hurricane"/"cyclone"/"flood"),
+    # so removing the entries regresses each case to LOW and fails the CRITICAL assertion (isolation; fault-injected).
+    ("A medicane is tracking toward the coastal plant this evening", "critical", "weather"),
+    ("Two medicanes formed over the basin earlier this autumn", "critical", "weather"),
+    # "bomb cyclone"/"bomb cyclones" is the qualified name for a rapidly intensifying (bombogenesis) extratropical
+    # cyclone — the Dec 2022 bomb cyclone drove the Buffalo blizzard that killed ~40+. The bare root "cyclone" is
+    # deliberately excluded as polysemous (cyclone fence/separator); the "bomb" qualifier removes that ambiguity, the
+    # same bare-vs-qualified discipline as "tropical cyclone". \bbomb\s+cyclone\b does not match the plural, so each
+    # is a distinct entry. Each sentence is kept free of any other floored token (no "blizzard"/"storm"), so removing
+    # the entries regresses each case to LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
+    ("A bomb cyclone is forecast to slam the seaboard overnight", "critical", "weather"),
+    ("Two bomb cyclones spun up off the coast this winter", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
