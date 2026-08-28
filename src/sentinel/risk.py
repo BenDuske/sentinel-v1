@@ -1843,10 +1843,27 @@ TAXONOMY = {
         # "sandstorm" is a whole word denoting EXCLUSIVELY the meteorological event — zero benign English meaning in
         # facility/incident reporting — so this closes the miss with no operational false-positive risk. Surfaced in the
         # 2026-08-28 severe-weather closed-compound rule-probe.
+        #
+        # "snowstorm"/"snowstorms" is the direct sibling of the already-floored "ice storm" and "blizzard" (both HIGH) —
+        # a winter storm that dumps snow and drives whiteout visibility, deadly highway pileups, roof-collapse loads, and
+        # loss of access/power. The SPACED "ice storm" already floors HIGH via \bstorm\b on its own "storm" token, but
+        # the CLOSED compound "snowstorm" has no word boundary before "storm" (…w|storm…), so \bstorm\b cannot fire
+        # inside it — and \bsnow\b (the MEDIUM tier) has no boundary AFTER "snow" in "snowstorm" either, so neither floor
+        # reached it and it previously dropped to LOW. This is the SAME closed-compound tokenization miss as
+        # sandstorm-beside-storm and superstorm-beside-storm one/several lines up. Floored at HIGH, NOT critical, on the
+        # identical rationale as its ice-storm/blizzard siblings: a winter-weather access/visibility/structural hazard
+        # rather than the guaranteed mass-casualty catastrophe that warrants the CRITICAL floor (hurricane/derecho/tsunami);
+        # HIGH is the defensible floor a human/LLM can raise, and one that injures a worker independently floors critical
+        # via injury/medical. Added both forms at the "storm" HIGH floor beside sandstorm; the plural "snowstorms" needs
+        # its own entry (\bsnowstorm\b does not match "snowstorms"), the same singular->plural discipline applied to
+        # hurricanes/typhoons/derechos/haboobs/sandstorms. "snowstorm" is a whole word denoting EXCLUSIVELY the winter
+        # storm — zero benign English meaning in facility/incident reporting — so this closes the miss with no operational
+        # false-positive risk. Surfaced in the 2026-08-28 winter-weather closed-compound rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
+                     "snowstorm", "snowstorms",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

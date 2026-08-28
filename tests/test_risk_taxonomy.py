@@ -980,6 +980,15 @@ CASES = [
     # regresses each case to LOW and fails the HIGH assertion (isolation; confirmed by fault injection).
     ("A sandstorm swept across the access road at dawn", "high", "weather"),
     ("Two sandstorms reduced visibility near the compound this week", "high", "weather"),
+    # "snowstorm"/"snowstorms" is the direct sibling of the already-floored "ice storm"/"blizzard" (both HIGH) — a winter
+    # storm driving whiteout visibility, highway pileups, and roof-load hazard. The SPACED "ice storm" floors HIGH via
+    # \bstorm\b, but the CLOSED compound "snowstorm" has no word boundary before "storm" (so \bstorm\b can't fire) and no
+    # boundary after "snow" (so the MEDIUM \bsnow\b can't fire either) — it previously dropped to LOW (same closed-compound
+    # miss as sandstorm/superstorm). The plural is a distinct token (\bsnowstorm\b does not match "snowstorms"). Floored at
+    # HIGH beside sandstorm. Each sentence is kept free of any other floored token (no "storm"/"ice storm"/"blizzard"/injury
+    # word), so removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A snowstorm knocked out access to the north site overnight", "high", "weather"),
+    ("Two snowstorms buried the compound approach this month", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
