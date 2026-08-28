@@ -26,6 +26,19 @@ def test_strip_think_passthrough_when_absent():
     assert ai._strip_think("just the answer") == "just the answer"
 
 
+def test_strip_think_drops_unclosed_truncated_block():
+    # A reasoning model can open <think> and get cut off by max_tokens before it closes the tag or
+    # reaches an answer (very likely at llm_severity's max_tokens=16). Keeping the partial reasoning
+    # is unsafe — the severity scan would pick a stray level word out of the chain-of-thought. Drop
+    # everything from the open tag on so the caller degrades to its deterministic fallback.
+    assert ai._strip_think("<think>hmm, not really critical, more like low, let me") == ""
+
+
+def test_strip_think_keeps_answer_before_unclosed_block():
+    # If real answer text precedes a truncated <think>, keep the answer, drop the dangling reasoning.
+    assert ai._strip_think("LOW\n<think>actually maybe it's higher because") == "LOW"
+
+
 def test_strip_think_empty_is_empty():
     assert ai._strip_think("") == ""
 
@@ -50,6 +63,16 @@ def test_llm_severity_ignores_severity_words_inside_think_block(monkeypatch):
     monkeypatch.setattr(ai, "chat",
                         lambda *a, **k: "<think>this is not critical, probably</think>\nmedium")
     assert ai.llm_severity("anything") == "medium"
+
+
+def test_llm_severity_empty_on_truncated_unclosed_think(monkeypatch):
+    # The real-world failure the unclosed-<think> strip guards: at max_tokens=16 a reasoning model
+    # emits only partial chain-of-thought (no </think>, no verdict). Before the fix, the scan read a
+    # stray "critical" out of "not really critical" and over-escalated a minor incident. Now the
+    # unclosed block is dropped -> "" -> caller (risk.score) falls back to the grounded rule layer.
+    monkeypatch.setattr(ai, "chat",
+                        lambda *a, **k: "<think>hmm, not really critical, more of a low")
+    assert ai.llm_severity("minor paper cut, employee is fine") == ""
 
 
 def test_llm_severity_empty_when_offline(monkeypatch):

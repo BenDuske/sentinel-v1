@@ -121,12 +121,25 @@ def llm_severity(text: str) -> str:
 
 
 def _strip_think(s: str) -> str:
-    """Remove <think>...</think> reasoning blocks some local models emit before the answer."""
+    """Remove <think>...</think> reasoning blocks some local models emit before the answer.
+
+    Two shapes must be handled: a *closed* block (keep only what follows the final </think>),
+    and an *unclosed* block — the model opened <think> but was truncated (max_tokens) before it
+    reasoned its way to an answer or the closing tag. That truncated case is common precisely on
+    the tightest budgets (llm_severity runs at max_tokens=16), and leaving the partial reasoning in
+    place is unsafe: the caller then scans free-form chain-of-thought for a severity word and picks
+    up a stray "critical"/"low" the model never asserted (e.g. "not really critical" -> critical).
+    So if <think> opens and never closes, drop everything from the open tag on — anything before it
+    is real answer text; everything after is incomplete reasoning. Callers degrade cleanly on the
+    resulting empty string (summary/actions -> deterministic fallback, severity -> rule layer).
+    """
     if not s:
         return ""
     low = s.lower()
     if "</think>" in low:
         s = s[low.rindex("</think>") + len("</think>"):]
+    elif "<think>" in low:
+        s = s[:low.index("<think>")]
     return s.strip()
 
 
