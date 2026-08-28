@@ -971,6 +971,15 @@ CASES = [
     # LOW and fails the HIGH assertion (isolation; confirmed by fault injection).
     ("A haboob rolled across the site late this afternoon", "high", "weather"),
     ("Two haboobs were reported near the desert compound this month", "high", "weather"),
+    # "sandstorm"/"sandstorms" is the generic name for the same wind-driven wall-of-sand hazard the haboob is an
+    # intense subtype of — visibility to zero, deadly highway pileups, a respiratory hazard. The SPACED "dust storm"
+    # already floors HIGH via \bstorm\b, but the CLOSED compound "sandstorm" has no word boundary before "storm", so
+    # \bstorm\b cannot fire inside it and it previously dropped to LOW (the same closed-compound miss as superstorm);
+    # the plural is a distinct token (\bsandstorm\b does not match "sandstorms"). Floored at HIGH beside haboob. Each
+    # sentence is kept free of any other floored token (no "storm"/"dust storm"/injury word), so removing the entries
+    # regresses each case to LOW and fails the HIGH assertion (isolation; confirmed by fault injection).
+    ("A sandstorm swept across the access road at dawn", "high", "weather"),
+    ("Two sandstorms reduced visibility near the compound this week", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

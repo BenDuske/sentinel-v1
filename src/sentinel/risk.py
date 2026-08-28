@@ -1827,9 +1827,26 @@ TAXONOMY = {
         # "haboobs"), the same singular->plural discipline applied to hurricanes/typhoons/derechos/lahars. "haboob"
         # is a whole loanword denoting EXCLUSIVELY the dust storm — zero benign English meaning — so this closes the
         # miss with no operational false-positive risk. Surfaced in the 2026-08-28 severe-weather rule-probe.
+        #
+        # "sandstorm"/"sandstorms" is the generic name for the exact hazard family the just-added "haboob" is an
+        # intense subtype of — a wind-driven wall of sand/dust that drops highway visibility to zero and causes deadly
+        # multi-vehicle pileups (the recurring I-10/I-40 desert-Southwest and Middle-East pileups; a respiratory and
+        # flight/ops hazard). The SPACED "dust storm" already floors HIGH because \bstorm\b fires on its own "storm"
+        # token, but the CLOSED compound "sandstorm" has no word boundary before "storm" (…d|storm…), so \bstorm\b
+        # cannot fire inside it and it previously dropped to LOW — the SAME closed-compound tokenization miss as
+        # superstorm-beside-storm (critical) and the loanword haboob one line up. Floored at HIGH, NOT critical, on the
+        # identical rationale as haboob: a visibility/traffic/respiratory hazard rather than the guaranteed mass-casualty
+        # catastrophe that warrants the CRITICAL floor (hurricane/derecho/tsunami); HIGH is the defensible floor a
+        # human/LLM can raise, and one that injures a worker independently floors critical via injury/medical. Added both
+        # forms at the "storm" HIGH floor beside haboob; the plural "sandstorms" needs its own entry (\bsandstorm\b does
+        # not match "sandstorms"), the same singular->plural discipline applied to hurricanes/typhoons/derechos/haboobs.
+        # "sandstorm" is a whole word denoting EXCLUSIVELY the meteorological event — zero benign English meaning in
+        # facility/incident reporting — so this closes the miss with no operational false-positive risk. Surfaced in the
+        # 2026-08-28 severe-weather closed-compound rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
+                     "sandstorm", "sandstorms",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
