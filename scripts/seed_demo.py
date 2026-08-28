@@ -83,9 +83,11 @@ def seed(reset: bool = False) -> list:
     if reset:
         existing = store.list_all()
         if existing:
-            import sqlite3
-            from sentinel import config
-            with sqlite3.connect(config.DB_PATH) as c:
+            # Reuse the store's canonical connection helper: a bare ``with sqlite3.connect(...) as c``
+            # commits but never close()s, leaking the connection until GC (a ResourceWarning) — the
+            # exact leak store._conn() was written to prevent. It also creates the table + wraps the
+            # transaction, so this stays DRY and always-close.
+            with store._conn() as c:
                 c.execute("DELETE FROM incidents")
 
     created = []
