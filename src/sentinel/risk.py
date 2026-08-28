@@ -1878,12 +1878,33 @@ TAXONOMY = {
         # sandstorms/snowstorms. "windstorm" is a whole word denoting EXCLUSIVELY the meteorological event — zero
         # benign English meaning in facility/incident reporting — so this closes the miss with no operational
         # false-positive risk. Surfaced in the 2026-08-28 severe-wind closed-compound rule-probe.
+        #
+        # "downburst"/"microburst"/"macroburst" (and plurals) are the NWS/AMS-named DOWNDRAFT severe-wind
+        # hazards — a strong column of sinking air that hits the ground and spreads out as damaging
+        # straight-line winds (a microburst is a downburst <4 km across, a macroburst >4 km; both can exceed
+        # 100 mph and have brought down aircraft and roofs). They are the closed-compound siblings of the
+        # just-added "windstorm": the SAME severe-wind class one tier below the named-catastrophe derecho at
+        # CRITICAL, floored at HIGH on the identical windstorm/haboob rationale (a damaging-wind hazard, not
+        # the guaranteed mass-casualty catastrophe that warrants CRITICAL). Every HIGH severe-wind signal that
+        # SHOULD have caught them cannot: "high winds" is a literal two-word phrase that does not match the
+        # single token; \bwind\b cannot fire because there is no "wind" token in "…burst"; \bstorm\b cannot
+        # fire because there is no "storm" token either; and the flood-taxonomy phrase \bburst\b ("burst pipe"/
+        # "burst main") cannot fire inside the CLOSED compound "downburst" (…n|burst…, no word boundary before
+        # "burst") — so they previously dropped to LOW. This is the SAME closed-compound tokenization miss as
+        # windstorm/sandstorm/snowstorm-beside-storm. Each plural needs its own entry (\bdownburst\b does not
+        # match "downbursts"), the same singular->plural discipline applied to windstorms/hurricanes/derechos.
+        # Each "…burst" here denotes EXCLUSIVELY the meteorological downdraft event — zero benign English
+        # meaning in facility/incident reporting — so this closes the miss with no operational false-positive
+        # risk. Surfaced in the 2026-08-28 severe-wind closed-compound rule-probe (downdraft sibling sweep).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "snowstorm", "snowstorms",
                      "windstorm", "windstorms",
+                     "downburst", "downbursts",
+                     "microburst", "microbursts",
+                     "macroburst", "macrobursts",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

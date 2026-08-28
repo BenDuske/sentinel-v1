@@ -1000,6 +1000,21 @@ CASES = [
     # assertion (isolation; fault-injected).
     ("A windstorm tore the roofing off the pump house", "high", "weather"),
     ("Two windstorms battered the tank farm this spring", "high", "weather"),
+    # "downburst"/"microburst"/"macroburst" (and plurals) are the NWS/AMS-named downdraft severe-wind hazards —
+    # a column of sinking air that spreads out as damaging straight-line winds — the closed-compound siblings of
+    # windstorm. Every HIGH severe-wind signal that should have caught them cannot: "high winds" is a two-word
+    # phrase that does not match the single token; there is no "wind" or "storm" token in "…burst" so \bwind\b/
+    # \bstorm\b can't fire; and the flood \bburst\b phrase can't fire inside the closed compound (no boundary
+    # before "burst") — they previously dropped to LOW (same closed-compound miss as windstorm/sandstorm). Each
+    # plural is a distinct token (\bdownburst\b does not match "downbursts"). Floored at HIGH beside windstorm.
+    # Each sentence is kept free of any other floored token (no "storm"/"high winds"/"downed line"/injury word),
+    # so removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A downburst flattened the equipment shelter near the intake", "high", "weather"),
+    ("Two downbursts snapped poles along the perimeter road", "high", "weather"),
+    ("A microburst hurled debris across the loading yard", "high", "weather"),
+    ("Repeated microbursts peeled cladding off the north wall", "high", "weather"),
+    ("A macroburst leveled the fence line behind the compound", "high", "weather"),
+    ("Two macrobursts battered the tank farm within an hour", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
