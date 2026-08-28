@@ -1724,6 +1724,23 @@ TAXONOMY = {
         # deliberately unfloored, so a benign "estuary density current" sentence remains LOW) — so this closes the
         # miss with no operational false-positive risk. Surfaced in the 2026-08-27 volcanic-hazard rule-probe
         # (formal umbrella term of the already-critical pyroclastic flow + surge).
+        # "limnic eruption"/"limnic eruptions" (a.k.a. a lake overturn) is the sudden release of a huge
+        # dissolved-CO2 (or CH4) charge from the deep water of a stratified volcanic crater lake — a directly-
+        # named, mass-casualty volcanic hazard on the same footing as the already-critical "pyroclastic flow"/
+        # "lahar". It is the deadliest kind of volcanic gas event on record: the 1986 Lake Nyos (Cameroon) limnic
+        # eruption released ~1.6 million tonnes of CO2 that flowed downslope as a denser-than-air blanket and
+        # asphyxiated ~1,746 people and ~3,500 livestock in the valley below within minutes; Lake Monoun killed
+        # ~37 in 1984. Yet bare "limnic eruption" matched nothing and dropped to LOW: \bvolcanic\s+eruption\b does
+        # NOT match "limnic eruption" (different first word), no other floored token appears in a plain report of
+        # the event, and the plural "limnic eruptions" is a distinct token (\blimnic\s+eruption\b does not match
+        # the plural) — the SAME whole-hazard absent-term / singular->plural miss class as "pyroclastic surge"
+        # beside "pyroclastic flow", a directly-named lethal volcanic catastrophe scored critical-or-LOW purely on
+        # which named phenomenon the reporter cited. Added both forms at the volcanic critical floor beside
+        # "pyroclastic flow"; the two-word phrase denotes EXCLUSIVELY the crater-lake gas burst — zero benign
+        # English meaning ("limnic" is a technical limnology adjective that pairs with nothing benign here) — so
+        # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-27 volcanic-hazard
+        # rule-probe (crater-lake gas sibling of the already-critical volcanic-eruption/pyroclastic cluster;
+        # verified LOW->CRITICAL by fault injection).
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1741,6 +1758,7 @@ TAXONOMY = {
                      "volcanic eruption", "pyroclastic flow", "pyroclastic surge",
                      "pyroclastic surges",
                      "pyroclastic density current", "pyroclastic density currents",
+                     "limnic eruption", "limnic eruptions",
                      "lava flow",
                      "lahar", "lahars",
                      "storm surge"],

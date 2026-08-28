@@ -927,6 +927,16 @@ CASES = [
     ("A firenado jumped the containment line north of the ridge", "critical", "weather"),
     ("Two firenados merged over the dry riverbed east of town", "critical", "weather"),
     ("Successive firenadoes spun up along the eastern flank", "critical", "weather"),
+    # "limnic eruption"/"limnic eruptions" (lake overturn) is the sudden release of a dissolved-CO2/CH4 charge
+    # from a stratified volcanic crater lake — the deadliest volcanic gas event on record: the 1986 Lake Nyos
+    # limnic eruption asphyxiated ~1,746 people and ~3,500 livestock in minutes, on the same footing as the
+    # already-CRITICAL "pyroclastic flow"/"lahar". \bvolcanic\s+eruption\b does not match "limnic eruption"
+    # (different first word), so it previously matched nothing and dropped to LOW; the plural is a distinct token
+    # (\blimnic\s+eruption\b does not match "limnic eruptions"). Each sentence is kept free of any other floored
+    # token (no "volcanic eruption", "gas", "asphyxiated", etc.), so removing the entries regresses each case to
+    # LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
+    ("A limnic eruption from the crater lake blanketed the valley below", "critical", "weather"),
+    ("Two limnic eruptions rolled off the shoreline toward the low ground", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
