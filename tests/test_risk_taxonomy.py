@@ -989,6 +989,17 @@ CASES = [
     # word), so removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A snowstorm knocked out access to the north site overnight", "high", "weather"),
     ("Two snowstorms buried the compound approach this month", "high", "weather"),
+    # "windstorm"/"windstorms" is the generic directly-named severe-wind event and the closed-compound sibling of
+    # sandstorm/snowstorm — a wind event strong enough to down lines and tear roofing. Two HIGH signals should have
+    # caught it and neither can: the generic "storm" floors HIGH via \bstorm\b, but the CLOSED compound "windstorm"
+    # has no word boundary before "storm" so \bstorm\b can't fire inside it; and "high winds" is a literal two-word
+    # phrase that does not match the single token "windstorm" — it previously dropped to LOW (same closed-compound
+    # miss as sandstorm/snowstorm). The plural is a distinct token (\bwindstorm\b does not match "windstorms").
+    # Floored at HIGH beside snowstorm. Each sentence is kept free of any other floored token (no "storm"/"high
+    # winds"/"downed line"/injury word), so removing the entries regresses each case to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("A windstorm tore the roofing off the pump house", "high", "weather"),
+    ("Two windstorms battered the tank farm this spring", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

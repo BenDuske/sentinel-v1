@@ -1859,11 +1859,31 @@ TAXONOMY = {
         # hurricanes/typhoons/derechos/haboobs/sandstorms. "snowstorm" is a whole word denoting EXCLUSIVELY the winter
         # storm — zero benign English meaning in facility/incident reporting — so this closes the miss with no operational
         # false-positive risk. Surfaced in the 2026-08-28 winter-weather closed-compound rule-probe.
+        #
+        # "windstorm"/"windstorms" is the generic directly-named severe-wind event — the closed-compound sibling
+        # of the just-added "sandstorm"/"snowstorm" and the whole-word twin of the already-floored phrase "high
+        # winds" (both HIGH): a wind event strong enough to down trees/lines, tear roofing/cladding, and topple
+        # equipment (a straight-line-wind hazard one tier below the named-catastrophe derecho at CRITICAL). Two
+        # existing HIGH signals SHOULD have caught it and neither can: the generic "storm" floors HIGH via
+        # \bstorm\b, but the CLOSED compound "windstorm" has no word boundary before "storm" (…d|storm…), so
+        # \bstorm\b cannot fire inside it; and "high winds" is a literal two-word phrase that does not match the
+        # single token "windstorm" — so it previously dropped to LOW. This is the SAME closed-compound
+        # tokenization miss as sandstorm/snowstorm-beside-storm and superstorm-beside-storm just above. Floored
+        # at HIGH, NOT critical, on the identical rationale as its haboob/sandstorm/snowstorm siblings: a generic
+        # damaging-wind hazard rather than the guaranteed mass-casualty catastrophe that warrants CRITICAL
+        # (hurricane/derecho/tsunami); HIGH is the defensible floor a human/LLM can raise, and one that injures a
+        # worker independently floors critical via injury/medical. Added both forms at the "storm"/"high winds"
+        # HIGH floor beside snowstorm; the plural "windstorms" needs its own entry (\bwindstorm\b does not match
+        # "windstorms"), the same singular->plural discipline applied to hurricanes/typhoons/derechos/haboobs/
+        # sandstorms/snowstorms. "windstorm" is a whole word denoting EXCLUSIVELY the meteorological event — zero
+        # benign English meaning in facility/incident reporting — so this closes the miss with no operational
+        # false-positive risk. Surfaced in the 2026-08-28 severe-wind closed-compound rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "snowstorm", "snowstorms",
+                     "windstorm", "windstorms",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
