@@ -1741,6 +1741,22 @@ TAXONOMY = {
         # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-27 volcanic-hazard
         # rule-probe (crater-lake gas sibling of the already-critical volcanic-eruption/pyroclastic cluster;
         # verified LOW->CRITICAL by fault injection).
+        #
+        # "supereruption"/"supereruptions" name a VEI-8 volcanic super-eruption — the caldera-forming class that
+        # ejects >1,000 km3 of material (Toba ~74,000 yrs ago, Yellowstone's Lava Creek). It is to "volcanic
+        # eruption" exactly what the already-critical "megaquake" is to "earthquake" and "megatsunami" is to
+        # "tsunami": a directly-named, strictly-worse magnitude compound denoting a continent-scale, mass-casualty
+        # catastrophe, so flooring it CRITICAL can only ever be correct. Yet bare "supereruption" matched nothing
+        # and dropped to LOW: \bvolcanic\s+eruption\b does NOT fire inside the closed compound "supereruption"
+        # (different token, no space), no other floored token appears in a plain report of the event, and the
+        # plural "supereruptions" is a distinct token (\bsupereruption\b does not match the plural) — the SAME
+        # magnitude-compound + singular->plural miss class already closed for megaquake/megaquakes,
+        # megatsunami/megatsunamis, and megafire/gigafire. The compound word denotes EXCLUSIVELY the catastrophic
+        # eruption event (the geographic feature is "supervolcano", deliberately NOT floored here — it appears in
+        # benign geology/tourism text like "Yellowstone is a supervolcano" and would over-fire; only the named
+        # EVENT is floored, mirroring "volcano" vs "volcanic eruption"), so this closes the miss with no
+        # operational false-positive risk. Surfaced in the 2026-08-27 volcanic-magnitude rule-probe (VEI-8 sibling
+        # one step above the already-critical volcanic-eruption cluster; verified LOW->CRITICAL by fault injection).
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -1755,7 +1771,8 @@ TAXONOMY = {
                      "gigafire", "gigafires",
                      "firenado", "firenados", "firenadoes",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
-                     "volcanic eruption", "pyroclastic flow", "pyroclastic surge",
+                     "volcanic eruption", "supereruption", "supereruptions",
+                     "pyroclastic flow", "pyroclastic surge",
                      "pyroclastic surges",
                      "pyroclastic density current", "pyroclastic density currents",
                      "limnic eruption", "limnic eruptions",

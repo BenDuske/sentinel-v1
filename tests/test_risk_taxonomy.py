@@ -937,6 +937,15 @@ CASES = [
     # LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
     ("A limnic eruption from the crater lake blanketed the valley below", "critical", "weather"),
     ("Two limnic eruptions rolled off the shoreline toward the low ground", "critical", "weather"),
+    # "supereruption"/"supereruptions" name a VEI-8 volcanic super-eruption (Toba, Yellowstone's Lava Creek) —
+    # the caldera-forming, continent-scale magnitude step above the already-CRITICAL "volcanic eruption", exactly
+    # as "megaquake" is to "earthquake". \bvolcanic\s+eruption\b does not fire inside the closed compound
+    # "supereruption" (no space, different token), so it previously matched nothing and dropped to LOW; the plural
+    # is a distinct token (\bsupereruption\b does not match "supereruptions"). Each sentence is kept free of any
+    # other floored token (no "volcanic eruption", "ash cloud" etc.), so removing the entries regresses each case
+    # to LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
+    ("A supereruption from the caldera buried the region under meters of ash", "critical", "weather"),
+    ("Two supereruptions in the geologic record dwarfed every historic blast", "critical", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
