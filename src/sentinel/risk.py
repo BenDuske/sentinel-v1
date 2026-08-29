@@ -1918,6 +1918,27 @@ TAXONOMY = {
         # meteorological event — zero benign English meaning in facility/incident reporting — so this closes the
         # miss with no operational false-positive risk. Surfaced in the 2026-08-28 precipitation-storm
         # closed-compound rule-probe.
+        #
+        # "squall"/"squalls" is the NWS/AMS-named severe-convective hazard — a sudden violent burst of
+        # wind (typically with rain, hail, or snow), and, as a "squall line", the linear multicell storm
+        # system that produces damaging straight-line winds, large hail, and embedded tornadoes (a squall
+        # line is the parent structure a derecho grows out of). It is a directly-named severe-weather
+        # event no less severe than the generic "storm" already floored HIGH, yet it matched nothing and
+        # dropped to LOW: a bare loanword-style single token that shares no substring with "storm" (so
+        # \bstorm\b cannot fire inside it) and is absent from the list entirely — the SAME absent-term
+        # miss class as haboob/typhoon, one tier below the named-catastrophe derecho at CRITICAL. Floored
+        # at HIGH, NOT critical, on the identical rationale as its haboob/windstorm/thunderstorm siblings:
+        # a damaging severe-convective hazard rather than the guaranteed mass-casualty catastrophe that
+        # warrants the CRITICAL floor (hurricane/derecho/tsunami); HIGH is the defensible floor a human/LLM
+        # can raise, and one that injures a worker independently floors critical via injury/medical. Added
+        # the bare "squall" plus the plural "squalls" (\bsquall\b does not match "squalls"), the same
+        # singular->plural discipline applied to hurricanes/typhoons/derechos/haboobs/thunderstorms. NO
+        # separate "squall line" entry is needed: \bsquall\b already fires on the "squall" token inside the
+        # phrase "squall line"/"squall lines" (the space is a word boundary), so both the bare event and the
+        # squall-line system are covered by the two entries. "squall" is a whole word denoting EXCLUSIVELY
+        # the meteorological event — zero benign English meaning in facility/incident reporting — so this
+        # closes the miss with no operational false-positive risk. Surfaced in the 2026-08-28
+        # severe-convective rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -1929,6 +1950,7 @@ TAXONOMY = {
                      "downburst", "downbursts",
                      "microburst", "microbursts",
                      "macroburst", "macrobursts",
+                     "squall", "squalls",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

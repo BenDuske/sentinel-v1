@@ -1029,6 +1029,21 @@ CASES = [
     ("Two thunderstorms rolled over the compound this week", "high", "weather"),
     ("A hailstorm shattered the skylights above the pump bay", "high", "weather"),
     ("Two hailstorms dented the equipment yard this spring", "high", "weather"),
+    # "squall"/"squalls" is the NWS/AMS-named severe-convective hazard — a sudden violent wind burst
+    # (often with rain/hail/snow) and, as a "squall line", the linear storm system that spawns damaging
+    # straight-line winds, large hail, and embedded tornadoes (the parent structure of a derecho). It is a
+    # directly-named severe-weather event no less severe than the generic "storm" already HIGH, but as a
+    # bare token absent from the list it shared no substring with "storm" (\bstorm\b can't fire) and
+    # previously dropped to LOW — the same absent-term miss as haboob/typhoon, one tier below the CRITICAL
+    # derecho. The plural is a distinct token (\bsquall\b does not match "squalls"). \bsquall\b already
+    # fires inside the phrase "squall line"/"squall lines" (the space is a word boundary), so both entries
+    # cover the squall-line system too with no separate phrase entry. Floored at HIGH beside macroburst/
+    # thunderstorm. Each sentence carries no other floored token (no bare "storm"/"hail"/"high winds"/
+    # injury word), so removing the entries regresses each case to LOW and fails the HIGH assertion
+    # (isolation; fault-injected).
+    ("A squall knocked a worker's scaffold tarp loose at the intake", "high", "weather"),
+    ("Repeated squalls battered the offshore platform overnight", "high", "weather"),
+    ("A squall line is bearing down on the compound this evening", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
