@@ -2155,6 +2155,22 @@ TAXONOMY = {
         # meteorological event (zero benign meaning — there is no "freezing fog" machine/product/idiom), so this
         # closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 winter-weather
         # glaze-ice rule-probe (fog-borne sibling of the just-added black ice).
+        #
+        # "atmospheric river" is the NWS/CW3E-named narrow moisture plume that drives the West Coast's most
+        # destructive flooding — the long-duration rain/mountain-snow producer behind levee breaks, debris flows,
+        # and mass evacuations (the Jan 2023 California ARs killed 20+ and caused billions in damage; NWS/CW3E now
+        # rate them AR1–AR5, AR4/AR5 = "hazardous to extreme"). It is a rain-bearing SYNOPTIC DRIVER exactly like
+        # the already-HIGH "monsoon", yet the phrase reached NO floored token and dropped to LOW: there is no
+        # "storm" word so \bstorm\b cannot fire, "river" is not "rain", and nothing floored is a substring of it —
+        # so a report writing "an atmospheric river stalled over the watershed" scored strictly below the same
+        # flood-driving pattern written "monsoon". This is the identical whole-hazard absent-term miss class as
+        # monsoon/derecho beside their siblings. Floored at HIGH beside "monsoon", NOT critical, on the identical
+        # driver rationale: the flooding it produces already floors critical via "flash flood"/water taxonomy, and
+        # a human/LLM can raise it — the pattern itself is the minimum-severity signal. The plural "atmospheric
+        # rivers" is a distinct token (\batmospheric\s+river\b does not match it, trailing \b), so it needs its own
+        # entry, the same singular->plural discipline applied to monsoons/derechos. The phrase denotes EXCLUSIVELY
+        # this meteorological event (zero benign English meaning — no "atmospheric river" product/idiom), so it
+        # closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 flood-driver rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2170,6 +2186,7 @@ TAXONOMY = {
                      "rainstorm", "rainstorms",
                      "cloudburst", "cloudbursts",
                      "monsoon", "monsoons",
+                     "atmospheric river", "atmospheric rivers",
                      "waterspout", "waterspouts",
                      "freezing rain", "black ice", "freezing fog",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",

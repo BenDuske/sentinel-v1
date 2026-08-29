@@ -1161,6 +1161,16 @@ CASES = [
     # fails the HIGH assertion (isolation; fault-injected).
     ("Dense freezing fog glazed the intake catwalk overnight", "high", "weather"),
     ("Freezing fog closed the north access road before the day shift", "high", "weather"),
+    # "atmospheric river" (+ plural "atmospheric rivers") names the NWS/CW3E flood-driving moisture plume the
+    # same way the already-HIGH "monsoon" names a rain-bearing driver — the long-duration rain/snow producer
+    # behind West-Coast levee breaks and evacuations (Jan 2023 CA ARs: 20+ dead). It previously dropped LOW:
+    # the phrase carries NO floored token — no "storm" word so \bstorm\b cannot fire, "river" is not "rain",
+    # and nothing floored is a substring of it — so it scored below the same flood driver written "monsoon".
+    # The plural is a distinct token (\batmospheric\s+river\b does not match "atmospheric rivers"). Every
+    # sentence carries no other floored token, so removing the entries regresses each case to LOW and fails the
+    # HIGH assertion (isolation; fault-injected).
+    ("An atmospheric river stalled over the watershed above the plant", "high", "weather"),
+    ("Back-to-back atmospheric rivers overtopped the intake channel", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
