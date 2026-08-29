@@ -1139,6 +1139,18 @@ CASES = [
     # fails the HIGH assertion (isolation; fault-injected).
     ("Patchy black ice was reported across the access road before dawn", "high", "weather"),
     ("Black ice on the loading dock ramp closed the north entrance", "high", "weather"),
+    # "polar vortex" (+ plurals "polar vortexes"/"polar vortices") names the extreme-cold driver the
+    # media/NWS use interchangeably with the just-added "arctic outbreak"/"cold wave" (both HIGH). It
+    # previously dropped LOW: the phrase carries NO floored token — no "storm" substring so \bstorm\b
+    # cannot fire, no "snow"/"wind"/"rain" token, MEDIUM "frost" is not a substring, and
+    # \barctic\s+(blast|outbreak)\b cannot match a different second word — so it scored below the same
+    # extreme-cold event written "arctic outbreak". Each plural is a distinct token (\bpolar\s+vortex\b
+    # matches neither "polar vortexes" nor "polar vortices"). Every sentence carries no other floored
+    # token, so removing the entries regresses each case to LOW and fails the assertion (isolation;
+    # fault-injected). The bare "vortex" stays unfloored (FP guard below) — only the qualified phrase fires.
+    ("The polar vortex burst the intake mains across the north plant", "high", "weather"),
+    ("Successive polar vortexes kept the yard crews off the towers", "high", "weather"),
+    ("Two polar vortices this winter froze the outdoor feeders twice", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
@@ -1481,6 +1493,20 @@ def test_bare_herniation_stays_low():
                  "Hiatal hernia found on endoscopy"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare hernia is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_vortex_stays_low():
+    # The QUALIFIED "polar vortex" floors weather HIGH (the extreme-cold driver), but the bare "vortex"
+    # was DELIBERATELY left unfloored — it is routine engineering/meteorology vocabulary (a fire vortex
+    # in this file's own firenado prose, vortex shedding, a vortex tube, a lab vortex mixer). \bvortex\b
+    # is not a taxonomy signal, so these benign cases must fall through to the LOW default; a future
+    # careless add of the bare noun would fire them HIGH and this catches it.
+    for text in ("Vortex shedding observed on the stack at high flow",
+                 "The lab vortex mixer needs recalibration",
+                 "Vortex tube cooling on the test bench is within spec"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'vortex' is not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

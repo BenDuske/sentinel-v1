@@ -2113,6 +2113,30 @@ TAXONOMY = {
         # hazard (the AC/DC album, cocktail, and film titles never appear in a hazard report), and the adjacency
         # requirement means "black ink ... ice maker" cannot fire it — so this closes the miss with no operational
         # false-positive risk. Surfaced in the 2026-08-29 winter-weather glaze-ice rule-probe.
+        #
+        # "polar vortex" (+ plurals "polar vortexes"/"polar vortices") is the directly-named extreme-cold
+        # driver — the stratospheric low whose collapse/stretch spills arctic air south and IS the phenomenon
+        # the media/NWS name for the killing deep-freezes ("the polar vortex froze the feeders"): the Jan-2019
+        # Midwest event that dropped Chicago to -23 F, and the Feb-2021 Texas outbreak that killed ~200+ and
+        # blacked out millions. In incident/media text it is used interchangeably with the just-added "arctic
+        # outbreak"/"cold wave" (both HIGH), yet it matched nothing and dropped to LOW: the two-word phrase
+        # carries NO floored token — \bstorm\b cannot fire (no "storm" substring), there is no "snow"/"wind"/
+        # "rain" token, MEDIUM "frost" is not a substring, and \barctic\s+(blast|outbreak)\b cannot match a
+        # different second word — so a report writing "the polar vortex burst the intake mains" scored strictly
+        # below the same-severity "arctic outbreak" purely on which name the reporter reached for. This is the
+        # SAME whole-hazard absent-term miss class as freezing-rain-beside-ice-storm and cold-wave-beside-heat-
+        # wave. Floored at HIGH beside its arctic-outbreak/cold-wave siblings, NOT critical, on the identical
+        # extreme-cold rationale: a prolonged, forecastable public-health/infrastructure hazard (heating/shelter
+        # mitigate it), not the guaranteed instantaneous catastrophe of a tornado/hurricane — HIGH is the
+        # defensible floor, and a worker who suffers hypothermia/frostbite independently floors critical via
+        # injury/medical. Each plural is a distinct entry (\bpolar\s+vortex\b matches neither "polar vortexes"
+        # nor the Latin plural "polar vortices"), the same singular->plural discipline applied to cold waves/
+        # arctic outbreaks/haboobs. The QUALIFIED two-word phrase only — the bare "vortex" is DELIBERATELY left
+        # unfloored (it already appears benignly in this file's own "fire vortex"/firenado prose and in routine
+        # "vortex shedding"/"vortex tube"/"vortex mixer" engineering text, which must NOT fire); "polar vortex"
+        # itself denotes EXCLUSIVELY the meteorological phenomenon — zero benign meaning in facility/incident
+        # reporting — so this closes the miss with no operational false-positive risk. Surfaced in the
+        # 2026-08-29 extreme-cold rule-probe (named-driver sibling of the just-added arctic outbreak/cold wave).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2134,6 +2158,7 @@ TAXONOMY = {
                      "heat wave", "heat waves", "heatwave", "heatwaves",
                      "cold wave", "cold waves", "cold snap", "cold snaps",
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
+                     "polar vortex", "polar vortexes", "polar vortices",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
