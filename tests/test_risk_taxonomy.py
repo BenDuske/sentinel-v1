@@ -962,6 +962,13 @@ CASES = [
     # the entries regresses each case to LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
     ("A bomb cyclone is forecast to slam the seaboard overnight", "critical", "weather"),
     ("Two bomb cyclones spun up off the coast this winter", "critical", "weather"),
+    # "bombogenesis" is the meteorological process name for the exact event "bomb cyclone" denotes (>=24 mb/24 h
+    # pressure crash) — the SAME storm, so a forecast/AFD writing "the system underwent rapid bombogenesis" must
+    # floor identically. It is a coined single word with zero benign meaning and no floored substring (bare
+    # "bomb"/"cyclone" both excluded). It is an uncountable process noun (like "flooding"), so there is no plural
+    # entry to test. The sentence carries no other floored token (no "cyclone"/"storm"/"blizzard"), so removing the
+    # entry regresses it to LOW and fails the CRITICAL assertion (isolation; confirmed by fault injection).
+    ("The offshore system underwent rapid bombogenesis before landfall", "critical", "weather"),
     # "haboob"/"haboobs" (Arabic loanword) is the NWS/meteorological name for an intense wall-of-dust storm — a
     # directly-named severe weather hazard, a kind of storm no less severe than the generic "storm" already floored
     # HIGH. As a single loanword it shares no substring with "storm", so \bstorm\b cannot fire inside it and it

@@ -1789,11 +1789,25 @@ TAXONOMY = {
         # match the plural), the same singular->plural discipline applied to tropical cyclones/derechos. The two-word
         # phrase denotes EXCLUSIVELY the meteorological catastrophe — zero benign English meaning — so this closes the
         # miss with no operational false-positive risk. Surfaced in the 2026-08-28 tropical-cyclone-synonym rule-probe.
+        #
+        # "bombogenesis" is the METEOROLOGICAL PROCESS NAME for the exact event "bomb cyclone" denotes — the >=24 mb/24 h
+        # central-pressure crash that IS a bomb cyclone (the term is literally named in the bomb-cyclone comment above as
+        # its definition) — yet it was never added as a token, so the SAME storm scored critical when a reporter wrote
+        # "bomb cyclone" and dropped to LOW when a forecaster/LLM wrote "the system underwent rapid bombogenesis": the
+        # identical whole-event synonym miss as typhoon-beside-hurricane and temblor-beside-earthquake, the same
+        # catastrophe scored critical-or-LOW purely on which name it reached for. Forecast discussions and imported NWS
+        # AFDs use "bombogenesis"/"bombogenetic" as the routine technical term, so it is exactly the miss the taxonomy
+        # exists to close. Added at the bomb-cyclone critical floor. It is a coined single word (bomb + cyclogenesis) with
+        # ZERO benign English meaning and no floored substring (bare "bomb"/"cyclone" both deliberately excluded, neither
+        # a substring of it), so it fires only on the meteorological event. It is an UNCOUNTABLE process noun (like the
+        # already-critical "flooding") — a report writes "rapid bombogenesis", never "two bombogeneses" — so unlike the
+        # countable bomb-cyclone/derecho it gets NO artificial plural entry. Surfaced in the 2026-08-29 bomb-cyclone-
+        # synonym rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
                      "medicane", "medicanes",
-                     "bomb cyclone", "bomb cyclones",
+                     "bomb cyclone", "bomb cyclones", "bombogenesis",
                      "derecho", "derechos",
                      "superstorm", "superstorms",
                      "earthquake", "earthquakes",
