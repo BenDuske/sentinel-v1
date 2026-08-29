@@ -1959,6 +1959,26 @@ TAXONOMY = {
         # EXCLUSIVELY the meteorological event — zero benign English meaning in facility/incident reporting — so
         # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-28
         # precipitation-storm closed-compound rule-probe (rain-sibling sweep).
+        #
+        # "cloudburst"/"cloudbursts" is the rain-sibling of rainstorm the same sweep left uncovered: a
+        # SUDDEN, VIOLENT torrential downpour (the AMS/NWS term for an extreme short-duration rainfall,
+        # historically the trigger of the deadliest flash floods — the 2013 Kedarnath and 2022 Pakistan
+        # cloudbursts each killed thousands). It is a directly-named severe-precipitation hazard on the
+        # same footing as rainstorm/thunderstorm, yet the CLOSED compound reaches NO floored token: there
+        # is no "storm" in it so \bstorm\b cannot fire, no word boundary after "cloud" (cloud|burst) and
+        # no "rain" token, and the flood-taxonomy phrases "burst pipe"/"pipe burst"/"burst main" cannot
+        # fire inside the closed word (…d|burst, no boundary before "burst" and no adjacent pipe/main) —
+        # the SAME closed-compound tokenization miss as downburst-beside-burst and rainstorm-beside-storm,
+        # so a report writing "a cloudburst overwhelmed the drains" previously dropped to LOW while the
+        # spaced "heavy rain" only reaches MEDIUM. Floored at HIGH, NOT critical, on the identical rationale
+        # as the other precipitation siblings: a damaging severe-weather hazard a human/LLM can raise, not
+        # the guaranteed mass-casualty catastrophe that warrants CRITICAL, and a cloudburst that injures a
+        # worker or floods the site independently floors higher via injury/medical or water/flood. Added
+        # both forms beside rainstorm; the plural "cloudbursts" needs its own entry (\bcloudburst\b does not
+        # match "cloudbursts"), the same singular->plural discipline applied to rainstorms/thunderstorms.
+        # "cloudburst" is a whole word denoting EXCLUSIVELY the meteorological deluge — zero benign English
+        # meaning in facility/incident reporting — so this closes the miss with no operational false-positive
+        # risk. Surfaced in the 2026-08-29 precipitation-storm closed-compound rule-probe (rain-sibling sweep).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -1972,6 +1992,7 @@ TAXONOMY = {
                      "macroburst", "macrobursts",
                      "squall", "squalls",
                      "rainstorm", "rainstorms",
+                     "cloudburst", "cloudbursts",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

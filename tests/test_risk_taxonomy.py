@@ -1053,6 +1053,15 @@ CASES = [
     # "storm"/"flood"/"lightning"), so removing the entry regresses each case and fails the assertion.
     ("A rainstorm swept over the north compound overnight", "high", "weather"),
     ("Back-to-back rainstorms battered the access road this week", "high", "weather"),
+    # "cloudburst"/"cloudbursts" is the rain-sibling of rainstorm: a sudden violent torrential downpour.
+    # The closed compound reaches no floored token (no "storm" for \bstorm\b, no "rain", and the flood
+    # phrases "burst pipe"/"pipe burst"/"burst main" can't fire inside "…d|burst"), so the single word
+    # previously dropped LOW while spaced "heavy rain" only reaches MEDIUM. Each plural is a distinct token
+    # (\bcloudburst\b does not match "cloudbursts"). Floored HIGH beside rainstorm. Each sentence carries
+    # no other floored token (no bare "storm"/"flood"/"lightning"/"burst pipe"), so removing the entry
+    # regresses each case to LOW and fails the assertion (isolation).
+    ("A cloudburst overwhelmed the drains at the north gate", "high", "weather"),
+    ("Repeated cloudbursts washed out the access road overnight", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
