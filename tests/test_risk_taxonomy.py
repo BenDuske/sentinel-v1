@@ -1071,6 +1071,15 @@ CASES = [
     # assertion (isolation; fault-injected).
     ("A monsoon overwhelmed the site drainage during the evening shift", "high", "weather"),
     ("Successive monsoons battered the compound access road this season", "high", "weather"),
+    # "waterspout"/"waterspouts" is a directly-named NWS marine severe-weather hazard (a tornado over
+    # water). As a single closed compound it reaches no floored token — no "storm" for \bstorm\b, no
+    # "rain"/"wind"/"hail", and "spout" is not floored — so it previously dropped LOW while its stronger
+    # land cousin "tornado" floors critical. Each plural is a distinct token (\bwaterspout\b does not
+    # match "waterspouts"). Floored HIGH beside monsoon/squall. Each sentence carries no other floored
+    # token (no bare "storm"/"flood"/"lightning"/injury word), so removing the entry regresses each case
+    # to LOW and fails the assertion (isolation; fault-injected).
+    ("A waterspout came ashore and tore panels off the dock shelter", "high", "weather"),
+    ("Two waterspouts were reported off the intake pier this morning", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

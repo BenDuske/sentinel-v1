@@ -1998,6 +1998,23 @@ TAXONOMY = {
         # to haboobs/typhoons/squalls. "monsoon" is a whole word denoting EXCLUSIVELY the meteorological event —
         # zero benign common-noun meaning in facility/incident reporting — so this closes the miss with no
         # operational false-positive risk. Surfaced in the 2026-08-29 severe-weather bare-loanword rule-probe.
+        # "waterspout"/"waterspouts" is a directly-named NWS marine severe-weather hazard — a tornado over water
+        # (a rotating column that spins up under a convective cloud and can move ashore as a landspout tornado).
+        # The NWS issues Special Marine Warnings for them and they routinely capsize boats, tear off roofs at the
+        # coast, and injure people. It is a named severe-weather event on the same footing as its HIGH storm-family
+        # siblings (squall/haboob/monsoon), yet as a single closed compound it reaches no floored token: it has no
+        # "storm" so \bstorm\b cannot fire, no "rain"/"wind"/"hail" token, and "spout" is not floored — so it
+        # previously dropped to LOW, the SAME bare-token miss class as haboob/monsoon-beside-storm. Floored at HIGH,
+        # NOT critical, on the identical rationale as its squall/microburst siblings: a typically short-lived,
+        # over-water/coastal wind hazard a human/LLM can raise, not the guaranteed mass-casualty catastrophe that
+        # warrants CRITICAL (its stronger land cousin "tornado" already floors critical, and a waterspout that
+        # injures a worker or floods the site independently floors higher via injury/medical or water/flood). Added
+        # the bare "waterspout" plus the plural "waterspouts" (\bwaterspout\b does not match "waterspouts"), the
+        # same singular->plural discipline applied to haboobs/typhoons/squalls/monsoons. "waterspout" is a whole
+        # word denoting EXCLUSIVELY the meteorological event — zero benign English meaning (the archaic "roof
+        # waterspout"/downspout sense is spelled "downspout"/"spout", never "waterspout", in modern facility text) —
+        # so this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 severe-weather
+        # marine-hazard rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2013,6 +2030,7 @@ TAXONOMY = {
                      "rainstorm", "rainstorms",
                      "cloudburst", "cloudbursts",
                      "monsoon", "monsoons",
+                     "waterspout", "waterspouts",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
