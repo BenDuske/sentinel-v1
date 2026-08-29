@@ -2073,6 +2073,29 @@ TAXONOMY = {
         # Motown song / band titles never appear in a hazard report), so this closes the miss with no
         # operational false-positive risk. Surfaced in the 2026-08-29 extreme-heat rule-probe (severe sibling
         # of the already-MEDIUM heat advisory).
+        # "cold wave"/"cold snap"/"arctic blast"/"arctic outbreak" (+ plurals) are the directly-named
+        # severe extreme-cold events — the exact symmetric sibling of the just-added "heat wave" and the
+        # cold-side mass-casualty hazard the NWS now warns as an "Extreme Cold Warning" (renamed from Wind
+        # Chill Warning in 2024). Extreme cold is a leading weather killer (hypothermia deaths) and a top
+        # infrastructure threat: the Feb-2021 Texas arctic outbreak froze wellheads and generation, killed
+        # ~200+ people, and blacked out millions; cold snaps routinely burst pipes, freeze feeders, and spike
+        # heating demand past capacity. Yet every one of these matched nothing and dropped to LOW: each is a
+        # two-word phrase containing NO floored token — \bstorm\b cannot fire (no "storm" substring), there is
+        # no "snow"/"wind"/"rain" token, and the MEDIUM "frost" is not a substring — so a report writing "an
+        # arctic blast froze the feeders" or "the cold snap burst the sprinkler mains" scored strictly below
+        # the same-severity "heat wave" purely on hot-vs-cold wording. This is the mirror of the heat-wave miss
+        # (severe event with no token of its own) and the same absent-phrase class as nor'easter/derecho.
+        # Floored at HIGH, NOT critical, on the identical heat-wave rationale: extreme cold is a prolonged,
+        # forecastable public-health/infrastructure hazard (heating/shelter/insulation mitigate it), not the
+        # guaranteed instantaneous catastrophe of a tornado/hurricane — HIGH is the defensible floor, and a
+        # worker who suffers hypothermia/frostbite independently floors critical via injury/medical. Each
+        # concept adds its plural as a distinct entry (\bcold\s+wave\b does not match "cold waves"), the same
+        # singular->plural discipline applied to heat waves/nor'easters/windstorms. All four are unambiguous
+        # multi-word phrases with zero benign meaning in incident/facility text; the polysemous bare "cold"
+        # (a common cold, a cold start, cold storage) and bare "wave"/"blast" are DELIBERATELY left unfloored
+        # (only the qualified phrases fire), and \barc\s+blast\b — the electrical CRITICAL token — cannot match
+        # "arctic blast" (\barc\b has no boundary inside "arctic"). Surfaced in the 2026-08-29 extreme-cold
+        # rule-probe (cold-side symmetric sibling of the just-added heat wave).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2092,6 +2115,8 @@ TAXONOMY = {
                      "freezing rain",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
+                     "cold wave", "cold waves", "cold snap", "cold snaps",
+                     "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

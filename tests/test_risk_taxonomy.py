@@ -1113,6 +1113,23 @@ CASES = [
     ("Successive heat waves left day crews rotating onto early shifts", "high", "weather"),
     ("The heatwave pushed the cooling plant past its rated capacity", "high", "weather"),
     ("Two heatwaves in one month kept the yard on restricted duty", "high", "weather"),
+    # "cold wave"/"cold snap"/"arctic blast"/"arctic outbreak" (+ plurals) name the directly-named
+    # severe extreme-cold events — the symmetric cold-side sibling of the just-added "heat wave" (NWS
+    # "Extreme Cold Warning"). Each previously dropped LOW: every phrase carries NO floored token —
+    # \bstorm\b cannot fire (no "storm" substring), no "snow"/"wind"/"rain" token, and MEDIUM "frost" is
+    # not a substring — so a cold-side report scored below the same-severity "heat wave" purely on
+    # hot-vs-cold wording. Each plural is a distinct token (\bcold\s+wave\b does not match "cold waves").
+    # Every sentence carries no other floored token (no bare "storm"/injury word), so removing the entries
+    # regresses each case to LOW and fails the assertion (isolation; fault-injected). "arctic blast" also
+    # proves it does NOT over-fire the electrical CRITICAL "arc blast" (\barc\b has no boundary in "arctic").
+    ("A cold wave froze the outdoor feeders across the north yard", "high", "weather"),
+    ("Successive cold waves kept crews off the elevated platforms", "high", "weather"),
+    ("The cold snap burst the sprinkler mains in Building C", "high", "weather"),
+    ("Two cold snaps this month cracked the loading-dock seals", "high", "weather"),
+    ("An arctic blast knocked the coastal substation offline overnight", "high", "weather"),
+    ("Back-to-back arctic blasts stranded the yard crews all week", "high", "weather"),
+    ("An arctic outbreak pushed the heating plant past its rated load", "high", "weather"),
+    ("Repeated arctic outbreaks froze the intake lines twice this winter", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
