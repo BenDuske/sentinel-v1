@@ -1080,6 +1080,16 @@ CASES = [
     # to LOW and fails the assertion (isolation; fault-injected).
     ("A waterspout came ashore and tore panels off the dock shelter", "high", "weather"),
     ("Two waterspouts were reported off the intake pier this morning", "high", "weather"),
+    # "freezing rain" is the NWS glaze-ice hazard that produces the already-HIGH "ice storm": supercooled
+    # rain that coats roads/walkways and loads lines until they fall. The spaced phrase reaches no floored
+    # token — no "storm" for \bstorm\b, and bare "rain" is NOT floored (only "heavy rain" sits at MEDIUM,
+    # and \bheavy\s+rain\b does not match "freezing rain") — so it previously dropped LOW, scoring below the
+    # same event written "ice storm". It is a mass noun (like the HIGH "hail"/"snow"), so no plural entry is
+    # needed. Floored HIGH beside ice storm. Each sentence carries no other floored token (no bare "storm"/
+    # "ice storm"/"downed line"/injury word — "downed lines" plural does not match \bdowned\s+line\b), so
+    # removing the entry regresses each case to LOW and fails the assertion (isolation; fault-injected).
+    ("Freezing rain coated every walkway across the site overnight", "high", "weather"),
+    ("Crews reported freezing rain on the access road before dawn", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

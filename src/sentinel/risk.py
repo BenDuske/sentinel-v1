@@ -2015,6 +2015,27 @@ TAXONOMY = {
         # waterspout"/downspout sense is spelled "downspout"/"spout", never "waterspout", in modern facility text) —
         # so this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 severe-weather
         # marine-hazard rule-probe.
+        #
+        # "freezing rain" is the NWS-warned glaze-ice hazard that PRODUCES the already-floored "ice storm" (HIGH):
+        # supercooled rain that freezes on contact, coating roads/walkways/handrails in glaze ice and loading power
+        # lines and tree limbs until they fall — the mechanism behind the deadliest winter road pileups and the
+        # multi-day outages of the 1998 North American and 2021 Texas ice storms. It is a directly-named severe-
+        # weather hazard on the same footing as its sibling "ice storm", yet the spaced phrase reached NO floored
+        # token: there is no "storm" in it so \bstorm\b cannot fire, and bare "rain" is NOT floored (only the spaced
+        # "heavy rain" sits at the weather MEDIUM tier, and \bheavy\s+rain\b does not match "freezing rain") — so a
+        # report writing "freezing rain coated every walkway" previously dropped to LOW, scoring strictly BELOW the
+        # same glaze-ice event written "ice storm". This is the SAME whole-hazard absent-term miss class as
+        # "pyroclastic surge" beside "pyroclastic flow" and "tropical cyclone" beside hurricane — the identical
+        # winter hazard scored HIGH-or-LOW purely on which name the reporter reached for. Floored at HIGH beside
+        # "ice storm", NOT critical, on the identical rationale as its ice-storm/blizzard siblings: a
+        # glaze-ice/downed-line/deadly-road hazard a human/LLM can raise, not the guaranteed mass-casualty
+        # catastrophe that warrants CRITICAL (hurricane/derecho/tsunami), and a freezing-rain event that injures a
+        # worker or downs a line independently floors higher via injury/medical or electrical. No separate plural
+        # entry is needed: "freezing rain" is a mass noun (like the already-HIGH "hail"/"snow"), reported in the
+        # singular, so a "freezing rains" token does not occur in incident text. The two-word phrase denotes
+        # EXCLUSIVELY the meteorological hazard — zero benign English meaning in facility/incident reporting — so
+        # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 winter-weather
+        # glaze-ice rule-probe (precipitation sibling of the already-HIGH ice storm).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2031,6 +2052,7 @@ TAXONOMY = {
                      "cloudburst", "cloudbursts",
                      "monsoon", "monsoons",
                      "waterspout", "waterspouts",
+                     "freezing rain",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
