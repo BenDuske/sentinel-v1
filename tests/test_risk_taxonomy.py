@@ -1062,6 +1062,15 @@ CASES = [
     # regresses each case to LOW and fails the assertion (isolation).
     ("A cloudburst overwhelmed the drains at the north gate", "high", "weather"),
     ("Repeated cloudbursts washed out the access road overnight", "high", "weather"),
+    # "monsoon"/"monsoons" is the bare absent-loanword severe-weather hazard (sibling of haboob/typhoon/
+    # squall): a single token that shares no substring with any floored signal — no "storm" so \bstorm\b
+    # can't fire, no "rain"/"wind" token, and the spaced "heavy rain" it brings only reaches MEDIUM — so it
+    # previously dropped LOW. Each plural is a distinct token (\bmonsoon\b does not match "monsoons").
+    # Floored HIGH beside cloudburst/squall. Each sentence carries no other floored token (no bare "storm"/
+    # "flood"/"lightning"/injury word), so removing the entry regresses each case to LOW and fails the
+    # assertion (isolation; fault-injected).
+    ("A monsoon overwhelmed the site drainage during the evening shift", "high", "weather"),
+    ("Successive monsoons battered the compound access road this season", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

@@ -1979,6 +1979,25 @@ TAXONOMY = {
         # "cloudburst" is a whole word denoting EXCLUSIVELY the meteorological deluge — zero benign English
         # meaning in facility/incident reporting — so this closes the miss with no operational false-positive
         # risk. Surfaced in the 2026-08-29 precipitation-storm closed-compound rule-probe (rain-sibling sweep).
+        #
+        # "monsoon"/"monsoons" is the bare absent-loanword severe-weather hazard the closed-compound sweep
+        # never reaches — the direct sibling of haboob/typhoon/squall (a directly-named meteorological event
+        # adopted into English, one tier below the named-catastrophe derecho/hurricane at CRITICAL). A monsoon
+        # is the seasonal reversal that drives the violent convective downpours, flash floods, dust storms, and
+        # microbursts of the US desert Southwest ("monsoon flooding closed I-10"; the Arizona monsoon routinely
+        # kills via flash floods and dust-storm pileups) and the deadly South-Asian rains — an acute severe-
+        # weather hazard no less severe than the generic "storm" already floored HIGH. Yet it matched nothing
+        # and dropped to LOW: as a single loanword token it shares no substring with any floored signal — no
+        # "storm" so \bstorm\b cannot fire, no "rain"/"wind" token, and the spaced "heavy rain" it brings only
+        # reaches the weather MEDIUM tier — the SAME bare absent-term miss class as haboob/typhoon/squall.
+        # Floored at HIGH, NOT critical, on the identical rationale as its haboob/squall siblings: a damaging
+        # severe-weather hazard a human/LLM can raise, not the guaranteed mass-casualty catastrophe that
+        # warrants CRITICAL (hurricane/derecho/tsunami), and a monsoon that injures a worker or floods the site
+        # independently floors higher via injury/medical or water/flood. Added the bare "monsoon" plus the
+        # plural "monsoons" (\bmonsoon\b does not match "monsoons"), the same singular->plural discipline applied
+        # to haboobs/typhoons/squalls. "monsoon" is a whole word denoting EXCLUSIVELY the meteorological event —
+        # zero benign common-noun meaning in facility/incident reporting — so this closes the miss with no
+        # operational false-positive risk. Surfaced in the 2026-08-29 severe-weather bare-loanword rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -1993,6 +2012,7 @@ TAXONOMY = {
                      "squall", "squalls",
                      "rainstorm", "rainstorms",
                      "cloudburst", "cloudbursts",
+                     "monsoon", "monsoons",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
