@@ -1178,6 +1178,28 @@ CASES = [
     # HIGH assertion (isolation; fault-injected).
     ("An atmospheric river stalled over the watershed above the plant", "high", "weather"),
     ("Back-to-back atmospheric rivers overtopped the intake channel", "high", "weather"),
+    # "landspout"/"landspouts" is the direct land analogue of the already-HIGH "waterspout" — an NWS-named
+    # non-supercell tornado. It previously dropped LOW: no "storm"/"tornado" substring and nothing floored inside
+    # it, so the same land-vortex scored HIGH-or-LOW purely on waterspout-vs-landspout wording. Floored HIGH beside
+    # "waterspout" (not critical "tornado" — the weaker EF0–EF1 end, same call as waterspout). Plural is a distinct
+    # token. Each sentence carries no other floored token, so removing the entries regresses to LOW and fails the
+    # HIGH assertion (isolation; fault-injected).
+    ("A landspout touched down beside the tank farm", "high", "weather"),
+    ("Two landspouts were sighted north of the switchyard", "high", "weather"),
+    # "heat dome"/"heat domes" names the stalled high-pressure driver of an extreme heat wave (the June 2021 PNW
+    # heat dome killed hundreds). It previously dropped LOW: no "storm" word, "dome" not floored, nothing floored a
+    # substring — so it scored below the same extreme-heat event written "heat wave". Floored HIGH beside "heat
+    # wave", the same driver rationale as monsoon/atmospheric river. Plural is a distinct token. Each sentence
+    # carries no other floored token, so removing the entries regresses to LOW and fails the HIGH assertion.
+    ("A heat dome parked over the region for a week", "high", "weather"),
+    ("Successive heat domes pushed the cooling loop past its limit", "high", "weather"),
+    # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
+    # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
+    # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
+    # miss closed for snowstorm/windstorm. Floored HIGH beside snowstorm/thunderstorm. Mass noun (no plural entry).
+    # The sentence carries no other floored token, so removing the entry regresses to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("Thundersnow dumped four inches an hour on the yard", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

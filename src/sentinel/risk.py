@@ -2185,6 +2185,36 @@ TAXONOMY = {
         # entry, the same singular->plural discipline applied to monsoons/derechos. The phrase denotes EXCLUSIVELY
         # this meteorological event (zero benign English meaning — no "atmospheric river" product/idiom), so it
         # closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 flood-driver rule-probe.
+        #
+        # "landspout"/"landspouts" is the direct LAND analogue of the already-HIGH "waterspout" — an NWS-named
+        # non-supercell tornado that spins up from the ground under a growing cumulus (the same vortex a waterspout
+        # is, just over land instead of water). It reached NO floored token and dropped to LOW: no "storm"/"tornado"
+        # substring, and nothing floored is a substring of it — so the same land-vortex hazard scored HIGH-or-LOW
+        # purely on whether the reporter wrote "waterspout" or "landspout". Floored at HIGH beside "waterspout" (NOT
+        # the critical "tornado" floor — landspouts are typically the weaker EF0–EF1 end, the same conservative call
+        # already made for waterspout). The plural "landspouts" is a distinct token (\blandspout\b won't match it),
+        # the same singular->plural discipline applied to waterspouts. Zero benign English meaning, so it closes the
+        # miss with no operational false-positive risk. Surfaced in the 2026-08-29 severe-weather sibling rule-probe.
+        #
+        # "heat dome"/"heat domes" is the named synoptic DRIVER of an extreme heat wave — the stalled upper-level
+        # high-pressure ridge that traps heat over a region (the June 2021 Pacific Northwest heat dome killed
+        # hundreds and set all-time records). It is a heat-bearing driver exactly like the already-HIGH "heat wave"
+        # it produces, yet the phrase reached NO floored token and dropped to LOW: no "storm" word, "dome" is not
+        # floored, and nothing floored is a substring — so a report writing "a heat dome parked over the region"
+        # scored below the same extreme-heat event written "heat wave". Floored at HIGH beside "heat wave", the same
+        # driver rationale as "monsoon"/"atmospheric river". The plural "heat domes" is a distinct token. The phrase
+        # denotes EXCLUSIVELY this meteorological event (zero benign "heat dome" idiom), so it closes the miss with
+        # no operational false-positive risk. Surfaced in the 2026-08-29 severe-weather sibling rule-probe.
+        #
+        # "thundersnow" is the NWS-named convective winter phenomenon — a thunderstorm whose precipitation falls as
+        # snow, a marker of intense (often 2-4+ in/hr) snowfall rates and the lightning hazard riding with it. It is
+        # a directly-named severe-weather event on the footing of its siblings "snowstorm"/"thunderstorm", yet it
+        # reached NO floored token and dropped to LOW: it is a single closed compound, so \bsnow\b (MEDIUM) cannot
+        # fire on "thunder"+"snow" (no internal boundary) and \bthunderstorm\b does not match it either — the same
+        # closed-compound tokenization miss already closed for snowstorm/hailstorm/windstorm. Floored at HIGH beside
+        # "snowstorm"/"thunderstorm". It is one whole word with zero benign English meaning (mass noun, no plural
+        # entry, like "freezing rain"), so it closes the miss with no operational false-positive risk. Surfaced in
+        # the 2026-08-29 severe-weather sibling rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2192,6 +2222,7 @@ TAXONOMY = {
                      "snowstorm", "snowstorms",
                      "windstorm", "windstorms",
                      "thunderstorm", "thunderstorms",
+                     "thundersnow",
                      "hailstorm", "hailstorms",
                      "downburst", "downbursts",
                      "microburst", "microbursts",
@@ -2202,9 +2233,11 @@ TAXONOMY = {
                      "monsoon", "monsoons",
                      "atmospheric river", "atmospheric rivers",
                      "waterspout", "waterspouts",
+                     "landspout", "landspouts",
                      "freezing rain", "black ice", "freezing fog",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
+                     "heat dome", "heat domes",
                      "cold wave", "cold waves", "cold snap", "cold snaps",
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "polar vortex", "polar vortexes", "polar vortices",
