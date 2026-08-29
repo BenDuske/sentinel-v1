@@ -1130,6 +1130,15 @@ CASES = [
     ("Back-to-back arctic blasts stranded the yard crews all week", "high", "weather"),
     ("An arctic outbreak pushed the heating plant past its rated load", "high", "weather"),
     ("Repeated arctic outbreaks froze the intake lines twice this winter", "high", "weather"),
+    # "black ice" names the glaze-ice road/walkway hazard produced by the already-HIGH "freezing rain"/
+    # "ice storm" — a thin transparent ice layer that causes deadly crashes and slip-and-fall injuries.
+    # It previously dropped LOW: no "storm" substring so \bstorm\b cannot fire, \bice\s+storm\b does not
+    # match "black ice", and MEDIUM "frost" is not a substring — so it scored below the same glaze-ice
+    # event written "freezing rain". It is a mass noun (no plural entry, like freezing rain/hail/snow).
+    # Both sentences carry no other floored token, so removing the entry regresses each case to LOW and
+    # fails the HIGH assertion (isolation; fault-injected).
+    ("Patchy black ice was reported across the access road before dawn", "high", "weather"),
+    ("Black ice on the loading dock ramp closed the north entrance", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

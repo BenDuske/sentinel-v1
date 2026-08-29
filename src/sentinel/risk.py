@@ -2096,6 +2096,23 @@ TAXONOMY = {
         # (only the qualified phrases fire), and \barc\s+blast\b — the electrical CRITICAL token — cannot match
         # "arctic blast" (\barc\b has no boundary inside "arctic"). Surfaced in the 2026-08-29 extreme-cold
         # rule-probe (cold-side symmetric sibling of the just-added heat wave).
+        # "black ice" is the directly-named glaze-ice road/walkway hazard — a thin, transparent layer of ice
+        # that blends into the pavement, so drivers/pedestrians never see it until they lose traction. It is
+        # the surface-level product of the already-HIGH "freezing rain" and "ice storm" (supercooled rain
+        # freezing on contact, or refreeze of melt), and one of the deadliest winter road hazards (chronic
+        # multi-vehicle pileups, slip-and-fall injuries on iced walkways/loading docks). Yet the phrase reached
+        # NO floored token and dropped to LOW: there is no "storm" substring so \bstorm\b cannot fire,
+        # \bice\s+storm\b does not match "black ice" (different second word), and the MEDIUM "frost" is not a
+        # substring — so a report writing "patchy black ice on the access road" scored strictly below the same
+        # glaze-ice event written "freezing rain"/"ice storm". This is the same whole-hazard absent-term miss
+        # class as freezing-rain-beside-ice-storm. Floored at HIGH beside its freezing-rain/ice-storm producers,
+        # NOT critical, on the identical glaze-ice rationale: a slip/traction hazard a human/LLM can raise, and
+        # one that injures a worker or causes a crash independently floors critical via injury/medical. NO plural
+        # entry — "black ice" is a mass noun like the already-HIGH "freezing rain"/"hail"/"snow" ("black ices"
+        # does not occur in incident text). In facility/incident reporting the phrase denotes EXCLUSIVELY the ice
+        # hazard (the AC/DC album, cocktail, and film titles never appear in a hazard report), and the adjacency
+        # requirement means "black ink ... ice maker" cannot fire it — so this closes the miss with no operational
+        # false-positive risk. Surfaced in the 2026-08-29 winter-weather glaze-ice rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2112,7 +2129,7 @@ TAXONOMY = {
                      "cloudburst", "cloudbursts",
                      "monsoon", "monsoons",
                      "waterspout", "waterspouts",
-                     "freezing rain",
+                     "freezing rain", "black ice",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
                      "cold wave", "cold waves", "cold snap", "cold snaps",
