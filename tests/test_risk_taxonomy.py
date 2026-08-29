@@ -1151,6 +1151,16 @@ CASES = [
     ("The polar vortex burst the intake mains across the north plant", "high", "weather"),
     ("Successive polar vortexes kept the yard crews off the towers", "high", "weather"),
     ("Two polar vortices this winter froze the outdoor feeders twice", "high", "weather"),
+    # "freezing fog" names the glaze-ice producer in the same family as the already-HIGH "freezing rain"/
+    # "ice storm"/"black ice" — supercooled fog droplets that freeze on contact and coat roads/catwalks/
+    # conductors in clear ice. It previously dropped LOW: no "storm" substring so \bstorm\b cannot fire,
+    # \bfreezing\s+rain\b does not match "freezing fog" (different second word), bare "fog" is not floored,
+    # and MEDIUM "frost" is not a substring — so it scored below the same glaze-ice event written
+    # "freezing rain"/"black ice". It is a mass noun (no plural entry, like freezing rain/black ice/hail).
+    # Both sentences carry no other floored token, so removing the entry regresses each case to LOW and
+    # fails the HIGH assertion (isolation; fault-injected).
+    ("Dense freezing fog glazed the intake catwalk overnight", "high", "weather"),
+    ("Freezing fog closed the north access road before the day shift", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

@@ -2137,6 +2137,24 @@ TAXONOMY = {
         # itself denotes EXCLUSIVELY the meteorological phenomenon — zero benign meaning in facility/incident
         # reporting — so this closes the miss with no operational false-positive risk. Surfaced in the
         # 2026-08-29 extreme-cold rule-probe (named-driver sibling of the just-added arctic outbreak/cold wave).
+        #
+        # "freezing fog" is the directly-named glaze-ice producer — fog whose supercooled droplets freeze on
+        # contact with any surface, coating roads/catwalks/aircraft and power lines in clear rime/glaze ice. It
+        # is an NWS-named advisory hazard ("Freezing Fog Advisory") and the same glaze-ice family as the
+        # already-HIGH "freezing rain"/"ice storm"/"black ice": a low-visibility driving hazard that also ices
+        # walkways, ladders, and conductors. Yet the phrase reached NO floored token and dropped to LOW: there
+        # is no "storm" substring so \bstorm\b cannot fire, \bfreezing\s+rain\b does not match "freezing fog"
+        # (different second word), bare "fog" is not floored, and MEDIUM "frost" is not a substring — so a report
+        # writing "dense freezing fog glazed the intake catwalk" scored strictly below the same glaze-ice event
+        # written "freezing rain"/"black ice". This is the identical whole-hazard absent-term miss class as
+        # black-ice-beside-ice-storm. Floored at HIGH beside its freezing-rain/black-ice/ice-storm siblings, NOT
+        # critical, on the identical glaze-ice rationale: a visibility/traction hazard a human/LLM can raise, and
+        # one that injures a worker or downs a line independently floors critical via injury/medical. NO plural
+        # entry — "freezing fog" is a mass noun like the already-HIGH "freezing rain"/"black ice"/"hail" ("freezing
+        # fogs" does not occur in incident text). In facility/incident reporting the phrase denotes EXCLUSIVELY the
+        # meteorological event (zero benign meaning — there is no "freezing fog" machine/product/idiom), so this
+        # closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 winter-weather
+        # glaze-ice rule-probe (fog-borne sibling of the just-added black ice).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2153,7 +2171,7 @@ TAXONOMY = {
                      "cloudburst", "cloudbursts",
                      "monsoon", "monsoons",
                      "waterspout", "waterspouts",
-                     "freezing rain", "black ice",
+                     "freezing rain", "black ice", "freezing fog",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
                      "cold wave", "cold waves", "cold snap", "cold snaps",
