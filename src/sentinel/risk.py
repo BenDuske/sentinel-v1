@@ -1939,6 +1939,26 @@ TAXONOMY = {
         # the meteorological event — zero benign English meaning in facility/incident reporting — so this
         # closes the miss with no operational false-positive risk. Surfaced in the 2026-08-28
         # severe-convective rule-probe.
+        #
+        # "rainstorm"/"rainstorms" is the last of the directly-named "-storm" precipitation compounds the
+        # generic HIGH signals SHOULD catch and cannot. It is LITERALLY a storm — the word "storm" sits right
+        # inside it — and a heavy rainstorm brings the flash-flooding, washed-out access, and lightning that
+        # make it no less severe than the generic "storm" already floored HIGH; yet the CLOSED compound has no
+        # word boundary before "storm" (…n|storm…) so \bstorm\b cannot fire inside it, and \brain\b cannot fire
+        # either because there is no word boundary after "rain" (rain|storm, "s" follows) — the SAME closed-
+        # compound tokenization miss as snowstorm/windstorm/thunderstorm-beside-storm, and rain-inside-rainstorm
+        # mirrors snow-inside-snowstorm/hail-inside-hailstorm exactly. It previously dropped to LOW (the spaced
+        # phrasing "heavy rain" only reaches the weather MEDIUM tier, so a report writing the single closed word
+        # "rainstorm" scored strictly LOWER than the same event written "storm"). Floored at HIGH, NOT critical,
+        # on the identical rationale as the other "-storm" siblings: a damaging severe-weather hazard rather than
+        # the guaranteed mass-casualty catastrophe that warrants CRITICAL (hurricane/derecho/tsunami); HIGH is
+        # the defensible floor a human/LLM can raise, and one that injures a worker independently floors critical
+        # via injury/medical. Added both forms at the "storm" HIGH floor beside squall/thunderstorm; the plural
+        # "rainstorms" needs its own entry (\brainstorm\b does not match "rainstorms"), the same singular->plural
+        # discipline applied to thunderstorms/snowstorms/squalls. "rainstorm" is a whole word denoting
+        # EXCLUSIVELY the meteorological event — zero benign English meaning in facility/incident reporting — so
+        # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-28
+        # precipitation-storm closed-compound rule-probe (rain-sibling sweep).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -1951,6 +1971,7 @@ TAXONOMY = {
                      "microburst", "microbursts",
                      "macroburst", "macrobursts",
                      "squall", "squalls",
+                     "rainstorm", "rainstorms",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

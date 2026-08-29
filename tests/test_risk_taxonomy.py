@@ -1044,6 +1044,15 @@ CASES = [
     ("A squall knocked a worker's scaffold tarp loose at the intake", "high", "weather"),
     ("Repeated squalls battered the offshore platform overnight", "high", "weather"),
     ("A squall line is bearing down on the compound this evening", "high", "weather"),
+    # "rainstorm"/"rainstorms" is the last directly-named "-storm" precipitation compound: literally a
+    # storm (word "storm" inside it), but the closed compound has no boundary before "storm" so \bstorm\b
+    # can't fire, and \brain\b can't fire after "rain" either (rain|storm) — the same closed-compound miss
+    # as snowstorm/thunderstorm, and the spaced "heavy rain" only reaches MEDIUM, so the single word
+    # previously dropped LOW. Each plural is a distinct token (\brainstorm\b does not match "rainstorms").
+    # Floored at HIGH beside squall/thunderstorm. Each sentence carries no other floored token (no bare
+    # "storm"/"flood"/"lightning"), so removing the entry regresses each case and fails the assertion.
+    ("A rainstorm swept over the north compound overnight", "high", "weather"),
+    ("Back-to-back rainstorms battered the access road this week", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
