@@ -1090,6 +1090,17 @@ CASES = [
     # removing the entry regresses each case to LOW and fails the assertion (isolation; fault-injected).
     ("Freezing rain coated every walkway across the site overnight", "high", "weather"),
     ("Crews reported freezing rain on the access road before dawn", "high", "weather"),
+    # "nor'easter"/"noreaster" (and plurals) name the severe Atlantic coastal storm — blizzard whiteouts,
+    # hurricane-force winds, coastal flooding. As a closed/apostrophe compound it reaches no floored token
+    # (it ends in "easter", so \bstorm\b cannot fire, and there is no "snow"/"wind"/"rain"/"blizzard"
+    # substring) — so it previously dropped LOW, scoring below the same storm written "snowstorm". Both
+    # spellings and each plural are distinct tokens (\bnor'easter\b does not match "nor'easters"). Floored
+    # HIGH beside snowstorm/blizzard. Each sentence carries no other floored token (no bare "storm"/"flood"/
+    # "wind"/injury word), so removing the entries regresses each case to LOW and fails the assertion
+    # (isolation; fault-injected).
+    ("A nor'easter cut power to the coastal substation overnight", "high", "weather"),
+    ("Back-to-back nor'easters battered the north lot this week", "high", "weather"),
+    ("The noreaster stranded crews at the loading dock through the weekend", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only

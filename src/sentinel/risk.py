@@ -2036,6 +2036,24 @@ TAXONOMY = {
         # EXCLUSIVELY the meteorological hazard — zero benign English meaning in facility/incident reporting — so
         # this closes the miss with no operational false-positive risk. Surfaced in the 2026-08-29 winter-weather
         # glaze-ice rule-probe (precipitation sibling of the already-HIGH ice storm).
+        # "nor'easter"/"noreaster" (and plurals) is the directly-named severe Atlantic coastal storm — the
+        # cyclone that drives blizzard whiteouts, hurricane-force winds, and coastal flooding up the U.S.
+        # Northeast (the deadly 1991 "Perfect Storm", the 2018 bomb-cyclone nor'easters). It is a whole-storm
+        # named hazard on the same footing as its already-HIGH siblings "snowstorm"/"blizzard"/"ice storm",
+        # yet as a closed/apostrophe compound it reached NO floored token: \bstorm\b cannot fire (there is no
+        # "storm" token — "nor'easter" ends in "easter"), and no "snow"/"wind"/"rain"/"blizzard" substring is
+        # present either — so a report writing "a nor'easter knocked out the feeders" previously dropped to
+        # LOW, scoring strictly BELOW the same storm written "snowstorm". This is the SAME whole-hazard
+        # absent-term miss class as haboob-beside-sandstorm and monsoon-beside-storm. Floored at HIGH, NOT
+        # critical, on the identical rationale as its snowstorm/blizzard/ice-storm siblings: a generic severe
+        # storm's guaranteed harm is disruption/outage/access-loss, not the certain mass-casualty catastrophe
+        # of a tornado/hurricane; a nor'easter that injures someone still escalates via injury/medical. Both
+        # dominant spellings are added — the apostrophe form "nor'easter" and the bare "noreaster" — plus each
+        # plural ("nor'easters"/"noreasters"), since \bnor'easter\b does not match "nor'easters"; the same
+        # singular->plural discipline applied to windstorms/snowstorms/haboobs. Each is a whole word denoting
+        # EXCLUSIVELY the coastal storm — zero benign English meaning — so this closes the miss with no
+        # operational false-positive risk. Surfaced in the 2026-08-29 winter-weather rule-probe (coastal-storm
+        # sibling of the already-HIGH snowstorm/blizzard).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2053,6 +2071,7 @@ TAXONOMY = {
                      "monsoon", "monsoons",
                      "waterspout", "waterspouts",
                      "freezing rain",
+                     "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },
