@@ -1896,12 +1896,36 @@ TAXONOMY = {
         # Each "…burst" here denotes EXCLUSIVELY the meteorological downdraft event — zero benign English
         # meaning in facility/incident reporting — so this closes the miss with no operational false-positive
         # risk. Surfaced in the 2026-08-28 severe-wind closed-compound rule-probe (downdraft sibling sweep).
+        #
+        # "thunderstorm"/"thunderstorms" and "hailstorm"/"hailstorms" are the precipitation-storm closed
+        # compounds — the remaining directly-named "-storm" severe-weather events that the generic HIGH
+        # signals SHOULD catch and cannot. "thunderstorm" is the canonical NWS-warned storm ("severe
+        # thunderstorm warning": damaging straight-line wind, hail, deadly cloud-to-ground lightning); it is
+        # LITERALLY a storm, no less severe than the generic "storm" already floored HIGH, yet the CLOSED
+        # compound has no word boundary before "storm" (…r|storm…) so \bstorm\b cannot fire inside it and it
+        # previously dropped to LOW. "hailstorm" is the direct twin of the already-HIGH "hail": a barrage of
+        # hail heavy enough to shatter skylights/glazing, dent equipment, and injure workers — but \bhail\b
+        # cannot fire because there is no word boundary AFTER "hail" in "hailstorm" (hail|storm, "s" follows),
+        # and \bstorm\b cannot fire before "storm" either, so it too dropped to LOW. This is the SAME
+        # closed-compound tokenization miss as sandstorm/snowstorm/windstorm-beside-storm and hail-inside-
+        # hailstorm mirrors snow-inside-snowstorm exactly. Floored at HIGH, NOT critical, on the identical
+        # rationale as the other "-storm" siblings: a damaging severe-weather hazard rather than the
+        # guaranteed mass-casualty catastrophe that warrants CRITICAL (hurricane/derecho/tsunami); HIGH is the
+        # defensible floor a human/LLM can raise, and one that injures a worker independently floors critical
+        # via injury/medical. Added both forms of each at the "storm"/"hail" HIGH floor beside macroburst; each
+        # plural needs its own entry (\bthunderstorm\b does not match "thunderstorms"), the same singular->plural
+        # discipline applied to windstorms/sandstorms/snowstorms. Each is a whole word denoting EXCLUSIVELY the
+        # meteorological event — zero benign English meaning in facility/incident reporting — so this closes the
+        # miss with no operational false-positive risk. Surfaced in the 2026-08-28 precipitation-storm
+        # closed-compound rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "snowstorm", "snowstorms",
                      "windstorm", "windstorms",
+                     "thunderstorm", "thunderstorms",
+                     "hailstorm", "hailstorms",
                      "downburst", "downbursts",
                      "microburst", "microbursts",
                      "macroburst", "macrobursts",

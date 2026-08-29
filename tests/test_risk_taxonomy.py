@@ -1015,6 +1015,20 @@ CASES = [
     ("Repeated microbursts peeled cladding off the north wall", "high", "weather"),
     ("A macroburst leveled the fence line behind the compound", "high", "weather"),
     ("Two macrobursts battered the tank farm within an hour", "high", "weather"),
+    # "thunderstorm"/"thunderstorms" and "hailstorm"/"hailstorms" are the precipitation-storm closed
+    # compounds — the remaining directly-named "-storm" severe-weather events. "thunderstorm" is literally a
+    # storm (no less severe than the generic "storm" already HIGH) but the CLOSED compound has no word
+    # boundary before "storm" so \bstorm\b can't fire; "hailstorm" is the twin of the already-HIGH "hail" but
+    # \bhail\b can't fire (no boundary after "hail" in hail|storm) and \bstorm\b can't fire either — both
+    # previously dropped to LOW (same closed-compound miss as windstorm/snowstorm, and hail-inside-hailstorm
+    # mirrors snow-inside-snowstorm). Each plural is a distinct token (\bthunderstorm\b does not match
+    # "thunderstorms"). Floored at HIGH beside macroburst. Each sentence is kept free of any other floored
+    # token (no bare "storm"/"hail"/"lightning strike"/injury word), so removing the entries regresses each
+    # case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A thunderstorm knocked out power to the north site", "high", "weather"),
+    ("Two thunderstorms rolled over the compound this week", "high", "weather"),
+    ("A hailstorm shattered the skylights above the pump bay", "high", "weather"),
+    ("Two hailstorms dented the equipment yard this spring", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
