@@ -2054,6 +2054,25 @@ TAXONOMY = {
         # EXCLUSIVELY the coastal storm — zero benign English meaning — so this closes the miss with no
         # operational false-positive risk. Surfaced in the 2026-08-29 winter-weather rule-probe (coastal-storm
         # sibling of the already-HIGH snowstorm/blizzard).
+        #
+        # "heat wave"/"heatwave" (+ plurals) is the directly-named severe prolonged-extreme-heat event — the
+        # deadliest weather hazard in the U.S. by average annual deaths (the 1995 Chicago heat wave ~739 dead,
+        # the 2003 European heat wave ~70,000, the 2021 Pacific-Northwest "heat dome"). It is the severe,
+        # mass-casualty form of the already-tracked "heat advisory" (which floors only MEDIUM), yet it matched
+        # nothing and dropped to LOW — an inversion where a mere watch-level "heat advisory" outranked the
+        # actual killing event, because \bheat\s+advisory\b does NOT match "heat wave"/"heatwave" and no other
+        # token fired. This is the same severe-form-below-its-own-advisory miss the taxonomy exists to close
+        # (blizzard/ice storm HIGH sit above the MEDIUM snow/frost). Floored at HIGH, NOT critical: a heat wave
+        # is a prolonged, forecastable public-health hazard (cooling/hydration/rest mitigate it), not the
+        # guaranteed instantaneous mass-casualty catastrophe of a tornado/hurricane — HIGH is the defensible
+        # floor a human/LLM can raise, and a worker who collapses from it independently floors critical via
+        # injury/medical. Both the spaced "heat wave" and the closed compound "heatwave" are added (both are
+        # common spellings), plus each plural — \bheat\s+wave\b does not match "heat waves" and \bheatwave\b
+        # does not match "heatwaves" — the same singular->plural discipline applied to windstorms/haboobs/
+        # nor'easters. In facility/incident text the phrase denotes EXCLUSIVELY the meteorological event (the
+        # Motown song / band titles never appear in a hazard report), so this closes the miss with no
+        # operational false-positive risk. Surfaced in the 2026-08-29 extreme-heat rule-probe (severe sibling
+        # of the already-MEDIUM heat advisory).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2072,6 +2091,7 @@ TAXONOMY = {
                      "waterspout", "waterspouts",
                      "freezing rain",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
+                     "heat wave", "heat waves", "heatwave", "heatwaves",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
     },

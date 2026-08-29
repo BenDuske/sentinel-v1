@@ -1101,6 +1101,18 @@ CASES = [
     ("A nor'easter cut power to the coastal substation overnight", "high", "weather"),
     ("Back-to-back nor'easters battered the north lot this week", "high", "weather"),
     ("The noreaster stranded crews at the loading dock through the weekend", "high", "weather"),
+    # "heat wave"/"heatwave" (+ plurals) name the severe prolonged-extreme-heat event — the deadliest U.S.
+    # weather hazard by average annual deaths and the mass-casualty form of the already-MEDIUM "heat
+    # advisory". It previously dropped LOW (an inversion below its own advisory): \bheat\s+advisory\b does
+    # not match "heat wave"/"heatwave" and no other token fires. Both the spaced and closed spellings, plus
+    # each plural, are distinct tokens (\bheat\s+wave\b does not match "heat waves"; \bheatwave\b does not
+    # match "heatwaves"). Floored HIGH above the MEDIUM advisory. Each sentence carries no other floored
+    # token (no bare "storm"/"heat advisory"/injury word), so removing the entries regresses each case to
+    # LOW and fails the assertion (isolation; fault-injected).
+    ("A heat wave shut outdoor operations across the site for a week", "high", "weather"),
+    ("Successive heat waves left day crews rotating onto early shifts", "high", "weather"),
+    ("The heatwave pushed the cooling plant past its rated capacity", "high", "weather"),
+    ("Two heatwaves in one month kept the yard on restricted duty", "high", "weather"),
     # The plural "hostages" must reach the same CRITICAL floor as the singular "hostage" — an active
     # abduction crisis is usually reported in the plural ("took hostages"), a distinct token that
     # \bhostage\b does not match. No other critical/high token is present in this sentence (the only
@@ -1216,8 +1228,10 @@ NO_FALSE_POSITIVE = [
      "lightning struck"),
     # The heat-emergency terms are multi-word adjacency ("heat stroke"/"heat exhaustion") or whole
     # clinical words ("heatstroke"/"hyperthermia"): a bare "heat" mention with no medical event — a
-    # heat wave, a heat exchanger, "turn up the heat" — must NOT fire the injury/medical floor.
-    ("A heat wave rolled through; the heat exchanger was serviced and we turned up the heat.",
+    # heat exchanger, radiant heat, "turn up the heat" — must NOT fire the injury/medical floor.
+    # (NB: "heat wave" is deliberately excluded here — it is now a real weather HIGH signal, not benign
+    # filler — so this guard uses only bare-"heat" phrases that stay LOW.)
+    ("The heat exchanger was serviced, we felt the radiant heat, and we turned up the heat.",
      "heat stroke"),
     # Only the acute participle "amputated" was added, NOT the chronic descriptor "amputee": a
     # benign "amputee support group" / "amputee parking" mention is not an acute emergency and must
