@@ -1535,6 +1535,20 @@ TAXONOMY = {
         # surge, a surge of adrenaline — which is DELIBERATELY EXCLUDED and left to the existing whole
         # phrase "power surge"; only the adjacent two-word storm-surge phrase fires). Surfaced in the
         # 2026-08-22 natural-disaster rule-probe alongside the volcanic members.
+        # "storm tide" is the NWS/NHC companion measure to storm surge — the TOTAL observed water level
+        # during a storm (storm surge + the astronomical tide), i.e. the actual coastal-inundation depth
+        # that overtops seawalls and drowns low-lying sites. It is historically the deadliest coastal
+        # hazard (Katrina/Ike/Camille), a directly-named catastrophe on exactly the same footing as its
+        # already-critical twin "storm surge". Yet it scored only HIGH, not critical: it contains the bare
+        # word "storm" (weather HIGH floor), so the phrase matched \bstorm\b and floored one level LOW of
+        # the surge it accompanies — the SAME active UNDER-floor as "storm surge" before it was added, WORSE
+        # than a pure absent-term miss. Added the whole phrase at the storm-surge/hurricane critical floor;
+        # the plural "storm tides" needs its own entry (\bstorm\s+tide\b won't match "storm tides"), the same
+        # singular->plural tokenization discipline applied throughout this list. "storm tide" has ZERO benign
+        # English meaning (unlike the polysemous half "tide" — a red tide, a rising tide of demand, tide
+        # detergent — which is DELIBERATELY EXCLUDED; only the adjacent two-word storm-tide phrase fires),
+        # so it closes the miss with no operational false-positive risk (bare "storm" continues to floor
+        # HIGH on its own). Surfaced in the 2026-08-29 coastal-flood rule-probe alongside storm surge.
         # A "derecho" is a widespread, long-lived, fast-moving STRAIGHT-LINE WINDSTORM — hurricane-force
         # gusts (58+ mph, often 80-100+) along a damage swath 240+ miles long, a directly-named, NWS-warned
         # convective catastrophe (the 2012 mid-Atlantic and 2020 Iowa derechos each killed people, caused
@@ -1846,7 +1860,8 @@ TAXONOMY = {
                      "limnic eruption", "limnic eruptions",
                      "lava flow",
                      "lahar", "lahars",
-                     "storm surge"],
+                     "storm surge",
+                     "storm tide", "storm tides"],
         # "haboob"/"haboobs" (Arabic for "blasting/drifting") is the meteorological/NWS name for an intense
         # wall-of-dust storm driven by thunderstorm-outflow winds — the dramatic Phoenix/Sahel dust storms that
         # drop highway visibility to zero and cause deadly multi-vehicle pileups (the 2011 Phoenix haboob; chronic

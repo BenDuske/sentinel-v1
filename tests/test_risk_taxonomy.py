@@ -832,6 +832,15 @@ CASES = [
     # level. The only floored tokens here are the new "storm surge" (CRITICAL) and "storm" (HIGH), so
     # removing the phrase regresses this case to HIGH and fails the CRITICAL assertion (isolation).
     ("A storm surge is overtopping the seawall at the coastal site", "critical", "weather"),
+    # "storm tide"/"storm tides" name the NWS total-water-level twin of storm surge (surge + tide) — the
+    # actual coastal-inundation depth and historically the deadliest coastal hazard — and must reach the
+    # same CRITICAL floor as the "storm surge" it accompanies. It previously scored only HIGH: it contains
+    # the bare word "storm" (weather HIGH floor), so the phrase matched "storm" and under-floored one level.
+    # \bstorm\s+tide\b does not match "storm tides", so each is a distinct entry. The only floored tokens in
+    # each sentence are the new "storm tide"/"storm tides" (CRITICAL) and "storm" (HIGH), so removing the
+    # phrase regresses each case to HIGH and fails the CRITICAL assertion (isolation).
+    ("A record storm tide is overtopping the levee at the coastal site", "critical", "weather"),
+    ("Two destructive storm tides reached the low-lying plant this season", "critical", "weather"),
     # "derecho"/"derechos" name a widespread straight-line windstorm (hurricane-force gusts over a
     # 240+ mile swath) — a directly-named weather catastrophe on the same footing as tornado/hurricane/
     # typhoon, yet it previously matched nothing and dropped to LOW. The irregular loanword plural means
