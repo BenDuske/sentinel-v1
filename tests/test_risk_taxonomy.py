@@ -1263,6 +1263,17 @@ CASES = [
     # fails the HIGH assertion (isolation; fault-injected).
     ("Dense freezing fog glazed the intake catwalk overnight", "high", "weather"),
     ("Freezing fog closed the north access road before the day shift", "high", "weather"),
+    # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
+    # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
+    # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
+    # class as "heat wave" beneath "heat advisory"): bare \bsnow\b fires on the trailing "snow" word, so the
+    # feet-of-snow event scored the SAME MEDIUM as a routine dusting, while \bstorm\b cannot fire and no HIGH winter
+    # token is a substring of it. Both the hyphenated (\blake\-effect\s+snow\b) and spaced (\blake\s+effect\s+snow\b)
+    # spellings are distinct tokens (the matcher treats the hyphen literally). Mass noun -> no plural entry. Removing
+    # both entries regresses each case from HIGH to MEDIUM (bare "snow" still fires) and fails the HIGH assertion
+    # (isolation; fault-injected). Sentences carry no other floored token so the assertion turns on the new entries.
+    ("Lake-effect snow buried the north access road under three feet overnight", "high", "weather"),
+    ("A lake effect snow band shut the east dock approach before the day shift", "high", "weather"),
     # "atmospheric river" (+ plural "atmospheric rivers") names the NWS/CW3E flood-driving moisture plume the
     # same way the already-HIGH "monsoon" names a rain-bearing driver — the long-duration rain/snow producer
     # behind West-Coast levee breaks and evacuations (Jan 2023 CA ARs: 20+ dead). It previously dropped LOW:

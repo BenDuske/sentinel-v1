@@ -2038,6 +2038,26 @@ TAXONOMY = {
         # storm — zero benign English meaning in facility/incident reporting — so this closes the miss with no operational
         # false-positive risk. Surfaced in the 2026-08-28 winter-weather closed-compound rule-probe.
         #
+        # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in
+        # hours off a warm lake, whiteout visibility, roof-collapse loads, and days of lost access (Buffalo Nov
+        # 2014 ~7 ft / 13 dead; Nov 2022 ~6+ ft). It is the severe named event on the footing of its HIGH siblings
+        # snowstorm/blizzard/ice storm, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion identical in
+        # class to "heat wave" scoring beneath the MEDIUM "heat advisory": bare \bsnow\b (the MEDIUM tier) DOES fire
+        # on the trailing "snow" word, so the feet-of-snow banded event scored the SAME MEDIUM as a routine dusting,
+        # while \bstorm\b cannot fire (no "storm" substring) and no HIGH winter token (snowstorm/blizzard/ice storm)
+        # is a substring of it. Floored at HIGH beside snowstorm/blizzard, NOT critical, on the identical rationale
+        # as those siblings: a winter-weather access/visibility/structural hazard rather than the guaranteed
+        # mass-casualty catastrophe that warrants the CRITICAL floor (hurricane/derecho/tsunami); HIGH is the
+        # defensible floor a human/LLM can raise, and one that injures a worker independently floors critical via
+        # injury/medical. Both the hyphenated ("lake-effect snow", tokenized \blake\-effect\s+snow\b) and spaced
+        # ("lake effect snow", \blake\s+effect\s+snow\b) spellings are added — the matcher treats the hyphen
+        # literally, so the spaced form needs its own entry, the same both-spellings discipline as nor'easter/
+        # noreaster. No plural entry: like the already-HIGH "freezing rain"/"black ice" and the MEDIUM "snow" it is
+        # a mass noun ("lake-effect snows" does not occur in incident text). The bare "snow" MEDIUM hit still shows
+        # alongside the new HIGH hit (both auditable, HIGH wins) — zero benign English meaning in facility/incident
+        # reporting, so this closes the under-floor with no operational false-positive risk. Surfaced in the
+        # 2026-08-30 winter-weather under-floor rule-probe.
+        #
         # "windstorm"/"windstorms" is the generic directly-named severe-wind event — the closed-compound sibling
         # of the just-added "sandstorm"/"snowstorm" and the whole-word twin of the already-floored phrase "high
         # winds" (both HIGH): a wind event strong enough to down trees/lines, tear roofing/cladding, and topple
@@ -2420,6 +2440,7 @@ TAXONOMY = {
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "snowstorm", "snowstorms",
+                     "lake-effect snow", "lake effect snow",
                      "windstorm", "windstorms",
                      "thunderstorm", "thunderstorms",
                      "thundersnow",
