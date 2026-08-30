@@ -518,6 +518,19 @@ CASES = [
     ("Two dyke breaches were logged after the surge subsided", "critical", "water/flood"),
     ("A dyke break sent water through the compound", "critical", "water/flood"),
     ("Several dyke breaks appeared along the river defence", "critical", "water/flood"),
+    # "floodwall" failure/breach/break (+ plurals) is the concrete/steel flood-control structure whose
+    # give-way IS the canonical Katrina catastrophe (17th Street / London Avenue Canal floodwall
+    # failures). It is the CLOSED compound: \bflood\b cannot fire inside "floodwall" (no boundary after
+    # "flood"), and \blevee...\b/\bdam...\b don't match, so each previously dropped LOW; the singular
+    # "floodwall breach" otherwise hits only the security "breach" token, which the water/flood critical
+    # floor must outrank. Each plural is a distinct token. No bare "flood"/"flooded" appears in these
+    # sentences, so only the "floodwall" token can reach the critical floor.
+    ("A floodwall failure released the reservoir onto the substation", "critical", "water/flood"),
+    ("Repeated floodwall failures overwhelmed the pumping station overnight", "critical", "water/flood"),
+    ("The upstream floodwall breach put water over the switchyard", "critical", "water/flood"),
+    ("Two floodwall breaches were reported along the canal", "critical", "water/flood"),
+    ("A floodwall break let water into the turbine hall", "critical", "water/flood"),
+    ("Multiple floodwall breaks opened along the canal wall", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.

@@ -996,6 +996,27 @@ TAXONOMY = {
         # plural discipline applied throughout. Mirrors the levee set (failure/breach/break, no
         # "burst" — "dike burst" is not the idiomatic phrasing). Surfaced in the 2026-08-30 flood-
         # control-structure rule-probe (British/Dutch synonym twin of the levee cluster).
+        #
+        # "floodwall" failure/breach/break (+ plurals) is the reinforced-concrete/steel flood-control
+        # structure whose give-way IS the canonical modern flood catastrophe — the 2005 Katrina 17th
+        # Street Canal and London Avenue Canal FLOODWALL failures (not the earthen levees) flooded ~80%
+        # of New Orleans and killed ~1,800. It is a distinct engineered structure from the earthen
+        # "levee"/"dike" (a vertical wall vs an embankment), so it needs its own token. Critically, this
+        # is the CLOSED-compound tokenization miss (superstorm-beside-storm / sandstorm class), NOT the
+        # spaced form: "flood wall failure" ALREADY floors critical because \bflood\b fires on its own
+        # "flood" word — but the closed compound "floodwall" has no boundary after "flood"
+        # (…flood|wall…), so \bflood\b cannot fire inside it, and neither "levee failure"/"dam failure"
+        # matches (different first word). So "floodwall failure"/"floodwall break" dropped to LOW, and —
+        # the same worse-than-absent under-floor+mis-category class fixed for levee/dam/dike "breach" —
+        # "floodwall breach" hit ONLY the security/intrusion "breach" token (HIGH, WRONG category),
+        # actively under-flooring a flood-control-structure catastrophe one tier LOW and mislabeling it a
+        # perimeter breach. Added the closed-compound phrases at the "dam failure"/"levee failure"
+        # critical floor; each plural needs its own entry (\bfloodwall\s+failure\b won't match
+        # "floodwall failures"), the singular->plural discipline applied throughout. Mirrors the
+        # levee/dike set (failure/breach/break, no "burst" — "floodwall burst" is not idiomatic).
+        # "floodwall" is a whole compound with ZERO benign English meaning, so this closes the miss with
+        # no operational false-positive risk. Surfaced in the 2026-08-30 flood-control-structure rule-
+        # probe (closed-compound concrete twin of the levee/dike embankment cluster).
         "critical": ["flood", "flooding", "flooded", "floodwater", "floodwaters",
                      "submerged", "sewage backup", "burst main", "dam failure",
                      "dam break", "dam breaks", "dam breach", "dam breaches",
@@ -1005,7 +1026,10 @@ TAXONOMY = {
                      "dike failure", "dike failures", "dike breach", "dike breaches",
                      "dike break", "dike breaks",
                      "dyke failure", "dyke failures", "dyke breach", "dyke breaches",
-                     "dyke break", "dyke breaks"],
+                     "dyke break", "dyke breaks",
+                     "floodwall failure", "floodwall failures",
+                     "floodwall breach", "floodwall breaches",
+                     "floodwall break", "floodwall breaks"],
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
