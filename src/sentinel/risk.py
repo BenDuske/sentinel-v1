@@ -2450,6 +2450,25 @@ TAXONOMY = {
         # do not occur in this domain, the same negligible cross-domain tolerance already accepted for
         # "typhoon"/"derecho"/"molotov" — so this closes the miss with no operational false-positive risk. Surfaced in
         # the 2026-08-30 severe-convective rule-probe (parent-storm sibling of the already-HIGH thunderstorm/squall).
+        #
+        # "whiteout"/"whiteouts" is the NWS-named zero-visibility winter condition — the exact hazard cited as the
+        # defining danger of the already-HIGH blizzard/snowstorm/lake-effect-snow siblings ("blizzard whiteouts",
+        # "whiteout visibility, deadly highway pileups"): wind-driven snow reduces visibility to near zero, blinding
+        # drivers and crews into the deadly multi-vehicle pileups and lost-worker searches that make it, like the
+        # visibility-hazard haboob (also HIGH), a severe event in its own right. Yet as a CLOSED compound it reaches
+        # no floored token: there is no "storm" in it so \bstorm\b cannot fire, no "snow" token (…ite|out, the MEDIUM
+        # \bsnow\b needs a "snow" substring that "whiteout" lacks), and neither blizzard nor snowstorm is a substring
+        # of it — so a report writing "a whiteout closed the highway and stranded the night crew" previously dropped
+        # to LOW, scoring strictly BELOW the same event written "blizzard". This is the SAME closed-compound
+        # tokenization miss as snowstorm/windstorm-beside-storm. Floored at HIGH beside blizzard/lake-effect snow,
+        # NOT critical, on the identical rationale as those winter siblings: a visibility/access hazard a human/LLM
+        # can raise, not the guaranteed mass-casualty catastrophe that warrants CRITICAL (hurricane/derecho/tsunami),
+        # and a whiteout that injures a worker or causes a pileup independently floors higher via injury/medical.
+        # Added both forms (\bwhiteout\b does not match "whiteouts"), the same singular->plural discipline applied to
+        # snowstorms/windstorms/haboobs. In operational facility/incident reporting "whiteout" denotes EXCLUSIVELY the
+        # meteorological condition — the correction-fluid sense is the branded "Wite-Out"/hyphenated "white-out", not
+        # the closed word — so this closes the miss with no operational false-positive risk. Surfaced in the
+        # 2026-08-30 winter-weather closed-compound rule-probe (visibility sibling of the already-HIGH blizzard).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2458,6 +2477,7 @@ TAXONOMY = {
                      "duststorm", "duststorms",
                      "snowstorm", "snowstorms",
                      "lake-effect snow", "lake effect snow",
+                     "whiteout", "whiteouts",
                      "windstorm", "windstorms",
                      "thunderstorm", "thunderstorms",
                      "thundersnow",

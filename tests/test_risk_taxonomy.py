@@ -1352,6 +1352,15 @@ CASES = [
     # removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A supercell developed over the tank farm this afternoon", "high", "weather"),
     ("Two supercells tracked across the county toward the switchyard", "high", "weather"),
+    # "whiteout"/"whiteouts" name the zero-visibility winter condition that is the defining hazard of the already-HIGH
+    # blizzard/snowstorm/lake-effect-snow siblings (wind-driven snow blinds drivers/crews into deadly highway pileups
+    # and lost-worker searches) — a visibility hazard on the footing of the HIGH haboob. As a closed compound it
+    # matches no floored token (no "storm" for \bstorm\b, no "snow" substring for the MEDIUM \bsnow\b, and blizzard/
+    # snowstorm are different words), so it previously dropped to LOW. \bwhiteout\b does not match "whiteouts", so each
+    # is a distinct entry. Neither sentence carries any other floored token, so removing the entries regresses each
+    # case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A whiteout closed the highway and stranded the night crew", "high", "weather"),
+    ("Two whiteouts grounded crews at the ridge site this week", "high", "weather"),
 ]
 
 
