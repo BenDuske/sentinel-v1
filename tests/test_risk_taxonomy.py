@@ -1082,6 +1082,15 @@ CASES = [
     # regresses each case to LOW and fails the HIGH assertion (isolation; confirmed by fault injection).
     ("A sandstorm swept across the access road at dawn", "high", "weather"),
     ("Two sandstorms reduced visibility near the compound this week", "high", "weather"),
+    # "duststorm"/"duststorms" is the one-word variant spelling of "dust storm" and the twin of the sandstorm above —
+    # the identical zero-visibility wind-driven dust hazard. The SPACED "dust storm" floors HIGH via \bstorm\b, but the
+    # CLOSED compound "duststorm" has no word boundary before "storm", so \bstorm\b cannot fire inside it and no other
+    # token is a substring — it previously dropped to LOW (the same closed-compound miss as sandstorm/snowstorm/windstorm);
+    # the plural is a distinct token (\bduststorm\b does not match "duststorms"). Floored at HIGH beside sandstorm. Each
+    # sentence is kept free of any other floored token (no "storm"/"dust storm"/injury word), so removing the entries
+    # regresses each case to LOW and fails the HIGH assertion (isolation; confirmed by fault injection).
+    ("A duststorm rolled over the north yard and dropped visibility to zero", "high", "weather"),
+    ("Two duststorms grounded crews at the remote site this week", "high", "weather"),
     # "snowstorm"/"snowstorms" is the direct sibling of the already-floored "ice storm"/"blizzard" (both HIGH) — a winter
     # storm driving whiteout visibility, highway pileups, and roof-load hazard. The SPACED "ice storm" floors HIGH via
     # \bstorm\b, but the CLOSED compound "snowstorm" has no word boundary before "storm" (so \bstorm\b can't fire) and no

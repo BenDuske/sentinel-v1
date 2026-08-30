@@ -2022,6 +2022,22 @@ TAXONOMY = {
         # facility/incident reporting — so this closes the miss with no operational false-positive risk. Surfaced in the
         # 2026-08-28 severe-weather closed-compound rule-probe.
         #
+        # "duststorm"/"duststorms" is the one-word variant spelling of the "dust storm" the just-added "sandstorm" is
+        # the sand-specific twin of — the identical wind-driven wall-of-dust hazard (zero-visibility highway pileups,
+        # a respiratory/ops hazard). The SPACED "dust storm" already floors HIGH because \bstorm\b fires on its own
+        # "storm" token, but the CLOSED compound "duststorm" has no word boundary before "storm" (…t|storm…), so
+        # \bstorm\b cannot fire inside it and no other token is a substring of it — so it previously dropped to LOW
+        # while the same event written "dust storm" or "sandstorm" floors HIGH. This is the EXACT closed-compound
+        # tokenization miss already closed for sandstorm/snowstorm/windstorm-beside-storm. Floored at HIGH, NOT
+        # critical, on the identical rationale as its sandstorm sibling: a visibility/traffic/respiratory hazard a
+        # human/LLM can raise, not the guaranteed mass-casualty catastrophe warranting CRITICAL (a duststorm that
+        # injures a worker independently floors critical via injury/medical). Added both forms at the "storm" HIGH
+        # floor beside sandstorm; the plural "duststorms" needs its own entry (\bduststorm\b does not match
+        # "duststorms"), the same singular->plural discipline applied to sandstorms/snowstorms/windstorms.
+        # "duststorm" is a whole word denoting EXCLUSIVELY the meteorological event — zero benign English meaning in
+        # facility/incident reporting — so this closes the miss with no operational false-positive risk. Surfaced in
+        # the 2026-08-30 severe-weather closed-compound spelling-variant rule-probe.
+        #
         # "snowstorm"/"snowstorms" is the direct sibling of the already-floored "ice storm" and "blizzard" (both HIGH) —
         # a winter storm that dumps snow and drives whiteout visibility, deadly highway pileups, roof-collapse loads, and
         # loss of access/power. The SPACED "ice storm" already floors HIGH via \bstorm\b on its own "storm" token, but
@@ -2439,6 +2455,7 @@ TAXONOMY = {
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
+                     "duststorm", "duststorms",
                      "snowstorm", "snowstorms",
                      "lake-effect snow", "lake effect snow",
                      "windstorm", "windstorms",
