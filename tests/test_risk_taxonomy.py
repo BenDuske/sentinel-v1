@@ -478,6 +478,18 @@ CASES = [
     ("Multiple levee failures inundated the district overnight", "critical", "water/flood"),
     ("The upstream levee breach put water over the switchyard", "critical", "water/flood"),
     ("Two levee breaches were reported along the river wall", "critical", "water/flood"),
+    # "dam break"/"dam breach"/"dam burst" (+ plurals) are the plain-English/witness twins of the
+    # already-critical noun "dam failure" — a reservoir-releasing structural give-way. \bdam\s+failure\b
+    # can't match "dam break"/"dam burst" (dropped LOW), and the singular "dam breach" otherwise hits only
+    # the security/intrusion "breach" token (HIGH, wrong category) — the same active under-floor fixed for
+    # levee breach. Each plural is a distinct token. No other floored critical token fires in these
+    # sentences, so they isolate on the new terms (the "breach" sentence must land water/flood critical,
+    # NOT security HIGH, proving the correct-category floor wins).
+    ("A dam break upstream sent water through the plant", "critical", "water/flood"),
+    ("Successive dam breaks drained the reservoir onto the town", "critical", "water/flood"),
+    ("The dam breach released the reservoir onto the substation", "critical", "water/flood"),
+    ("Two dam breaches were reported along the spillway", "critical", "water/flood"),
+    ("A dam burst overnight and swept away the access road", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.

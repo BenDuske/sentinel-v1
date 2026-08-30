@@ -937,8 +937,29 @@ TAXONOMY = {
         # critical floor now correctly outranks the spurious security "breach" hit). The British/
         # Dutch synonym "dike"/"dyke failure" is DELIBERATELY left for a separate probe (polysemous
         # spelling). Surfaced in the 2026-08-30 flood-control-structure rule-probe (twin of dam failure).
+        #
+        # "dam break"/"dam breach"/"dam burst" (+ plurals) are the plain-English / witness phrasings of the
+        # exact catastrophe the noun "dam failure" already floors critical — the uncontrolled release of a
+        # reservoir when the structure gives way (the 1889 Johnstown dam break killed ~2,200; the 2020 Edenville
+        # dam breach forced 10,000 evacuations; the 1975 Banqiao dam burst killed tens of thousands). Yet the
+        # engineering noun "dam failure" is the ONLY form that fired: \bdam\s+failure\b cannot match "dam break"/
+        # "dam burst" (different second word) so both dropped to LOW, and — the same worse-than-absent class just
+        # fixed for "levee breach" — the singular "dam breach" hit ONLY the security/intrusion "breach" token
+        # (HIGH, WRONG category), actively under-flooring a reservoir-release catastrophe one tier LOW and
+        # mis-labeling it a perimeter breach. Added the whole two-word phrases at the "dam failure" critical
+        # floor; each plural needs its own entry (\bdam\s+break\b won't match "dam breaks", nor \bdam\s+breach\b
+        # "dam breaches"), the singular->plural discipline applied throughout the taxonomy. All three denote
+        # EXCLUSIVELY the dam catastrophe — "dam break"/"dam breach"/"dam burst" have zero benign meaning in
+        # facility/incident text (the polysemous bare "dam" — beaver/log/cofferdam, "Amsterdam", "damn" — is
+        # never floored on its own, only these adjacency phrases fire) — so this closes the miss with no
+        # operational false-positive risk (and the water/flood critical floor now correctly outranks the spurious
+        # security "breach" hit for "dam breach", exactly as it does for "levee breach"). The reordered/verb forms
+        # "dam broke"/"burst dam" are DELIBERATELY left out (a "beaver dam broke" is a genuine but minor event the
+        # CRITICAL floor would over-fire). Surfaced in the 2026-08-30 dam-catastrophe rule-probe (twin of dam
+        # failure / levee breach).
         "critical": ["flood", "flooding", "flooded", "floodwater", "floodwaters",
                      "submerged", "sewage backup", "burst main", "dam failure",
+                     "dam break", "dam breaks", "dam breach", "dam breaches", "dam burst",
                      "levee failure", "levee failures", "levee breach", "levee breaches"],
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "standing water", "ceiling collapse from water", "overflow"],
