@@ -1324,6 +1324,14 @@ CASES = [
     # previously matched nothing and dropped to LOW purely on verb-vs-noun word order.
     ("Lightning struck the rooftop antenna array", "high", "weather"),
     ("A worker was struck by lightning in the north lot", "high", "weather"),
+    # "supercell"/"supercells" name the NWS/AMS parent severe thunderstorm (rotating-updraft storm that spawns
+    # the most violent tornadoes, giant hail, and downbursts) — the sibling of the already-HIGH "thunderstorm"/
+    # "squall". As a closed compound it matches no floored token (no "storm" for \bstorm\b, "cell" not floored,
+    # \bthunderstorm\b/\bsquall\b are different words), so it previously dropped to LOW. \bsupercell\b does not
+    # match "supercells", so each is a distinct entry. Neither sentence carries any other floored token, so
+    # removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A supercell developed over the tank farm this afternoon", "high", "weather"),
+    ("Two supercells tracked across the county toward the switchyard", "high", "weather"),
 ]
 
 

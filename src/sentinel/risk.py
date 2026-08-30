@@ -2394,7 +2394,28 @@ TAXONOMY = {
         # discipline applied to firenados/firenadoes/landspouts. It denotes EXCLUSIVELY this meteorological event
         # (zero benign English meaning), so it closes the miss with no operational false-positive risk. Surfaced in
         # the 2026-08-30 severe-weather gust-front rule-probe.
+        #
+        # "supercell"/"supercells" is the NWS/AMS-named PARENT severe thunderstorm — a storm with a deep, persistent
+        # rotating updraft (a mesocyclone) that is the single most dangerous convective storm type, the structure that
+        # spawns the most violent (EF4-EF5) tornadoes, giant hail, and damaging downbursts (a "supercell tracking toward
+        # the metro" is standard NWS severe-weather wording). It is a directly-named severe-weather storm on exactly the
+        # same footing as its already-HIGH siblings "thunderstorm"/"squall"/"downburst", yet as a single closed compound
+        # it reached NO floored token: there is no "storm" in it so \bstorm\b cannot fire, "cell" is not floored, and
+        # \bthunderstorm\b/\bsquall\b are different words — so a report writing "a supercell developed over the tank farm"
+        # previously dropped to LOW while the same storm written "thunderstorm" floors HIGH. This is the SAME closed-
+        # compound/absent-term tokenization miss as squall/haboob/thunderstorm-beside-storm. Floored at HIGH, NOT
+        # critical, on the identical rationale as its thunderstorm/squall siblings: a severe-convective storm a human/LLM
+        # can raise, not the guaranteed mass-casualty catastrophe that warrants CRITICAL (its offspring "tornado"/
+        # "derecho" already floor critical, and a supercell that spawns a tornado or injures a worker independently
+        # floors higher via those signals or injury/medical). Added both forms at the "storm" HIGH floor beside squall;
+        # the plural "supercells" needs its own entry (\bsupercell\b does not match "supercells"), the same
+        # singular->plural discipline applied to thunderstorms/squalls/downbursts. In operational facility safety/incident
+        # reporting "supercell" denotes EXCLUSIVELY the meteorological storm — the narrow crystallography/battery senses
+        # do not occur in this domain, the same negligible cross-domain tolerance already accepted for
+        # "typhoon"/"derecho"/"molotov" — so this closes the miss with no operational false-positive risk. Surfaced in
+        # the 2026-08-30 severe-convective rule-probe (parent-storm sibling of the already-HIGH thunderstorm/squall).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
+                     "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
