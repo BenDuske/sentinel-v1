@@ -977,12 +977,35 @@ TAXONOMY = {
         # bursts" did NOT (\bdam\s+burst\b won't match "dam bursts") — the identical singular->plural
         # miss, added beside it. Surfaced in the 2026-08-30 flood-control-structure rule-probe (plain-
         # English twin of the levee-failure / dam-break cluster).
+        #
+        # "dike"/"dyke" failure/breach/break (+ plurals) is the British/Dutch synonym of "levee" and
+        # was DELIBERATELY deferred when the levee cluster landed (the note above at the levee entry
+        # flags it) because the BARE word is polysemous — "dike"/"dyke" alone can mean an igneous
+        # intrusion (geology) or is a slur, so flooring the bare token would over-fire. But the levee
+        # discipline resolves this cleanly: it is the TWO-WORD phrases that carry the catastrophe, and
+        # "dike failure"/"dike breach"/"dike break" (like "levee failure") have ZERO benign meaning as
+        # phrases — a breached dike is the exact flood-control-embankment give-way that drowned SW
+        # Netherlands in the 1953 North Sea flood (~1,800 dead) and is the standard term in Dutch/UK
+        # flood reporting. So this adds ONLY the qualified phrases, both spellings, never the bare
+        # word — the identical bare-token-excluded / two-word-phrase-floored discipline used for
+        # "levee". Without this, "dike failure"/"dyke breach" matched NO floored token and dropped to
+        # LOW: \blevee\s+failure\b etc. cannot match a different first word, and — the same worse-than-
+        # absent class fixed for "levee breach"/"dam breach" — the singular "dike breach" hit ONLY the
+        # security/intrusion "breach" token, mis-labeling a flood catastrophe a perimeter breach. Each
+        # plural needs its own entry (\bdike\s+failure\b won't match "dike failures"), the singular->
+        # plural discipline applied throughout. Mirrors the levee set (failure/breach/break, no
+        # "burst" — "dike burst" is not the idiomatic phrasing). Surfaced in the 2026-08-30 flood-
+        # control-structure rule-probe (British/Dutch synonym twin of the levee cluster).
         "critical": ["flood", "flooding", "flooded", "floodwater", "floodwaters",
                      "submerged", "sewage backup", "burst main", "dam failure",
                      "dam break", "dam breaks", "dam breach", "dam breaches",
                      "dam burst", "dam bursts",
                      "levee failure", "levee failures", "levee breach", "levee breaches",
-                     "levee break", "levee breaks"],
+                     "levee break", "levee breaks",
+                     "dike failure", "dike failures", "dike breach", "dike breaches",
+                     "dike break", "dike breaks",
+                     "dyke failure", "dyke failures", "dyke breach", "dyke breaches",
+                     "dyke break", "dyke breaks"],
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],

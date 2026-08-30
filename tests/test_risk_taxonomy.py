@@ -500,6 +500,24 @@ CASES = [
     # they isolate on the new terms.
     ("A levee break inundated the plant floor", "critical", "water/flood"),
     ("Multiple levee breaks opened along the river wall", "critical", "water/flood"),
+    # "dike"/"dyke" failure/breach/break (+ plurals) is the British/Dutch synonym of the levee
+    # cluster, deferred when levee landed (bare word is polysemous — geology/slur) and now added as
+    # the qualified TWO-WORD phrases only, both spellings. Neither \blevee...\b nor a bare token
+    # fires, so each previously dropped LOW; the singular "dike breach"/"dyke breach" otherwise hits
+    # only the security "breach" token, which the new water/flood critical floor must outrank. Each
+    # plural is a distinct token. No other floored critical token appears in these sentences.
+    ("A dike failure released the reservoir onto the substation", "critical", "water/flood"),
+    ("Repeated dike failures overwhelmed the pumping station overnight", "critical", "water/flood"),
+    ("The upstream dike breach put water over the switchyard", "critical", "water/flood"),
+    ("Two dike breaches were reported along the sea wall", "critical", "water/flood"),
+    ("A dike break let water into the turbine hall", "critical", "water/flood"),
+    ("Multiple dike breaks opened along the embankment", "critical", "water/flood"),
+    ("A dyke failure drained the reservoir toward the town", "critical", "water/flood"),
+    ("Successive dyke failures inundated the low-lying district", "critical", "water/flood"),
+    ("The coastal dyke breach exposed the site to the sea", "critical", "water/flood"),
+    ("Two dyke breaches were logged after the surge subsided", "critical", "water/flood"),
+    ("A dyke break sent water through the compound", "critical", "water/flood"),
+    ("Several dyke breaks appeared along the river defence", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.
