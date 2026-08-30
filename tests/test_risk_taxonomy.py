@@ -1372,6 +1372,15 @@ CASES = [
     # case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A whiteout closed the highway and stranded the night crew", "high", "weather"),
     ("Two whiteouts grounded crews at the ridge site this week", "high", "weather"),
+    # "sleet" is the winter precipitation peer of the already-MEDIUM "snow"/"frost" — ice pellets that
+    # accumulate into a slick coating. It shares no substring with any floored token (\bsnow\b/\bfrost\b are
+    # different words; the HIGH glaze-ice phrases freezing rain/black ice/freezing fog are different phrases),
+    # so it previously dropped to LOW — an under-floor inversion below its snow/frost peers. Floored at MEDIUM
+    # (not the HIGH glaze-ice tier): visible bouncing ice pellets, less treacherous than invisible glaze ice.
+    # Neither sentence carries any other floored token (no "snow"/"frost"/"storm"), so removing the "sleet"
+    # entry regresses each case from MEDIUM to LOW and fails the >= medium assertion (isolation; fault-injected).
+    ("Sleet coated the north access road overnight", "medium", "weather"),
+    ("Heavy sleet made the loading dock treacherous at shift change", "medium", "weather"),
 ]
 
 
@@ -1394,6 +1403,10 @@ def test_rationale_lists_matched_terms():
 NO_FALSE_POSITIVE = [
     ("Unarmed guard completed a routine patrol; all clear.", "armed"),
     ("Employee cleaned the firearm display case in the lobby.", "fire"),
+    # "sleet" floors weather MEDIUM, but the NWS synonym "ice pellets" was DELIBERATELY EXCLUDED because
+    # ice-making equipment legitimately dispenses literal "ice pellets" (pellet/nugget ice) — this benign
+    # equipment mention must stay LOW (locks in the polysemy-exclusion decision; only "sleet" fires).
+    ("The ice maker dispensed ice pellets into the bin; nothing to report.", "ice pellets"),
     # The firearm/shooting terms added to security/intrusion must not fire from inside benign
     # words: "shooting" in "troubleshooting" (extremely common in a facilities/IT incident log),
     # "shooter" in "troubleshooter"/"sharpshooter". Word boundaries (\b) must hold the line.

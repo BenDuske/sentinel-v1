@@ -2488,6 +2488,25 @@ TAXONOMY = {
         # meteorological condition — the correction-fluid sense is the branded "Wite-Out"/hyphenated "white-out", not
         # the closed word — so this closes the miss with no operational false-positive risk. Surfaced in the
         # 2026-08-30 winter-weather closed-compound rule-probe (visibility sibling of the already-HIGH blizzard).
+        #
+        # "sleet" is the directly-named winter precipitation (ice pellets that bounce and accumulate into a
+        # slick, treacherous coating on roads, catwalks, and docks) — the winter-precip peer of the already-
+        # MEDIUM "snow" and "frost". Yet it matched nothing and dropped to LOW: "sleet" shares no substring
+        # with any floored token (\bsnow\b/\bfrost\b are different words, and the HIGH glaze-ice tokens
+        # "freezing rain"/"black ice"/"freezing fog" are different phrases), so a report writing "sleet
+        # coated the access road" scored strictly BELOW the same-severity event written "snow"/"frost" — an
+        # UNDER-FLOOR inversion in the SAME class as heat-wave-beneath-heat-advisory and lake-effect-snow-at-
+        # bare-snow. Floored at MEDIUM (exactly its snow/frost winter-precip peers, NOT the HIGH glaze-ice
+        # tier): sleet is visible bouncing ice pellets, less treacherous than the invisible glaze ice of
+        # freezing rain/black ice (which floor HIGH), and MEDIUM is the honest raise-able floor a human/LLM
+        # can lift when an event is severe — a heavy sleet event that injures a worker independently floors
+        # higher via injury/medical. "sleet" is a mass noun (like snow/frost/hail — "sleets" does not occur
+        # in incident text), so no plural entry. The NWS synonym "ice pellets" is DELIBERATELY EXCLUDED: ice-
+        # making equipment legitimately dispenses literal "ice pellets" (pellet/nugget ice), so \bice\s+pellets\b
+        # would over-fire on routine facilities text — the SAME polysemy-exclusion discipline that kept
+        # "cyclone"/"mudslide"/"landslide" out while their zero-benign twins typhoon/mudflow were added; only
+        # the unambiguous "sleet" (an ice machine never produces "sleet") fires. Surfaced in the 2026-08-30
+        # winter-precipitation rule-probe (MEDIUM peer of snow/frost).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2520,7 +2539,7 @@ TAXONOMY = {
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "polar vortex", "polar vortexes", "polar vortices",
                      "downed line", "ice storm", "blizzard"],
-        "medium":   ["heavy rain", "wind damage", "snow", "frost", "heat advisory"],
+        "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory"],
     },
 }
 
