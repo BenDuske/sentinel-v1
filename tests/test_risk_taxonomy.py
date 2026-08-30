@@ -798,6 +798,18 @@ CASES = [
     # case to LOW and fails the CRITICAL assertion (isolation).
     ("A tropical cyclone is bearing down on the coastal facility", "critical", "weather"),
     ("Two tropical cyclones intensified over the gulf this week", "critical", "weather"),
+    # "cyclonic storm"/"cyclonic storms" is the North Indian Ocean (IMD) regional name for the SAME tropical cyclone
+    # that is "hurricane"/"typhoon"/"medicane" elsewhere (Amphan 2020 = a super cyclonic storm; Bhola 1970 killed
+    # ~500k). WORSE than a plain absent-term miss, it ACTIVELY UNDER-FLOORED to HIGH — bare "storm" sits at the weather
+    # HIGH floor, so "cyclonic storm" hit \bstorm\b and floored one level LOW of the hurricane it IS (the storm-surge
+    # under-floor class). The single "cyclonic storm" token also covers the qualified escalation names (super/severe/
+    # very severe cyclonic storm carry it as a substring); \bcyclonic\s+storm\b won't match the trailing "s" so the
+    # plural is a distinct entry. The two-word phrase has ZERO benign meaning (industrial senses are "cyclonic
+    # separator"/"cyclonic vacuum", never "cyclonic storm"). Each sentence below carries a bare "storm"/qualifier but
+    # NO other CRITICAL token, so removing both entries drops each to the "storm" HIGH floor and fails the CRITICAL
+    # assertion (isolation + active-under-floor; confirmed by fault injection).
+    ("A super cyclonic storm is bearing down on the coastal facility", "critical", "weather"),
+    ("Two cyclonic storms formed over the bay of bengal this season", "critical", "weather"),
     # The plural spellings of the remaining weather-critical singulars must reach the same CRITICAL
     # floor — "wildfire"/"flash flood"/"tsunami" scored critical but "wildfires"/"flash floods"/
     # "tsunamis" are distinct tokens that previously matched nothing and dropped to LOW, the same

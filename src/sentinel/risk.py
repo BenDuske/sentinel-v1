@@ -1803,9 +1803,29 @@ TAXONOMY = {
         # already-critical "flooding") — a report writes "rapid bombogenesis", never "two bombogeneses" — so unlike the
         # countable bomb-cyclone/derecho it gets NO artificial plural entry. Surfaced in the 2026-08-29 bomb-cyclone-
         # synonym rule-probe.
+        #
+        # "cyclonic storm" is the North Indian Ocean (Bay of Bengal / Arabian Sea) REGIONAL NAME for the SAME tropical
+        # cyclone that is "hurricane" in the Atlantic, "typhoon" in the NW Pacific, and "medicane" in the Mediterranean —
+        # it is the India Meteorological Department's OFFICIAL category name, escalating "cyclonic storm" -> "severe" ->
+        # "very severe" -> "extremely severe" -> "super cyclonic storm" (Amphan 2020 was a super cyclonic storm; the 1970
+        # Bhola and 1999 Odisha cyclonic storms each killed tens of thousands). Yet the phrase matched NO critical token
+        # and, WORSE than a pure absent-term miss, ACTIVELY UNDER-FLOORED to HIGH: the bare word "storm" sits at the
+        # weather HIGH floor, so "cyclonic storm" hit \bstorm\b and floored one level LOW of the hurricane it IS — the
+        # exact storm-surge-matching-"storm" under-floor class. This completes the regional tropical-cyclone-name set
+        # (hurricane/typhoon/tropical cyclone/medicane already critical); international incident reports from Indian /
+        # Bangladeshi facilities and imported IMD bulletins routinely write "cyclonic storm". Added the whole two-word
+        # phrase at the hurricane/typhoon critical floor — a single "cyclonic storm" token also covers the qualified
+        # escalation names ("super/severe/very severe cyclonic storm" all carry \bcyclonic\s+storm\b as a substring). The
+        # plural "cyclonic storms" needs its own entry (\bcyclonic\s+storm\b won't match the trailing "s"), the same
+        # singular->plural discipline applied to tropical cyclones/typhoons/derechos. The two-word phrase denotes
+        # EXCLUSIVELY the meteorological catastrophe — the adjective "cyclonic" beside "storm" has ZERO benign English
+        # meaning (the polysemous industrial senses are "cyclonic separator"/"cyclonic vacuum", never "cyclonic storm"),
+        # so like the bare-"cyclone"-excluded/"tropical cyclone"-added discipline it closes the miss with no operational
+        # false-positive risk. Surfaced in the 2026-08-29 tropical-cyclone-regional-name rule-probe.
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
+                     "cyclonic storm", "cyclonic storms",
                      "medicane", "medicanes",
                      "bomb cyclone", "bomb cyclones", "bombogenesis",
                      "derecho", "derechos",
