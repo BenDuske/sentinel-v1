@@ -1307,8 +1307,27 @@ TAXONOMY = {
         # the spaced "rock slide" (a playground/water-park attraction). \brockslide\b as one word has
         # zero benign English meaning, so it closes the miss with zero false-positive risk (bare
         # "rock" and "slide" do not fire). Surfaced in the 2026-08-25 earth-movement rule-probe.
+        # "debris flow"/"mudflow" (+ plurals) are the water-saturated flowing members of the same
+        # earth-movement family as the already-HIGH "rockslide" — a fast torrent of mud, rock, and
+        # debris racing down a slope that buries roads, right-of-ways, and structures (the 2018
+        # Montecito debris flows killed 23; post-wildfire debris flows are a chronic Western hazard).
+        # They name the EXACT hazard the polysemous "mudslide"/"landslide" were DELIBERATELY excluded
+        # for (see the rockslide note above): "mudslide" couldn't be floored because the word is a
+        # cocktail/ice-cream and "landslide" because of "landslide victory" — but the technical
+        # synonyms "debris flow"/"mudflow" have ZERO benign English meaning, so they close that same
+        # miss cleanly. Both previously matched nothing and dropped to LOW: "debris flow" contains no
+        # floored substring (bare "debris"/"flow" are unfloored; \blava\s+flow\b / \bpyroclastic\s+flow\b
+        # can't match a different first word), and "mudflow" is a single compound sharing no substring
+        # with any floored token. Added at the SAME conservative HIGH earth-failure floor as rockslide
+        # (a debris flow ranges from a blocked road to a fatal burial; one that buries or injures a
+        # worker independently floors critical via injury/medical). Each plural is its own token
+        # (\bmudflow\b won't match "mudflows", \bdebris\s+flow\b won't match "debris flows"), the same
+        # singular->plural discipline as rockslide/rockslides and sinkhole/sinkholes. The volcanic
+        # debris flow "lahar" already floors CRITICAL over in weather; these are the generic
+        # non-volcanic hazard. Surfaced in the 2026-08-30 earth-movement rule-probe.
         "high":     ["crack in wall", "structural crack", "sagging", "buckling", "subsidence",
                      "sinkhole", "sinkholes", "cave-in", "cave-ins", "rockslide", "rockslides",
+                     "debris flow", "debris flows", "mudflow", "mudflows",
                      "load-bearing", "compromised", "leaning"],
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
     },

@@ -681,6 +681,16 @@ CASES = [
     ("A rockslide buried the access road below the quarry face", "high", "structural"),
     ("Rockslide came down onto the rail line and blocked the tunnel mouth", "high", "structural"),
     ("Repeated rockslides closed the canyon highway overnight", "high", "structural"),
+    # "debris flow"/"mudflow" (+ plurals) are the water-saturated flowing members of the rockslide
+    # earth-movement family and must reach the same HIGH ground-failure floor — they name the exact
+    # hazard the polysemous "mudslide"/"landslide" were excluded for, but with zero benign meaning.
+    # Each previously matched nothing (no floored substring; \blava\s+flow\b can't match "debris flow")
+    # and dropped to LOW. The plurals must fire too (\bmudflow\b does not match "mudflows",
+    # \bdebris\s+flow\b does not match "debris flows"), the same singular->plural gap as rockslide.
+    ("A debris flow swept across the access road below the ridge", "high", "structural"),
+    ("Two debris flows buried the pipeline right-of-way overnight", "high", "structural"),
+    ("A mudflow came down the slope and blocked the north gate", "high", "structural"),
+    ("Repeated mudflows covered the lower yard this week", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
