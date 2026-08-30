@@ -467,6 +467,17 @@ CASES = [
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
     ("Floodwaters rose to the second floor of the plant", "critical", "water/flood"),
     ("Rising floodwater poured through the loading dock doors", "critical", "water/flood"),
+    # "levee failure"/"levee breach" (+ plurals) is the engineering twin of the already-critical
+    # "dam failure": a flood-control-embankment collapse that releases an uncontrolled inundation.
+    # \bdam\s+failure\b can't match "levee failure", and the singular "levee breach" otherwise hits
+    # only the security/intrusion "breach" token (HIGH, wrong category) — an active under-floor.
+    # Each plural is a distinct token. No other floored critical token fires in these sentences, so
+    # they isolate on the new terms (the "breach" sentence must land water/flood critical, NOT
+    # security HIGH, proving the correct-category floor wins).
+    ("A levee failure released the reservoir onto the substation", "critical", "water/flood"),
+    ("Multiple levee failures inundated the district overnight", "critical", "water/flood"),
+    ("The upstream levee breach put water over the switchyard", "critical", "water/flood"),
+    ("Two levee breaches were reported along the river wall", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.

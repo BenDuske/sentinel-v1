@@ -918,8 +918,28 @@ TAXONOMY = {
         # tokenization gap already fixed for burns/injuries/fractures and the weather plurals. Both
         # forms are whole words with NO benign English meaning, so zero over-fire risk; the plural
         # "floodwaters" needs its own entry because \bfloodwater\b won't match it.
+        #
+        # "levee failure"/"levee breach" (+ plurals) is the exact engineering twin of the already-
+        # critical "dam failure" — the catastrophic loss of a flood-control embankment that releases
+        # an uncontrolled inundation (the 2005 Katrina levee failures flooded ~80% of New Orleans and
+        # killed over a thousand; the 2019 Midwest levee breaches inundated whole counties). Yet
+        # "levee failure" matched NO floored token and dropped to LOW: \bdam\s+failure\b cannot match
+        # "levee failure" (different first word), and neither "levee" nor "failure" is floored on its
+        # own. WORSE, the singular "levee breach" hit the security/intrusion "breach" token (a
+        # fence/perimeter breach) and floored only HIGH under the WRONG category — an active
+        # under-floor + mis-category, the same worse-than-absent class as "storm tide" hitting bare
+        # "storm". Added the whole phrases at the "dam failure" critical floor; each plural needs its
+        # own entry (\blevee\s+failure\b won't match "levee failures", \blevee\s+breach\b won't match
+        # "levee breaches"), the singular->plural discipline applied throughout the taxonomy. Both
+        # two-word phrases denote EXCLUSIVELY the flood-control-structure catastrophe — "levee" has
+        # zero benign meaning in facility/incident text (the archaic reception sense never appears) —
+        # so this closes the miss with no operational false-positive risk (and the water/flood
+        # critical floor now correctly outranks the spurious security "breach" hit). The British/
+        # Dutch synonym "dike"/"dyke failure" is DELIBERATELY left for a separate probe (polysemous
+        # spelling). Surfaced in the 2026-08-30 flood-control-structure rule-probe (twin of dam failure).
         "critical": ["flood", "flooding", "flooded", "floodwater", "floodwaters",
-                     "submerged", "sewage backup", "burst main", "dam failure"],
+                     "submerged", "sewage backup", "burst main", "dam failure",
+                     "levee failure", "levee failures", "levee breach", "levee breaches"],
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
