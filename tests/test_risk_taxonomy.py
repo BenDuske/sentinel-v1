@@ -462,6 +462,17 @@ CASES = [
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
+    # "ice jam"/"ice jams" is the directly-named NWS river-ice flood hazard — broken ice damming a
+    # river and backing water over its banks (NWS issues "Ice Jam Flood" warnings). Named on its own
+    # it reached NO floored token and dropped to LOW: no "flood"/"flooding" substring (critical can't
+    # fire), \bice storm\b does not match "ice jam", and neither "ice" nor "jam" is floored alone —
+    # same whole-hazard absent-term miss as storm surge / levee failure. Floored at HIGH (if the report
+    # says it IS flooding, the bare "flood"/"flooding" token independently escalates to critical). The
+    # plural is a distinct token (\bice\s+jam\b does not match "ice jams"). Each sentence is kept free
+    # of any other floored token (no "flood"/"burst"/"leak"/injury word), so removing the entries
+    # regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("An ice jam on the river is backing water toward the intake", "high", "water/flood"),
+    ("Two ice jams formed upstream of the pump house overnight", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.

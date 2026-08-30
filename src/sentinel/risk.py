@@ -1030,7 +1030,26 @@ TAXONOMY = {
                      "floodwall failure", "floodwall failures",
                      "floodwall breach", "floodwall breaches",
                      "floodwall break", "floodwall breaks"],
+        # "ice jam"/"ice jams" is the directly-named NWS river-ice flood hazard — an accumulation of
+        # broken ice that dams a river, backs water up over its banks, and can release in a sudden
+        # destructive surge when it breaks (the NWS issues "Ice Jam Flood" warnings; ice-jam floods
+        # kill people and inundate riverside facilities every winter/spring thaw). Yet a report writing
+        # "an ice jam on the river is backing water toward the intake" reached NO floored token and
+        # dropped to LOW: "ice jam" contains no "flood"/"flooding" substring (the water/flood critical
+        # tokens can't fire), \bice storm\b (the weather-HIGH winter phrase) does not match "ice jam",
+        # and neither "ice" nor "jam" is floored on its own — the SAME whole-hazard absent-term miss
+        # class as "storm surge" beside "flood" and "levee failure" beside "dam failure". Added the
+        # phrase at water/flood HIGH beside the general water hazards, NOT critical: if the report
+        # actually says the jam IS flooding ("ice-jam flooding swamped the plant"), the bare
+        # "flood"/"flooding" token independently escalates it to critical, so HIGH is the conservative
+        # warning-stage floor for the jam named on its own. The plural "ice jams" needs its own entry
+        # (\bice\s+jam\b does not match the trailing "s"), the singular->plural discipline applied
+        # throughout the taxonomy. The two-word phrase denotes EXCLUSIVELY the river-ice hazard — the
+        # polysemous "jam" (traffic jam / paper jam / preserves) never appears beside "ice" in that
+        # benign sense, so this closes the miss with no operational false-positive risk. Surfaced in the
+        # 2026-08-30 river-ice flood rule-probe (whole-hazard sibling of storm surge / dam failure).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
+                     "ice jam", "ice jams",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },
