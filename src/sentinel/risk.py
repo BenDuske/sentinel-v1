@@ -2360,6 +2360,21 @@ TAXONOMY = {
         # "snowstorm"/"thunderstorm". It is one whole word with zero benign English meaning (mass noun, no plural
         # entry, like "freezing rain"), so it closes the miss with no operational false-positive risk. Surfaced in
         # the 2026-08-29 severe-weather sibling rule-probe.
+        #
+        # "gustnado"/"gustnados"/"gustnadoes" is the NWS/storm-spotter name (gust + tornado) for the short-lived
+        # ground whirlwind that spins up along a thunderstorm's gust front / outflow boundary — a real damaging-wind
+        # hazard that overturns high-profile vehicles, tears roofing, and hurls debris (it is NOT connected to the
+        # cloud base like a true tornado, which is why it sits below the CRITICAL "tornado" floor). It is the
+        # gust-front sibling of the already-HIGH vortex hazards "landspout"/"waterspout"/"microburst", yet it reached
+        # NO floored token and dropped to LOW: a coined closed compound, so \btornado\b cannot fire on "gust"+"nado"
+        # (no internal boundary) and \bstorm\b is nowhere in it — the same coined/closed-compound tokenization miss
+        # closed for firenado (critical) and landspout (HIGH). Floored at HIGH beside "landspout"/"microburst" (NOT
+        # the critical "tornado"/"firenado" floor — a gustnado is the weaker, cloud-detached end of the vortex
+        # family, the same conservative EF0-EF1 call already made for landspout/waterspout). Each spelling is a
+        # distinct token (\bgustnado\b matches neither "gustnados" nor "gustnadoes"), the same singular->plural
+        # discipline applied to firenados/firenadoes/landspouts. It denotes EXCLUSIVELY this meteorological event
+        # (zero benign English meaning), so it closes the miss with no operational false-positive risk. Surfaced in
+        # the 2026-08-30 severe-weather gust-front rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "hail", "high winds", "fallen tree",
                      "haboob", "haboobs",
@@ -2379,6 +2394,7 @@ TAXONOMY = {
                      "atmospheric river", "atmospheric rivers",
                      "waterspout", "waterspouts",
                      "landspout", "landspouts",
+                     "gustnado", "gustnados", "gustnadoes",
                      "freezing rain", "black ice", "freezing fog",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",

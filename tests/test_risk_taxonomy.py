@@ -1271,6 +1271,16 @@ CASES = [
     # HIGH assertion (isolation; fault-injected).
     ("A landspout touched down beside the tank farm", "high", "weather"),
     ("Two landspouts were sighted north of the switchyard", "high", "weather"),
+    # "gustnado"/"gustnados"/"gustnadoes" (gust + tornado) is the NWS/storm-spotter name for the short-lived
+    # gust-front ground whirlwind — a damaging-wind hazard (flips high-profile vehicles, tears roofing) that sits
+    # below the critical "tornado" floor because it is not connected to the cloud base. It previously dropped LOW:
+    # a coined closed compound, so \btornado\b cannot fire on "gust"+"nado" and no "storm" substring exists — the
+    # same coined-compound miss as firenado, one tier down. Floored HIGH beside landspout/microburst. Each spelling
+    # is a distinct token (\bgustnado\b matches neither plural). Each sentence carries no other floored token, so
+    # removing the entries regresses to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A gustnado flipped an empty trailer near the loading dock", "high", "weather"),
+    ("Two gustnados spun up along the outflow boundary east of the yard", "high", "weather"),
+    ("Successive gustnadoes tore shingles off the maintenance shed", "high", "weather"),
     # "heat dome"/"heat domes" names the stalled high-pressure driver of an extreme heat wave (the June 2021 PNW
     # heat dome killed hundreds). It previously dropped LOW: no "storm" word, "dome" not floored, nothing floored a
     # substring — so it scored below the same extreme-heat event written "heat wave". Floored HIGH beside "heat
