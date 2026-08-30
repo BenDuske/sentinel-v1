@@ -957,10 +957,32 @@ TAXONOMY = {
         # "dam broke"/"burst dam" are DELIBERATELY left out (a "beaver dam broke" is a genuine but minor event the
         # CRITICAL floor would over-fire). Surfaced in the 2026-08-30 dam-catastrophe rule-probe (twin of dam
         # failure / levee breach).
+        #
+        # "levee break"/"levee breaks" is the plain-English / witness twin of the already-critical
+        # "levee failure"/"levee breach" — the SAME flood-control-embankment give-way, in the words a
+        # non-engineer reporter actually writes ("the levee broke and floodwater poured in", "a levee
+        # break inundated the plant", "multiple levee breaks along the river"; the phrasing burned into
+        # public memory by Katrina and "When the Levee Breaks"). It is the EXACT parallel of the
+        # "dam break" plain-English twin just added beside "dam failure" — yet the levee cluster got
+        # only "levee failure"/"levee breach" and this twin was missed, so "levee break" matched NO
+        # floored token and dropped to LOW: \blevee\s+failure\b / \blevee\s+breach\b cannot match "levee
+        # break" (different second word), and neither "levee" nor "break" is floored on its own. Added
+        # both forms at the "levee failure"/"dam break" critical floor; the plural "levee breaks" needs
+        # its own entry (\blevee\s+break\b won't match "levee breaks"), the singular->plural discipline
+        # applied throughout. Both two-word phrases denote EXCLUSIVELY the flood-control-structure
+        # catastrophe — "levee" has zero benign meaning in facility/incident text — so this closes the
+        # miss with no operational false-positive risk. The reordered/verb form "levee broke" is
+        # DELIBERATELY left out (the same discipline that excluded "dam broke"/"burst dam"). Also
+        # completed the dam cluster's own plural coverage: "dam burst" floored but its plural "dam
+        # bursts" did NOT (\bdam\s+burst\b won't match "dam bursts") — the identical singular->plural
+        # miss, added beside it. Surfaced in the 2026-08-30 flood-control-structure rule-probe (plain-
+        # English twin of the levee-failure / dam-break cluster).
         "critical": ["flood", "flooding", "flooded", "floodwater", "floodwaters",
                      "submerged", "sewage backup", "burst main", "dam failure",
-                     "dam break", "dam breaks", "dam breach", "dam breaches", "dam burst",
-                     "levee failure", "levee failures", "levee breach", "levee breaches"],
+                     "dam break", "dam breaks", "dam breach", "dam breaches",
+                     "dam burst", "dam bursts",
+                     "levee failure", "levee failures", "levee breach", "levee breaches",
+                     "levee break", "levee breaks"],
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],

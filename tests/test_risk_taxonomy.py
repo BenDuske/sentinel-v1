@@ -490,6 +490,16 @@ CASES = [
     ("The dam breach released the reservoir onto the substation", "critical", "water/flood"),
     ("Two dam breaches were reported along the spillway", "critical", "water/flood"),
     ("A dam burst overnight and swept away the access road", "critical", "water/flood"),
+    # "dam bursts" (plural) is a distinct token \bdam\s+burst\b can't match — the singular floored but
+    # the plural dropped LOW; the same singular->plural miss just completed for the levee cluster.
+    ("Two dam bursts were reported downstream after the quake", "critical", "water/flood"),
+    # "levee break"/"levee breaks" is the plain-English/witness twin of the already-critical
+    # "levee failure"/"levee breach" (the Katrina phrasing). \blevee\s+failure\b / \blevee\s+breach\b
+    # can't match "levee break", and neither "levee" nor "break" floors on its own, so it dropped LOW.
+    # Each plural is a distinct token. No other floored critical token fires in these sentences, so
+    # they isolate on the new terms.
+    ("A levee break inundated the plant floor", "critical", "water/flood"),
+    ("Multiple levee breaks opened along the river wall", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.
