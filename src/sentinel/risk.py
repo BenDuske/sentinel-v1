@@ -1083,10 +1083,32 @@ TAXONOMY = {
         # the deliberately-excluded polysemous "gale"/"tidal wave"), so it closes the miss with no
         # operational false-positive risk. Surfaced in the 2026-08-31 snowmelt/river-flood rule-probe
         # (whole-hazard sibling of storm surge / ice jam / seiche).
+        # "king tide"/"king tides" is the directly-named NOAA coastal-flood hazard — the highest
+        # predicted (perigean spring) tides of the year, which push seawater over low-lying shoreline
+        # infrastructure and are the routine driver of "sunny-day"/nuisance coastal inundation (NOAA
+        # runs a public "King Tides" reporting program precisely because they flood waterfront roads
+        # and facilities on a clear day). Yet a report writing "a king tide is pushing seawater over
+        # the intake berm" reached NO floored token and dropped to LOW: "king tide" shares no substring
+        # with "flood"/"flooding"/"surge" (the water/flood critical tokens can't fire), \bstorm\s+tide\b
+        # (the critical hurricane-companion phrase) does not match "king tide" (different first word),
+        # and neither "king" nor bare "tide" is floored on its own — the SAME whole-hazard absent-term
+        # miss class as "storm surge" beside "flood", "ice jam" beside the river hazards, and
+        # "seiche"/"freshet" beside the coast/river. Floored at water/flood HIGH beside the general
+        # water hazards, NOT critical: if the report says the king tide IS flooding ("a king tide
+        # flooded the low-lying yard"), the bare "flood"/"flooding" token independently escalates it to
+        # critical, so HIGH is the conservative warning-stage floor for the king tide named on its own
+        # (verified live: the bare-"flood" sentence already scores critical). The plural "king tides"
+        # needs its own entry (\bking\s+tide\b does not match the trailing "s"), the singular->plural
+        # discipline applied throughout the taxonomy. "king tide" is an established coastal-oceanography
+        # term denoting EXCLUSIVELY this flood hazard — zero benign or figurative meaning as a phrase
+        # (unlike the deliberately-excluded polysemous "gale"/"tidal wave") — so it closes the miss with
+        # no operational false-positive risk. Surfaced in the 2026-08-31 coastal-flood rule-probe
+        # (whole-hazard sibling of storm surge / storm tide / seiche / freshet).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
                      "freshet", "freshets",
+                     "king tide", "king tides",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },

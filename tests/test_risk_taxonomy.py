@@ -495,6 +495,18 @@ CASES = [
     # regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A freshet on the river overtopped the intake screens", "high", "water/flood"),
     ("Successive freshets swelled the canal past its banks", "high", "water/flood"),
+    # "king tide"/"king tides" is the directly-named NOAA coastal-flood hazard — the year's highest
+    # predicted tides that push seawater over low-lying shoreline infrastructure ("sunny-day"/nuisance
+    # coastal inundation). Named on its own it reached NO floored token and dropped to LOW: no
+    # "flood"/"flooding"/"surge" substring (critical can't fire), \bstorm\s+tide\b does not match
+    # "king tide", and neither "king" nor bare "tide" is floored — same whole-hazard absent-term miss
+    # as storm surge / ice jam / seiche / freshet. Floored at HIGH (if the report says it IS flooding,
+    # the bare "flood"/"flooding" token independently escalates to critical). The plural is a distinct
+    # token (\bking\s+tide\b does not match "king tides"). Each sentence is kept free of any other
+    # floored token (no "flood"/"surge"/"leak"/injury word), so removing the entries regresses each
+    # case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A king tide is pushing seawater over the intake berm", "high", "water/flood"),
+    ("Successive king tides swelled the harbor past its wall", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
