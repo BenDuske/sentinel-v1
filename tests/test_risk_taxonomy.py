@@ -1375,6 +1375,16 @@ CASES = [
     # floored token, so removing the entries regresses each to LOW and fails the HIGH assertion (fault-injected).
     ("Heavy volcanic ash is falling across the plant and blanketing the intakes", "high", "weather"),
     ("Volcanic ashfall has loaded the warehouse roof and clogged the air handlers", "high", "weather"),
+    # "red flag warning" names the NWS fire-weather PRODUCT — the warning that low humidity, wind, and dry fuels
+    # have made conditions critical for rapid wildfire ignition/spread. It is the fire-side sibling of the cold
+    # PRODUCTS "extreme cold warning"/"wind chill warning" (all HIGH). It previously dropped LOW: the critical fire
+    # tokens name the FIRE itself ("wildfire"/"bushfire"/"conflagration"/"structure fire"), none is a substring of
+    # "red flag warning", and there is no bare "warning"/"flag" token — so the fire-weather emergency scored below
+    # the fire it forecasts written "wildfire". Floored HIGH (forecast of conditions, not an active burn; the fire
+    # tokens escalate to critical on their own). Only the full three-word phrase fires — bare "red flag" is
+    # domain-polysemous and stays LOW (FP guard below). The sentence carries no other floored token, so removing the
+    # entry regresses it to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A red flag warning is in effect for the tank-farm district through this evening", "high", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
@@ -1858,6 +1868,20 @@ def test_bare_wind_chill_and_extreme_cold_stay_low():
                  "The extreme cold storage room held the samples at spec"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare wind chill / extreme cold not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_red_flag_stays_low():
+    # The QUALIFIED NWS product "red flag warning" floors weather HIGH (critical fire-weather conditions), but
+    # the bare idiom "red flag" was DELIBERATELY left unfloored — a code-review red flag, a beach/racing red
+    # flag, and a diplomatic red flag are all benign. \bred flag warning\b cannot fire from any of them, so
+    # these must fall through to the LOW default; a future careless add of a bare "red flag" token would fire
+    # them HIGH and this catches it (the qualified-phrase discipline of volcanic ash / storm surge).
+    for text in ("The auditor raised a red flag on the vendor invoice",
+                 "A red flag flew at the beach lifeguard tower for high surf",
+                 "The code review flagged a red flag in the retry logic"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'red flag' idiom not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

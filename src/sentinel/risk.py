@@ -2714,6 +2714,29 @@ TAXONOMY = {
         # closed compound "volcanic ashfall" (no word boundary between "ash" and "fall"), so the ashfall spelling
         # gets its own token. Surfaced in the 2026-08-31 volcanic-hazard rule-probe (downwind sibling of the
         # eruption/pyroclastic/lahar criticals).
+        # "red flag warning" names the NWS fire-weather PRODUCT — the warning issued when low humidity, strong
+        # wind, and dry fuels combine into critical conditions for rapid wildfire ignition and spread (a Red Flag
+        # Warning tells crews that any ember will run). It is the fire-side sibling of the just-added cold PRODUCTS
+        # "extreme cold warning"/"wind chill warning": a directly-named NWS warning that a human/LLM incident
+        # report routinely cites by product name. Yet a report writing "a red flag warning is in effect for the
+        # tank-farm district" reached NO floored token and dropped to LOW (verified live): "red flag warning"
+        # shares no substring with any floored token — the critical fire tokens name the FIRE itself
+        # ("wildfire"/"bushfire"/"conflagration"/"structure fire"), none is a substring of "red flag warning", and
+        # there is no bare "warning"/"flag" token — so the same fire-weather emergency scored strictly BELOW the
+        # fire it forecasts written "wildfire" (critical), the SAME whole-hazard absent-term miss class as "extreme
+        # cold warning" beside the cold criticals and "volcanic ash" beside the eruption criticals. Floored HIGH,
+        # NOT critical: a Red Flag Warning is a forecast of conditions, not an active burn — if a wildfire actually
+        # ignites the "wildfire"/"conflagration" tokens independently escalate to critical (verified live: "fire
+        # crews staging under a red flag warning" already scores critical on the fire context) and a burned worker
+        # floors via injury/medical, so HIGH is the conservative warning-stage floor for the product named on its
+        # own, the identical discipline used for extreme cold warning / wind chill warning. DELIBERATELY floored
+        # only as the full three-word phrase: the bare idiom "red flag" (a warning sign, a beach/racing flag, a
+        # code-review red flag) is domain-polysemous and MUST NOT fire a weather HIGH — "red flag warning" carries
+        # ZERO benign meaning, the same qualified-phrase discipline that floored "volcanic ash" (not bare "ash")
+        # and "storm surge" (not bare "surge"). No separate plural entry: like the sibling products "extreme cold
+        # warning"/"wind chill warning" the NWS product name is used as a mass term and the bare-phrase entry
+        # already covers the operative singular. Surfaced in the 2026-08-31 fire-weather rule-probe (product
+        # sibling of the extreme cold warning / wind chill warning NWS-named warnings).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2749,6 +2772,7 @@ TAXONOMY = {
                      "polar vortex", "polar vortexes", "polar vortices",
                      "extreme cold warning", "wind chill warning",
                      "volcanic ash", "volcanic ashfall",
+                     "red flag warning",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory"],
     },
