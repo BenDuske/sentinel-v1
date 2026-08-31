@@ -1389,6 +1389,16 @@ CASES = [
     # entry regresses each case from MEDIUM to LOW and fails the >= medium assertion (isolation; fault-injected).
     ("Sleet coated the north access road overnight", "medium", "weather"),
     ("Heavy sleet made the loading dock treacherous at shift change", "medium", "weather"),
+    # "gale-force winds"/"gale force winds"/"gale warning" name the NWS severe-wind hazard (sustained 34-47 kt),
+    # the wind-family peer of the already-HIGH "high winds"/"windstorm". They match no floored token
+    # (\bhigh\s+winds\b needs "high", \bwindstorm\b/\bstorm\b share no substring, "gale warning" reaches nothing),
+    # so they previously dropped to LOW. The matcher treats the hyphen literally, so the spaced form is a distinct
+    # entry; the bare root "gale" is excluded as polysemous (a name / "a gale of laughter"). Each sentence carries
+    # no other floored token (no "storm"/"high winds"/"fallen tree"/"downed line"/injury word), so removing the
+    # entries regresses each case from HIGH to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("Gale-force winds battered the offshore rig overnight", "high", "weather"),
+    ("Gale force winds tore roofing off the north warehouse", "high", "weather"),
+    ("A gale warning was issued for the harbor front", "high", "weather"),
 ]
 
 

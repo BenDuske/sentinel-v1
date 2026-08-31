@@ -2525,9 +2525,28 @@ TAXONOMY = {
         # "cyclone"/"mudslide"/"landslide" out while their zero-benign twins typhoon/mudflow were added; only
         # the unambiguous "sleet" (an ice machine never produces "sleet") fires. Surfaced in the 2026-08-30
         # winter-precipitation rule-probe (MEDIUM peer of snow/frost).
+        # "gale-force winds"/"gale force winds"/"gale warning" -> weather HIGH. A gale is the directly-named
+        # NWS severe-wind hazard (a Gale Warning covers sustained winds of 34-47 knots / 39-54 mph — enough
+        # to topple cranes, tear roofing, capsize small craft, and down lines), the wind-family peer of the
+        # already-HIGH "high winds"/"windstorm"/"squall". Yet these phrases matched NO floored token and
+        # dropped to LOW: \bhigh\s+winds\b does not match "gale-force winds" (different first word),
+        # \bwindstorm\b/\bstorm\b share no substring with them, and "gale warning" reaches no token either —
+        # so a report writing "gale-force winds battered the rig" scored strictly BELOW the same event
+        # written "high winds", a whole-hazard absent-term miss in the SAME class as heat-wave-beside-heat-
+        # advisory and freezing-rain-beside-ice-storm. Floored HIGH beside "high winds" (a damaging severe-
+        # wind hazard a human/LLM can raise; one that injures a worker or downs a line independently floors
+        # higher via injury/medical or electrical). Added BOTH the hyphenated "gale-force winds" and the
+        # spaced "gale force winds" — the matcher treats the hyphen literally, so the spaced form needs its
+        # own entry (the both-spellings discipline of lake-effect snow / nor'easter) — plus the NWS product
+        # name "gale warning". The bare root "gale" is DELIBERATELY EXCLUDED: it is polysemous (a proper name
+        # — "Gale from accounting"; the figurative "a gale of laughter"), so \bgale\b would over-fire on
+        # routine text — the SAME qualified-phrase discipline that floored "storm surge"/"arctic blast"/"cold
+        # snap"/"heat advisory" while leaving their polysemous bare halves unfloored; only the unambiguous
+        # zero-benign phrases fire. Surfaced in the 2026-08-30 severe-wind rule-probe (HIGH peer of high winds).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
+                     "gale-force winds", "gale force winds", "gale warning",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "duststorm", "duststorms",
