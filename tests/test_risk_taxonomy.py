@@ -520,6 +520,20 @@ CASES = [
     # case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A sneaker wave swept a crew member off the jetty", "high", "water/flood"),
     ("Repeated sneaker waves battered the shoreline work party", "high", "water/flood"),
+    # "rip current"/"rip currents" is the directly-named NWS surf-zone life-threat hazard — a narrow,
+    # powerful channel of water flowing swiftly away from shore that drags swimmers and shoreline crews
+    # out to sea (the NWS issues dedicated "Rip Current Statement" products; it drowns more U.S.
+    # beachgoers than any other surf danger). Named on its own it reached NO floored token and dropped
+    # to LOW: no "flood"/"flooding"/"surge" substring (critical can't fire) and not a substring of any
+    # weather/water token — same whole-hazard absent-term miss as storm surge / ice jam / seiche /
+    # freshet / king tide / sneaker wave. Floored at HIGH (if the report says it IS flooding or the
+    # fatality/injury tokens fire, those independently escalate to critical). The plural is a distinct
+    # token (\brip\s+current\b does not match "rip currents"), and the bare polysemous "current" is
+    # deliberately NOT floored. Each sentence is kept free of any other floored token (no
+    # "flood"/"surge"/injury/fatality word), so removing the entries regresses each case to LOW and
+    # fails the HIGH assertion (isolation; fault-injected).
+    ("A rip current dragged a swimmer off the outfall apron", "high", "water/flood"),
+    ("Rip currents are pulling debris away from the intake", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.

@@ -1124,12 +1124,34 @@ TAXONOMY = {
         # (unlike the deliberately-excluded polysemous "gale"/"tidal wave") — so it closes the miss with
         # no operational false-positive risk. Surfaced in the 2026-08-31 coastal-life-threat rule-probe
         # (whole-hazard sibling of storm surge / seiche / freshet / king tide).
+        # "rip current"/"rip currents" is the directly-named NWS surf-zone life-threat hazard — a
+        # narrow, powerful channel of water flowing swiftly away from shore through the surf zone that
+        # drags swimmers and shoreline workers out to sea (the NWS issues dedicated "Rip Current
+        # Statement" products for this hazard, which drowns more people on U.S. beaches than any other
+        # surf danger). Yet a report writing "a rip current dragged a swimmer off the outfall apron"
+        # reached NO floored token and dropped to LOW: "rip current" shares no substring with
+        # "flood"/"flooding"/"surge" (the water/flood critical tokens can't fire), and it is not a
+        # substring of any weather or water token — the SAME whole-hazard absent-term miss class as
+        # "storm surge" beside "flood", "ice jam" beside the river hazards, and
+        # "seiche"/"freshet"/"king tide"/"sneaker wave" beside the coast/river. Floored at water/flood
+        # HIGH beside the general water hazards, NOT critical: if the report says the current IS
+        # flooding ("a rip current flooded the low apron") or the bare fatality/injury tokens fire, it
+        # independently escalates to critical, so HIGH is the conservative warning-stage floor for the
+        # rip current named on its own. The plural "rip currents" needs its own entry (\brip\s+current\b
+        # does not match the trailing "s"), the singular->plural discipline applied throughout the
+        # taxonomy. "rip current" is an established surf-safety term denoting EXCLUSIVELY this hazard —
+        # zero benign or figurative meaning as a phrase, and note the bare polysemous "current"
+        # (electrical current, current events, ocean current) is deliberately NOT floored, only the full
+        # phrase — so it closes the miss with no operational false-positive risk. Surfaced in the
+        # 2026-08-31 surf-zone-life-threat rule-probe (whole-hazard sibling of storm surge / seiche /
+        # freshet / king tide / sneaker wave).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
                      "freshet", "freshets",
                      "king tide", "king tides",
                      "sneaker wave", "sneaker waves",
+                     "rip current", "rip currents",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },
