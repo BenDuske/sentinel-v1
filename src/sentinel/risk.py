@@ -1104,11 +1104,32 @@ TAXONOMY = {
         # (unlike the deliberately-excluded polysemous "gale"/"tidal wave") — so it closes the miss with
         # no operational false-positive risk. Surfaced in the 2026-08-31 coastal-flood rule-probe
         # (whole-hazard sibling of storm surge / storm tide / seiche / freshet).
+        # "sneaker wave"/"sneaker waves" is the directly-named NWS/NOAA Pacific-coast life-threat hazard —
+        # a sudden, disproportionately large and fast surge of water that rushes far up a beach or over
+        # coastal rocks without warning, sweeping people off the shore and drowning them (the NWS issues
+        # dedicated "Sneaker Wave" statements/advisories for the OR/WA/CA coast precisely because they
+        # kill beachgoers and shoreline crews on otherwise calm days). Yet a report writing "a sneaker
+        # wave swept a worker off the jetty" reached NO floored token and dropped to LOW: "sneaker wave"
+        # shares no substring with "flood"/"flooding"/"surge" (the water/flood critical tokens can't
+        # fire), and it is not a substring of any weather or water token — the SAME whole-hazard absent-
+        # term miss class as "storm surge" beside "flood", "ice jam" beside the river hazards, and
+        # "seiche"/"freshet"/"king tide" beside the coast/river. Floored at water/flood HIGH beside the
+        # general water hazards, NOT critical: if the report says the wave IS flooding ("a sneaker wave
+        # flooded the low pier") or sweeps a worker to their death, the bare "flood"/"flooding" or the
+        # fatality/injury tokens independently escalate it to critical (both verified live), so HIGH is
+        # the conservative warning-stage floor for the sneaker wave named on its own. The plural "sneaker
+        # waves" needs its own entry (\bsneaker\s+wave\b does not match the trailing "s"), the singular->
+        # plural discipline applied throughout the taxonomy. "sneaker wave" is an established coastal-
+        # safety term denoting EXCLUSIVELY this hazard — zero benign or figurative meaning as a phrase
+        # (unlike the deliberately-excluded polysemous "gale"/"tidal wave") — so it closes the miss with
+        # no operational false-positive risk. Surfaced in the 2026-08-31 coastal-life-threat rule-probe
+        # (whole-hazard sibling of storm surge / seiche / freshet / king tide).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
                      "freshet", "freshets",
                      "king tide", "king tides",
+                     "sneaker wave", "sneaker waves",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },

@@ -507,6 +507,19 @@ CASES = [
     # case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A king tide is pushing seawater over the intake berm", "high", "water/flood"),
     ("Successive king tides swelled the harbor past its wall", "high", "water/flood"),
+    # "sneaker wave"/"sneaker waves" is the directly-named NWS/NOAA Pacific-coast life-threat hazard —
+    # a sudden oversized surge that rushes far up a beach or over rocks without warning and sweeps
+    # people off the shore (the NWS issues dedicated "Sneaker Wave" advisories for the OR/WA/CA coast).
+    # Named on its own it reached NO floored token and dropped to LOW: no "flood"/"flooding"/"surge"
+    # substring (critical can't fire) and not a substring of any weather/water token — same whole-hazard
+    # absent-term miss as storm surge / ice jam / seiche / freshet / king tide. Floored at HIGH (if the
+    # report says it IS flooding or sweeps a worker to their death, the bare "flood"/"flooding" or the
+    # fatality/injury tokens independently escalate to critical). The plural is a distinct token
+    # (\bsneaker\s+wave\b does not match "sneaker waves"). Each sentence is kept free of any other
+    # floored token (no "flood"/"surge"/injury/fatality word), so removing the entries regresses each
+    # case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A sneaker wave swept a crew member off the jetty", "high", "water/flood"),
+    ("Repeated sneaker waves battered the shoreline work party", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
