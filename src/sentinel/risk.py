@@ -2831,8 +2831,29 @@ TAXONOMY = {
         # denotes EXCLUSIVELY this precipitation type, no polysemy to guard (unlike the deliberately-unfloored
         # bare "funnel"/"cloud"/"surge"). Surfaced in the 2026-08-31 3:4x frozen-precip rule-probe (advisory-tier
         # traction sibling of the MEDIUM sleet, one gradient below the HIGH glaze-ice warning products).
+        #
+        # "wind chill advisory"/"wind chill advisories" names the NWS ADVISORY-tier dangerous-cold product — the
+        # advisory-grade warning that wind chills have dropped to the frostbite/hypothermia-risk range (the threshold
+        # a step below the life-threatening WARNING level). It is the exact advisory-tier sibling of the already-HIGH
+        # WARNING products "wind chill warning"/"extreme cold warning" — the SAME cold hazard, one NWS gradient
+        # lower. Yet a report writing "a wind chill advisory is in effect for the yard crew" reached NO floored token
+        # and dropped to LOW (verified live): "wind chill advisory" shares no substring with the HIGH "wind chill
+        # warning" (different final word — \bwind\s+chill\s+warning\b cannot match "wind chill advisory"), bare "wind
+        # chill" is DELIBERATELY unfloored (a routine "wind chill of 25F", a wind-chill chart — the existing FP
+        # guard), and no floored token is a substring of it. Floored MEDIUM, NOT HIGH: the taxonomy mirrors NWS
+        # product tiers — ADVISORY -> MEDIUM (this sits beside "heat advisory"/"frost"/"dense fog"), WARNING -> HIGH
+        # (its "wind chill warning"/"extreme cold warning" siblings) — the exact advisory-vs-warning gradient just
+        # codified for dense fog (MEDIUM) beneath freezing fog (HIGH). UNLIKE the mass-noun "dense fog"/"graupel"
+        # (no plural), "advisory" is a COUNTABLE noun and NWS routinely issues multi-zone "wind chill advisories"
+        # ("wind chill advisories were issued for the northern counties"), a distinct token \bwind\s+chill\s+advisory\b
+        # cannot match — so the plural is added per the countable-noun singular->plural discipline (this also closes
+        # the latent singular-only gap the older "heat advisory" entry still carries). The qualified phrase carries
+        # ZERO benign meaning (unlike bare "wind chill"), the same qualified-phrase discipline as "dense fog" (not
+        # bare "fog") / "red flag warning" (not bare "red flag"). Surfaced in the 2026-08-31 5:1x cold-advisory
+        # rule-probe (advisory-tier sibling of the HIGH wind chill warning / extreme cold warning products).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
-                     "graupel"],
+                     "graupel",
+                     "wind chill advisory", "wind chill advisories"],
     },
 }
 

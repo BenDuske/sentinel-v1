@@ -1403,6 +1403,17 @@ CASES = [
     # ice / flash freeze. Mass noun -> no plural entry. The sentence carries no other floored token, so removing the
     # "graupel" entry regresses it to LOW and fails the MEDIUM assertion (isolation; fault-injected).
     ("Graupel pellets coated the loading-dock stairs and the day shift reported slipping", "medium", "weather"),
+    # "wind chill advisory"/"wind chill advisories" names the NWS ADVISORY-tier dangerous-cold product — the exact
+    # advisory-tier sibling of the HIGH WARNING products "wind chill warning"/"extreme cold warning" (same cold
+    # hazard, one NWS gradient lower). It floors MEDIUM (beside "heat advisory"/"dense fog"), the same advisory->
+    # MEDIUM / warning->HIGH gradient codified for dense fog beneath freezing fog. It previously dropped LOW:
+    # \bwind\s+chill\s+warning\b cannot match "wind chill advisory" (different final word), bare "wind chill" is
+    # unfloored (FP guard), and no floored token is a substring of it. UNLIKE the mass-noun dense fog/graupel,
+    # "advisory" is countable so the plural "advisories" is a distinct token and gets its own entry. Each sentence
+    # carries no other floored token, so removing the entry regresses each to LOW and fails the MEDIUM assertion
+    # (isolation; fault-injected).
+    ("A wind chill advisory is in effect for the outdoor yard crew through 10 AM", "medium", "weather"),
+    ("Wind chill advisories were issued for the northern counties overnight", "medium", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
