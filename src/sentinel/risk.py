@@ -2668,6 +2668,28 @@ TAXONOMY = {
         # zero-benign WARNING products fire — the qualified-phrase discipline of gale/gale warning. The
         # advisory tier (wind chill advisory / cold weather advisory, the MEDIUM cold peer of the MEDIUM
         # "heat advisory") is DEFERRED to a later probe. Surfaced in the 2026-08-31 extreme-cold rule-probe.
+        # "flash freeze"/"flash freezes" is the directly-named NWS winter hazard — a rapid, large temperature
+        # crash (often behind an arctic front) that freezes standing water and wet/slushy roadways into ice
+        # almost instantly, the meteorological EVENT that PRODUCES the already-HIGH "black ice" and glaze-ice
+        # surfaces. Yet a report writing "a flash freeze glazed the access road" reached NO floored token and
+        # dropped to LOW (verified live): "flash freeze" shares no substring with any floored token —
+        # \bflash\s+flood\b (the critical water phrase) does not match "flash freeze" (different second word),
+        # there is no bare "freeze" token, and the HIGH glaze-ice phrases "freezing rain"/"black ice"/
+        # "freezing fog" are different words — so the same treacherous glaze-ice event scored strictly BELOW
+        # its own PRODUCT written "black ice"/"freezing rain" (both HIGH), the identical whole-hazard absent-
+        # term / under-floor inversion already fixed for black-ice-beside-ice-storm and sleet-beneath-snow.
+        # Floored HIGH beside the glaze-ice family, NOT critical: if the flash freeze IS flooding first ("the
+        # flash freeze flooded the lot") the bare "flooded" token independently escalates to critical
+        # (verified live), and a worker injured on the ice floors higher via injury/medical — so HIGH is the
+        # conservative warning-stage floor for the flash freeze named on its own. Both "flash freeze" and the
+        # plural event form "flash freezes" get entries (\bflash\s+freeze\b does not match the trailing "s";
+        # unlike the mass-noun black ice/freezing rain, a flash freeze is a countable event — "two flash
+        # freezes this week" — so the plural occurs in incident text), the singular->plural discipline of the
+        # event-noun siblings storm surge/seiche/king tide. "flash freeze" denotes EXCLUSIVELY this hazard
+        # (the culinary "flash-freeze" sense — freezing food fast — does not appear in facilities/infra
+        # incident text, and even there it is written hyphenated as a verb), so it closes the miss with no
+        # operational false-positive risk. Surfaced in the 2026-08-31 glaze-ice rule-probe (event sibling of
+        # black ice / freezing rain / freezing fog).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2694,6 +2716,7 @@ TAXONOMY = {
                      "landspout", "landspouts",
                      "gustnado", "gustnados", "gustnadoes",
                      "freezing rain", "black ice", "freezing fog",
+                     "flash freeze", "flash freezes",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
                      "heat dome", "heat domes",

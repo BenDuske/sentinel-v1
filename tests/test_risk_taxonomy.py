@@ -1352,6 +1352,17 @@ CASES = [
     # fails the HIGH assertion (isolation; fault-injected).
     ("Dense freezing fog glazed the intake catwalk overnight", "high", "weather"),
     ("Freezing fog closed the north access road before the day shift", "high", "weather"),
+    # "flash freeze"/"flash freezes" is the NWS winter event — a rapid temperature crash that freezes
+    # standing water and wet roads to ice almost instantly, the meteorological PRODUCER of the already-HIGH
+    # "black ice"/glaze-ice family. It previously dropped LOW: \bflash\s+flood\b (the critical water phrase)
+    # does not match "flash freeze" (different second word), there is no bare "freeze" token, and the HIGH
+    # glaze-ice phrases freezing rain/black ice/freezing fog are different words — so the same glaze-ice
+    # event scored strictly below its own product written "black ice". Unlike the mass-noun black
+    # ice/freezing rain it is a countable event, so the plural "flash freezes" gets its own entry
+    # (\bflash\s+freeze\b does not match the trailing "s"). Both sentences carry no other floored token, so
+    # removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A flash freeze glazed every walkway on the access road", "high", "weather"),
+    ("Two flash freezes this week iced the exterior catwalks", "high", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
@@ -1835,6 +1846,21 @@ def test_bare_wind_chill_and_extreme_cold_stay_low():
                  "The extreme cold storage room held the samples at spec"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare wind chill / extreme cold not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_freeze_stays_low():
+    # The two-word EVENT "flash freeze"/"flash freezes" floors weather HIGH (glaze-ice producer), but the
+    # bare verb "freeze" was DELIBERATELY left unfloored — routine "freeze the sample", a freeze-frame, a
+    # hiring freeze, and "the pipe may freeze" are all benign or already covered by other tokens. Only the
+    # full "flash freeze" phrase fires; \bflash\s+freeze(s)?\b cannot match a bare "freeze", so these must
+    # fall through to LOW. A future careless add of a bare "freeze" token would fire them HIGH — this
+    # catches it (the phrase-only discipline of rip current, where bare "current" is not floored).
+    for text in ("Freeze the water sample before shipping it to the lab",
+                 "Management announced a hiring freeze for the quarter",
+                 "The freeze-frame from the camera was saved to the archive"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare freeze not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
