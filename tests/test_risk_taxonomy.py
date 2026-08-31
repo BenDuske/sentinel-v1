@@ -702,6 +702,14 @@ CASES = [
     ("Two debris flows buried the pipeline right-of-way overnight", "high", "structural"),
     ("A mudflow came down the slope and blocked the north gate", "high", "structural"),
     ("Repeated mudflows covered the lower yard this week", "high", "structural"),
+    # A "rockfall" is the free-fall member of the same earth-movement family as "rockslide" and must
+    # reach the same HIGH ground-failure floor — the one-word noun previously matched nothing (bare
+    # "rock"/"fall" are unfloored and \brockslide\b can't match it) and dropped to LOW. The plural
+    # "rockfalls" must fire too (\brockfall\b does not match "rockfalls"), the same singular->plural
+    # gap as rockslide/rockslides. Neither sentence carries another floored token, so removing the
+    # entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A rockfall struck the haul road below the highwall this morning", "high", "structural"),
+    ("Repeated rockfalls closed the canyon rail line overnight", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
@@ -1518,6 +1526,12 @@ NO_FALSE_POSITIVE = [
     # is a match for \brockslide\b, proving we added only the zero-collision term, not its neighbors.
     ("The mayor won in a landslide, the bar served a mudslide, and support saw an avalanche of tickets.",
      "rockslide"),
+    # Only the one-word "rockfall"/"rockfalls" was added, NOT the spaced form: bare "rock" is routine
+    # ("rock samples", "a loose rock") and must NOT fire the structural HIGH floor — \brockfall\b
+    # requires the single compound word, so the separated word cannot match it. (A literal "rock fall"
+    # containing the bare word "fall" would floor injury/medical MEDIUM via "fall", never this HIGH
+    # entry, so the guard uses "rock" alone to isolate the compound-word claim.)
+    ("The rock samples were catalogued in the display case near the quarry office.", "rockfall"),
     # Only the literal noun "suffocation" was added, NOT the metaphor-heavy verb/adjective forms:
     # "suffocated by the workload", "suffocating heat", and "the suffocating bureaucracy" are common
     # figurative usages and must NOT fire the gas/chemical critical floor (\bsuffocation\b matches

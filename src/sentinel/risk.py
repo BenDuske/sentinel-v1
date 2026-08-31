@@ -1344,8 +1344,26 @@ TAXONOMY = {
         # singular->plural discipline as rockslide/rockslides and sinkhole/sinkholes. The volcanic
         # debris flow "lahar" already floors CRITICAL over in weather; these are the generic
         # non-volcanic hazard. Surfaced in the 2026-08-30 earth-movement rule-probe.
+        # A "rockfall" — individual rock or a mass free-falling, bouncing, and rolling down a cliff,
+        # highwall, or road cut onto whatever is below — is the FREE-FALL member of the same
+        # earth-movement family as the already-HIGH "rockslide" (a sliding coherent mass): a directly
+        # named geotechnical/USGS/DOT hazard a reporter writes verbatim ("a rockfall struck the haul
+        # road", "rockfall onto the rail line trapped a crew"), yet it matched nothing and dropped to
+        # LOW while its siblings sinkhole/cave-in/rockslide/debris flow all floor at HIGH — the SAME
+        # whole-hazard absent-term miss class, one failure-mode over. Added at the SAME conservative
+        # HIGH earth-failure floor as rockslide (a rockfall ranges from a few pebbles on an empty road
+        # to a fatal strike, so HIGH is the defensible floor the LLM/human can raise — and one that
+        # buries or injures a worker independently floors critical via the injury/medical terms). The
+        # plural "rockfalls" needs its own entry (\brockfall\b won't match "rockfalls"), the same
+        # singular->plural tokenization discipline as rockslide/rockslides and sinkhole/sinkholes.
+        # DELIBERATELY the ONE-WORD "rockfall"/"rockfalls" ONLY — NEVER the spaced "rock fall" (bare
+        # "rock" and "fall" are unfloored, and "prices fall"/"a rock could fall" are routine benign
+        # usages); \brockfall\b as one word has zero benign English meaning, so it closes the miss with
+        # zero false-positive risk. Surfaced in the 2026-08-30 earth-movement rule-probe (free-fall
+        # sibling of the rockslide/debris-flow cluster).
         "high":     ["crack in wall", "structural crack", "sagging", "buckling", "subsidence",
                      "sinkhole", "sinkholes", "cave-in", "cave-ins", "rockslide", "rockslides",
+                     "rockfall", "rockfalls",
                      "debris flow", "debris flows", "mudflow", "mudflows",
                      "load-bearing", "compromised", "leaning"],
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
