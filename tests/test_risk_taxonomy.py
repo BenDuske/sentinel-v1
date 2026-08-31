@@ -1394,6 +1394,15 @@ CASES = [
     # the MEDIUM assertion (isolation; fault-injected). Mass noun -> no plural entry.
     ("Dense fog dropped visibility to near zero and triggered a chain-reaction pileup on the highway", "medium", "weather"),
     ("A dense fog advisory is in effect for the plant approach roads through 9 AM", "medium", "weather"),
+    # "graupel" (soft hail / snow pellets) is the directly-named frozen-precipitation TYPE — the same slick-surface
+    # traction hazard as the MEDIUM "sleet" (it accumulates like ball bearings on roads/catwalks/stairs). It
+    # previously dropped LOW: "graupel" is a wholly distinct word from sleet/hail/snow, so nothing floored is a
+    # substring of it and it shares no substring with any floored token — the same frozen-precip traction hazard
+    # scored MEDIUM-or-LOW purely on sleet-vs-graupel wording. Floored MEDIUM beside "sleet"/"snow" (a precipitation
+    # type / advisory-grade nuisance), one gradient below the HIGH glaze-ice warning products freezing rain / black
+    # ice / flash freeze. Mass noun -> no plural entry. The sentence carries no other floored token, so removing the
+    # "graupel" entry regresses it to LOW and fails the MEDIUM assertion (isolation; fault-injected).
+    ("Graupel pellets coated the loading-dock stairs and the day shift reported slipping", "medium", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same

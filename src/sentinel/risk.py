@@ -2813,7 +2813,26 @@ TAXONOMY = {
         # "funnel clouds" is a distinct token (\bfunnel\s+cloud\b won't match the trailing "s"), the same
         # singular->plural discipline applied throughout the vortex family. Surfaced in the 2026-08-31 vortex-
         # precursor rule-probe (warning-stage sibling of the HIGH waterspout/landspout/gustnado vortices).
-        "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog"],
+        #
+        # "graupel" (soft hail / snow pellets / "grits") is the directly-named frozen-precipitation TYPE formed
+        # when supercooled droplets rime onto a falling snow crystal into a soft opaque pellet. Its hazard is the
+        # SAME slick-surface/reduced-traction class as "sleet" (already MEDIUM): graupel accumulates like ball
+        # bearings on roads, catwalks, and stairs (a slip/fall + traffic-traction nuisance), and it is a marker of
+        # convective winter instability (it commonly falls in thundersnow bursts). Yet a report writing "graupel
+        # pellets coated the loading-dock stairs" reached NO floored token and dropped to LOW (verified live):
+        # "graupel" shares no substring with any floored token — it is a wholly distinct word from sleet / hail /
+        # snow — so the SAME frozen-precip traction hazard scored MEDIUM-or-LOW purely on whether the reporter
+        # reached for the plain "sleet"/"hail" or the meteorological term "graupel". Floored MEDIUM beside "sleet"/
+        # "snow", NOT HIGH: like sleet it is a precipitation TYPE / advisory-grade nuisance, one gradient below the
+        # warning-grade glaze-ice products "freezing rain"/"black ice"/"flash freeze" (HIGH) that coat surfaces in
+        # a bonded ice sheet; an actual injury or vehicle wreck on the graupel independently escalates via the
+        # injury/medical floor. No plural entry: graupel is a mass noun (like the MEDIUM "sleet"/"frost"/"snow" and
+        # the HIGH "freezing fog"), so the bare-word entry covers it. "graupel" carries ZERO benign meaning — it
+        # denotes EXCLUSIVELY this precipitation type, no polysemy to guard (unlike the deliberately-unfloored
+        # bare "funnel"/"cloud"/"surge"). Surfaced in the 2026-08-31 3:4x frozen-precip rule-probe (advisory-tier
+        # traction sibling of the MEDIUM sleet, one gradient below the HIGH glaze-ice warning products).
+        "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
+                     "graupel"],
     },
 }
 
