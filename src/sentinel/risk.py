@@ -2851,8 +2851,28 @@ TAXONOMY = {
         # ZERO benign meaning (unlike bare "wind chill"), the same qualified-phrase discipline as "dense fog" (not
         # bare "fog") / "red flag warning" (not bare "red flag"). Surfaced in the 2026-08-31 5:1x cold-advisory
         # rule-probe (advisory-tier sibling of the HIGH wind chill warning / extreme cold warning products).
+        #
+        # "wintry mix" names the NWS advisory-grade mixed-precipitation event — the forecast phrasing for a
+        # simultaneous fall of snow, sleet, and/or freezing rain that glazes and slushes roads, catwalks, and
+        # stairs. It is the winter-precip TYPE sibling of the already-MEDIUM "sleet"/"snow"/"graupel" (a
+        # traction/visibility nuisance that NWS carries in a Winter Weather Advisory), one gradient below the
+        # warning-grade glaze-ice products "freezing rain"/"black ice"/"ice storm" (HIGH). Yet a report writing
+        # "a wintry mix is expected across the site approach roads tonight" reached NO floored token and dropped
+        # to LOW (verified live): "wintry mix" shares no substring with any floored weather token (its component
+        # words "wintry"/"mix" are each unfloored and benign — "product mix", "concrete mix"), and no floored
+        # token is a substring of it — the SAME advisory-tier precipitation miss class as "graupel" beside
+        # "sleet". Floored MEDIUM, NOT HIGH: the taxonomy mirrors NWS product tiers — ADVISORY -> MEDIUM (this
+        # sits beside "sleet"/"snow"/"graupel"/"dense fog"), WARNING -> HIGH (the ice-storm/freezing-rain glaze
+        # products) — the exact advisory-vs-warning gradient already codified for dense fog (MEDIUM) beneath
+        # freezing fog (HIGH); an actual wreck or injury on the glazed surface independently escalates via the
+        # injury/medical floor. No plural entry: "wintry mix" is a mass/collective phrase (like the MEDIUM
+        # "sleet"/"snow"/"graupel") — reporters do not write "wintry mixes". The QUALIFIED two-word phrase floors
+        # only as a whole (\bwintry\s+mix\b), never bare "mix", the same qualified-phrase discipline as "dense
+        # fog" (not bare "fog") / "red flag warning" (not bare "red flag") — zero operational false-positive
+        # risk. Surfaced in the 2026-08-31 6:4x winter-precip rule-probe (advisory-tier mixed-precip sibling of
+        # the MEDIUM sleet/snow/graupel, one gradient below the HIGH glaze-ice warning products).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
-                     "graupel",
+                     "graupel", "wintry mix",
                      "wind chill advisory", "wind chill advisories"],
     },
 }

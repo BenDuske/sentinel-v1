@@ -1414,6 +1414,15 @@ CASES = [
     # (isolation; fault-injected).
     ("A wind chill advisory is in effect for the outdoor yard crew through 10 AM", "medium", "weather"),
     ("Wind chill advisories were issued for the northern counties overnight", "medium", "weather"),
+    # "wintry mix" names the NWS advisory-grade mixed-precipitation event (snow + sleet + freezing rain falling
+    # together) — the winter-precip TYPE sibling of the MEDIUM "sleet"/"snow"/"graupel", one gradient below the
+    # HIGH glaze-ice warning products freezing rain / black ice / ice storm. It previously dropped LOW: "wintry
+    # mix" shares no substring with any floored weather token (bare "wintry"/"mix" are unfloored and benign), and
+    # no floored token is a substring of it — the same advisory-tier precipitation miss class as graupel beside
+    # sleet. Floored MEDIUM (advisory -> MEDIUM / warning -> HIGH gradient). Mass/collective phrase -> no plural.
+    # The sentence carries no other floored token, so removing the "wintry mix" entry regresses it to LOW and
+    # fails the MEDIUM assertion (isolation; fault-injected).
+    ("A wintry mix is expected across the site approach roads tonight", "medium", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
