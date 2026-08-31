@@ -2690,6 +2690,30 @@ TAXONOMY = {
         # incident text, and even there it is written hyphenated as a verb), so it closes the miss with no
         # operational false-positive risk. Surfaced in the 2026-08-31 glaze-ice rule-probe (event sibling of
         # black ice / freezing rain / freezing fog).
+        # "volcanic ash"/"volcanic ashfall" is the directly-named USGS/NWS/NOAA downwind hazard of an
+        # eruption — the tephra plume that grounds aircraft (jet-engine flameout is the reason NOAA runs the
+        # Volcanic Ash Advisory Centers), collapses roofs under wet-ash load, contaminates water, and is a
+        # respiratory/eye hazard (NWS issues Ashfall Advisories and Ashfall Warnings). Yet a report writing
+        # "heavy volcanic ash is falling on the plant" or "the volcanic ash cloud grounded all flights"
+        # reached NO floored token and dropped to LOW (verified live): all the volcanic entries above
+        # ("volcanic eruption", "pyroclastic flow", "lahar", "lava flow", "limnic eruption") name the ERUPTION
+        # or its ground flows, none is a substring of "volcanic ash"/"volcanic ashfall", and there is no bare
+        # "ash" token — so the same active volcanic emergency scored strictly BELOW its own eruption written
+        # "eruption"/"lahar" (all critical), the SAME whole-hazard absent-term miss class as storm surge beside
+        # flood and flash freeze beside black ice. Floored HIGH, NOT critical: ashfall severity is
+        # dose-dependent (a light dusting is a nuisance, a roof-loading fall is life-threatening), and if the
+        # eruption itself is in the report the "volcanic eruption"/"pyroclastic"/"lahar" tokens independently
+        # escalate to critical (verified live) while a worker with an ash-triggered respiratory collapse floors
+        # via injury/medical — so HIGH is the conservative advisory-stage floor for ashfall named on its own,
+        # the same discipline used for the coastal life-threats (storm surge / sneaker wave / rip current).
+        # DELIBERATELY qualified with "volcanic": the bare closed compound "ashfall" and the two-word "ash
+        # fall" are EXCLUDED as domain-polysemous — in a facilities/infra incident report "ash"/"ash fall" can
+        # mean incinerator, furnace, or combustion residue, which must not fire a weather HIGH — whereas
+        # "volcanic ash"/"volcanic ashfall" carry ZERO benign meaning, so this closes the miss with no
+        # operational false-positive risk. Both entries are needed: \bvolcanic\s+ash\b does not match the
+        # closed compound "volcanic ashfall" (no word boundary between "ash" and "fall"), so the ashfall spelling
+        # gets its own token. Surfaced in the 2026-08-31 volcanic-hazard rule-probe (downwind sibling of the
+        # eruption/pyroclastic/lahar criticals).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2724,6 +2748,7 @@ TAXONOMY = {
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "polar vortex", "polar vortexes", "polar vortices",
                      "extreme cold warning", "wind chill warning",
+                     "volcanic ash", "volcanic ashfall",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory"],
     },

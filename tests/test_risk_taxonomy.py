@@ -1363,6 +1363,18 @@ CASES = [
     # removing the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A flash freeze glazed every walkway on the access road", "high", "weather"),
     ("Two flash freezes this week iced the exterior catwalks", "high", "weather"),
+    # "volcanic ash"/"volcanic ashfall" names the eruption's downwind hazard — the tephra plume that grounds
+    # aircraft (the NOAA Volcanic Ash Advisory Centers exist because of jet-engine flameout), loads and collapses
+    # roofs, and is a respiratory hazard (NWS Ashfall Warnings). It previously dropped LOW: the volcanic entries
+    # above name the ERUPTION or its ground flows ("volcanic eruption"/"pyroclastic flow"/"lahar"/"lava flow"),
+    # none is a substring of "volcanic ash"/"volcanic ashfall", and there is no bare "ash" token — so the active
+    # volcanic emergency scored below its own eruption. Floored HIGH (dose-dependent; the eruption tokens
+    # escalate to critical on their own). Qualified with "volcanic" on purpose: bare "ashfall"/"ash fall" is
+    # domain-polysemous (incinerator/furnace/combustion residue) and stays excluded. Both entries are needed —
+    # \bvolcanic\s+ash\b does not match the closed compound "volcanic ashfall". Each sentence carries no other
+    # floored token, so removing the entries regresses each to LOW and fails the HIGH assertion (fault-injected).
+    ("Heavy volcanic ash is falling across the plant and blanketing the intakes", "high", "weather"),
+    ("Volcanic ashfall has loaded the warehouse roof and clogged the air handlers", "high", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
