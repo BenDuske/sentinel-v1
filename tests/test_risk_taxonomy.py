@@ -473,6 +473,17 @@ CASES = [
     # regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("An ice jam on the river is backing water toward the intake", "high", "water/flood"),
     ("Two ice jams formed upstream of the pump house overnight", "high", "water/flood"),
+    # "seiche"/"seiches" is the directly-named NOAA/NWS standing-wave flood hazard — a wind/pressure-
+    # driven oscillation of an enclosed body of water that surges up one shore (the 1954 Lake Michigan
+    # seiche swept people off Chicago piers). Named on its own it reached NO floored token and dropped
+    # to LOW: no "flood"/"flooding"/"surge" substring (critical can't fire) and no other floored token
+    # matches — same whole-hazard absent-term miss as storm surge / ice jam. Floored at HIGH (if the
+    # report says it IS flooding, the bare "flood"/"flooding" token independently escalates to critical).
+    # The plural is a distinct token (\bseiche\b does not match "seiches"). Each sentence is kept free of
+    # any other floored token (no "flood"/"surge"/"leak"/injury word), so removing the entries regresses
+    # each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A seiche on the lake pushed water over the intake berm", "high", "water/flood"),
+    ("Repeated seiches slammed the harbor wall through the night", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.

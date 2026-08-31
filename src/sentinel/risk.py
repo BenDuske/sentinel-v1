@@ -1048,8 +1048,27 @@ TAXONOMY = {
         # polysemous "jam" (traffic jam / paper jam / preserves) never appears beside "ice" in that
         # benign sense, so this closes the miss with no operational false-positive risk. Surfaced in the
         # 2026-08-30 river-ice flood rule-probe (whole-hazard sibling of storm surge / dam failure).
+        # "seiche"/"seiches" is the directly-named NOAA/NWS standing-wave flood hazard — a wind- or
+        # pressure-driven oscillation of an enclosed or semi-enclosed body of water (a lake, bay, or
+        # harbor) that sloshes back and forth, dropping the water at one shore and driving a sudden surge
+        # up the other (the 1954 Lake Michigan seiche swept people off Chicago piers; Lake Erie seiches
+        # routinely flood Buffalo/Toledo waterfronts by several feet). Yet a report writing "a seiche on
+        # the lake pushed water over the intake berm" reached NO floored token and dropped to LOW:
+        # "seiche" shares no substring with "flood"/"flooding"/"surge" (the water/flood critical tokens
+        # can't fire), and it is not a substring of any weather or water token — the SAME whole-hazard
+        # absent-term miss class as "storm surge" beside "flood" and "ice jam" beside the river hazards.
+        # Floored at water/flood HIGH beside the general water hazards, NOT critical: if the report says
+        # the seiche IS flooding ("seiche flooding inundated the dock"), the bare "flood"/"flooding" token
+        # independently escalates it to critical, so HIGH is the conservative warning-stage floor for the
+        # seiche named on its own. The plural "seiches" needs its own entry (\bseiche\b does not match the
+        # trailing "s"), the singular->plural discipline applied throughout the taxonomy. "seiche" is a
+        # technical limnology/oceanography term with ZERO benign or figurative English meaning (unlike the
+        # deliberately-excluded polysemous "gale"/"tidal wave"), so it closes the miss with no operational
+        # false-positive risk. Surfaced in the 2026-08-30 standing-wave flood rule-probe (whole-hazard
+        # sibling of storm surge / ice jam).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
+                     "seiche", "seiches",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },
