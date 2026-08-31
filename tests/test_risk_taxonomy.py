@@ -1433,6 +1433,21 @@ CASES = [
     ("A gustnado flipped an empty trailer near the loading dock", "high", "weather"),
     ("Two gustnados spun up along the outflow boundary east of the yard", "high", "weather"),
     ("Successive gustnadoes tore shingles off the maintenance shed", "high", "weather"),
+    # "funnel cloud"/"funnel clouds" is the NWS-named tornado PRECURSOR — the rotating funnel-shaped condensation
+    # cloud descending from a cumulonimbus base that is NOT yet touching the ground (the visible vortex the NWS
+    # warns on before touchdown). It previously dropped LOW: no "tornado"/"storm" substring, "funnel" and "cloud"
+    # are each unfloored, and nothing floored is a substring — so the same warning-stage vortex scored below its
+    # siblings written "waterspout"/"landspout"/"gustnado". Floored HIGH beside those vortices (a funnel cloud has
+    # not touched down; the instant it does the bare "tornado" token escalates it to critical, verified below).
+    # Only the full two-word phrase fires — bare "funnel"/"cloud" are domain-polysemous and stay LOW (FP guard
+    # below). Plural "funnel clouds" is a distinct token (\bfunnel\s+cloud\b won't match the trailing "s"). Each
+    # sentence carries no other floored token, so removing the entries regresses to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("A funnel cloud was reported rotating just west of the tank farm", "high", "weather"),
+    ("Two funnel clouds were sighted descending from the shelf cloud over the yard", "high", "weather"),
+    # A funnel cloud that touches down IS a tornado — the bare "tornado" token must independently escalate this to
+    # critical (confirms the HIGH floor is the warning-stage precursor, not a cap on the touchdown event).
+    ("The funnel cloud touched down as a tornado and tracked across the substation", "critical", "weather"),
     # "heat dome"/"heat domes" names the stalled high-pressure driver of an extreme heat wave (the June 2021 PNW
     # heat dome killed hundreds). It previously dropped LOW: no "storm" word, "dome" not floored, nothing floored a
     # substring — so it scored below the same extreme-heat event written "heat wave". Floored HIGH beside "heat
@@ -1921,6 +1936,22 @@ def test_bare_fog_stays_low():
                  "A light fog drifted over the valley at dawn"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'fog' not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_funnel_and_cloud_stay_low():
+    # The QUALIFIED phrase "funnel cloud" floors weather HIGH (NWS tornado precursor), but bare "funnel" and bare
+    # "cloud" were DELIBERATELY left unfloored — a funnel cake, a sales funnel, a drain funnel, cloud computing,
+    # cloud cover, and a cloud storage outage are all benign. \bfunnel\s+cloud\b cannot fire from any of them, so
+    # these must fall through to the LOW default; a future careless add of a bare "funnel" or "cloud" token would
+    # fire them HIGH and this catches it (the qualified-phrase discipline of red flag warning / volcanic ash /
+    # storm surge, where the bare token stays LOW).
+    for text in ("The vendor served funnel cake at the plant open house",
+                 "Marketing reviewed the sales funnel conversion metrics",
+                 "The team migrated the database to the cloud last quarter",
+                 "Low cloud cover drifted over the valley at dawn"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'funnel'/'cloud' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

@@ -2762,6 +2762,7 @@ TAXONOMY = {
                      "waterspout", "waterspouts",
                      "landspout", "landspouts",
                      "gustnado", "gustnados", "gustnadoes",
+                     "funnel cloud", "funnel clouds",
                      "freezing rain", "black ice", "freezing fog",
                      "flash freeze", "flash freezes",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
@@ -2792,6 +2793,26 @@ TAXONOMY = {
         # (not bare "ash") and "red flag warning" (not bare "red flag"). Surfaced in the 2026-08-31 12:4x
         # visibility-advisory rule-probe (advisory-tier sibling of the HIGH freezing fog / whiteout products; the
         # first MEDIUM-tier close of a directly-named-hazard under-floor in this run's weather sweep).
+        #
+        # "funnel cloud"/"funnel clouds" is the NWS-named tornado PRECURSOR — the rotating, funnel-shaped
+        # condensation cloud descending from a cumulonimbus base that is NOT (yet) in contact with the ground; it
+        # is the visible vortex the NWS warns on ("a funnel cloud was reported near the tank farm") in the minutes
+        # before it becomes a tornado. Yet it reached NO floored token and dropped to LOW (verified live): "funnel
+        # cloud" shares no substring with the CRITICAL "tornado" (different words) or with "storm", "funnel" is not
+        # floored, "cloud" is not floored, and nothing floored is a substring of it — so the same warning-stage
+        # vortex scored HIGH-or-LOW purely on whether the reporter wrote "waterspout"/"landspout"/"gustnado" or
+        # "funnel cloud". Floored at weather HIGH beside its vortex-family siblings waterspout/landspout/gustnado,
+        # NOT critical: a funnel cloud has not touched down — the instant it does it IS a tornado and the bare
+        # "tornado" token independently escalates to critical (verified live: "the funnel cloud touched down as a
+        # tornado" scores critical), so HIGH is the conservative warning-stage floor for the funnel cloud named on
+        # its own, the same conservative EF0-precursor call already made for landspout/waterspout. DELIBERATELY
+        # floored only as the full two-word phrase: bare "funnel" (funnel cake, a sales funnel, the object) and bare
+        # "cloud" (cloud computing, cloud cover) are domain-polysemous and MUST NOT fire a weather HIGH — "funnel
+        # cloud" together carries ZERO benign meaning, the same qualified-phrase discipline as "red flag warning"
+        # (not bare "red flag") / "volcanic ash" (not bare "ash") / "storm surge" (not bare "surge"). The plural
+        # "funnel clouds" is a distinct token (\bfunnel\s+cloud\b won't match the trailing "s"), the same
+        # singular->plural discipline applied throughout the vortex family. Surfaced in the 2026-08-31 vortex-
+        # precursor rule-probe (warning-stage sibling of the HIGH waterspout/landspout/gustnado vortices).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog"],
     },
 }
