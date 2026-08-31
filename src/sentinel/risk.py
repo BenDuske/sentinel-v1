@@ -1066,9 +1066,27 @@ TAXONOMY = {
         # deliberately-excluded polysemous "gale"/"tidal wave"), so it closes the miss with no operational
         # false-positive risk. Surfaced in the 2026-08-30 standing-wave flood rule-probe (whole-hazard
         # sibling of storm surge / ice jam).
+        # "freshet"/"freshets" is the directly-named NWS/USGS river-flood hazard — the sudden rise and
+        # overflow of a stream or river driven by heavy rain or spring snowmelt (NWS river forecasts warn
+        # of the annual "spring freshet"; a freshet can overtop banks, scour intakes, and inundate
+        # riverside facilities). Yet a report writing "a freshet on the river overtopped the intake
+        # screens" reached NO floored token and dropped to LOW: "freshet" shares no substring with
+        # "flood"/"flooding"/"surge" (the water/flood critical tokens can't fire), and it is not a
+        # substring of any weather or water token — the SAME whole-hazard absent-term miss class as
+        # "storm surge" beside "flood", "ice jam" beside the river hazards, and "seiche" beside the coast.
+        # Floored at water/flood HIGH beside the general water hazards, NOT critical: if the report says
+        # the freshet IS flooding ("the freshet flooded the pump house"), the bare "flood"/"flooding"
+        # token independently escalates it to critical, so HIGH is the conservative warning-stage floor for
+        # the freshet named on its own. The plural "freshets" needs its own entry (\bfreshet\b does not
+        # match the trailing "s"), the singular->plural discipline applied throughout the taxonomy.
+        # "freshet" is a technical hydrology term with ZERO benign or figurative English meaning (unlike
+        # the deliberately-excluded polysemous "gale"/"tidal wave"), so it closes the miss with no
+        # operational false-positive risk. Surfaced in the 2026-08-31 snowmelt/river-flood rule-probe
+        # (whole-hazard sibling of storm surge / ice jam / seiche).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
+                     "freshet", "freshets",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
     },

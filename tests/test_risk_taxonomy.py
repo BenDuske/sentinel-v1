@@ -484,6 +484,17 @@ CASES = [
     # each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A seiche on the lake pushed water over the intake berm", "high", "water/flood"),
     ("Repeated seiches slammed the harbor wall through the night", "high", "water/flood"),
+    # "freshet"/"freshets" is the directly-named NWS/USGS river-flood hazard — the sudden rise and
+    # overflow of a stream/river from heavy rain or spring snowmelt (NWS warns of the annual "spring
+    # freshet"). Named on its own it reached NO floored token and dropped to LOW: no
+    # "flood"/"flooding"/"surge" substring (critical can't fire) and no other floored token matches —
+    # same whole-hazard absent-term miss as storm surge / ice jam / seiche. Floored at HIGH (if the
+    # report says it IS flooding, the bare "flood"/"flooding" token independently escalates to critical).
+    # The plural is a distinct token (\bfreshet\b does not match "freshets"). Each sentence is kept free
+    # of any other floored token (no "flood"/"surge"/"leak"/injury word), so removing the entries
+    # regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A freshet on the river overtopped the intake screens", "high", "water/flood"),
+    ("Successive freshets swelled the canal past its banks", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
