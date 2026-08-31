@@ -2774,7 +2774,25 @@ TAXONOMY = {
                      "volcanic ash", "volcanic ashfall",
                      "red flag warning",
                      "downed line", "ice storm", "blizzard"],
-        "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory"],
+        # "dense fog" names the NWS Dense Fog Advisory hazard — visibility collapse (typically < 1/4 mile) that
+        # produces the deadly multi-vehicle chain-reaction pileups fog is known for. It is a directly-named
+        # ADVISORY-tier product a human/LLM incident report routinely cites ("a dense fog advisory is in effect",
+        # "dense fog dropped visibility to zero on the highway"). Yet it reached NO floored token and dropped to
+        # LOW (verified live): "dense fog" shares no substring with any floored token — the HIGH glaze-ice phrase
+        # "freezing fog" is a different first word (\bfreezing\s+fog\b cannot match "dense fog"), the HIGH
+        # visibility phrase "whiteout" is a different word, and bare "fog" is DELIBERATELY unfloored (benign: "fog
+        # of war", "brain fog", "light fog"). Floored MEDIUM, NOT HIGH: the taxonomy mirrors NWS product tiers —
+        # ADVISORY → MEDIUM (this sits beside "heat advisory"/"frost"), WARNING → HIGH. Dense fog is a
+        # single-hazard (visibility) advisory, one gradient BELOW its dual-hazard sibling "freezing fog" (HIGH),
+        # which adds black-ice road glaze on top of the visibility loss — the exact freezing-fog-vs-dense-fog
+        # gradient NWS itself draws (Dense Fog Advisory vs the warning-grade freezing/whiteout products). No
+        # plural entry: fog is a mass noun (like the HIGH "freezing fog"), so the bare-phrase entry covers it, and
+        # \bdense\s+fog\b already fires inside "dense fog advisory". The qualified phrase "dense fog" carries ZERO
+        # benign meaning (unlike bare "fog"), the same qualified-phrase discipline that floored "volcanic ash"
+        # (not bare "ash") and "red flag warning" (not bare "red flag"). Surfaced in the 2026-08-31 12:4x
+        # visibility-advisory rule-probe (advisory-tier sibling of the HIGH freezing fog / whiteout products; the
+        # first MEDIUM-tier close of a directly-named-hazard under-floor in this run's weather sweep).
+        "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog"],
     },
 }
 

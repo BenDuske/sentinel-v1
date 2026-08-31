@@ -1385,6 +1385,15 @@ CASES = [
     # domain-polysemous and stays LOW (FP guard below). The sentence carries no other floored token, so removing the
     # entry regresses it to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A red flag warning is in effect for the tank-farm district through this evening", "high", "weather"),
+    # "dense fog" names the NWS Dense Fog Advisory hazard — visibility collapse producing deadly chain-reaction
+    # pileups. It is an ADVISORY-tier product, so it floors MEDIUM (beside "heat advisory"/"frost"), one gradient
+    # BELOW its dual-hazard sibling "freezing fog" (HIGH, adds black-ice glaze). It previously dropped LOW: bare
+    # "fog" is unfloored (benign "fog of war"/"brain fog"), "freezing fog" is a different first word, and no
+    # floored token is a substring of "dense fog". \bdense\s+fog\b also fires inside "dense fog advisory". The
+    # sentences carry no other floored token, so removing the "dense fog" entry regresses each to LOW and fails
+    # the MEDIUM assertion (isolation; fault-injected). Mass noun -> no plural entry.
+    ("Dense fog dropped visibility to near zero and triggered a chain-reaction pileup on the highway", "medium", "weather"),
+    ("A dense fog advisory is in effect for the plant approach roads through 9 AM", "medium", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
@@ -1897,6 +1906,21 @@ def test_bare_freeze_stays_low():
                  "The freeze-frame from the camera was saved to the archive"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare freeze not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_fog_stays_low():
+    # The QUALIFIED phrase "dense fog" floors weather MEDIUM (Dense Fog Advisory visibility hazard), but bare
+    # "fog" was DELIBERATELY left unfloored — "fog of war", "brain fog", "light fog over the valley", and a
+    # "foggy" recollection are all benign. \bdense\s+fog\b cannot fire from any of them, so these must fall
+    # through to the LOW default; a future careless add of a bare "fog" token would fire them MEDIUM and this
+    # catches it (the qualified-phrase discipline of volcanic ash / red flag warning, where the bare token stays
+    # LOW). Note "freezing fog" (HIGH) is a distinct phrase and is not exercised here.
+    for text in ("The general described the fog of war during the briefing",
+                 "She had brain fog all morning after the double shift",
+                 "A light fog drifted over the valley at dawn"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'fog' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
