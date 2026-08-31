@@ -1433,6 +1433,19 @@ CASES = [
     ("Gale-force winds battered the offshore rig overnight", "high", "weather"),
     ("Gale force winds tore roofing off the north warehouse", "high", "weather"),
     ("A gale warning was issued for the harbor front", "high", "weather"),
+    # "extreme cold warning"/"wind chill warning" name the NWS life-threatening-cold PRODUCTS — the warning-
+    # tier hazard for exactly the dangerous cold the whole cold family floors HIGH (arctic blast/cold wave/
+    # polar vortex). "Extreme Cold Warning" is the current NWS product (replaced "Wind Chill Warning" winter
+    # 2024-25); "Wind Chill Warning" is the prior NWS + standing Environment Canada product (historical/
+    # imported bulletins). Both previously dropped LOW: no "storm" substring, "cold"/"wind"/"chill"/"warning"
+    # not floored alone, and \bcold\s+wave\b/\barctic\s+(blast|outbreak)\b/\bpolar\s+vortex\b cannot match a
+    # different phrase — so each scored below the same event written "arctic blast" (the NWS-product-name miss
+    # class of the already-HIGH "gale warning"/"severe storm warning"). Floored HIGH, not critical; singular
+    # products only (no plural). Bare "wind chill"/"extreme cold" stay LOW (FP guard below). Each sentence
+    # carries no other floored token, so removing the entries regresses each case to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("An Extreme Cold Warning is in effect; wind chills to -40F overnight", "high", "weather"),
+    ("A Wind Chill Warning was posted for the yard crews before the night shift", "high", "weather"),
 ]
 
 
@@ -1780,6 +1793,21 @@ def test_bare_vortex_stays_low():
                  "Vortex tube cooling on the test bench is within spec"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'vortex' is not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_wind_chill_and_extreme_cold_stay_low():
+    # The QUALIFIED NWS products "extreme cold warning"/"wind chill warning" floor weather HIGH (the
+    # life-threatening-cold hazard), but the bare "wind chill" and bare "extreme cold" were DELIBERATELY
+    # left unfloored — a routine "wind chill of 25F", a wind-chill chart, and cold-storage/cryo "extreme
+    # cold" are all benign. \bextreme cold warning\b / \bwind chill warning\b cannot fire from any of them,
+    # so these must fall through to the LOW default; a future careless add of the bare noun would fire them
+    # HIGH and this catches it (the polysemous-by-severity discipline of gale / gale warning).
+    for text in ("The wind chill was a mild 25 degrees at the morning walkdown",
+                 "Updated the wind chill chart posted in the break room",
+                 "The extreme cold storage room held the samples at spec"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare wind chill / extreme cold not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

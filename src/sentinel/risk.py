@@ -2602,6 +2602,29 @@ TAXONOMY = {
         # routine text — the SAME qualified-phrase discipline that floored "storm surge"/"arctic blast"/"cold
         # snap"/"heat advisory" while leaving their polysemous bare halves unfloored; only the unambiguous
         # zero-benign phrases fire. Surfaced in the 2026-08-30 severe-wind rule-probe (HIGH peer of high winds).
+        #
+        # "extreme cold warning"/"wind chill warning" name the NWS life-threatening-cold PRODUCTS — the
+        # directly-named warning-tier hazard for exactly the dangerous cold the whole cold family already
+        # floors HIGH (arctic blast/cold wave/polar vortex). "Extreme Cold Warning" is the CURRENT NWS
+        # product (it replaced "Wind Chill Warning" in winter 2024-25; issued for life-threatening cold /
+        # dangerous wind chills — frostbite in minutes, hypothermia), and "Wind Chill Warning" is both the
+        # prior NWS name and the standing Environment Canada product, so it still appears in historical +
+        # imported bulletins — the both-names discipline of nor'easter/noreaster. Yet neither phrase reached
+        # a floored token: no "storm" substring so \bstorm\b cannot fire, "cold"/"wind"/"chill"/"warning" are
+        # not floored alone, and \bcold\s+wave\b / \barctic\s+(blast|outbreak)\b / \bpolar\s+vortex\b cannot
+        # match a different phrase — so a report writing "Extreme Cold Warning; wind chills to -40F" dropped
+        # to LOW, scoring strictly BELOW the same event written "arctic blast" (the SAME whole-hazard
+        # absent-term / NWS-product-name miss class as the already-floored "gale warning" and "severe storm
+        # warning"). Floored HIGH beside arctic blast/cold wave/polar vortex, NOT critical (a forecastable
+        # public-health cold hazard mitigable by shelter/PPE, not the guaranteed instantaneous mass-casualty
+        # catastrophe of a tornado/hurricane; a worker with frostbite/hypothermia independently floors
+        # critical via injury/medical). Singular product names only — no plural entry, the same discipline as
+        # "gale warning"/"severe storm warning". The bare "wind chill" is DELIBERATELY EXCLUDED as
+        # polysemous-by-severity (a routine "wind chill of 25F this morning" must stay LOW — FP guard below),
+        # as is the bare "extreme cold" (a vaguer descriptor / cold-storage context); only the unambiguous
+        # zero-benign WARNING products fire — the qualified-phrase discipline of gale/gale warning. The
+        # advisory tier (wind chill advisory / cold weather advisory, the MEDIUM cold peer of the MEDIUM
+        # "heat advisory") is DEFERRED to a later probe. Surfaced in the 2026-08-31 extreme-cold rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2634,6 +2657,7 @@ TAXONOMY = {
                      "cold wave", "cold waves", "cold snap", "cold snaps",
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "polar vortex", "polar vortexes", "polar vortices",
+                     "extreme cold warning", "wind chill warning",
                      "downed line", "ice storm", "blizzard"],
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory"],
     },
