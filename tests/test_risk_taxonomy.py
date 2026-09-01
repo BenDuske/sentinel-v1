@@ -1596,6 +1596,17 @@ CASES = [
     # assertion (fault-injected).
     ("A freeze warning is in effect for the outdoor pipe racks tonight", "high", "weather"),
     ("The bureau upgraded the frost advisory to a freeze warning for the tank farm", "high", "weather"),
+    # "freeze watch"/"freeze watches" names the WATCH-tier freeze product — significant freezing temps POSSIBLE in
+    # 24-36h, a step below the HIGH "freeze warning" (imminent/occurring). It floors MEDIUM, the anticipatory sibling
+    # completing the freeze family's watch->MEDIUM / warning->HIGH pair (the same watch/advisory->MEDIUM /
+    # warning->HIGH gradient as the wind/cold/heat/avalanche families). It previously dropped LOW: "freeze watch"
+    # shares no substring with any floored token (\bfreeze\s+warning\b is a different final word, the HIGH
+    # "flash freeze"/"freezing rain"/"freezing fog" are different words, bare "freeze" is unfloored per
+    # test_bare_freeze_stays_low, bare "watch" is not a token). "watch" is countable so the plural "watches" is a
+    # distinct token and gets its own entry. Each sentence carries no other floored token, so removing the entry
+    # regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
+    ("A freeze watch is in effect for the tank farm ahead of tonight's cold push", "medium", "weather"),
+    ("Freeze watches remain posted for the outdoor pipe racks the crew services", "medium", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -2077,6 +2088,21 @@ def test_bare_freeze_stays_low():
                  "The freeze-frame from the camera was saved to the archive"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare freeze not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_freeze_watch_needs_adjacency():
+    # The QUALIFIED phrase "freeze watch"/"freeze watches" floors weather MEDIUM (WATCH-tier freeze product), but it
+    # fires ONLY as the adjacent two-word phrase (\bfreeze\s+watch\b). A benign "freeze" and a benign "watch"
+    # separated by other words must NOT trip it — a hiring freeze while reqs sit "on a watch" list, a freeze-frame
+    # the security guard keeps watch over. Both bare halves are DELIBERATELY unfloored (freeze -> hiring/frame,
+    # watch -> security/wristwatch), so absent adjacency these fall through to LOW; this catches a future careless
+    # bare-token add or a loosened matcher (the adjacency discipline of avalanche watch / dense fog / red flag
+    # warning).
+    for text in ("Management announced a hiring freeze and put the open reqs on a watch list",
+                 "The guard kept watch while the freeze-frame from the camera rendered"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (freeze watch needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

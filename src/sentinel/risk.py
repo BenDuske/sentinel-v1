@@ -3079,13 +3079,37 @@ TAXONOMY = {
         # rides at the advisory MEDIUM floor because an avalanche WATCH and an advisory carry the same be-prepared
         # urgency one gradient below a WARNING. Surfaced in the 2026-09-01 6:4x AM avalanche-watch rule-probe
         # (completing the avalanche watch/warning pair deferred by the 5:1x AM avalanche-warning ship).
+        # "freeze watch"/"freeze watches" names the NWS WATCH-tier freeze product — issued when significant,
+        # widespread freezing temperatures are POSSIBLE within the next 24-36 hours during the growing season, a
+        # step below the "freeze warning" that floors weather HIGH (freezing temps imminent or occurring, lethal to
+        # crops/pipes/exposed workers). It is the anticipatory sibling of that HIGH warning and completes the
+        # freeze family's watch->MEDIUM / warning->HIGH pair — the same watch/advisory -> MEDIUM / warning -> HIGH
+        # gradient the wind, cold, heat, winter-storm, and avalanche families already carry (the 2026-09-01 cycle
+        # that shipped "freeze warning" HIGH left the watch half open, and the avalanche watch ship just codified
+        # this exact watch-tier pattern). Yet a report writing "a freeze watch is in effect for the tank farm" reached
+        # NO floored token and dropped to LOW (verified live): "freeze watch" shares no substring with any floored
+        # token — the HIGH "freeze warning" is a different final word (\bfreeze\s+warning\b cannot match "freeze
+        # watch"), the HIGH glaze phrases "flash freeze"/"freezing rain"/"freezing fog" are different words
+        # (\bflash\s+freeze\b / \bfreezing\s+rain\b cannot match "freeze watch"), the bare verb "freeze" is
+        # DELIBERATELY unfloored (hiring freeze, freeze frame, freeze-tag — see the freeze warning rationale), and bare
+        # "watch" is not a token (a security "watch"/night watch/wristwatch must stay LOW). Floored MEDIUM beside the
+        # other watch/advisory products, NOT HIGH; if the temperature actually drops the "freeze warning" independently
+        # floors HIGH and a cold-injured worker floors critical via injury/medical. "watch" is a COUNTABLE noun and
+        # forecast offices issue multi-zone "freeze watches", a distinct token \bfreeze\s+watch\b cannot match — so the
+        # plural is added per the singular->plural discipline (mirroring avalanche watch/watches, wind advisory/
+        # advisories). Floored ONLY as the qualified two-word phrase (\bfreeze\s+watch\b), never bare "freeze" or bare
+        # "watch" — the same qualified-phrase discipline as freeze warning / avalanche watch. The figurative
+        # non-adjacent "a hiring freeze ... put new reqs on a watch" carries neither adjacent phrase and stays LOW (FP
+        # guard test_freeze_watch_needs_adjacency). Surfaced in the 2026-09-01 8:2x AM freeze-watch rule-probe
+        # (completing the freeze watch/warning pair left open by the freeze-warning ship, mirroring avalanche watch).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
                      "wind chill advisory", "wind chill advisories",
                      "cold weather advisory", "cold weather advisories",
                      "winter weather advisory", "winter weather advisories",
-                     "avalanche watch", "avalanche watches"],
+                     "avalanche watch", "avalanche watches",
+                     "freeze watch", "freeze watches"],
     },
 }
 
