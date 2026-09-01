@@ -1618,6 +1618,23 @@ CASES = [
     # removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
     ("A high wind watch is posted for the tower crew working the exposed ridgeline tomorrow", "medium", "weather"),
     ("High wind watches remain up for the line crew across the northern service yard", "medium", "weather"),
+    # "excessive heat watch"/"extreme heat watch" names the WATCH-tier extreme-heat product — a dangerous heat
+    # event POSSIBLE in 24-72h, a step below the HIGH "excessive heat warning"/"extreme heat warning"
+    # (imminent/occurring). "extreme heat watch" is the current NWS product name adopted 2024; "excessive heat
+    # watch" is the legacy name still in wide use, so both spellings floor. It floors MEDIUM, the anticipatory
+    # sibling completing the heat family's watch->MEDIUM / warning->HIGH ladder (heat advisory MEDIUM /
+    # excessive+extreme heat warning HIGH already present; the watch tier between them was open — the same gap
+    # just closed for the wind and freeze families). It previously dropped LOW: the phrase shares no substring
+    # with any floored token (\bexcessive\s+heat\s+warning\b / \bextreme\s+heat\s+warning\b are a different final
+    # word, the HIGH "heat wave"/"heat dome" are different words, the MEDIUM "heat advisory" is a different final
+    # word, bare "heat" is unfloored per the preheat/reheat FP guard, bare "watch" is not a token). "watch" is
+    # countable so the plural "watches" is a distinct token and gets its own entry. Each sentence carries no other
+    # floored token, so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation;
+    # fault-injected).
+    ("An excessive heat watch is in effect for the yard crew all week", "medium", "weather"),
+    ("Excessive heat watches remain posted for the outdoor loading dock teams", "medium", "weather"),
+    ("NWS posted an extreme heat watch for the facility grounds ahead of the weekend", "medium", "weather"),
+    ("Extreme heat watches are up across the region the paving crew works", "medium", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -2128,6 +2145,21 @@ def test_high_wind_watch_needs_adjacency():
                  "A high wind turbine spun steadily while the shift watch checked the gauges"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (high wind watch needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_heat_watch_needs_adjacency():
+    # The QUALIFIED phrases "excessive heat watch"/"extreme heat watch" floor weather MEDIUM (WATCH-tier
+    # extreme-heat product), but they fire ONLY as the adjacent three-word phrase
+    # (\bexcessive\s+heat\s+watch\b / \bextreme\s+heat\s+watch\b). A benign "extreme"/"excessive" + "heat" +
+    # "watch" separated by other words must NOT trip it — bare "heat" is unfloored (preheat/reheat), and bare
+    # "watch" is unfloored (security watch / wristwatch). Absent adjacency these fall through to LOW; this catches
+    # a future careless bare-token add or a loosened matcher (the same adjacency discipline as freeze watch /
+    # high wind watch / the HIGH excessive/extreme heat warning).
+    for text in ("The extreme heat from the furnace forced a longer watch on the annealing line",
+                 "An excessive heat buildup near the panel had the night watch checking it hourly"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (heat watch needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

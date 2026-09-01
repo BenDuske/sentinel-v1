@@ -3134,7 +3134,9 @@ TAXONOMY = {
                      "winter weather advisory", "winter weather advisories",
                      "avalanche watch", "avalanche watches",
                      "freeze watch", "freeze watches",
-                     "high wind watch", "high wind watches"],
+                     "high wind watch", "high wind watches",
+                     "excessive heat watch", "excessive heat watches",
+                     "extreme heat watch", "extreme heat watches"],
     },
 }
 
