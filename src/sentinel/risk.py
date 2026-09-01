@@ -2890,6 +2890,32 @@ TAXONOMY = {
         # product name only — no plural entry, the same gale warning / extreme cold warning / high wind warning
         # discipline. Surfaced in the 2026-09-01 2:1x AM winter-product rule-probe (warning-grade freeze sibling of
         # the MEDIUM frost advisory, completing the frost/freeze advisory/warning pair).
+        # "heavy freezing spray warning" names the NWS marine life-threat PRODUCT — issued when freezing
+        # spray (sea spray/fog freezing on contact) is expected to accumulate ICE on a vessel fast enough
+        # (typ. >=2 cm/hr) to endanger it: ice loading high on the superstructure raises the center of
+        # gravity toward capsize and glazes decks/rails/rigging into a crew-fall trap. It is the marine
+        # cold-icing peer of the already-HIGH cold PRODUCTS "extreme cold warning"/"wind chill warning".
+        # Yet the phrase reached NO floored token and dropped to LOW (verified live): the HIGH glaze-ice
+        # phrases "freezing rain"/"freezing fog" are different words (\bfreezing\s+rain\b cannot match
+        # "freezing spray"), \bflash\s+freeze\b/\bfreeze\s+warning\b are different phrases, bare "freeze"
+        # is DELIBERATELY unfloored, and "spray"/"heavy"/"warning" are not floored alone — so a report
+        # writing "a heavy freezing spray warning is in effect; ice building on the superstructure" scored
+        # strictly BELOW the same-severity cold event written "extreme cold warning", the SAME whole-hazard
+        # absent-term / NWS-product-name miss class the wind/cold/heat/freeze warnings fixed. Floored HIGH
+        # beside the cold warning products, NOT critical (a forecastable, mitigable marine hazard — de-ice,
+        # alter course, seek harbor; a crew member injured by an ice fall or the vessel actually foundering
+        # independently floors higher via injury/medical or the critical water tokens). Added the plural
+        # "heavy freezing spray warnings" (\b...warning\b does not match the trailing "s"), the singular->
+        # plural discipline applied throughout the taxonomy. The bare "freezing spray" is DELIBERATELY
+        # EXCLUDED as polysemous: "freezing spray" / "freeze spray" is also a common aerosol component-
+        # cooling / fault-finding product ("hit the connector with freezing spray to find the intermittent
+        # fault"), so \bfreezing\s+spray\b alone would over-fire on routine electronics/maintenance text —
+        # the SAME qualified-phrase / zero-benign discipline that floored the full "high surf warning" while
+        # leaving the recreational bare "high surf" LOW, and kept "ice pellets" out for the ice-machine
+        # collision. ONLY the unambiguous full NWS product phrase floors. The advisory tier "freezing spray
+        # advisory" (lighter icing, one NWS gradient down) floors MEDIUM beside the cold advisories,
+        # completing the marine-icing advisory->MEDIUM / warning->HIGH ladder (the same ladder built for
+        # high surf, wind chill, heat, and freeze). Surfaced in the 2026-09-01 6:4x PM marine-cold rule-probe.
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2929,6 +2955,7 @@ TAXONOMY = {
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "polar vortex", "polar vortexes", "polar vortices",
                      "extreme cold warning", "wind chill warning",
+                     "heavy freezing spray warning", "heavy freezing spray warnings",
                      "volcanic ash", "volcanic ashfall",
                      "red flag warning",
                      "downed line", "ice storm", "blizzard"],
@@ -3199,7 +3226,8 @@ TAXONOMY = {
                      "excessive heat watch", "excessive heat watches",
                      "extreme heat watch", "extreme heat watches",
                      "wind chill watch", "wind chill watches",
-                     "extreme cold watch", "extreme cold watches"],
+                     "extreme cold watch", "extreme cold watches",
+                     "freezing spray advisory", "freezing spray advisories"],
     },
 }
 

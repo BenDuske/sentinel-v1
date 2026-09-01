@@ -1689,6 +1689,32 @@ CASES = [
     ("Wind chill watches remain up for the outdoor line crew across the northern district", "medium", "weather"),
     ("NWS issued an extreme cold watch for the facility grounds this weekend", "medium", "weather"),
     ("Extreme cold watches are in effect for the tank farm the crew services", "medium", "weather"),
+    # "heavy freezing spray warning" names the NWS marine life-threat PRODUCT — freezing spray expected to
+    # ice up a vessel fast enough (>=2 cm/hr) to threaten it: ice loading high on the superstructure drives
+    # the center of gravity toward capsize and glazes decks/rails into a crew-fall trap. It floors HIGH beside
+    # the cold PRODUCTS "extreme cold warning"/"wind chill warning" (the marine cold-icing peer). Named alone
+    # it dropped LOW: the HIGH glaze-ice phrases "freezing rain"/"freezing fog" are different words
+    # (\bfreezing\s+rain\b cannot match "freezing spray"), \bflash\s+freeze\b/\bfreeze\s+warning\b are
+    # different phrases, bare "freeze" is unfloored (test_bare_freeze_stays_low), and "spray"/"heavy"/
+    # "warning" are not tokens — the same whole-product absent-term miss as gale/freeze/extreme-cold warnings.
+    # The plural "heavy freezing spray warnings" is a distinct token (\b...warning\b cannot match the trailing
+    # "s"), and ONLY the full product phrase floors: the bare polysemous "freezing spray" (the aerosol
+    # component-cooling / fault-finding product) stays LOW — see test_bare_freezing_spray_stays_low. Each
+    # sentence carries no other floored token, so removing the entries regresses each to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("A heavy freezing spray warning is in effect; ice is building on the superstructure", "high", "weather"),
+    ("Heavy freezing spray warnings kept the deck crew off the exposed rails", "high", "weather"),
+    # "freezing spray advisory" is the ADVISORY-tier marine-icing product — lighter icing than the HIGH "heavy
+    # freezing spray warning", one NWS gradient down. It floors weather MEDIUM beside the cold advisories,
+    # completing the marine-icing advisory->MEDIUM / warning->HIGH ladder (the same gradient built for high
+    # surf, wind chill, heat, and freeze). Named alone it dropped LOW: no floored substring (the HIGH "heavy
+    # freezing spray warning" is a different final word, "freezing rain"/"freezing fog" are different words,
+    # bare "freezing spray" is the excluded aerosol phrase, "advisory" is not a token). The plural
+    # "freezing spray advisories" is a distinct token (\b...advisory\b cannot match "advisories"). Each
+    # sentence carries no other floored token, so removing the entries regresses each to LOW and fails the
+    # MEDIUM assertion (isolation; fault-injected).
+    ("A freezing spray advisory is in effect for the harbor crew this morning", "medium", "weather"),
+    ("Freezing spray advisories remain posted for the small craft overnight", "medium", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -2097,6 +2123,21 @@ def test_bare_herniation_stays_low():
                  "Hiatal hernia found on endoscopy"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare hernia is not critical)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_freezing_spray_stays_low():
+    # The QUALIFIED "heavy freezing spray warning" floors weather HIGH and "freezing spray advisory"
+    # floors MEDIUM (the NWS marine-icing products), but the bare "freezing spray" was DELIBERATELY left
+    # unfloored — "freezing spray" / "freeze spray" is also a common aerosol component-cooling / fault-
+    # finding product used in routine electronics and maintenance work. \bfreezing\s+spray\b alone is not
+    # a taxonomy signal, so these benign cases must fall through to the LOW default; a future careless add
+    # of the bare phrase would fire them HIGH/MEDIUM and this catches it.
+    for text in ("Hit the connector with freezing spray to find the noisy joint",
+                 "Ordered another can of freezing spray for the bench",
+                 "Freezing spray cooled the component enough to read the marking"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'freezing spray' is not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
