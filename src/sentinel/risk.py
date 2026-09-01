@@ -2667,7 +2667,9 @@ TAXONOMY = {
         # as is the bare "extreme cold" (a vaguer descriptor / cold-storage context); only the unambiguous
         # zero-benign WARNING products fire — the qualified-phrase discipline of gale/gale warning. The
         # advisory tier (wind chill advisory / cold weather advisory, the MEDIUM cold peer of the MEDIUM
-        # "heat advisory") is DEFERRED to a later probe. Surfaced in the 2026-08-31 extreme-cold rule-probe.
+        # "heat advisory") was DEFERRED to a later probe — NOW SHIPPED: "wind chill advisory" floored MEDIUM
+        # 2026-08-31 (see medium list), and its 2024-rename current name "cold weather advisory" floored MEDIUM
+        # later the same day. Surfaced in the 2026-08-31 extreme-cold rule-probe.
         # "flash freeze"/"flash freezes" is the directly-named NWS winter hazard — a rapid, large temperature
         # crash (often behind an arctic front) that freezes standing water and wet/slushy roadways into ice
         # almost instantly, the meteorological EVENT that PRODUCES the already-HIGH "black ice" and glaze-ice
@@ -2920,9 +2922,37 @@ TAXONOMY = {
         # warning" (not bare "red flag") — zero operational false-positive risk. Surfaced in the 2026-08-31 8:1x PM
         # winter-precip rule-probe (advisory-tier glaze sibling of the MEDIUM wintry mix/graupel, one gradient
         # below the HIGH freezing rain/black ice/ice storm warning products).
+        # "cold weather advisory"/"cold weather advisories" is the CURRENT (2024 NWS hazard-simplification) name for
+        # the ADVISORY-tier dangerous-cold product — the rename of "wind chill advisory" (already MEDIUM), issued
+        # when cold is a nuisance/health risk but below the frostbite/hypothermia threshold that triggers the HIGH
+        # WARNING product "extreme cold warning" (itself the 2024 rename of "wind chill warning"). It is the MEDIUM
+        # cold peer of the MEDIUM "heat advisory" and the advisory-grade sibling of the HIGH "extreme cold warning" —
+        # the SAME cold hazard, one NWS gradient lower. This was EXPLICITLY DEFERRED by the extreme-cold cluster
+        # comment above ("the still-missing advisory tier — wind chill advisory / cold weather advisory — the MEDIUM
+        # cold peer of the MEDIUM heat advisory — is DEFERRED to a later probe"); the wind-chill-advisory half shipped
+        # 2026-08-31, and this closes the current-name half. Yet a report writing "a cold weather advisory is in
+        # effect for the yard crew" reached NO floored token and dropped to LOW (verified live): "cold weather
+        # advisory" shares no substring with any floored weather token — the HIGH cold events "cold wave"/"cold
+        # snap"/"arctic blast" are not substrings, the HIGH product "extreme cold warning" is a different phrase
+        # (\bextreme\s+cold\s+warning\b cannot match), the legacy MEDIUM "wind chill advisory" is a different first
+        # two words, and bare "cold" is DELIBERATELY unfloored (a routine "it's cold outside"/"cold weather gear" must
+        # stay LOW — FP guard below) — so the CURRENT-name advisory product scored strictly BELOW its own legacy name
+        # "wind chill advisory" (MEDIUM), the exact current-name-beneath-legacy-name miss the heat family just closed
+        # by pairing the legacy "excessive heat warning" with the current "extreme heat warning". Floored MEDIUM
+        # beside "wind chill advisory"/"heat advisory" (the ADVISORY -> MEDIUM / WARNING -> HIGH gradient), NOT HIGH;
+        # an actual cold injury (frostbite/hypothermia) on a worker independently escalates via injury/medical. UNLIKE
+        # the mass-noun graupel/sleet, "advisory" is a COUNTABLE noun and NWS issues multi-zone "cold weather
+        # advisories", a distinct token \bcold\s+weather\s+advisory\b cannot match — so the plural is added per the
+        # singular->plural discipline (mirroring the wind chill advisory/advisories pair). Floored ONLY as the
+        # qualified three-word phrase, never bare "cold"/"cold weather" (polysemous — "cold weather gear", "a cold
+        # morning", "the cold shoulder", a "cold" illness — new FP-guard test test_bare_cold_stays_low re-verifies 4
+        # benign sentences stay LOW), the same qualified-phrase discipline as wind chill advisory / dense fog / red
+        # flag warning. Surfaced in the 2026-08-31 11:1x PM cold-advisory-current-name rule-probe (current-name half
+        # of the deferred advisory-tier cold pair; legacy "wind chill advisory" half shipped earlier the same day).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
-                     "wind chill advisory", "wind chill advisories"],
+                     "wind chill advisory", "wind chill advisories",
+                     "cold weather advisory", "cold weather advisories"],
     },
 }
 
