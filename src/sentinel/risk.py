@@ -1163,11 +1163,23 @@ TAXONOMY = {
         # is deliberately NOT floored, mirroring bare "gale"/"current"/"heat" left unfloored while only
         # their product phrases fire, so a beach-conditions mention stays LOW. Each plural needs its own
         # entry (\bhigh\s+surf\s+warning\b does not match the trailing "s"), the singular->plural
-        # discipline applied throughout the taxonomy. The advisory-grade "high surf advisory" is a
-        # deferred follow-up (the advisory->MEDIUM sibling, out of scope this one-tier ship — the same
-        # split used when the avalanche warning shipped HIGH before the avalanche watch landed MEDIUM).
-        # Surfaced in the 2026-09-01 coastal-surf rule-probe (whole-product sibling of rip current /
-        # storm surge / gale warning).
+        # discipline applied throughout the taxonomy.
+        # 2026-09-01 coastal-surf advisory follow-up (completes the high-surf warning/advisory ladder).
+        # "high surf advisory"/"high surf advisories" is the ADVISORY-tier NWS coastal-surf product — one
+        # NWS gradient below the HIGH "high surf warning": elevated/hazardous surf and strong shorebreak
+        # that make the water dangerous for swimmers and small craft, but below the warning's life-threat
+        # criteria. It floors water/flood MEDIUM (see the medium list below), the advisory->MEDIUM /
+        # warning->HIGH gradient already applied to the heat (heat advisory MEDIUM / heat warning HIGH),
+        # wind (wind advisory / high wind warning), and avalanche (avalanche watch MEDIUM / avalanche
+        # warning HIGH) families. Named alone it dropped LOW: the phrase shares no substring with any
+        # floored token (\bhigh\s+surf\s+warning\b is a different final word, "flood"/"surge" don't match,
+        # bare "surf"/"advisory" are not tokens), the SAME whole-product absent-term miss as the warning.
+        # ONLY the full three-word phrase floors — the bare polysemous "high surf" stays LOW (unchanged
+        # FP guard), so a scattered "high surf ... advisory" stays LOW too (new adjacency FP guard). Each
+        # plural is a distinct token (\bhigh\s+surf\s+advisory\b won't match the trailing "s"), the
+        # singular->plural discipline applied throughout. Completes the warning-first/advisory-later split
+        # deferred at the 2026-09-01 high-surf-warning ship (whole-product sibling of rip current / storm
+        # surge / gale warning).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
@@ -1177,7 +1189,8 @@ TAXONOMY = {
                      "rip current", "rip currents",
                      "high surf warning", "high surf warnings",
                      "standing water", "ceiling collapse from water", "overflow"],
-        "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak"],
+        "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak",
+                     "high surf advisory", "high surf advisories"],
     },
     "electrical/power": {
         # The NOUN "electrocution" floors at critical, but its verb/participle forms — how an acute
