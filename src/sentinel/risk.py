@@ -1180,6 +1180,29 @@ TAXONOMY = {
         # singular->plural discipline applied throughout. Completes the warning-first/advisory-later split
         # deferred at the 2026-09-01 high-surf-warning ship (whole-product sibling of rip current / storm
         # surge / gale warning).
+        # 2026-09-01 coastal-life-threat umbrella follow-up (caps the coastal-surf product family).
+        # "beach hazards statement"/"beach hazards statements" is the directly-named NWS UMBRELLA coastal
+        # life-threat product — the single statement the NWS issues to cover the surf-zone killers already
+        # floored individually here (rip currents, high surf, sneaker waves, longshore/inlet currents):
+        # "a beach hazards statement is in effect" tells shoreline workers and swimmers the water is
+        # actively dangerous. Yet named alone it reached NO floored token and dropped to LOW: the phrase
+        # shares no substring with "flood"/"flooding"/"surge" (the water/flood critical tokens can't fire),
+        # "rip current"/"high surf warning" are different words, and there is no bare "beach"/"hazard"/
+        # "statement" token — the SAME whole-product absent-term miss as the rip current statement, high
+        # surf warning, and the weather-side gale/red-flag/freeze warnings. Floored at water/flood HIGH
+        # beside its member hazards, NOT critical: if the report says the water IS flooding, or the bare
+        # fatality/injury tokens fire, those independently escalate to critical, so HIGH is the conservative
+        # warning-stage floor for the product named on its own — the exact warning-vs-critical discipline
+        # used for rip current / high surf warning / gale warning. ONLY the full product phrase floors: the
+        # bare polysemous "beach" (a beach-vacation/recreation word — "the beach was crowded", "beach day")
+        # is deliberately NOT floored, mirroring bare "surf"/"gale"/"current" left unfloored while only
+        # their product phrases fire, so a beach-conditions mention stays LOW (FP guard). Note the canonical
+        # NWS spelling pluralizes "Hazards" inside the product name; the whole-name plural "statements"
+        # needs its own entry (\bbeach\s+hazards\s+statement\b does not match the trailing "s"), the
+        # singular->plural discipline applied throughout the taxonomy. "beach hazards statement" is an
+        # established NWS product name denoting EXCLUSIVELY this coastal life-threat advisory — so it closes
+        # the miss with no operational false-positive risk (whole-product sibling of rip current / high
+        # surf warning / sneaker wave / storm surge).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
@@ -1188,6 +1211,7 @@ TAXONOMY = {
                      "sneaker wave", "sneaker waves",
                      "rip current", "rip currents",
                      "high surf warning", "high surf warnings",
+                     "beach hazards statement", "beach hazards statements",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak",
                      "high surf advisory", "high surf advisories"],

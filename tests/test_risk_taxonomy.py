@@ -558,6 +558,19 @@ CASES = [
     # and fails the MEDIUM assertion (isolation; fault-injected).
     ("A high surf advisory is in effect for the shoreline crew today", "medium", "water/flood"),
     ("High surf advisories kept the small craft off the water this morning", "medium", "water/flood"),
+    # "beach hazards statement"/"beach hazards statements" is the directly-named NWS UMBRELLA coastal
+    # life-threat product covering the surf-zone killers already floored individually (rip currents, high
+    # surf, sneaker waves, longshore currents). Named on its own it reached NO floored token and dropped
+    # to LOW: no "flood"/"flooding"/"surge" substring (critical can't fire), "rip current"/"high surf
+    # warning" are different words, and there is no bare "beach"/"hazard"/"statement" token — same
+    # whole-product absent-term miss as rip current / high surf warning / gale warning. Floored at HIGH
+    # beside its member hazards (if the water IS flooding, or the fatality/injury tokens fire, those
+    # independently escalate to critical). The whole-name plural is a distinct token
+    # (\bbeach\s+hazards\s+statement\b does not match "statements"), and the bare polysemous "beach" (a
+    # beach-vacation word) is deliberately NOT floored. Each sentence carries no other floored token, so
+    # removing the entries regresses each to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A beach hazards statement is in effect for the outfall jetty", "high", "water/flood"),
+    ("Successive beach hazards statements kept the shoreline crew off the pier", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
