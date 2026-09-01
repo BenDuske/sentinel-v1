@@ -1483,6 +1483,18 @@ CASES = [
     # (isolation; fault-injected). Sentences carry no other floored token so the assertion turns on the new entries.
     ("Lake-effect snow buried the north access road under three feet overnight", "high", "weather"),
     ("A lake effect snow band shut the east dock approach before the day shift", "high", "weather"),
+    # "avalanche warning"/"snow avalanche" name the snow-mass-movement severe hazard — a snow/ice slope releasing
+    # and racing downslope at highway speed, burying roads/rail/worksites and killing by burial/trauma. It is the
+    # snow sibling of the HIGH earth-movement structural tokens rockslide/debris flow/mudflow and the winter-severe
+    # peer of snowstorm/blizzard/lake-effect snow. The NWS product "avalanche warning" reached NO floored token and
+    # dropped LOW; the physical "snow avalanche" scored only MEDIUM off bare \bsnow\b (the same under-floor as
+    # lake-effect snow). Floored HIGH. Only the two qualified zero-polysemy phrases are floored — bare
+    # "avalanche"/"avalanches" is EXCLUDED (figurative "an avalanche of emails/tickets"; guarded by
+    # test_bare_avalanche_figurative_stays_low). These sentences carry no other floored token, so removing the two
+    # entries regresses the warning case LOW and the snow-avalanche case to MEDIUM, failing the HIGH assertion
+    # (isolation; fault-injected).
+    ("An avalanche warning is in effect for the mountain pass above the ridge site", "high", "weather"),
+    ("A snow avalanche buried the upper access road and swept a lineman downslope", "high", "weather"),
     # "atmospheric river" (+ plural "atmospheric rivers") names the NWS/CW3E flood-driving moisture plume the
     # same way the already-HIGH "monsoon" names a rain-bearing driver — the long-duration rain/snow producer
     # behind West-Coast levee breaks and evacuations (Jan 2023 CA ARs: 20+ dead). It previously dropped LOW:
@@ -2134,6 +2146,22 @@ def test_bare_winter_weather_stays_low():
                  "The plant scheduled its winter shutdown for late December"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'winter'/'winter weather' not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_avalanche_figurative_stays_low():
+    # The QUALIFIED phrases "avalanche warning" (NWS/avalanche-center product) and "snow avalanche" (the physical
+    # event) floor weather HIGH, but the bare root "avalanche"/"avalanches" was DELIBERATELY left unfloored — the
+    # figurative "an avalanche of emails / support tickets / paperwork / complaints" is routine ops language and
+    # denotes no hazard. Neither \bavalanche\s+warning\b nor \bsnow\s+avalanche\b can fire from a bare "avalanche of
+    # X", so these must fall through to the LOW default; a future careless add of a bare "avalanche" token would fire
+    # them HIGH and this catches it (the qualified-phrase discipline of gale-force winds/gale warning, where the bare
+    # polysemous "gale" stays LOW).
+    for text in ("The team is buried under an avalanche of support tickets this morning",
+                 "An avalanche of paperwork landed on the compliance desk after the audit",
+                 "Marketing faced an avalanche of customer emails after the launch"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'avalanche' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

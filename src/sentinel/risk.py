@@ -2213,6 +2213,29 @@ TAXONOMY = {
         # reporting, so this closes the under-floor with no operational false-positive risk. Surfaced in the
         # 2026-08-30 winter-weather under-floor rule-probe.
         #
+        # "avalanche warning"/"snow avalanche" name the snow-mass-movement severe hazard — a slope of snow/ice
+        # (and entrained rock/debris) releasing and racing downslope at highway speed, burying roads/rail/right-of-
+        # ways and worksites and killing by burial/trauma/asphyxia (backcountry, mountain highways, and slope-adjacent
+        # construction/mining/utility sites). It is the snow sibling of the earth-mass-movement HIGH structural
+        # tokens rockslide/debris flow/mudflow and the winter-severe-weather peer of snowstorm/blizzard/lake-effect
+        # snow. Yet the NWS/avalanche-center product "an avalanche warning is in effect" reached NO floored token and
+        # dropped to LOW (verified live), and the physical "a snow avalanche buried the access road" scored only
+        # MEDIUM off bare \bsnow\b — the SAME under-floor as lake-effect snow scoring at bare-snow MEDIUM. Floored
+        # HIGH (beside snowstorm/blizzard/lake-effect snow and the warning-grade freeze warning / high wind warning /
+        # red flag warning), NOT critical: a slope-access/burial hazard a human/LLM can raise; a worker actually
+        # buried or struck independently floors critical via injury/medical. Floored ONLY as the two qualified,
+        # zero-polysemy phrases — the NWS product "avalanche warning" and the explicitly-physical "snow avalanche".
+        # The bare root "avalanche"/"avalanches" is DELIBERATELY EXCLUDED as figurative-polysemous: "an avalanche of
+        # emails / support tickets / paperwork / complaints" is routine ops/facilities language, so \bavalanche\b
+        # would over-fire on benign text — the same qualified-phrase discipline that floored "gale-force winds"/"gale
+        # warning" while leaving the polysemous bare "gale" (a name / "a gale of laughter") unfloored, and that kept
+        # bare "landslide"/"mudslide" out while their zero-benign twins debris flow/mudflow shipped. A new FP-guard
+        # test (test_bare_avalanche_figurative_stays_low) re-verifies "an avalanche of {emails,support tickets,
+        # paperwork}" stays LOW. No plural entry: "avalanche warning" is a product name and "snow avalanche" a mass
+        # phrase (neither pluralizes in incident text); the advisory-grade "avalanche watch" is a deferred follow-up
+        # (the watch->MEDIUM / warning->HIGH sibling, out of scope this one-tier ship). Surfaced in the 2026-09-01
+        # 5:1x AM whole-hazard-absent rule-probe (a major named natural hazard entirely missing from the taxonomy).
+        #
         # "windstorm"/"windstorms" is the generic directly-named severe-wind event — the closed-compound sibling
         # of the just-added "sandstorm"/"snowstorm" and the whole-word twin of the already-floored phrase "high
         # winds" (both HIGH): a wind event strong enough to down trees/lines, tear roofing/cladding, and topple
@@ -2815,6 +2838,7 @@ TAXONOMY = {
                      "duststorm", "duststorms",
                      "snowstorm", "snowstorms",
                      "lake-effect snow", "lake effect snow",
+                     "avalanche warning", "snow avalanche",
                      "whiteout", "whiteouts",
                      "windstorm", "windstorms",
                      "thunderstorm", "thunderstorms",
