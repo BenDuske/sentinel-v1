@@ -534,6 +534,19 @@ CASES = [
     # fails the HIGH assertion (isolation; fault-injected).
     ("A rip current dragged a swimmer off the outfall apron", "high", "water/flood"),
     ("Rip currents are pulling debris away from the intake", "high", "water/flood"),
+    # "high surf warning"/"high surf warnings" is the directly-named NWS coastal life-threat product —
+    # large, dangerous breaking waves and pounding shorebreak that sweep people off jetties/piers/rocks
+    # and drown shoreline workers (routinely paired with the rip current statement). Named on its own
+    # it reached NO floored token and dropped to LOW: no "flood"/"flooding"/"surge" substring (critical
+    # can't fire), "rip current"/"storm surge" are different words, and there is no bare "surf" or
+    # "warning" token — same whole-product absent-term miss as rip current / gale warning. Floored at
+    # HIGH (if the report says the waves ARE flooding, or the fatality/injury tokens fire, those
+    # independently escalate to critical). The plural is a distinct token (\bhigh\s+surf\s+warning\b
+    # does not match "high surf warnings"), and the bare polysemous "high surf" (a surf-report phrase)
+    # is deliberately NOT floored. Each sentence is kept free of any other floored token, so removing
+    # the entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A high surf warning is in effect for the outfall jetty", "high", "water/flood"),
+    ("Successive high surf warnings kept the shoreline crew off the pier", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
@@ -2192,6 +2205,21 @@ def test_cold_watch_needs_adjacency():
                  "An extreme cold front rolled in as the guard stood watch by the wind chill sensor"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (cold watch needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_high_surf_warning_needs_adjacency():
+    # The QUALIFIED phrase "high surf warning"/"high surf warnings" floors water/flood HIGH (the NWS
+    # coastal life-threat product), but it fires ONLY as the adjacent three-word phrase
+    # (\bhigh\s+surf\s+warning\b). A benign "high surf" (a surf-report/recreational phrase) and a benign
+    # "warning" separated by other words must NOT trip it — bare "high surf" is deliberately unfloored
+    # and there is no bare "surf"/"warning" token. Absent adjacency these fall through to LOW; this
+    # catches a future careless bare-token add or a loosened matcher (the same phrase-only discipline as
+    # rip current / gale warning / the freeze-warning family).
+    for text in ("The high surf was perfect for the surfers despite the lifeguard's warning",
+                 "A high surf report drew a crowd while the shift warning light blinked on the panel"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (high surf warning needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
