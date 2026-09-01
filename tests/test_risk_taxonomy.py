@@ -1428,6 +1428,17 @@ CASES = [
     # fault-injected).
     ("A cold weather advisory is in effect for the outdoor yard crew this morning", "medium", "weather"),
     ("Cold weather advisories were issued for the northern counties overnight", "medium", "weather"),
+    # "wind advisory"/"wind advisories" names the NWS ADVISORY-tier damaging-wind product (sustained 31-39 mph /
+    # gusts 46-57 mph) — the advisory-grade sibling of the HIGH wind family "high winds"/"gale-force winds"/"high
+    # wind warning", one NWS gradient lower, the wind counterpart of the MEDIUM "heat advisory"/"wind chill
+    # advisory". It floors MEDIUM (beside "heat advisory"/"wind chill advisory"), the advisory -> MEDIUM /
+    # warning -> HIGH gradient. It previously dropped LOW: "wind advisory" shares no substring with any floored
+    # token (\bhigh\s+winds\b cannot match, \bwindstorm\b/\bstorm\b share no substring, "wind damage" is a different
+    # final word, and bare "wind" is unfloored — FP guard). UNLIKE mass-noun graupel/sleet, "advisory" is countable
+    # so the plural "advisories" is a distinct token and gets its own entry. Each sentence carries no other floored
+    # token, so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
+    ("A wind advisory is in effect for the high-profile-vehicle route past the site", "medium", "weather"),
+    ("Wind advisories were issued for the northern counties through the afternoon", "medium", "weather"),
     # "wintry mix" names the NWS advisory-grade mixed-precipitation event (snow + sleet + freezing rain falling
     # together) — the winter-precip TYPE sibling of the MEDIUM "sleet"/"snow"/"graupel", one gradient below the
     # HIGH glaze-ice warning products freezing rain / black ice / ice storm. It previously dropped LOW: "wintry
@@ -1520,6 +1531,19 @@ CASES = [
     # assertion.
     ("An excessive heat warning is in effect for the site all week", "high", "weather"),
     ("NWS posted an extreme heat warning for the facility grounds", "high", "weather"),
+    # "high wind warning" names the NWS warning-grade damaging-wind PRODUCT (sustained >=40 mph / gusts >=58 mph) —
+    # the warning-grade sibling of the MEDIUM advisory-grade "wind advisory", completing the wind family's
+    # advisory -> MEDIUM / warning -> HIGH pair (the same pairing the heat family — heat advisory / extreme heat
+    # warning — and the cold family — wind chill advisory / wind chill warning — already codify). It previously
+    # dropped LOW: the floored token is the PLURAL "high winds", and \bhigh\s+winds\b cannot match the singular
+    # "high wind" in "high wind warning" (winds vs wind), \bwindstorm\b/\bstorm\b share no substring, and there is
+    # no bare "wind"/"warning" token — so the warning-grade product scored below its own event written "high winds"
+    # (HIGH), the whole-hazard absent-term / NWS-product-name miss the cold/heat families fixed for extreme cold
+    # warning / extreme heat warning. Floored HIGH beside "high winds". Singular product name (no plural entry, the
+    # gale warning / extreme cold warning discipline). Each sentence carries no other floored token, so removing the
+    # entry regresses each to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A high wind warning is in effect for the crane district this evening", "high", "weather"),
+    ("The bureau upgraded the wind advisory to a high wind warning for the switchyard", "high", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -2048,6 +2072,22 @@ def test_bare_cold_stays_low():
                  "Cold storage kept the samples at four degrees overnight"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'cold'/'cold weather' not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_wind_stays_low():
+    # The QUALIFIED phrases "wind advisory" (MEDIUM) and "high wind warning" (HIGH) floor the wind family, but bare
+    # "wind" was DELIBERATELY left unfloored — "the wind picked up", "second wind", "a wind of change", and "wind
+    # down the shift" are all benign. \bwind\s+advisory\b / \bhigh\s+wind\s+warning\b cannot fire from any of them,
+    # so these must fall through to the LOW default; a future careless add of a bare "wind" token would fire them
+    # MEDIUM/HIGH and this catches it (the qualified-phrase discipline of wind chill advisory / heat advisory / red
+    # flag warning, where the bare token stays LOW).
+    for text in ("The wind picked up a little around noon on the yard",
+                 "The runner got a second wind on the final lap",
+                 "Management framed it as a wind of change for the team",
+                 "The crew will wind down the shift at six"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'wind' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

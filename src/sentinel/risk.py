@@ -2767,10 +2767,32 @@ TAXONOMY = {
         # name is used as a mass term and the bare-phrase entry already covers the operative singular. Surfaced in
         # the 2026-08-31 9:4x PM heat-product rule-probe (warning-grade heat sibling of the MEDIUM heat advisory,
         # symmetric hot-side counterpart of the HIGH extreme cold warning / wind chill warning).
+        # "high wind warning" names the NWS warning-grade damaging-wind PRODUCT — the warning issued for sustained
+        # winds >=40 mph (or gusts >=58 mph), the same destructive wind the whole wind family already floors HIGH
+        # ("high winds"/"gale-force winds"/"windstorm"/"squall"). It is the WARNING-grade sibling of the just-added
+        # MEDIUM advisory-grade "wind advisory" (see medium list), completing the wind family's advisory->MEDIUM /
+        # warning->HIGH pair exactly as the heat family (heat advisory MEDIUM / extreme heat warning HIGH) and the
+        # cold family (wind chill advisory MEDIUM / wind chill warning HIGH) already do. Yet a report writing "a high
+        # wind warning is in effect for the crane district" reached NO floored token and dropped to LOW (verified
+        # live): the floored token is the PLURAL "high winds", and \bhigh\s+winds\b cannot match the singular "high
+        # wind" in "high wind warning" (different word — winds vs wind), \bwindstorm\b/\bstorm\b share no substring,
+        # and there is no bare "wind"/"warning" token — so the warning-grade product scored strictly BELOW the same
+        # event written "high winds" (HIGH), the SAME whole-hazard absent-term / NWS-product-name miss class as
+        # "extreme cold warning" beside the cold criticals and "gale warning" beside the HIGH winds. Floored HIGH
+        # beside "high winds", NOT critical (a forecastable damaging-wind product mitigable by securing loose gear /
+        # sheltering, not a guaranteed mass-casualty catastrophe; a worker injured or a line downed by the wind
+        # independently floors higher via injury/medical or electrical). Singular product name only — no plural
+        # entry, the same discipline as "gale warning"/"extreme cold warning"/"red flag warning". The bare "high
+        # wind" (singular) is DELIBERATELY EXCLUDED as a vaguer descriptor a routine forecast uses ("high wind gusts
+        # possible" is not itself an incident), and the bare "wind" is domain-polysemous ("second wind", "a wind of
+        # change", "wind the clock") — only the unambiguous zero-benign PRODUCT name fires, the qualified-phrase
+        # discipline of gale warning / red flag warning. Surfaced in the 2026-09-01 12:4x AM wind-product rule-probe
+        # (warning-grade wind sibling of the MEDIUM wind advisory, completing the wind family advisory/warning pair).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
                      "gale-force winds", "gale force winds", "gale warning",
+                     "high wind warning",
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "duststorm", "duststorms",
@@ -2949,8 +2971,28 @@ TAXONOMY = {
         # benign sentences stay LOW), the same qualified-phrase discipline as wind chill advisory / dense fog / red
         # flag warning. Surfaced in the 2026-08-31 11:1x PM cold-advisory-current-name rule-probe (current-name half
         # of the deferred advisory-tier cold pair; legacy "wind chill advisory" half shipped earlier the same day).
+        # "wind advisory"/"wind advisories" names the NWS ADVISORY-tier damaging-wind product — issued for sustained
+        # winds of 31-39 mph (or gusts 46-57 mph), strong enough to topple trees/signs and make high-profile driving
+        # dangerous but one gradient below the HIGH "high wind warning". It is the ADVISORY-grade sibling of the HIGH
+        # wind family ("high winds"/"gale-force winds"/"high wind warning"), the exact wind counterpart of the MEDIUM
+        # "heat advisory" (paired with HIGH heat wave) and "wind chill advisory" (paired with HIGH wind chill
+        # warning) — completing the wind family's advisory->MEDIUM / warning->HIGH pair. Yet a report writing "a wind
+        # advisory is in effect for the site" reached NO floored token and dropped to LOW (verified live): "wind
+        # advisory" shares no substring with any floored token — the HIGH "high winds" is a different phrase
+        # (\bhigh\s+winds\b cannot match), \bwindstorm\b/\bstorm\b share no substring, "wind damage" is a different
+        # final word, and bare "wind" is DELIBERATELY unfloored (a routine "the wind picked up"/"second wind" must
+        # stay LOW — FP guard). Floored MEDIUM beside "heat advisory"/"wind chill advisory" (the ADVISORY -> MEDIUM /
+        # WARNING -> HIGH gradient), NOT HIGH; an actual injury or downed line from the wind independently escalates
+        # via injury/medical or electrical. UNLIKE the mass-noun graupel/sleet, "advisory" is a COUNTABLE noun and
+        # NWS issues multi-zone "wind advisories", a distinct token \bwind\s+advisory\b cannot match — so the plural
+        # is added per the singular->plural discipline (mirroring the wind chill advisory/advisories pair). Floored
+        # ONLY as the qualified two-word phrase, never bare "wind" (polysemous — "second wind", "a wind of change",
+        # "wind the clock", "wind down") — the same qualified-phrase discipline as wind chill advisory / heat
+        # advisory / red flag warning. Surfaced in the 2026-09-01 12:4x AM wind-product rule-probe (advisory-tier
+        # wind sibling of the MEDIUM heat/cold advisories; paired with the new HIGH high wind warning).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
+                     "wind advisory", "wind advisories",
                      "wind chill advisory", "wind chill advisories",
                      "cold weather advisory", "cold weather advisories"],
     },
