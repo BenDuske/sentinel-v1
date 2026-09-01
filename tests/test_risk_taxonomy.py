@@ -1495,6 +1495,17 @@ CASES = [
     # (isolation; fault-injected).
     ("An avalanche warning is in effect for the mountain pass above the ridge site", "high", "weather"),
     ("A snow avalanche buried the upper access road and swept a lineman downslope", "high", "weather"),
+    # "avalanche watch"/"avalanche watches" names the WATCH-tier avalanche-center product — conditions developing/
+    # possible, a step below the HIGH "avalanche warning" (imminent/occurring). It floors MEDIUM, the anticipatory
+    # sibling completing the avalanche family's watch->MEDIUM / warning->HIGH pair (the same watch/advisory->MEDIUM /
+    # warning->HIGH gradient as the wind/cold/heat/frost families). It previously dropped LOW: "avalanche watch" shares
+    # no substring with any floored token (\bavalanche\s+warning\b/\bsnow\s+avalanche\b are different phrases, bare
+    # "avalanche" is unfloored per test_bare_avalanche_figurative_stays_low, bare "watch" is not a token). "watch" is
+    # countable so the plural "watches" is a distinct token and gets its own entry. Each sentence carries no other
+    # floored token, so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-
+    # injected).
+    ("An avalanche watch is in effect for the northern ranges above the access road", "medium", "weather"),
+    ("Avalanche watches remain posted for the backcountry corridor the crew must cross", "medium", "weather"),
     # "atmospheric river" (+ plural "atmospheric rivers") names the NWS/CW3E flood-driving moisture plume the
     # same way the already-HIGH "monsoon" names a rain-bearing driver — the long-duration rain/snow producer
     # behind West-Coast levee breaks and evacuations (Jan 2023 CA ARs: 20+ dead). It previously dropped LOW:
@@ -2157,9 +2168,12 @@ def test_bare_avalanche_figurative_stays_low():
     # X", so these must fall through to the LOW default; a future careless add of a bare "avalanche" token would fire
     # them HIGH and this catches it (the qualified-phrase discipline of gale-force winds/gale warning, where the bare
     # polysemous "gale" stays LOW).
+    # The last sentence also proves the qualified "avalanche watch" token needs ADJACENCY: a figurative
+    # "avalanche" and a benign "watch" separated by other words must NOT fire \bavalanche\s+watch\b.
     for text in ("The team is buried under an avalanche of support tickets this morning",
                  "An avalanche of paperwork landed on the compliance desk after the audit",
-                 "Marketing faced an avalanche of customer emails after the launch"):
+                 "Marketing faced an avalanche of customer emails after the launch",
+                 "An avalanche of tickets hit the queue while the guard was on watch overnight"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'avalanche' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()

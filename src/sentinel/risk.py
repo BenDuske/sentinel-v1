@@ -2232,8 +2232,9 @@ TAXONOMY = {
         # bare "landslide"/"mudslide" out while their zero-benign twins debris flow/mudflow shipped. A new FP-guard
         # test (test_bare_avalanche_figurative_stays_low) re-verifies "an avalanche of {emails,support tickets,
         # paperwork}" stays LOW. No plural entry: "avalanche warning" is a product name and "snow avalanche" a mass
-        # phrase (neither pluralizes in incident text); the advisory-grade "avalanche watch" is a deferred follow-up
-        # (the watch->MEDIUM / warning->HIGH sibling, out of scope this one-tier ship). Surfaced in the 2026-09-01
+        # phrase (neither pluralizes in incident text); the advisory-grade "avalanche watch" was a deferred follow-up
+        # (the watch->MEDIUM / warning->HIGH sibling, out of scope that one-tier ship) — NOW SHIPPED at weather MEDIUM
+        # (see the "avalanche watch"/"avalanche watches" rationale on the medium list). Surfaced in the 2026-09-01
         # 5:1x AM whole-hazard-absent rule-probe (a major named natural hazard entirely missing from the taxonomy).
         #
         # "windstorm"/"windstorms" is the generic directly-named severe-wind event — the closed-compound sibling
@@ -3056,12 +3057,35 @@ TAXONOMY = {
         # advisory / heat advisory. Surfaced in the 2026-09-01 3:4x AM winter-storm-advisory rule-probe (advisory-
         # tier winter-storm sibling of the MEDIUM heat/wind/cold advisories; the winter-storm family's advisory
         # half, its warning half "winter storm warning" already HIGH via bare "storm").
+        #
+        # "avalanche watch"/"avalanche watches" names the avalanche-center/NWS WATCH-tier snow-slope product — issued
+        # when avalanche conditions are developing/possible (a step below the "avalanche warning" that floors weather
+        # HIGH, which means avalanches are imminent or occurring). It is the anticipatory sibling of that HIGH warning
+        # and completes the avalanche family's watch->MEDIUM / warning->HIGH pair, the same advisory/watch -> MEDIUM /
+        # warning -> HIGH gradient the wind, cold, heat, frost/freeze, and winter-storm families already carry (the
+        # 2026-09-01 5:1x AM cycle that shipped "avalanche warning"/"snow avalanche" HIGH explicitly deferred this
+        # watch half). Yet a report writing "an avalanche watch is in effect for the northern ranges" reached NO
+        # floored token and dropped to LOW (verified live): "avalanche watch" shares no substring with any floored
+        # token — \bavalanche\s+warning\b cannot match the different final word, \bsnow\s+avalanche\b is a different
+        # phrase, bare "avalanche"/"avalanches" is DELIBERATELY unfloored (figurative "an avalanche of emails/tickets/
+        # paperwork" — FP guard test_bare_avalanche_figurative_stays_low), and bare "watch" is not a token (a security
+        # "watch"/night watch/wristwatch must stay LOW). Floored MEDIUM beside the other watch/advisory products, NOT
+        # HIGH; if a slope actually releases the physical "snow avalanche"/"avalanche warning" independently floors
+        # HIGH and a worker buried floors critical via injury/medical. "watch" is a COUNTABLE noun and avalanche
+        # centers issue multi-zone "avalanche watches", a distinct token \bavalanche\s+watch\b cannot match — so the
+        # plural is added per the singular->plural discipline (mirroring wind advisory/advisories). Floored ONLY as the
+        # qualified two-word phrase (\bavalanche\s+watch\b), never bare "avalanche" or bare "watch" — the same
+        # qualified-phrase discipline as avalanche warning / snow avalanche. This is the FIRST "watch"-tier token; it
+        # rides at the advisory MEDIUM floor because an avalanche WATCH and an advisory carry the same be-prepared
+        # urgency one gradient below a WARNING. Surfaced in the 2026-09-01 6:4x AM avalanche-watch rule-probe
+        # (completing the avalanche watch/warning pair deferred by the 5:1x AM avalanche-warning ship).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
                      "wind chill advisory", "wind chill advisories",
                      "cold weather advisory", "cold weather advisories",
-                     "winter weather advisory", "winter weather advisories"],
+                     "winter weather advisory", "winter weather advisories",
+                     "avalanche watch", "avalanche watches"],
     },
 }
 
