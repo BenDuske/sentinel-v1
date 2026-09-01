@@ -1494,6 +1494,18 @@ CASES = [
     # carries no other floored token, so removing the entries regresses to LOW and fails the HIGH assertion.
     ("A heat dome parked over the region for a week", "high", "weather"),
     ("Successive heat domes pushed the cooling loop past its limit", "high", "weather"),
+    # "excessive heat warning"/"extreme heat warning" name the NWS warning-grade extreme-heat PRODUCT — the
+    # life-threatening-heat counterpart of the MEDIUM "heat advisory" ("extreme heat warning" is the current NWS
+    # product name adopted 2024; "excessive heat warning" is the legacy name still in wide use, so both spellings
+    # are tokens). It previously dropped LOW: no "storm" word, the HIGH heat events ("heat wave"/"heat dome") are
+    # not substrings, \bheat\s+advisory\b cannot match "...heat warning", and there is no bare "heat"/"warning"
+    # token — so the WARNING-grade heat product scored below its own ADVISORY-grade sibling "heat advisory"
+    # (MEDIUM), the advisory-beneath-warning inversion the cold family fixed by pairing wind chill advisory with
+    # wind chill warning. Floored HIGH, the hot-side mirror of the HIGH extreme cold warning / wind chill warning.
+    # Each sentence carries no other floored token, so removing the entries regresses to LOW and fails the HIGH
+    # assertion.
+    ("An excessive heat warning is in effect for the site all week", "high", "weather"),
+    ("NWS posted an extreme heat warning for the facility grounds", "high", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -1945,6 +1957,21 @@ def test_bare_red_flag_stays_low():
                  "The code review flagged a red flag in the retry logic"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'red flag' idiom not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_heat_stays_low():
+    # The QUALIFIED NWS products "excessive heat warning"/"extreme heat warning" floor weather HIGH, but the
+    # bare noun "heat" was DELIBERATELY left unfloored — a heat exchanger, "turn up the heat", and body heat are
+    # all benign, and even the closed "heat" inside "preheat"/"reheat" must not fire. \bexcessive heat warning\b /
+    # \bextreme heat warning\b cannot fire from any of them, so these must fall through to the LOW default; a
+    # future careless add of a bare "heat" token would fire them HIGH and this catches it (the qualified-phrase
+    # discipline of red flag warning / wind chill warning, where the bare token stays LOW).
+    for text in ("The heat exchanger in bay 3 needs service before summer",
+                 "Crews asked to turn up the heat in the loading dock",
+                 "Body heat from the crowd fogged the lobby camera lens"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'heat' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

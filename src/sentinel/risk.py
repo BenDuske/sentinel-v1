@@ -2737,6 +2737,34 @@ TAXONOMY = {
         # warning"/"wind chill warning" the NWS product name is used as a mass term and the bare-phrase entry
         # already covers the operative singular. Surfaced in the 2026-08-31 fire-weather rule-probe (product
         # sibling of the extreme cold warning / wind chill warning NWS-named warnings).
+        # "excessive heat warning"/"extreme heat warning" name the NWS warning-grade extreme-heat PRODUCT — the
+        # life-threatening-heat counterpart of the already-MEDIUM "heat advisory", issued when a dangerous,
+        # prolonged heat event ("extreme heat warning" is the current NWS product name adopted in 2024; "excessive
+        # heat warning" is the legacy name still in wide use, so both spellings are added). It is the HOT-side
+        # mirror of the already-HIGH cold PRODUCTS "extreme cold warning"/"wind chill warning": a directly-named
+        # NWS warning a human/LLM incident report routinely cites by product name. Yet a report writing "an
+        # excessive heat warning is in effect for the site all week" reached NO floored token and dropped to LOW
+        # (verified live): "excessive heat warning" shares no substring with any floored weather token — the HIGH
+        # heat events name the phenomenon itself ("heat wave"/"heatwave"/"heat dome"), none is a substring of
+        # "excessive heat warning"/"extreme heat warning" (\bheat\s+wave\b / \bheat\s+dome\b cannot match), the
+        # MEDIUM "heat advisory" is a different final word (\bheat\s+advisory\b cannot match "...heat warning"),
+        # and there is no bare "heat"/"warning" token — so the warning-grade heat product scored strictly BELOW
+        # its own advisory-grade sibling "heat advisory" (MEDIUM), the exact advisory-beneath-warning INVERSION
+        # the cold family already fixed by pairing "wind chill advisory" (MEDIUM) with "wind chill warning" (HIGH).
+        # This is the same whole-hazard absent-term miss class as "extreme cold warning" beside the cold criticals
+        # and "red flag warning" beside the fire criticals. Floored HIGH, NOT critical: an Extreme Heat Warning is
+        # a forecast/duration product, not a confirmed mass-casualty event — if the killing heat is itself in the
+        # report the "heat wave"/"heat dome" tokens independently sit HIGH, and a worker with heat stroke floors
+        # via injury/medical, so HIGH is the conservative warning-stage floor for the product named on its own,
+        # the identical discipline used for extreme cold warning / wind chill warning / red flag warning.
+        # DELIBERATELY floored only as the full qualified phrases: the bare "heat" is domain-polysemous (a heat
+        # exchanger, "turn up the heat", body heat) and MUST NOT fire a weather HIGH — "excessive heat warning" /
+        # "extreme heat warning" carry ZERO benign meaning, the same qualified-phrase discipline that floored
+        # "red flag warning" (not bare "red flag") and "volcanic ash" (not bare "ash"). No separate plural entry:
+        # like the sibling products "extreme cold warning"/"wind chill warning"/"red flag warning" the NWS product
+        # name is used as a mass term and the bare-phrase entry already covers the operative singular. Surfaced in
+        # the 2026-08-31 9:4x PM heat-product rule-probe (warning-grade heat sibling of the MEDIUM heat advisory,
+        # symmetric hot-side counterpart of the HIGH extreme cold warning / wind chill warning).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2768,6 +2796,7 @@ TAXONOMY = {
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
                      "heat dome", "heat domes",
+                     "excessive heat warning", "extreme heat warning",
                      "cold wave", "cold waves", "cold snap", "cold snaps",
                      "arctic blast", "arctic blasts", "arctic outbreak", "arctic outbreaks",
                      "polar vortex", "polar vortexes", "polar vortices",
