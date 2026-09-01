@@ -1607,6 +1607,17 @@ CASES = [
     # regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
     ("A freeze watch is in effect for the tank farm ahead of tonight's cold push", "medium", "weather"),
     ("Freeze watches remain posted for the outdoor pipe racks the crew services", "medium", "weather"),
+    # "high wind watch"/"high wind watches" names the WATCH-tier high-wind product — sustained >=40 mph / gusts
+    # >=58 mph POSSIBLE in 12-48h, a step below the HIGH "high wind warning" (imminent/occurring). It floors MEDIUM,
+    # the anticipatory sibling completing the wind family's watch->MEDIUM / warning->HIGH ladder (wind advisory
+    # MEDIUM / high wind warning HIGH already present; the watch tier between them was open). It previously dropped
+    # LOW: "high wind watch" shares no substring with any floored token (\bhigh\s+wind\s+warning\b is a different
+    # final word, the HIGH bare "high winds" is PLURAL and \bhigh\s+winds\b cannot match the singular "high wind"
+    # inside it, "wind advisory" is a different phrase, bare "watch" is not a token). "watch" is countable so the
+    # plural "watches" is a distinct token and gets its own entry. Each sentence carries no other floored token, so
+    # removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
+    ("A high wind watch is posted for the tower crew working the exposed ridgeline tomorrow", "medium", "weather"),
+    ("High wind watches remain up for the line crew across the northern service yard", "medium", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -2103,6 +2114,20 @@ def test_freeze_watch_needs_adjacency():
                  "The guard kept watch while the freeze-frame from the camera rendered"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (freeze watch needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_high_wind_watch_needs_adjacency():
+    # The QUALIFIED phrase "high wind watch"/"high wind watches" floors weather MEDIUM (WATCH-tier high-wind
+    # product), but it fires ONLY as the adjacent three-word phrase (\bhigh\s+wind\s+watch\b). A benign "high wind"
+    # and a benign "watch" separated by other words must NOT trip it — the singular "high wind" is deliberately
+    # unfloored (only the PLURAL "high winds" floors HIGH), and bare "watch" is unfloored (security watch /
+    # wristwatch). Absent adjacency these fall through to LOW; this catches a future careless bare-token add or a
+    # loosened matcher (the same adjacency discipline as freeze watch / avalanche watch / high wind warning).
+    for text in ("He kept a high wind at his back while the guard stood watch by the gate",
+                 "A high wind turbine spun steadily while the shift watch checked the gauges"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (high wind watch needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

@@ -3102,6 +3102,30 @@ TAXONOMY = {
         # non-adjacent "a hiring freeze ... put new reqs on a watch" carries neither adjacent phrase and stays LOW (FP
         # guard test_freeze_watch_needs_adjacency). Surfaced in the 2026-09-01 8:2x AM freeze-watch rule-probe
         # (completing the freeze watch/warning pair left open by the freeze-warning ship, mirroring avalanche watch).
+        # "high wind watch"/"high wind watches" names the NWS WATCH-tier high-wind product — issued when sustained
+        # winds >=40 mph or gusts >=58 mph are POSSIBLE within the next 12-48 hours, a step below the "high wind
+        # warning" that floors weather HIGH (those winds imminent or occurring, the damaging severe-wind hazard that
+        # downs lines and topples equipment on exposed crews). It is the anticipatory sibling of that HIGH warning and
+        # completes the wind family's watch->MEDIUM / warning->HIGH ladder: the family already carries the ADVISORY
+        # tier ("wind advisory" MEDIUM) and the WARNING tier ("high wind warning" HIGH beside bare "high winds"), but
+        # the WATCH tier between them was open — the same watch/advisory->MEDIUM / warning->HIGH gradient the freeze,
+        # avalanche, cold, heat, and winter-storm families already carry (the freeze/avalanche watch ships codified this
+        # exact watch-tier pattern). Yet a report writing "a high wind watch is posted for the tower crew" reached NO
+        # floored token and dropped to LOW (verified live): "high wind watch" shares no substring with any floored
+        # token — the HIGH "high wind warning" is a different final word (\bhigh\s+wind\s+warning\b cannot match "high
+        # wind watch"), the HIGH bare "high winds" is PLURAL (\bhigh\s+winds\b needs the "s" and cannot match the
+        # singular "high wind" inside "high wind watch"), the MEDIUM "wind advisory" is a different phrase, and bare
+        # "watch" is not a token (a security "watch"/night watch/wristwatch must stay LOW). Floored MEDIUM beside the
+        # other watch/advisory products, NOT HIGH; if the winds actually arrive the "high wind warning"/"high winds"
+        # independently floor HIGH and a struck worker floors critical via injury/medical. "watch" is a COUNTABLE noun
+        # and forecast offices issue multi-zone "high wind watches", a distinct token \bhigh\s+wind\s+watch\b cannot
+        # match — so the plural is added per the singular->plural discipline (mirroring freeze watch/watches, avalanche
+        # watch/watches, wind advisory/advisories). Floored ONLY as the qualified three-word phrase
+        # (\bhigh\s+wind\s+watch\b), never bare "wind"/"watch" — the same qualified-phrase discipline as high wind
+        # warning / freeze watch / avalanche watch. The figurative non-adjacent "kept a high wind at his back ... on
+        # watch" carries neither adjacent phrase and stays LOW (FP guard test_high_wind_watch_needs_adjacency).
+        # Surfaced in the 2026-09-01 9:4x AM high-wind-watch rule-probe (completing the wind family's watch tier left
+        # open beneath high wind warning, mirroring the freeze/avalanche watch ships).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
@@ -3109,7 +3133,8 @@ TAXONOMY = {
                      "cold weather advisory", "cold weather advisories",
                      "winter weather advisory", "winter weather advisories",
                      "avalanche watch", "avalanche watches",
-                     "freeze watch", "freeze watches"],
+                     "freeze watch", "freeze watches",
+                     "high wind watch", "high wind watches"],
     },
 }
 
