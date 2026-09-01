@@ -1423,6 +1423,16 @@ CASES = [
     # The sentence carries no other floored token, so removing the "wintry mix" entry regresses it to LOW and
     # fails the MEDIUM assertion (isolation; fault-injected).
     ("A wintry mix is expected across the site approach roads tonight", "medium", "weather"),
+    # "freezing drizzle" names the NWS advisory-grade glaze-ice precipitation — supercooled drops that freeze on
+    # contact into a thin, treacherous coating. It is the light, advisory-tier cousin of the HIGH warning-grade
+    # "freezing rain" (NWS: freezing drizzle -> Winter Weather Advisory, sustained freezing rain -> Ice Storm
+    # Warning). It previously dropped LOW: "freezing drizzle" shares no substring with any floored weather token
+    # (\bfreezing\s+rain\b cannot match the different final word; bare "drizzle" is unfloored and benign), and no
+    # floored token is a substring of it — the same advisory-tier glaze miss class as wintry mix/graupel beside
+    # their HIGH warning siblings. Floored MEDIUM (advisory -> MEDIUM / warning -> HIGH gradient). Mass noun -> no
+    # plural. The sentence carries no other floored token, so removing the "freezing drizzle" entry regresses it
+    # to LOW and fails the MEDIUM assertion (isolation; fault-injected).
+    ("Freezing drizzle is glazing the catwalk handrails and stairs", "medium", "weather"),
     # "lake-effect snow"/"lake effect snow" names the banded localized heavy-snow regime — feet of snow in hours,
     # whiteout, roof-collapse loads (Buffalo Nov 2014 ~7 ft/13 dead). It is the severe named event on the footing of
     # its HIGH siblings snowstorm/blizzard, yet it previously scored only MEDIUM — an UNDER-FLOOR inversion (same
@@ -1965,6 +1975,21 @@ def test_bare_fog_stays_low():
                  "A light fog drifted over the valley at dawn"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'fog' not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_drizzle_stays_low():
+    # The QUALIFIED phrase "freezing drizzle" floors weather MEDIUM (NWS advisory-grade glaze-ice precipitation),
+    # but bare "drizzle" was DELIBERATELY left unfloored — a culinary "drizzle olive oil over the salad", a light
+    # afternoon drizzle, and a chocolate drizzle on the break-room donuts are all benign. \bfreezing\s+drizzle\b
+    # cannot fire from any of them, so these must fall through to the LOW default; a future careless add of a bare
+    # "drizzle" token would fire them MEDIUM and this catches it (the qualified-phrase discipline of dense fog /
+    # wintry mix / red flag warning, where the bare token stays LOW).
+    for text in ("The caterer will drizzle olive oil over the salad greens",
+                 "A light drizzle passed over the yard around noon",
+                 "Someone left a chocolate drizzle on the break-room donuts"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'drizzle' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

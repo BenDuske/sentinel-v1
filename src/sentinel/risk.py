@@ -2871,8 +2871,28 @@ TAXONOMY = {
         # fog" (not bare "fog") / "red flag warning" (not bare "red flag") — zero operational false-positive
         # risk. Surfaced in the 2026-08-31 6:4x winter-precip rule-probe (advisory-tier mixed-precip sibling of
         # the MEDIUM sleet/snow/graupel, one gradient below the HIGH glaze-ice warning products).
+        # "freezing drizzle" names the NWS advisory-grade glaze-ice precipitation — fine supercooled drops that
+        # freeze on contact into a thin, treacherous coating on catwalks, ladders, handrails, and vehicle glass.
+        # It is the light, advisory-tier cousin of the HIGH warning-grade "freezing rain" (NWS bands the two by
+        # accumulation: freezing drizzle → Winter Weather Advisory, sustained freezing rain → Ice Storm Warning).
+        # Yet a report writing "freezing drizzle is glazing the catwalk handrails" reached NO floored token and
+        # dropped to LOW (verified live): "freezing drizzle" shares no substring with any floored weather token —
+        # the HIGH glaze-ice phrase "freezing rain" is a different final word (\bfreezing\s+rain\b cannot match
+        # "freezing drizzle"), "black ice"/"ice storm"/"freezing fog" are different phrases, and no floored token
+        # is a substring of it — the SAME advisory-tier glaze miss class as "wintry mix"/"graupel" beside their
+        # HIGH warning siblings. Floored MEDIUM, NOT HIGH: the taxonomy mirrors NWS product tiers — ADVISORY →
+        # MEDIUM (this sits beside "sleet"/"snow"/"graupel"/"wintry mix"/"dense fog"), WARNING → HIGH (the
+        # freezing-rain/ice-storm glaze products); a light glaze that actually injures a worker floors higher via
+        # the independent injury/medical token. No plural entry: "freezing drizzle" is a mass noun (like the HIGH
+        # "freezing rain" and the MEDIUM "sleet"/"snow"/"graupel"/"wintry mix") — reporters do not write "freezing
+        # drizzles". Floored only as the QUALIFIED two-word phrase (\bfreezing\s+drizzle\b), never bare "drizzle",
+        # which is domain-benign (light rain, "drizzle olive oil over the salad") and MUST stay LOW — the same
+        # qualified-phrase discipline as "dense fog" (not bare "fog") / "wintry mix" (not bare "mix") / "red flag
+        # warning" (not bare "red flag") — zero operational false-positive risk. Surfaced in the 2026-08-31 8:1x PM
+        # winter-precip rule-probe (advisory-tier glaze sibling of the MEDIUM wintry mix/graupel, one gradient
+        # below the HIGH freezing rain/black ice/ice storm warning products).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
-                     "graupel", "wintry mix",
+                     "graupel", "wintry mix", "freezing drizzle",
                      "wind chill advisory", "wind chill advisories"],
     },
 }
