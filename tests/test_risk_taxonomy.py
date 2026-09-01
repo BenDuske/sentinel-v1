@@ -1544,6 +1544,21 @@ CASES = [
     # entry regresses each to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A high wind warning is in effect for the crane district this evening", "high", "weather"),
     ("The bureau upgraded the wind advisory to a high wind warning for the switchyard", "high", "weather"),
+    # "freeze warning" names the NWS warning-grade lethal/damaging-cold PRODUCT (sub-freezing temps that kill crops,
+    # burst exposed pipes, threaten unsheltered people) — the warning-grade sibling of the advisory-grade "frost
+    # advisory" (already MEDIUM via the bare "frost" token), completing the frost/freeze advisory -> MEDIUM /
+    # warning -> HIGH pair (the same pairing the cold family — wind chill advisory / wind chill warning — and heat
+    # family — heat advisory / extreme heat warning — already codify). It previously dropped LOW: the phrase shares
+    # no substring with any floored token — the HIGH freeze phrases "flash freeze"/"freezing rain"/"freezing fog"
+    # are different words, \bstorm\b/\bblizzard\b share no substring, and the bare verb "freeze" is deliberately
+    # unfloored (test_bare_freeze_stays_low) — so the warning-grade product scored BELOW its own MEDIUM advisory
+    # sibling "frost advisory", the advisory-beneath-warning inversion the cold/heat/wind families fixed. Floored
+    # HIGH beside the cold PRODUCTS "extreme cold warning"/"wind chill warning". Singular product name (no plural
+    # entry, the gale warning / extreme cold warning / high wind warning discipline). Removing the entry regresses
+    # the first (isolated) case to LOW and the upgrade case to MEDIUM (bare "frost" survives) — both fail the HIGH
+    # assertion (fault-injected).
+    ("A freeze warning is in effect for the outdoor pipe racks tonight", "high", "weather"),
+    ("The bureau upgraded the frost advisory to a freeze warning for the tank farm", "high", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound

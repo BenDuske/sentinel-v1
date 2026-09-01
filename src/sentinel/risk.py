@@ -2788,6 +2788,23 @@ TAXONOMY = {
         # change", "wind the clock") — only the unambiguous zero-benign PRODUCT name fires, the qualified-phrase
         # discipline of gale warning / red flag warning. Surfaced in the 2026-09-01 12:4x AM wind-product rule-probe
         # (warning-grade wind sibling of the MEDIUM wind advisory, completing the wind family advisory/warning pair).
+        # "freeze warning" names the NWS warning-grade lethal/damaging-cold PRODUCT — issued when sub-freezing
+        # temperatures will kill crops and sensitive vegetation, burst exposed pipes, and threaten unsheltered people
+        # or animals. It is the warning-grade sibling of the advisory-grade "frost advisory" (which already floors
+        # MEDIUM via the bare "frost" token), so before this add the frost/freeze pair was INVERTED: "a frost advisory
+        # is in effect" scored MEDIUM while the more dangerous "a freeze warning is in effect" dropped to LOW — a
+        # warning-grade product ranking BELOW its own advisory-grade sibling, the exact advisory-beneath-warning
+        # inversion the cold family (wind chill advisory MEDIUM / wind chill warning HIGH) and heat family (heat
+        # advisory MEDIUM / extreme heat warning HIGH) already fixed. It previously dropped LOW because the phrase
+        # shares no substring with any floored token — the HIGH freeze phrases "flash freeze"/"freezing rain"/
+        # "freezing fog" are different words (\bflash\s+freeze\b / \bfreezing\s+rain\b cannot match "freeze warning"),
+        # \bstorm\b/\bblizzard\b share no substring, and the bare verb "freeze" is DELIBERATELY unfloored (hiring
+        # freeze, freeze-frame, "freeze the sample"; guarded by test_bare_freeze_stays_low) — so the standalone NWS
+        # product name matched nothing, the same whole-hazard absent-term / NWS-product-name miss the wind/cold/heat
+        # warnings fixed. Floored HIGH beside the cold PRODUCTS "extreme cold warning"/"wind chill warning". Singular
+        # product name only — no plural entry, the same gale warning / extreme cold warning / high wind warning
+        # discipline. Surfaced in the 2026-09-01 2:1x AM winter-product rule-probe (warning-grade freeze sibling of
+        # the MEDIUM frost advisory, completing the frost/freeze advisory/warning pair).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2817,6 +2834,7 @@ TAXONOMY = {
                      "funnel cloud", "funnel clouds",
                      "freezing rain", "black ice", "freezing fog",
                      "flash freeze", "flash freezes",
+                     "freeze warning",
                      "nor'easter", "nor'easters", "noreaster", "noreasters",
                      "heat wave", "heat waves", "heatwave", "heatwaves",
                      "heat dome", "heat domes",
