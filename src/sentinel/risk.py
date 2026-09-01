@@ -3008,11 +3008,36 @@ TAXONOMY = {
         # "wind the clock", "wind down") — the same qualified-phrase discipline as wind chill advisory / heat
         # advisory / red flag warning. Surfaced in the 2026-09-01 12:4x AM wind-product rule-probe (advisory-tier
         # wind sibling of the MEDIUM heat/cold advisories; paired with the new HIGH high wind warning).
+        # "winter weather advisory"/"winter weather advisories" names the NWS ADVISORY-tier winter-precip product —
+        # issued for a mix of snow/sleet/freezing rain / light accumulations that cause slick roads and hazardous
+        # travel but stay below warning criteria. It is the ADVISORY-grade sibling of the HIGH winter-storm family
+        # ("winter storm warning"/"blizzard"/"ice storm"/"snowstorm"), the winter-storm counterpart of the MEDIUM
+        # "heat advisory" (paired with HIGH heat wave), "wind advisory" (paired with HIGH high wind warning), and
+        # "wind chill advisory" (paired with HIGH wind chill warning) — completing the winter-storm family's
+        # advisory->MEDIUM / warning->HIGH pair (the warning half "winter storm warning" already floors HIGH via
+        # the bare \bstorm\b token). Yet a report writing "a winter weather advisory is in effect for the overnight
+        # crew" reached NO floored token and dropped to LOW (verified live): "winter weather advisory" shares no
+        # substring with any floored token — \bstorm\b/\bblizzard\b/\bice\s+storm\b/\bsnowstorm\b share no substring
+        # (there is no "storm" in "winter weather advisory"), the MEDIUM "snow"/"sleet"/"wintry mix" are different
+        # words, and bare "winter"/"winter weather" is DELIBERATELY unfloored (a routine "the winter weather on
+        # their break" / "winter maintenance advisory" must stay LOW — FP guard). Floored MEDIUM beside "wind
+        # advisory"/"wind chill advisory"/"heat advisory" (the ADVISORY -> MEDIUM / WARNING -> HIGH gradient), NOT
+        # HIGH; an actual slip-injury or vehicle wreck on the slick surface independently escalates via
+        # injury/medical. UNLIKE the mass-noun graupel/sleet, "advisory" is a COUNTABLE noun and NWS issues
+        # multi-zone "winter weather advisories" ("winter weather advisories were issued for the northern
+        # counties"), a distinct token \bwinter\s+weather\s+advisory\b cannot match — so the plural is added per the
+        # singular->plural discipline (mirroring the wind advisory/advisories pair). Floored ONLY as the qualified
+        # three-word phrase, never bare "winter"/"winter weather" (polysemous — "the winter weather", "winter
+        # weather gear", "winter maintenance") — the same qualified-phrase discipline as wind advisory / wind chill
+        # advisory / heat advisory. Surfaced in the 2026-09-01 3:4x AM winter-storm-advisory rule-probe (advisory-
+        # tier winter-storm sibling of the MEDIUM heat/wind/cold advisories; the winter-storm family's advisory
+        # half, its warning half "winter storm warning" already HIGH via bare "storm").
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
                      "wind chill advisory", "wind chill advisories",
-                     "cold weather advisory", "cold weather advisories"],
+                     "cold weather advisory", "cold weather advisories",
+                     "winter weather advisory", "winter weather advisories"],
     },
 }
 

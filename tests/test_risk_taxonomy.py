@@ -1439,6 +1439,20 @@ CASES = [
     # token, so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
     ("A wind advisory is in effect for the high-profile-vehicle route past the site", "medium", "weather"),
     ("Wind advisories were issued for the northern counties through the afternoon", "medium", "weather"),
+    # "winter weather advisory"/"winter weather advisories" names the NWS ADVISORY-tier winter-precip product
+    # (snow/sleet/freezing-rain mix or light accumulation causing slick travel, below warning criteria) — the
+    # advisory-grade sibling of the HIGH winter-storm family "winter storm warning"/"blizzard"/"ice storm"/
+    # "snowstorm", one NWS gradient lower, the winter-storm counterpart of the MEDIUM "heat advisory"/"wind
+    # advisory"/"wind chill advisory". It floors MEDIUM (beside "wind advisory"/"wind chill advisory"), the
+    # advisory -> MEDIUM / warning -> HIGH gradient (the warning half "winter storm warning" already floors HIGH
+    # via bare "storm"). It previously dropped LOW: "winter weather advisory" shares no substring with any floored
+    # token (\bstorm\b/\bblizzard\b/\bice\s+storm\b/\bsnowstorm\b share no substring, the MEDIUM "snow"/"sleet"/
+    # "wintry mix" are different words, and bare "winter"/"winter weather" is unfloored — FP guard). UNLIKE
+    # mass-noun graupel/sleet, "advisory" is countable so the plural "advisories" is a distinct token and gets its
+    # own entry. Each sentence carries no other floored token, so removing the entry regresses each to LOW and
+    # fails the MEDIUM assertion (isolation; fault-injected).
+    ("A winter weather advisory is in effect for the overnight yard crew", "medium", "weather"),
+    ("Winter weather advisories were issued for the northern counties overnight", "medium", "weather"),
     # "wintry mix" names the NWS advisory-grade mixed-precipitation event (snow + sleet + freezing rain falling
     # together) — the winter-precip TYPE sibling of the MEDIUM "sleet"/"snow"/"graupel", one gradient below the
     # HIGH glaze-ice warning products freezing rain / black ice / ice storm. It previously dropped LOW: "wintry
@@ -2103,6 +2117,23 @@ def test_bare_wind_stays_low():
                  "The crew will wind down the shift at six"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'wind' not floored)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_bare_winter_weather_stays_low():
+    # The QUALIFIED phrase "winter weather advisory" floors weather MEDIUM (the NWS advisory-tier winter-precip
+    # product), but bare "winter" and bare "winter weather" were DELIBERATELY left unfloored — "the winter weather
+    # on their break", "winter weather gear", "winter maintenance", and a "winter shutdown" are all benign.
+    # \bwinter\s+weather\s+advisory\b cannot fire from any of them, so these must fall through to the LOW default; a
+    # future careless add of a bare "winter"/"winter weather" token would fire them MEDIUM and this catches it (the
+    # qualified-phrase discipline of wind advisory / cold weather advisory / heat advisory, where the bare token
+    # stays LOW).
+    for text in ("The crew enjoyed the winter weather on their break",
+                 "The team stocked winter weather gear before the season",
+                 "A winter maintenance advisory was posted for the parking deck",
+                 "The plant scheduled its winter shutdown for late December"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (bare 'winter'/'winter weather' not floored)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
