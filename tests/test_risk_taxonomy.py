@@ -1635,6 +1635,23 @@ CASES = [
     ("Excessive heat watches remain posted for the outdoor loading dock teams", "medium", "weather"),
     ("NWS posted an extreme heat watch for the facility grounds ahead of the weekend", "medium", "weather"),
     ("Extreme heat watches are up across the region the paving crew works", "medium", "weather"),
+    # "wind chill watch"/"extreme cold watch" names the WATCH-tier dangerous-cold product — life-threatening
+    # wind chill / extreme cold POSSIBLE in 12-48h, a step below the HIGH "wind chill warning"/"extreme cold
+    # warning" (imminent/occurring). "extreme cold watch" is the current NWS product name adopted 2024;
+    # "wind chill watch" is the legacy name still in wide use, so both floor — the exact COLD-side twin of the
+    # excessive/extreme heat watch pair. It floors MEDIUM, the anticipatory sibling completing the cold family's
+    # watch->MEDIUM / warning->HIGH ladder (cold weather advisory / wind chill advisory MEDIUM /
+    # wind chill warning + extreme cold warning HIGH already present; the watch tier between them was open — the
+    # same gap just closed for the heat, wind, and freeze families). It previously dropped LOW: the phrase shares
+    # no substring with any floored token (\bwind\s+chill\s+warning\b / \bextreme\s+cold\s+warning\b are a
+    # different final word, the MEDIUM "wind chill advisory"/"cold weather advisory" are a different final word,
+    # bare "extreme cold"/"wind chill" are not tokens, bare "watch" is not a token). "watch" is countable so the
+    # plural "watches" is a distinct token and gets its own entry. Each sentence carries no other floored token,
+    # so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
+    ("A wind chill watch is posted for the yard crew ahead of tonight's arctic push", "medium", "weather"),
+    ("Wind chill watches remain up for the outdoor line crew across the northern district", "medium", "weather"),
+    ("NWS issued an extreme cold watch for the facility grounds this weekend", "medium", "weather"),
+    ("Extreme cold watches are in effect for the tank farm the crew services", "medium", "weather"),
     # "thundersnow" names the NWS convective winter phenomenon (thunderstorm precipitating as snow) — a marker of
     # intense snowfall rates plus lightning. It previously dropped LOW: a single closed compound, so \bsnow\b
     # (MEDIUM) cannot fire on "thunder"+"snow" and \bthunderstorm\b does not match it — the same closed-compound
@@ -2160,6 +2177,21 @@ def test_heat_watch_needs_adjacency():
                  "An excessive heat buildup near the panel had the night watch checking it hourly"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (heat watch needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_cold_watch_needs_adjacency():
+    # The QUALIFIED phrases "wind chill watch"/"extreme cold watch" floor weather MEDIUM (WATCH-tier
+    # dangerous-cold product), but they fire ONLY as the adjacent three-word phrase
+    # (\bwind\s+chill\s+watch\b / \bextreme\s+cold\s+watch\b). A benign "wind"/"chill"/"extreme cold" +
+    # "watch" separated by other words must NOT trip it — bare "wind chill"/"extreme cold" are unfloored
+    # (only their "advisory"/"warning" phrases floor), and bare "watch" is unfloored (security watch /
+    # wristwatch). Absent adjacency these fall through to LOW; this catches a future careless bare-token add or
+    # a loosened matcher (the same adjacency discipline as heat watch / high wind watch / freeze watch).
+    for text in ("The wind chill made the extreme cold brutal while the night watch checked the gauges",
+                 "An extreme cold front rolled in as the guard stood watch by the wind chill sensor"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (cold watch needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

@@ -3136,7 +3136,9 @@ TAXONOMY = {
                      "freeze watch", "freeze watches",
                      "high wind watch", "high wind watches",
                      "excessive heat watch", "excessive heat watches",
-                     "extreme heat watch", "extreme heat watches"],
+                     "extreme heat watch", "extreme heat watches",
+                     "wind chill watch", "wind chill watches",
+                     "extreme cold watch", "extreme cold watches"],
     },
 }
 
