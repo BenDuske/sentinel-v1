@@ -1427,6 +1427,19 @@ CASES = [
     # floored token, so removing the entries regresses each to LOW and fails the HIGH assertion (fault-injected).
     ("Heavy volcanic ash is falling across the plant and blanketing the intakes", "high", "weather"),
     ("Volcanic ashfall has loaded the warehouse roof and clogged the air handlers", "high", "weather"),
+    # "ashfall advisory" (MEDIUM) / "ashfall warning" (HIGH) name the NWS volcanic-ashfall PRODUCTS — the advisory/
+    # warning pair beneath the already-HIGH phenomenon "volcanic ashfall". Advisory = minor accumulation/respiratory
+    # nuisance (floors MEDIUM beside blowing dust advisory / dense fog); warning = roof-loading, air-handler-clogging,
+    # aircraft-grounding significant ashfall (floors HIGH beside volcanic ashfall / blowing dust warning). Both
+    # previously dropped LOW: \bvolcanic\s+ashfall\b is a different first word, \bstorm\b is not a substring, and bare
+    # "ashfall"/"advisory"/"warning" are unfloored — so the same event named by its NWS product scored below "volcanic
+    # ashfall". ONLY the adjacent qualified phrase fires; each plural is a distinct token. Each sentence carries no
+    # other floored token, so removing the entries regresses the warning case to LOW and the advisory case to LOW and
+    # fails the assertion (isolation; fault-injected).
+    ("An ashfall warning grounded the airfield and crews began clearing the loaded roofs", "high", "weather"),
+    ("Ashfall warnings widened downwind as the plume drifted over the county", "high", "weather"),
+    ("An ashfall advisory took effect and staff were told to mask up outdoors", "medium", "weather"),
+    ("Ashfall advisories covered the three downwind zones through the afternoon", "medium", "weather"),
     # "red flag warning" names the NWS fire-weather PRODUCT — the warning that low humidity, wind, and dry fuels
     # have made conditions critical for rapid wildfire ignition/spread. It is the fire-side sibling of the cold
     # PRODUCTS "extreme cold warning"/"wind chill warning" (all HIGH). It previously dropped LOW: the critical fire
@@ -2391,6 +2404,21 @@ def test_blowing_dust_product_needs_adjacency():
                  "Crews were blowing leaves off the dust-covered deck as a warning light flickered nearby"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (blowing dust product needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_ashfall_product_needs_adjacency():
+    # The QUALIFIED phrases "ashfall advisory" (MEDIUM) / "ashfall warning" (HIGH) floor weather ONLY as the adjacent
+    # two-word product phrase (\bashfall\s+advisory\b / \bashfall\s+warning\b). The bare closed compound "ashfall" is
+    # DELIBERATELY unfloored (domain-polysemous: incinerator/furnace/combustion residue; also the proper-noun Ashfall
+    # Fossil Beds) — only "volcanic ashfall" floors the phenomenon HIGH — and "advisory"/"warning" are common words
+    # unfloored alone. A benign "ashfall" and a benign "advisory"/"warning" separated by other words must NOT trip it;
+    # absent adjacency these fall through to LOW. This catches a future careless bare-token add or a loosened matcher
+    # (the same phrase-only discipline as blowing dust advisory / small craft advisory / high surf warning).
+    for text in ("The furnace ashfall settled on the floor while a routine travel advisory circulated",
+                 "Incinerator ashfall dusted the yard as a warning light blinked on the control panel"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (ashfall product needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

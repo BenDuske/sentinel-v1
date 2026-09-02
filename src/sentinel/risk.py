@@ -2986,6 +2986,25 @@ TAXONOMY = {
         # qualified-phrase discipline as small craft advisory / special marine warning / high surf warning. Surfaced in
         # the 2026-09-02 02:1x AM dust-family rule-probe (completing the dust family's advisory/warning rungs beneath the
         # already-HIGH duststorm/haboob/sandstorm phenomena).
+        # "ashfall advisory"/"ashfall warning" name the NWS volcanic-ashfall PRODUCTS — the advisory/warning pair a
+        # forecast office (AK/HI/Guam/CNMI, VAAC-coordinated) issues for downwind tephra: minor accumulation and
+        # nuisance/respiratory hazard at the ADVISORY tier, significant accumulation that loads roofs, clogs air
+        # handlers, grounds aircraft (jet-engine flameout) and endangers the vulnerable at the WARNING tier. The
+        # phenomenon "volcanic ashfall" already floors HIGH above, but the bare NWS product names reached NO floored
+        # token and dropped to LOW (verified live): "ashfall advisory"/"ashfall warning" share no substring with any
+        # floored token — the HIGH "volcanic ashfall" is a different first word (\bvolcanic\s+ashfall\b cannot match
+        # a bare "ashfall ..."), \bstorm\b sits inside neither phrase, and "advisory"/"warning" are unfloored alone —
+        # so a report writing "an ashfall warning grounded the field; the ashfall advisory zone widened at dawn" scored
+        # below the same event written "volcanic ashfall". Taxonomy mirrors NWS product tiers exactly, the same ladder
+        # just built for blowing dust: ADVISORY -> MEDIUM (beside blowing dust advisory / dense fog / heat advisory),
+        # WARNING -> HIGH (beside volcanic ashfall / blowing dust warning). The bare closed compound "ashfall" is
+        # DELIBERATELY EXCLUDED as domain-polysemous (incinerator/furnace/combustion residue; also the proper-noun
+        # Ashfall Fossil Beds) — consistent with the existing "volcanic"-qualified-only entry — so ONLY the adjacent
+        # qualified product phrase fires (adjacency FP-guard added), the same qualified-phrase discipline as blowing
+        # dust advisory / small craft advisory / high surf warning. Each plural is a distinct token
+        # (\bashfall\s+advisory\b does not match the trailing "s"). Surfaced in the 2026-09-02 03:4x AM ashfall-family
+        # rule-probe (completing the volcanic-ash family's advisory/warning rungs beneath the already-HIGH volcanic
+        # ashfall phenomenon, mirroring the blowing dust advisory/warning ship).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -3028,6 +3047,7 @@ TAXONOMY = {
                      "extreme cold warning", "wind chill warning",
                      "heavy freezing spray warning", "heavy freezing spray warnings",
                      "volcanic ash", "volcanic ashfall",
+                     "ashfall warning", "ashfall warnings",
                      "red flag warning",
                      "special marine warning", "special marine warnings",
                      "downed line", "ice storm", "blizzard"],
@@ -3348,7 +3368,8 @@ TAXONOMY = {
                      "gale watch", "gale watches",
                      "small craft advisory", "small craft advisories",
                      "freezing spray advisory", "freezing spray advisories",
-                     "blowing dust advisory", "blowing dust advisories"],
+                     "blowing dust advisory", "blowing dust advisories",
+                     "ashfall advisory", "ashfall advisories"],
     },
 }
 
