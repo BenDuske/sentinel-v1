@@ -2804,3 +2804,42 @@ def test_qualified_stroke_escalates_bare_and_idiom_do_not():
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (stroke idiom must not fire)"
         assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_figurative_flood_metaphor_does_not_fire_critical():
+    # The bare flood family ("flood"/"flooded"/"flooding") floors water/flood CRITICAL for a real
+    # inundation, but it is also an extremely common business/communications METAPHOR. When EVERY
+    # occurrence is bound to an abstract object (calls, orders, complaints, the market, …) the
+    # figurative-flood guard suppresses the false CRITICAL and the text falls through to LOW. This
+    # is the single deliberate negative-context guard in the taxonomy.
+    for text in ("Support was flooded with calls after the launch",
+                 "We were flooded with orders this quarter",
+                 "A flood of complaints hit the help desk",
+                 "The vendor is flooding the market with cheap units",
+                 "Our inbox was flooded with thousands of emails",
+                 "flooded with hundreds of support tickets",
+                 "flooded with a lot of customer complaints",
+                 "flooded with angry customer emails",
+                 "The switchboard was flooded with frantic calls"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (figurative-flood metaphor)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_literal_flood_always_stays_critical():
+    # The guard is fail-safe: it can only suppress an occurrence bound to an ABSTRACT object, so a
+    # real inundation — where the object is a physical flood medium (water/sewage/rainwater/mud) or
+    # there is no object at all — always keeps the CRITICAL floor. The bounded modifier allowlist
+    # also cannot leap over a literal water word to reach a trailing abstract object.
+    for text in ("The basement flooded overnight",
+                 "Floodwaters rose to the second floor",
+                 "the tunnel flooded with sewage",
+                 "The pump room is flooding with water",
+                 "flooded with rainwater from the storm drain",
+                 "flooded with muddy water and debris",
+                 # mixed literal + figurative in one report -> the literal occurrence governs
+                 "The plant flooded overnight and support was flooded with calls",
+                 # guard must NOT jump the literal "water" to the trailing abstract "orders"
+                 "flooded with water and orders came in"):
+        sev, _ = risk.rule_layer(text)
+        assert sev == "critical", f"{text!r} -> {sev}, expected critical (real inundation)"

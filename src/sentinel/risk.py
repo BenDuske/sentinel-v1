@@ -3503,6 +3503,87 @@ _MATCHERS = {
     for kw in kws
 }
 
+# ---------------------------------------------------------------------------
+# Figurative-flood guard — the ONE negative-context guard in the taxonomy.
+#
+# Every other signal is a POSITIVE matcher and the floor is the max matched severity: the
+# design tolerates excluding a polysemous bare word rather than over-fire. The flood family is
+# the deliberate exception that was carried at CRITICAL anyway (a real inundation is too
+# important to drop), which leaves one residual over-fire: the bare verbs/noun
+# "flood"/"flooded"/"flooding" are also an extremely common business/communications METAPHOR —
+# "support was flooded with calls", "we were flooded with orders", "a flood of complaints",
+# "flood the market". Those carried no water hazard yet floored the water/flood category
+# CRITICAL (a 4-tier over-fire, the worst in the taxonomy), the exact residue the rule-probe
+# backlog flagged as "needs an FP-guard mechanism".
+#
+# The guard suppresses a flood-family keyword from the water/flood category ONLY when EVERY
+# occurrence of that keyword in the text is bound to an abstract, non-physical object drawn from
+# the curated list below (calls, orders, complaints, the market, …). It is fail-safe against
+# hiding a real flood by construction:
+#   * The object list is strictly business / communications / abstract nouns — none of them is
+#     a thing water can be ("flooded with sewage / water / rainwater / mud" all keep CRITICAL
+#     because those objects are NOT in the list).
+#   * A guarded keyword is dropped only if ALL of its occurrences are figurative; a single
+#     literal occurrence ("the basement flooded; support was flooded with calls") keeps the
+#     CRITICAL floor.
+#   * The guard only ever LOWERS a false CRITICAL to the true floor; it can never raise, and the
+#     LLM layer in score() can still independently escalate, so a genuinely-critical incident
+#     that merely happens to phrase itself figuratively is not under-served.
+_FLOOD_FIG_OBJECTS = (
+    "call", "calls", "email", "emails", "e-mail", "e-mails", "message", "messages",
+    "order", "orders", "request", "requests", "complaint", "complaints", "inquiry",
+    "inquiries", "enquiry", "enquiries", "application", "applications", "ticket", "tickets",
+    "text", "texts", "comment", "comments", "reply", "replies", "response", "responses",
+    "submission", "submissions", "mail", "spam", "paperwork", "traffic", "demand", "market",
+    "markets", "zone", "offer", "offers", "question", "questions", "notification",
+    "notifications", "review", "reviews", "like", "likes", "vote", "votes", "donation",
+    "donations", "entry", "entries", "signup", "signups", "subscriber", "subscribers",
+)
+# "flood(ed|ing)? (with|by|of|the|into|in) [optional modifiers] <abstract object>".
+# The modifier run is a BOUNDED allowlist — determiners, quantifier-"of" phrases, and a small
+# adjective set — never an open ".*". That is the safety property: the run cannot leap over a
+# literal water word (e.g. the contrived "flooded with water and orders") to reach an abstract
+# object, because "water"/"and"/etc. are not in any allowlist, so such a sentence keeps CRITICAL.
+_FLOOD_FIG_DET_ADJ = (
+    "the", "a", "an", "our", "their", "my", "your", "his", "her", "its", "more", "new", "so",
+    "many", "countless", "numerous", "endless", "too", "several", "multiple", "fresh",
+    "constant", "support", "customer", "customers", "sales", "service", "angry", "unread",
+    "incoming", "inbound", "media", "press", "phone", "spam", "junk", "online", "urgent",
+    "pending", "automated", "additional", "further", "frantic", "worried", "concerned",
+    "negative", "positive", "user", "client", "clients",
+)
+_FLOOD_FIG_QUANT = (
+    "thousands", "hundreds", "dozens", "tons", "loads", "lots", "plenty", "scores", "masses",
+    "millions",
+)
+_FLOOD_FIG = re.compile(
+    r"\bflood(?:ed|ing|s)?\b\s+(?:with|by|of|the|into|in)\s+"
+    r"(?:(?:" + "|".join(_FLOOD_FIG_DET_ADJ) + r")\s+|"
+    r"(?:" + "|".join(_FLOOD_FIG_QUANT) + r")\s+of\s+|"
+    r"a\s+(?:lot|ton|couple|number|barrage|deluge|flurry|wave|slew|bunch)\s+of\s+)*"
+    r"(?:" + "|".join(_FLOOD_FIG_OBJECTS) + r")\b"
+)
+_FLOOD_FAMILY = ("flood", "flooded", "flooding")
+
+
+def _drop_figurative_flood(t: str, hits: list) -> list:
+    """Remove flood-family hits whose EVERY occurrence is a figurative business metaphor.
+
+    A flood keyword survives if it has at least one literal (non-figurative) occurrence, so a
+    real inundation reported anywhere in the text always keeps the water/flood CRITICAL floor.
+    """
+    fig_starts = {m.start() for m in _FLOOD_FIG.finditer(t)}
+    if not fig_starts:
+        return hits
+    kept = []
+    for k in hits:
+        if k in _FLOOD_FAMILY:
+            occ_starts = [m.start() for m in _MATCHERS[k].finditer(t)]
+            if occ_starts and all(s in fig_starts for s in occ_starts):
+                continue  # every occurrence is figurative → suppress the false CRITICAL
+        kept.append(k)
+    return kept
+
 
 def rule_layer(text: str):
     """Return (severity, reasons). reasons is a list of human-readable rule hits.
@@ -3517,6 +3598,8 @@ def rule_layer(text: str):
     for category, levels in TAXONOMY.items():
         for sev, kws in levels.items():
             hits = [k for k in kws if _MATCHERS[k].search(t)]
+            if category == "water/flood" and hits:
+                hits = _drop_figurative_flood(t, hits)
             if hits:
                 reasons.append(f"{category} → {sev} (matched: {', '.join(hits)})")
                 if _RANK[sev] > best:
