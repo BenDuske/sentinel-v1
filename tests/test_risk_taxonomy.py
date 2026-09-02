@@ -2843,3 +2843,43 @@ def test_literal_flood_always_stays_critical():
                  "flooded with water and orders came in"):
         sev, _ = risk.rule_layer(text)
         assert sev == "critical", f"{text!r} -> {sev}, expected critical (real inundation)"
+
+
+def test_figurative_fire_idiom_does_not_fire_critical():
+    # The SECOND negative-context guard (sibling of the flood guard). Bare "fire" floors fire/smoke
+    # CRITICAL for a real blaze, but a curated set of FIXED collocations carry no literal-blaze
+    # reading — military/idiom "under fire", "friendly fire", "return fire", "covering fire",
+    # "line of fire", "hold (your) fire", "cease fire", and the business phrases "fire sale" and
+    # "fire drill". When the only fire/smoke token is one of these idioms the guard suppresses the
+    # false CRITICAL and the text falls through to LOW. Only the bare "fire" token is guarded;
+    # every other fire/smoke keyword (flames/ablaze/wildfire/…) is untouched.
+    for text in ("The CEO came under fire for the delayed launch",
+                 "That regression was friendly fire between two teams",
+                 "Support returned fire at the negative reviews",
+                 "providing covering fire for the migration rollback",
+                 "that put engineering in the line of fire with legal",
+                 "Hold your fire until legal weighs in",
+                 "Leadership called a cease fire on the feature debate",
+                 "We ran a fire sale to clear old inventory",
+                 "the release turned into a total fire drill"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (figurative-fire idiom)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_literal_fire_always_stays_critical():
+    # Fail-safe: the guard only suppresses the bare "fire" token inside a fixed idiom, so a real
+    # blaze — bare literal "fire", or any of the unambiguous fire/smoke keywords — always keeps the
+    # CRITICAL floor. A single literal occurrence anywhere governs even when a figurative idiom also
+    # appears, and the deliberately-excluded verb/locative senses ("fire up north") are NOT masked.
+    for text in ("A fire broke out in the server room",
+                 "The building is on fire, evacuate now",
+                 "crews battled the warehouse fire for hours",
+                 "The kitchen fire spread to the roof",
+                 "flames engulfed the loading dock",
+                 # mixed literal + figurative in one report -> the literal occurrence governs
+                 "The warehouse fire forced a fire sale of the salvage",
+                 # excluded verb/locative sense must stay critical, not be masked as an idiom
+                 "the fire up north is still spreading"):
+        sev, _ = risk.rule_layer(text)
+        assert sev == "critical", f"{text!r} -> {sev}, expected critical (real blaze)"

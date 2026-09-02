@@ -3585,6 +3585,80 @@ def _drop_figurative_flood(t: str, hits: list) -> list:
     return kept
 
 
+# ---------------------------------------------------------------------------
+# Figurative-fire guard — the SECOND negative-context guard (sibling of the flood guard above).
+#
+# The fire/smoke category floors bare "fire" at CRITICAL for a real blaze, but "fire" is the most
+# polysemous hazard token in the taxonomy — the source comment on the firebomb entry already flags
+# "the polysemous bare 'fire' = fire someone / open fire / fire drill, deliberately not leaned on".
+# A large family of FIXED figurative collocations carry NO literal-blaze reading yet floored the
+# fire/smoke category CRITICAL: military/idiom "under fire", "friendly fire", "return fire",
+# "covering fire", "line of fire", "hold (your) fire", "cease fire"; and the business phrases
+# "fire sale", "fire drill". Each of these over-fired a benign ops/comms report to CRITICAL — the
+# same 4-tier over-fire class the flood guard closes.
+#
+# This guard is deliberately NARROWER than the flood guard: it only suppresses the single bare
+# token "fire" (every OTHER fire/smoke keyword — flames, ablaze, blaze, wildfire, structure fire,
+# conflagration, explosion … — is unambiguous and never touched), and only inside a curated set of
+# fixed collocations that have ESSENTIALLY ZERO literal-blaze reading. The high-frequency but
+# determiner-/locative-colliding verb senses are DELIBERATELY EXCLUDED this pass, because they
+# cannot be separated from a literal fire noun by adjacency alone and would risk masking a real
+# blaze:
+#   * "fire off / fire up / fire away" collide with a noun-fire + locative particle — "the fire up
+#     north", "the fire off the coast", "the fire away to the east" — so a naive "fire up" match
+#     would suppress a real wildfire. Needs verb-subject/imperative disambiguation → dedicated cycle.
+#   * "fire the contractor" (terminate) collides with the relative clause "the fire the crew
+#     fought" / "the fire it caused" / "the fire that spread" — adjacency cannot tell them apart.
+#   * "on fire" / "catch fire" are genuinely ambiguous (literal blaze vs "the team is on fire") and
+#     are NOT guarded.
+# Those remain a tracked backlog item, exactly as the flood metaphor was staged before its guard.
+#
+# Fail-safe by the same three properties as the flood guard: (1) only the fixed idioms below are
+# figurative — a bare literal "fire" ("a fire broke out", "the building caught fire") is never in
+# the set and keeps CRITICAL; (2) a keyword is dropped only if ALL its occurrences are figurative,
+# so one literal "fire" anywhere ("the warehouse fire forced a fire sale of the salvage") keeps the
+# CRITICAL floor; (3) the guard only ever LOWERS a false CRITICAL to the true floor, and the LLM
+# layer in score() can still independently escalate.
+_FIRE_FIG = re.compile(
+    r"\bunder\s+fire\b"
+    r"|\bfriendly\s+fire\b"
+    r"|\breturn(?:ed|ing|s)?\s+fire\b"
+    r"|\bcovering\s+fire\b"
+    r"|\blines?\s+of\s+fire\b"
+    r"|\b(?:hold|held)\s+(?:your\s+|my\s+|his\s+|her\s+|their\s+|our\s+)?fire\b"
+    r"|\bcease\s+fire\b"
+    r"|\bfire\s+sales?\b"
+    r"|\bfire\s+drills?\b"
+)
+
+
+def _fire_fig_starts(t: str) -> set:
+    """Start offset of the 'fire' token inside each figurative-fire collocation match."""
+    starts = set()
+    for m in _FIRE_FIG.finditer(t):
+        span = m.group(0)
+        starts.add(m.start() + span.index("fire"))
+    return starts
+
+
+def _drop_figurative_fire(t: str, hits: list) -> list:
+    """Remove the bare "fire" hit when its EVERY occurrence is a fixed figurative collocation.
+
+    Only the single ambiguous token "fire" is guarded; all other fire/smoke keywords are left
+    intact. "fire" survives if it has at least one literal occurrence, so a real blaze reported
+    anywhere in the text always keeps the fire/smoke CRITICAL floor.
+    """
+    if "fire" not in hits:
+        return hits
+    fig_starts = _fire_fig_starts(t)
+    if not fig_starts:
+        return hits
+    occ_starts = [m.start() for m in _MATCHERS["fire"].finditer(t)]
+    if occ_starts and all(s in fig_starts for s in occ_starts):
+        return [k for k in hits if k != "fire"]  # every "fire" is figurative → suppress
+    return hits
+
+
 def rule_layer(text: str):
     """Return (severity, reasons). reasons is a list of human-readable rule hits.
 
@@ -3600,6 +3674,8 @@ def rule_layer(text: str):
             hits = [k for k in kws if _MATCHERS[k].search(t)]
             if category == "water/flood" and hits:
                 hits = _drop_figurative_flood(t, hits)
+            if category == "fire/smoke" and hits:
+                hits = _drop_figurative_fire(t, hits)
             if hits:
                 reasons.append(f"{category} → {sev} (matched: {', '.join(hits)})")
                 if _RANK[sev] > best:
