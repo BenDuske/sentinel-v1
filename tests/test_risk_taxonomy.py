@@ -823,6 +823,16 @@ CASES = [
     # entries regresses each case to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A rockfall struck the haul road below the highwall this morning", "high", "structural"),
     ("Repeated rockfalls closed the canyon rail line overnight", "high", "structural"),
+    # "landslide warning"/"landslide warnings" name the USGS/NWS geologic-hazard product — the warning-product
+    # sibling of the HIGH earth-movement cluster rockslide/rockfall/debris flow/mudflow and the geologic twin of
+    # the weather product "avalanche warning". Each previously matched nothing (the bare root "landslide" is
+    # excluded as figurative per the rockslide FP-guard, and \brockslide\b/\bdebris\s+flow\b/\bmudflow\b are
+    # different words) and dropped to LOW. The plural "landslide warnings" must fire too (\blandslide\s+warning\b
+    # does not match the trailing "s"), the same singular->plural gap as avalanche warning / gale warning. Neither
+    # sentence carries another floored token, so removing the entries regresses each case to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("A landslide warning is in effect for the rain-soaked slopes above the ridge site", "high", "structural"),
+    ("Landslide warnings were issued for the saturated hillsides across the county overnight", "high", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),

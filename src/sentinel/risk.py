@@ -1551,10 +1551,32 @@ TAXONOMY = {
         # usages); \brockfall\b as one word has zero benign English meaning, so it closes the miss with
         # zero false-positive risk. Surfaced in the 2026-08-30 earth-movement rule-probe (free-fall
         # sibling of the rockslide/debris-flow cluster).
+        # "landslide warning"/"landslide warnings" name the USGS/NWS geologic-hazard PRODUCT for an imminent or
+        # occurring landslide (the burn-scar/heavy-rain slope-failure warnings issued for the post-wildfire Western
+        # US, the UK/global "landslide warning" phrasing) — the warning-product sibling of the already-HIGH
+        # earth-movement cluster rockslide/rockfall/debris flow/mudflow, and the exact geologic twin of the
+        # already-HIGH weather product "avalanche warning" (a snow-slope warning). Yet it reached NO floored token
+        # and dropped to LOW (verified live): the bare root "landslide" is DELIBERATELY excluded as polysemous
+        # ("a landslide victory", "won by a landslide", "a landslide of support" — the rockslide note above and
+        # test_bare_avalanche_figurative_stays_low's landslide clause), \brockslide\b/\bdebris\s+flow\b/\bmudflow\b
+        # are different words, and no other token is a substring — the SAME whole-hazard absent-PRODUCT-name miss
+        # class as avalanche warning / red flag warning / freeze warning. Floored HIGH beside its earth-movement
+        # siblings, NOT critical (a slope-failure/access hazard a human/LLM can raise; a buried or injured worker
+        # independently floors critical via injury/medical), the identical warning->HIGH tier as avalanche warning.
+        # Floored ONLY the qualified two-word product phrase (\blandslide\s+warning\b), NEVER the bare "landslide"
+        # (the qualified-phrase discipline that floored "avalanche warning" while leaving bare "avalanche" LOW, and
+        # floored "gale warning" while leaving bare "gale" LOW). "warning" is COUNTABLE so the plural "landslide
+        # warnings" is a distinct token (\blandslide\s+warning\b won't match the trailing "s"), per the
+        # singular->plural discipline. The existing rockslide FP-guard (test_embedded_substring_does_not_fire_floor)
+        # already proves the figurative bare "landslide" stays LOW and continues to (it shares no substring with the
+        # qualified phrase). Surfaced in the 2026-09-02 earth-movement warning-product rule-probe. (Follow-up noted:
+        # a "landslide watch"/"landslide advisory" MEDIUM sibling — the watch->MEDIUM / warning->HIGH gradient the
+        # avalanche family already carries — is deferred to keep this ship one-tier-scoped.)
         "high":     ["crack in wall", "structural crack", "sagging", "buckling", "subsidence",
                      "sinkhole", "sinkholes", "cave-in", "cave-ins", "rockslide", "rockslides",
                      "rockfall", "rockfalls",
                      "debris flow", "debris flows", "mudflow", "mudflows",
+                     "landslide warning", "landslide warnings",
                      "load-bearing", "compromised", "leaning"],
         "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
     },
