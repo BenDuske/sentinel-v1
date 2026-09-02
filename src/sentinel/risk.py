@@ -2943,6 +2943,27 @@ TAXONOMY = {
         # advisory" (lighter icing, one NWS gradient down) floors MEDIUM beside the cold advisories,
         # completing the marine-icing advisory->MEDIUM / warning->HIGH ladder (the same ladder built for
         # high surf, wind chill, heat, and freeze). Surfaced in the 2026-09-01 6:4x PM marine-cold rule-probe.
+        # "special marine warning"/"special marine warnings" names the NWS short-fuse marine WARNING PRODUCT — the
+        # marine analog of a Severe Thunderstorm Warning, issued for a brief but intense hazard over coastal/bay/lake
+        # waters: severe thunderstorm winds >=34 kt (39+ mph), waterspouts, or hail >=1 inch bearing down on vessels in
+        # the next ~2 hours. It is the imminent-severe top of the marine-wind fuse the taxonomy already builds — small
+        # craft advisory MEDIUM -> gale watch MEDIUM -> gale warning HIGH — and the marine sibling of the land severe-
+        # storm warnings, so it belongs at HIGH beside "gale warning" and its own constituent hazards (the phenomena a
+        # SMW warns on — "thunderstorm"/"waterspout"/"hail"/"squall" — already floor HIGH). Yet a report writing "a
+        # special marine warning was issued for the bay" reached NO floored token and dropped to LOW (verified live):
+        # "special marine warning" shares no substring with any floored token — bare \bstorm\b/\bwaterspout\b/\bhail\b
+        # are different words, "gale warning"/"severe storm warning" are different phrases, and "special"/"marine"/
+        # "warning" are not floored alone — the SAME whole-hazard absent-term / NWS-product-name miss class the wind/
+        # cold/heat/freeze warnings and the gale/small-craft marine ladder fixed. Floored HIGH, NOT critical: a SMW is a
+        # brief-fuse forecast product mitigable by getting vessels off the water / into harbor; if the severe storm or
+        # waterspout it warns on actually strikes, the thunderstorm/waterspout/hail tokens independently floor HIGH and
+        # a swamped/injured crew escalates via injury/medical or the critical water tokens. "warning" is countable so the
+        # plural "special marine warnings" is a distinct token (\b...warning\b cannot match the trailing "s") and gets its
+        # own entry, the singular->plural discipline applied throughout. The full three-word product phrase carries ZERO
+        # benign polysemy (unlike its separable component words), so only the adjacent phrase fires — the same qualified-
+        # phrase discipline as gale warning / red flag warning / high surf warning (a benign "special", "marine", and
+        # "warning" separated by other words stays LOW; adjacency FP-guard added). Surfaced in the 2026-09-02 12:4x AM
+        # marine-product rule-probe (imminent-severe warning tier atop the small-craft/gale marine-wind ladder).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2985,6 +3006,7 @@ TAXONOMY = {
                      "heavy freezing spray warning", "heavy freezing spray warnings",
                      "volcanic ash", "volcanic ashfall",
                      "red flag warning",
+                     "special marine warning", "special marine warnings",
                      "downed line", "ice storm", "blizzard"],
         # "dense fog" names the NWS Dense Fog Advisory hazard — visibility collapse (typically < 1/4 mile) that
         # produces the deadly multi-vehicle chain-reaction pileups fog is known for. It is a directly-named

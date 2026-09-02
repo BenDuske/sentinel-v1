@@ -1828,6 +1828,17 @@ CASES = [
     # assertion (isolation; fault-injected).
     ("An Extreme Cold Warning is in effect; wind chills to -40F overnight", "high", "weather"),
     ("A Wind Chill Warning was posted for the yard crews before the night shift", "high", "weather"),
+    # "special marine warning"/"special marine warnings" names the NWS short-fuse marine WARNING product — the marine
+    # analog of a Severe Thunderstorm Warning (severe storm winds >=34 kt, waterspouts, or >=1 inch hail bearing down on
+    # vessels), the imminent-severe top of the marine-wind fuse (small craft advisory MEDIUM -> gale watch MEDIUM ->
+    # gale warning HIGH) and the marine sibling of the land severe-storm warnings. It floors HIGH beside "gale warning"
+    # and its own constituent hazards (thunderstorm/waterspout/hail all HIGH). It previously dropped LOW: the phrase
+    # shares no substring with any floored token (bare "storm"/"waterspout"/"hail" are different words, "gale warning"/
+    # "severe storm warning" are different phrases, "special"/"marine"/"warning" are not floored alone). "warning" is
+    # countable so the plural gets its own entry. Each sentence carries no other floored token, so removing the entries
+    # regresses each case from HIGH to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A special marine warning was issued for the bay crew running supplies this afternoon", "high", "weather"),
+    ("Special marine warnings went up for the harbor vessels ahead of the approaching cells", "high", "weather"),
 ]
 
 
@@ -2337,6 +2348,20 @@ def test_small_craft_advisory_needs_adjacency():
                  "A small craft was moored overnight while the safety advisory circulated among the crew"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (small craft advisory needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_special_marine_warning_needs_adjacency():
+    # The QUALIFIED phrase "special marine warning"/"special marine warnings" floors weather HIGH (the NWS short-fuse
+    # marine severe-hazard product), but it fires ONLY as the adjacent three-word phrase (\bspecial\s+marine\s+warning\b).
+    # The component words are all common and unfloored alone — a "special" briefing, a "marine" crew/unit, a "warning"
+    # light — so a benign "special", "marine", and "warning" separated by other words must NOT trip it. Absent adjacency
+    # these fall through to LOW; this catches a future careless bare-token add or a loosened matcher (the same phrase-only
+    # discipline as gale warning / high surf warning / small craft advisory).
+    for text in ("The marine unit ran a special drill while a warning light blinked on the panel",
+                 "A special briefing for the marine crew preceded the unrelated safety warning memo"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (special marine warning needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
