@@ -1578,7 +1578,29 @@ TAXONOMY = {
                      "debris flow", "debris flows", "mudflow", "mudflows",
                      "landslide warning", "landslide warnings",
                      "load-bearing", "compromised", "leaning"],
-        "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing"],
+        # "landslide watch"/"landslide watches" name the USGS/NWS WATCH-tier geologic-hazard product —
+        # issued when conditions are developing/possible for slope failure (the anticipatory precursor to
+        # the imminent/occurring "landslide warning" shipped the same day at HIGH). It is the watch-tier
+        # sibling one gradient BELOW "landslide warning", completing the landslide family's watch->MEDIUM /
+        # warning->HIGH pair exactly as the avalanche family already carries (avalanche watch MEDIUM /
+        # avalanche warning HIGH) and the wind/cold/heat/frost-freeze/winter-storm families carry their
+        # advisory-or-watch->MEDIUM / warning->HIGH gradients. Yet "a landslide watch is in effect for the
+        # slopes above the ridge site" reached NO floored token and dropped to LOW (verified live): the bare
+        # root "landslide" is DELIBERATELY excluded as polysemous ("a landslide victory", "won by a
+        # landslide"), \blandslide\s+warning\b is a different last word that cannot match "...landslide
+        # watch", and there is no bare "watch" token — the SAME whole-hazard absent-PRODUCT-name miss class
+        # as avalanche watch beside avalanche warning. Floored MEDIUM beside "avalanche watch", NOT HIGH: a
+        # WATCH carries be-prepared urgency one gradient below a WARNING, and if a slope actually releases the
+        # HIGH "landslide warning"/rockslide/rockfall/debris flow independently floor HIGH while a buried or
+        # injured worker floors critical via injury/medical. Qualified two-word phrase ONLY, never bare
+        # "landslide"/"watch" (the avalanche-watch / freeze-watch discipline); "watch" is COUNTABLE so the
+        # plural "landslide watches" is a distinct token (\blandslide\s+watch\b won't match the trailing "es"),
+        # per the singular->plural discipline (mirroring avalanche watch/watches). The existing rockslide
+        # FP-guard (test_embedded_substring_does_not_fire_floor) continues to prove the figurative bare
+        # "landslide" stays LOW (it shares no substring with the qualified phrase). Surfaced closing the
+        # "landslide watch" follow-up the 2026-09-02 landslide-warning ship explicitly deferred.
+        "medium":   ["hairline crack", "settling", "cosmetic crack", "loose railing",
+                     "landslide watch", "landslide watches"],
     },
     "security/intrusion": {
         # Firearm/shooting VIOLENT-EVENT terms (an actual discharge or active threat) belong at

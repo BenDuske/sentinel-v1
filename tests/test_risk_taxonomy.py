@@ -833,6 +833,16 @@ CASES = [
     # assertion (isolation; fault-injected).
     ("A landslide warning is in effect for the rain-soaked slopes above the ridge site", "high", "structural"),
     ("Landslide warnings were issued for the saturated hillsides across the county overnight", "high", "structural"),
+    # "landslide watch"/"landslide watches" is the WATCH-tier geologic product one gradient BELOW "landslide
+    # warning" — the anticipatory be-prepared sibling, floored MEDIUM beside "avalanche watch" (completing the
+    # landslide family's watch->MEDIUM / warning->HIGH pair, the same gradient avalanche/wind/cold/heat carry).
+    # Each previously dropped to LOW: the bare root "landslide" is excluded as figurative, \blandslide\s+warning\b
+    # is a different last word, and there is no bare "watch" token. The plural "landslide watches" must fire too
+    # (\blandslide\s+watch\b does not match the trailing "es"), the singular->plural gap as avalanche watch/watches.
+    # Neither sentence carries another floored token, so removing the entries regresses each to LOW and fails the
+    # MEDIUM assertion (isolation; fault-injected).
+    ("A landslide watch is in effect for the hillside above the crew's staging area this weekend", "medium", "structural"),
+    ("Landslide watches were posted for the northern ranges ahead of the incoming system", "medium", "structural"),
     ("Break-in overnight; forced entry through side door", "high", "security/intrusion"),
     ("Active shooter reported, armed individual on site", "critical", "security/intrusion"),
     ("Shots fired in the lobby; shooter fled the scene", "critical", "security/intrusion"),
