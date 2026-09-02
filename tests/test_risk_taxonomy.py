@@ -1088,6 +1088,16 @@ CASES = [
     # the CRITICAL assertion (isolation).
     ("A megatsunami could inundate the coastal plant", "critical", "weather"),
     ("Two megatsunamis followed the offshore flank collapse", "critical", "weather"),
+    # "meteotsunami"/"meteotsunamis" name a METEOROLOGICAL tsunami — a tsunami-scale destructive wave driven by
+    # an atmospheric pressure jump/squall line rather than a fault rupture (the 1954 Lake Michigan meteotsunami
+    # swept 7 off a Chicago pier; the 2013 US East Coast event). It is the atmospheric analogue of the
+    # already-critical "tsunami"/"megatsunami", yet it previously matched nothing and dropped to LOW because
+    # \btsunami\b does not match inside the closed compound "meteotsunami". The compound plural likewise means
+    # \bmeteotsunami\b does not match "meteotsunamis", so each is a distinct entry. Neither sentence carries any
+    # other floored token (no bare "tsunami"/"wave"/"storm"), so removing the entries regresses each case to LOW
+    # and fails the CRITICAL assertion (isolation).
+    ("A meteotsunami surged into the marina and swept the pier", "critical", "weather"),
+    ("Repeated meteotsunamis have struck the Great Lakes shoreline", "critical", "weather"),
     # "superstorm"/"superstorms" name an exceptionally destructive storm system (Superstorm Sandy 2012, the
     # 1993 "Storm of the Century") — a directly-named storm catastrophe strictly worse than the ordinary
     # "storm" (which floors only HIGH), yet it previously matched nothing and dropped to LOW because

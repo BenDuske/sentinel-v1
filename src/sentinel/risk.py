@@ -1995,6 +1995,24 @@ TAXONOMY = {
         # whole word denoting EXCLUSIVELY a very large tsunami — zero benign English meaning (unlike the
         # polysemous bare "wave"/"surge", deliberately not floored on their own) — so this closes the miss
         # with no operational false-positive risk. Surfaced in the 2026-08-25 tsunami-magnitude rule-probe.
+        # "meteotsunami"/"meteotsunamis" is a METEOROLOGICAL tsunami — a tsunami-scale destructive wave driven
+        # not by a fault rupture but by an atmospheric disturbance (a fast-moving pressure jump, squall line, or
+        # derecho coupling with shallow water via the Proudman resonance), producing the same sudden multi-metre
+        # harbor/marina inundation and dangerous currents as a seismic tsunami. They are genuine killers: the
+        # 1954 Lake Michigan meteotsunami swept 7 people off a Chicago pier, and the 2013 US East Coast event
+        # and repeated Adriatic/Mediterranean meteotsunamis are directly-named NOAA/NWS hazards. It is the
+        # atmospheric analogue of the already-critical "tsunami"/"megatsunami" and belongs at the SAME critical
+        # floor — its sibling "tsunami"/"tsunamis" and cousin "megatsunami"/"megatsunamis" are right here — yet
+        # "meteotsunami" matched nothing and dropped to LOW: \btsunami\b does NOT match "meteotsunami" (no word
+        # boundary before "tsunami" inside the closed compound), the EXACT compound-prefix tokenization miss
+        # already closed for megaquake-beside-earthquake and megatsunami-beside-tsunami. Added both forms; the
+        # plural "meteotsunamis" needs its own entry (\bmeteotsunami\b does not match "meteotsunamis"), the same
+        # singular->plural discipline applied to tsunamis/megatsunamis/megaquakes/hurricanes/typhoons. Note the
+        # SPACED synonym "meteorological tsunami" already floors critical via bare \btsunami\b (word boundary
+        # present), so only the closed compound needed adding. "meteotsunami" is a precise scientific term with
+        # zero benign English meaning (unlike the polysemous bare "wave"/"surge"/"tidal wave", deliberately not
+        # floored on their own) -> zero operational false-positive risk. Surfaced in the 2026-09-02 tsunami-
+        # family closed-compound rule-probe.
         # "superstorm"/"superstorms" is the media/agency term for an exceptionally large, destructive storm
         # system that has escaped the ordinary-storm scale — Superstorm Sandy (2012, ~230 dead, ~$70B) and the
         # 1993 "Storm of the Century" superstorm (~300 dead) are the textbook cases, directly-named storm
@@ -2208,7 +2226,8 @@ TAXONOMY = {
                      "megafire", "megafires",
                      "gigafire", "gigafires",
                      "firenado", "firenados", "firenadoes",
-                     "tsunami", "tsunamis", "megatsunami", "megatsunamis", "severe storm warning",
+                     "tsunami", "tsunamis", "megatsunami", "megatsunamis",
+                     "meteotsunami", "meteotsunamis", "severe storm warning",
                      "volcanic eruption", "supereruption", "supereruptions",
                      "pyroclastic flow", "pyroclastic surge",
                      "pyroclastic surges",
