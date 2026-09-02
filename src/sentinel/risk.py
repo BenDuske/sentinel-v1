@@ -3615,9 +3615,11 @@ def _drop_figurative_flood(t: str, hits: list) -> list:
 # "the polysemous bare 'fire' = fire someone / open fire / fire drill, deliberately not leaned on".
 # A large family of FIXED figurative collocations carry NO literal-blaze reading yet floored the
 # fire/smoke category CRITICAL: military/idiom "under fire", "friendly fire", "return fire",
-# "covering fire", "line of fire", "hold (your) fire", "cease fire"; and the business phrases
-# "fire sale", "fire drill". Each of these over-fired a benign ops/comms report to CRITICAL — the
-# same 4-tier over-fire class the flood guard closes.
+# "covering fire", "line of fire", "hold (your) fire", "cease fire"; the business phrases
+# "fire sale", "fire drill"; and (added 2026-09-02) the fixed English idioms "baptism of/by fire",
+# "trial by fire", "fire and brimstone", "fire in the/his/her belly", and "where's the fire" —
+# each a passion/hardship/haste metaphor with ZERO literal-blaze reading. Each of these over-fired
+# a benign ops/comms report to CRITICAL — the same 4-tier over-fire class the flood guard closes.
 #
 # This guard is deliberately NARROWER than the flood guard: it only suppresses the single bare
 # token "fire" (every OTHER fire/smoke keyword — flames, ablaze, blaze, wildfire, structure fire,
@@ -3651,6 +3653,11 @@ _FIRE_FIG = re.compile(
     r"|\bcease\s+fire\b"
     r"|\bfire\s+sales?\b"
     r"|\bfire\s+drills?\b"
+    r"|\bbaptism\s+(?:of|by)\s+fire\b"
+    r"|\btrial\s+by\s+fire\b"
+    r"|\bfire\s+and\s+brimstone\b"
+    r"|\bfire\s+in\s+(?:the|his|her|my|your|their|our)\s+belly\b"
+    r"|\bwhere'?s\s+the\s+fire\b"
 )
 
 

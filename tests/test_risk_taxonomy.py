@@ -2859,10 +2859,12 @@ def test_figurative_fire_idiom_does_not_fire_critical():
     # The SECOND negative-context guard (sibling of the flood guard). Bare "fire" floors fire/smoke
     # CRITICAL for a real blaze, but a curated set of FIXED collocations carry no literal-blaze
     # reading — military/idiom "under fire", "friendly fire", "return fire", "covering fire",
-    # "line of fire", "hold (your) fire", "cease fire", and the business phrases "fire sale" and
-    # "fire drill". When the only fire/smoke token is one of these idioms the guard suppresses the
-    # false CRITICAL and the text falls through to LOW. Only the bare "fire" token is guarded;
-    # every other fire/smoke keyword (flames/ablaze/wildfire/…) is untouched.
+    # "line of fire", "hold (your) fire", "cease fire", the business phrases "fire sale" and
+    # "fire drill", and (added 2026-09-02) the passion/hardship/haste idioms "baptism of/by fire",
+    # "trial by fire", "fire and brimstone", "fire in the/his/her belly", and "where's the fire".
+    # When the only fire/smoke token is one of these idioms the guard suppresses the false CRITICAL
+    # and the text falls through to LOW. Only the bare "fire" token is guarded; every other
+    # fire/smoke keyword (flames/ablaze/wildfire/…) is untouched.
     for text in ("The CEO came under fire for the delayed launch",
                  "That regression was friendly fire between two teams",
                  "Support returned fire at the negative reviews",
@@ -2871,7 +2873,14 @@ def test_figurative_fire_idiom_does_not_fire_critical():
                  "Hold your fire until legal weighs in",
                  "Leadership called a cease fire on the feature debate",
                  "We ran a fire sale to clear old inventory",
-                 "the release turned into a total fire drill"):
+                 "the release turned into a total fire drill",
+                 "The new hire's first week was a real baptism of fire",
+                 "baptism by fire, but she came through it fine",
+                 "it was a trial by fire for the rookie reviewer",
+                 "the keynote was all fire and brimstone about roadmap slips",
+                 "she brought real fire in her belly to the pitch",
+                 "he showed fire in the belly all quarter",
+                 "where's the fire, there's no need to rush the rollout"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (figurative-fire idiom)"
         assert "no risk taxonomy signals" in reasons[0].lower()
@@ -2889,6 +2898,8 @@ def test_literal_fire_always_stays_critical():
                  "flames engulfed the loading dock",
                  # mixed literal + figurative in one report -> the literal occurrence governs
                  "The warehouse fire forced a fire sale of the salvage",
+                 # a new-idiom figurative "fire" alongside a real blaze still stays critical
+                 "trial by fire for the crew, then an actual fire broke out in bay 3",
                  # excluded verb/locative sense must stay critical, not be masked as an idiom
                  "the fire up north is still spreading"):
         sev, _ = risk.rule_layer(text)
