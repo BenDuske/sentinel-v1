@@ -1203,6 +1203,32 @@ TAXONOMY = {
         # established NWS product name denoting EXCLUSIVELY this coastal life-threat advisory — so it closes
         # the miss with no operational false-positive risk (whole-product sibling of rip current / high
         # surf warning / sneaker wave / storm surge).
+        # 2026-09-01 marine sea-state life-threat rule-probe (open-water peer of the coastal-surf family).
+        # "hazardous seas" is the directly-named NWS OFFSHORE sea-state life-threat product — a Hazardous
+        # Seas Warning covers large, steep combined seas (heights above the marine threshold, e.g. ~10 ft+,
+        # or dangerously steep short-period waves) that capsize vessels, sweep crew overboard, and swamp
+        # small craft in open water, the mariner-facing sibling of the shoreline "high surf warning" already
+        # floored HIGH and the operational partner of the weather-side "gale warning"/"storm warning". Yet
+        # named alone it reached NO floored token and dropped to LOW (verified live): "hazardous seas" shares
+        # no substring with "flood"/"flooding"/"surge" (the water/flood critical tokens can't fire), the HIGH
+        # coastal phrases "high surf warning"/"sneaker wave"/"rip current" are different words, and there is
+        # no bare "seas"/"hazardous"/"warning" token — the SAME whole-product absent-term miss as the beach
+        # hazards statement, rip current statement, high surf warning, and the weather-side gale/freeze
+        # warnings. Floored at water/flood HIGH beside its coastal-surf peers, NOT critical: a forecastable,
+        # mitigable marine hazard (alter course, seek harbor, secure the deck); if the report says the water
+        # IS flooding, or the bare fatality/overboard-injury tokens fire, those independently escalate to
+        # critical, so HIGH is the conservative warning-stage floor for the product named on its own — the
+        # exact warning-vs-critical discipline used for high surf warning / beach hazards statement / gale
+        # warning. Unlike the recreational "high surf" (deliberately left LOW because surfers prize it), the
+        # phrase "hazardous seas" carries ZERO benign meaning — no one names calm safe water "hazardous seas"
+        # — so the bare two-word phrase floors directly, the same unambiguous-phrase discipline that floored
+        # "storm surge"/"atmospheric river"/"gale-force winds" as bare phrases while their polysemous single
+        # words stayed unfloored. One entry suffices: \bhazardous\s+seas\b already fires inside the product
+        # names "hazardous seas warning"/"hazardous seas warnings" (the \b sits before the trailing space),
+        # so the warning + plural forms are covered without separate entries — the bare-phrase-covers-suffix
+        # economy of "storm surge" (which also floors "storm surge warning"). Surfaced in the 2026-09-01
+        # marine sea-state rule-probe (open-water sibling of high surf warning / beach hazards statement /
+        # sneaker wave / storm surge).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
@@ -1212,6 +1238,7 @@ TAXONOMY = {
                      "rip current", "rip currents",
                      "high surf warning", "high surf warnings",
                      "beach hazards statement", "beach hazards statements",
+                     "hazardous seas",
                      "standing water", "ceiling collapse from water", "overflow"],
         "medium":   ["drip", "dripping", "damp", "moisture", "condensation", "minor leak",
                      "high surf advisory", "high surf advisories"],

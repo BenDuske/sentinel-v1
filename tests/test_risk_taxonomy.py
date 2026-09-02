@@ -571,6 +571,21 @@ CASES = [
     # removing the entries regresses each to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A beach hazards statement is in effect for the outfall jetty", "high", "water/flood"),
     ("Successive beach hazards statements kept the shoreline crew off the pier", "high", "water/flood"),
+    # "hazardous seas" is the directly-named NWS OFFSHORE sea-state life-threat product (a Hazardous Seas
+    # Warning: large steep combined seas that capsize vessels and sweep crew overboard), the open-water
+    # sibling of the shoreline "high surf warning". Named on its own it reached NO floored token and dropped
+    # to LOW: no "flood"/"flooding"/"surge" substring (critical can't fire), the HIGH coastal phrases "high
+    # surf warning"/"sneaker wave"/"rip current" are different words, and there is no bare "seas"/"hazardous"/
+    # "warning" token — same whole-product absent-term miss as beach hazards statement / high surf warning /
+    # gale warning. Floored at HIGH (if the water IS flooding, or the overboard/fatality tokens fire, those
+    # independently escalate to critical). Unlike recreational "high surf", "hazardous seas" carries zero
+    # benign meaning, so the bare two-word phrase floors and \bhazardous\s+seas\b already fires inside the
+    # product name "hazardous seas warning"/"...warnings" — one entry covers all forms (the bare-phrase-
+    # covers-suffix economy of "storm surge"). Each sentence carries no other floored token, so removing the
+    # entry regresses each to LOW and fails the HIGH assertion (isolation; fault-injected).
+    ("A hazardous seas warning is in effect for the offshore waters", "high", "water/flood"),
+    ("Hazardous seas warnings kept the crew boat in the harbor", "high", "water/flood"),
+    ("Hazardous seas swamped the tender off the outfall breakwater", "high", "water/flood"),
     # floodwater/floodwaters (an active inundation) is a distinct whole-word token that \bflood\b
     # does not match; the SAME singular/compound tokenization gap class as burn/burns and the weather
     # plurals. Both cases isolate on the new terms — no independent critical token fires.
@@ -2325,6 +2340,21 @@ def test_high_surf_advisory_needs_adjacency():
                  "A high surf report drew a crowd while an unrelated safety advisory scrolled the panel"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (high surf advisory needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_hazardous_seas_needs_adjacency():
+    # The QUALIFIED phrase "hazardous seas" floors water/flood HIGH (the NWS offshore sea-state life-threat
+    # product), but it fires ONLY as the adjacent two-word phrase (\bhazardous\s+seas\b). The component words
+    # are each common and benign apart — "hazardous materials"/"hazardous waste"/"hazardous chemicals"
+    # training is routine facilities text, and "calm seas"/"the seas" is ordinary marine prose. Separated by
+    # other words they must NOT trip the floor: there is no bare "hazardous"/"seas" token. Absent adjacency
+    # these fall through to LOW; this catches a future careless bare-token add or a loosened matcher (the
+    # same phrase-only discipline as storm surge / high surf warning / the gale-warning family).
+    for text in ("Annual hazardous materials handling refresher was completed; the crew reported calm seas",
+                 "The hazardous waste manifest was filed before the vessel sailed the open seas"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (hazardous seas needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
