@@ -3371,6 +3371,28 @@ TAXONOMY = {
         # test_small_craft_advisory_needs_adjacency). Surfaced in the 2026-09-01 11:1x PM small-craft-advisory rule-
         # probe (completing the marine-wind ladder's advisory rung left open beneath gale watch, mirroring the land
         # wind/heat/cold advisory ships).
+        # "air quality alert"/"air stagnation advisory" name the NWS/EPA air-pollution products — the ADVISORY/ALERT-tier
+        # public-health hazards issued when pollutant concentrations (ground-level ozone, PM2.5/particulates, wildfire
+        # smoke) reach or will reach unhealthy levels. "Air quality alert" is the direct notice that the air IS unhealthy
+        # (sensitive groups — children, elderly, asthma/COPD, outdoor crews — should limit exertion); "air stagnation
+        # advisory" is the anticipatory precursor, issued when light winds + a stable stagnant airmass will let pollutants
+        # accumulate over the next 1-4 days. They are the respiratory/atmospheric siblings of the already-MEDIUM advisory
+        # products (heat advisory / wind advisory / dense fog / frost) and sit BELOW the visibility-driven HIGH "dense
+        # smoke advisory" (which floors on smoke thick enough to blind a highway, a different, sharper hazard). Yet a
+        # report writing "an air quality alert was issued; an air stagnation advisory covers the basin through Friday"
+        # reached NO floored token and dropped to LOW (verified live): neither phrase shares a substring with any floored
+        # token — there is no bare "air"/"alert"/"advisory"/"quality"/"stagnation" token, \bdense\s+smoke\s+advisory\b is a
+        # different phrase, and the volcanic "ashfall advisory" is different words. Both phrases carry ZERO benign
+        # metaphorical meaning (unlike the deliberately-excluded polysemous bare "gale"/"small craft"/"avalanche"), so
+        # they floor directly on the qualified phrase with no operational false-positive risk. Floored MEDIUM beside
+        # "heat advisory"/"wind advisory"/"ashfall advisory" (the advisory/alert tier), NOT HIGH: an air-quality alert
+        # spans unhealthy-for-sensitive-groups up through hazardous, but the conservative advisory floor is MEDIUM and a
+        # severe case independently floors higher — thick wildfire smoke trips the HIGH "dense smoke advisory" and a
+        # worker in respiratory distress floors critical via injury/medical. "alert"/"advisory" are COUNTABLE nouns and
+        # offices issue multi-zone products, so the plurals "air quality alerts"/"air stagnation advisories" get their own
+        # entries per the singular->plural discipline (mirroring heat/wind/ashfall advisory/advisories). Surfaced in the
+        # 2026-09-02 6:4x AM air-quality rule-probe (the atmospheric-pollution advisory family, sibling of the just-shipped
+        # marine/dust/ashfall advisory rungs).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
@@ -3388,7 +3410,9 @@ TAXONOMY = {
                      "small craft advisory", "small craft advisories",
                      "freezing spray advisory", "freezing spray advisories",
                      "blowing dust advisory", "blowing dust advisories",
-                     "ashfall advisory", "ashfall advisories"],
+                     "ashfall advisory", "ashfall advisories",
+                     "air quality alert", "air quality alerts",
+                     "air stagnation advisory", "air stagnation advisories"],
     },
 }
 

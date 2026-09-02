@@ -1450,6 +1450,19 @@ CASES = [
     ("Ashfall warnings widened downwind as the plume drifted over the county", "high", "weather"),
     ("An ashfall advisory took effect and staff were told to mask up outdoors", "medium", "weather"),
     ("Ashfall advisories covered the three downwind zones through the afternoon", "medium", "weather"),
+    # "air quality alert" / "air stagnation advisory" name the NWS/EPA air-pollution PRODUCTS — the advisory/alert-tier
+    # public-health hazards (unhealthy ozone/PM2.5/wildfire smoke; a stagnant airmass letting pollutants accumulate).
+    # They floor MEDIUM beside the other advisory products (heat advisory / wind advisory / ashfall advisory), one
+    # gradient BELOW the visibility-driven HIGH "dense smoke advisory". Both previously dropped LOW: there is no bare
+    # "air"/"alert"/"advisory"/"stagnation" token, \bdense\s+smoke\s+advisory\b / \bashfall\s+advisory\b are different
+    # phrases, and neither carries any benign metaphorical sense — so the same event named by its NWS product scored
+    # below "dense smoke". ONLY the adjacent qualified phrase fires; each plural is a distinct token. Each sentence
+    # carries no other floored token, so removing the entries regresses each to LOW and fails the MEDIUM assertion
+    # (isolation; fault-injected).
+    ("An air quality alert was issued and outdoor crews were told to limit exertion", "medium", "weather"),
+    ("Air quality alerts blanketed the metro as smoke thickened downwind", "medium", "weather"),
+    ("An air stagnation advisory covers the basin through Friday as winds go calm", "medium", "weather"),
+    ("Air stagnation advisories held over the valley while pollutants pooled near the surface", "medium", "weather"),
     # "red flag warning" names the NWS fire-weather PRODUCT — the warning that low humidity, wind, and dry fuels
     # have made conditions critical for rapid wildfire ignition/spread. It is the fire-side sibling of the cold
     # PRODUCTS "extreme cold warning"/"wind chill warning" (all HIGH). It previously dropped LOW: the critical fire
@@ -2429,6 +2442,20 @@ def test_ashfall_product_needs_adjacency():
                  "Incinerator ashfall dusted the yard as a warning light blinked on the control panel"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (ashfall product needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_air_quality_product_needs_adjacency():
+    # The QUALIFIED phrases "air quality alert" / "air stagnation advisory" floor weather MEDIUM ONLY as the adjacent
+    # product phrase (\bair\s+quality\s+alert\b / \bair\s+stagnation\s+advisory\b). Every component word is common and
+    # unfloored alone — the "air" system, a data-"quality" review, a security "alert", a legal/travel "advisory", a
+    # "stagnation" in throughput. A benign "air", "quality", "alert", "advisory", and "stagnation" separated by other
+    # words must NOT trip it; absent adjacency these fall through to LOW. This catches a future careless bare-token add
+    # or a loosened matcher (the same phrase-only discipline as ashfall advisory / small craft advisory / dense fog).
+    for text in ("The air handler passed its quality check before the security alert cleared the floor",
+                 "A stagnation in the pipeline drew an advisory memo about air-side throughput to the crew"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (air quality product needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
