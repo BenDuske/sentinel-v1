@@ -1839,6 +1839,20 @@ CASES = [
     # regresses each case from HIGH to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A special marine warning was issued for the bay crew running supplies this afternoon", "high", "weather"),
     ("Special marine warnings went up for the harbor vessels ahead of the approaching cells", "high", "weather"),
+    # "blowing dust advisory" (MEDIUM) / "blowing dust warning" (HIGH) name the NWS dust-visibility PRODUCTS —
+    # the advisory/warning tiers of the dust-storm family whose HIGH phenomena ("duststorm"/"haboob"/"sandstorm";
+    # "dust storm" via bare "storm") are already floored. The advisory covers ~1/4-1 mile visibility (hazardous
+    # driving, MEDIUM); the warning covers below ~1/4 mile (deadly near-zero-visibility pileups, HIGH). Both
+    # previously dropped LOW: the phrases share no substring with any floored token (bare "dust" is not a token,
+    # no "storm" substring, "duststorm"/"haboob"/"sandstorm" are different words), the same advisory->MEDIUM /
+    # warning->HIGH ladder + absent-term miss fixed for high surf / freezing spray / the marine wind family.
+    # "warning"/"advisory" are countable so the plurals get their own entries. Each sentence carries no other
+    # floored token, so removing the entries regresses each case (MEDIUM->LOW, HIGH->LOW) and fails the assertion
+    # (isolation; fault-injected).
+    ("A blowing dust advisory was posted for the highway crew before the afternoon gusts", "medium", "weather"),
+    ("Blowing dust advisories covered the county roads as visibility dropped for the drivers", "medium", "weather"),
+    ("A blowing dust warning shut the interstate; near-zero visibility stranded the convoy", "high", "weather"),
+    ("Blowing dust warnings went up across the basin as a wall of dust reached the highway", "high", "weather"),
 ]
 
 
@@ -2362,6 +2376,21 @@ def test_special_marine_warning_needs_adjacency():
                  "A special briefing for the marine crew preceded the unrelated safety warning memo"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (special marine warning needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_blowing_dust_product_needs_adjacency():
+    # The QUALIFIED phrases "blowing dust advisory" (MEDIUM) / "blowing dust warning" (HIGH) floor weather ONLY as
+    # the adjacent three-word product phrase (\bblowing\s+dust\s+advisory\b / \bblowing\s+dust\s+warning\b). The bare
+    # phenomenon "blowing dust" is DELIBERATELY unfloored (a mild "some blowing dust" is routine), and "blowing"/
+    # "dust"/"advisory"/"warning" are all common words unfloored alone — a warning light, a legal advisory, dust on a
+    # shelf, wind blowing. A benign "blowing", "dust", and "advisory"/"warning" separated by other words must NOT trip
+    # it; absent adjacency these fall through to LOW. This catches a future careless bare-token add or a loosened
+    # matcher (the same phrase-only discipline as small craft advisory / special marine warning / high surf warning).
+    for text in ("The fan kept blowing while a thin layer of dust settled under the travel advisory",
+                 "Crews were blowing leaves off the dust-covered deck as a warning light flickered nearby"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (blowing dust product needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

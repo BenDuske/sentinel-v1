@@ -2964,6 +2964,28 @@ TAXONOMY = {
         # phrase discipline as gale warning / red flag warning / high surf warning (a benign "special", "marine", and
         # "warning" separated by other words stays LOW; adjacency FP-guard added). Surfaced in the 2026-09-02 12:4x AM
         # marine-product rule-probe (imminent-severe warning tier atop the small-craft/gale marine-wind ladder).
+        # "blowing dust advisory"/"blowing dust warning" name the NWS dust-visibility PRODUCTS — the advisory/warning
+        # tiers of the dust-storm family whose HIGH phenomena ("duststorm"/"haboob"/"sandstorm"; "dust storm" via bare
+        # "storm") are already floored. A "Blowing Dust Advisory" (MEDIUM) is issued for visibility ~1/4-1 mile in
+        # airborne dust (hazardous but survivable driving), one gradient below a "Dust Storm Warning"/"Blowing Dust
+        # Warning" (HIGH) for visibility below ~1/4 mile — the deadly near-zero-visibility condition behind the
+        # multi-vehicle interstate pileups the duststorm family already floors. Yet BOTH product names dropped to LOW
+        # (verified live): "blowing dust advisory"/"blowing dust warning" share no substring with any floored token —
+        # \bduststorm\b/\bhaboob\b/\bsandstorm\b are different words, the bare "dust" is NOT a token, and \bstorm\b sits
+        # inside neither phrase (no "storm" substring) — so a report writing "a blowing dust warning shut I-10; near-
+        # zero visibility" scored strictly BELOW the same event written "duststorm"/"dust storm" (HIGH), and the advisory
+        # tier had no MEDIUM peer at all. This is the SAME advisory->MEDIUM / warning->HIGH product-ladder + whole-hazard
+        # absent-term miss already fixed for high surf, wind chill, heat, freeze, freezing spray, and the small-craft/
+        # gale marine-wind family. Floored: advisory -> weather MEDIUM (beside "small craft advisory"/"freezing spray
+        # advisory"), warning -> weather HIGH (beside "duststorm"/"sandstorm"); a driver injured or a vehicle wrecked in
+        # the dust independently escalates via injury/medical. "warning"/"advisory" are countable so the plurals get
+        # their own entries (\b...warning\b cannot match the trailing "s"), the singular->plural discipline applied
+        # throughout. The bare phenomenon "blowing dust" is DELIBERATELY EXCLUDED as polysemous-by-severity — a mild
+        # "some blowing dust on the horizon" must stay LOW — and "blowing"/"dust"/"advisory"/"warning" are all common
+        # words unfloored alone, so ONLY the adjacent qualified product phrase fires (adjacency FP-guard added), the same
+        # qualified-phrase discipline as small craft advisory / special marine warning / high surf warning. Surfaced in
+        # the 2026-09-02 02:1x AM dust-family rule-probe (completing the dust family's advisory/warning rungs beneath the
+        # already-HIGH duststorm/haboob/sandstorm phenomena).
         "high":     ["storm", "lightning strike", "lightning struck", "struck by lightning",
                      "supercell", "supercells",
                      "hail", "high winds", "fallen tree",
@@ -2972,6 +2994,7 @@ TAXONOMY = {
                      "haboob", "haboobs",
                      "sandstorm", "sandstorms",
                      "duststorm", "duststorms",
+                     "blowing dust warning", "blowing dust warnings",
                      "snowstorm", "snowstorms",
                      "lake-effect snow", "lake effect snow",
                      "avalanche warning", "snow avalanche",
@@ -3324,7 +3347,8 @@ TAXONOMY = {
                      "extreme cold watch", "extreme cold watches",
                      "gale watch", "gale watches",
                      "small craft advisory", "small craft advisories",
-                     "freezing spray advisory", "freezing spray advisories"],
+                     "freezing spray advisory", "freezing spray advisories",
+                     "blowing dust advisory", "blowing dust advisories"],
     },
 }
 
