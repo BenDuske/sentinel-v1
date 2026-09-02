@@ -1693,6 +1693,22 @@ CASES = [
     # entry regresses each to LOW and fails the HIGH assertion (isolation; fault-injected).
     ("A high wind warning is in effect for the crane district this evening", "high", "weather"),
     ("The bureau upgraded the wind advisory to a high wind warning for the switchyard", "high", "weather"),
+    # "extreme wind warning" (+plural) is the NWS Extreme Wind Warning (EWW) — the rare take-cover product for
+    # imminent sustained surface winds >=115 mph (major-hurricane eyewall or equivalent), where NWS tells the
+    # public to shelter IMMEDIATELY exactly as for a tornado warning. It is the strictly-worse, top-tier sibling
+    # of the HIGH "high wind warning": by definition the arrival of the Cat-3+ eyewall — the "hurricane"/"tropical
+    # cyclone" event already floored CRITICAL. It previously dropped LOW: the floored wind token is the PLURAL
+    # "high winds" (\bhigh\s+winds\b needs "high"+the trailing "s", so it cannot fire inside "extreme wind
+    # warning"), "high wind warning" is a different first word (high vs extreme), and \bstorm\b/\bwindstorm\b share
+    # no substring — the SAME NWS-product-name absent-term miss as high-wind-warning-beside-high-winds, but one
+    # tier UP (the wind analog of a tornado warning). Floored CRITICAL beside hurricane/tornado, in the
+    # strictly-worse-version-floors-higher class as megaquake/megafire/superstorm — NOT the HIGH wind tier. The
+    # exact three-word phrase denotes EXCLUSIVELY the NWS product (no benign idiom), so it closes the miss with
+    # zero false-positive risk; bare "extreme wind" is NOT floored, so the windsurfing/"wind was extreme" decoys
+    # stay LOW. Each sentence carries no other floored token, so removing the entry regresses to LOW and fails the
+    # CRITICAL assertion (isolation; fault-injected).
+    ("The NWS issued an extreme wind warning as the eyewall reached the coastal facility", "critical", "weather"),
+    ("Extreme wind warnings were posted for two counties along the landfall path", "critical", "weather"),
     # "freeze warning" names the NWS warning-grade lethal/damaging-cold PRODUCT (sub-freezing temps that kill crops,
     # burst exposed pipes, threaten unsheltered people) — the warning-grade sibling of the advisory-grade "frost
     # advisory" (already MEDIUM via the bare "frost" token), completing the frost/freeze advisory -> MEDIUM /
@@ -1939,6 +1955,11 @@ NO_FALSE_POSITIVE = [
     # ice-making equipment legitimately dispenses literal "ice pellets" (pellet/nugget ice) — this benign
     # equipment mention must stay LOW (locks in the polysemy-exclusion decision; only "sleet" fires).
     ("The ice maker dispensed ice pellets into the bin; nothing to report.", "ice pellets"),
+    # Only the full three-word NWS product "extreme wind warning" floors weather CRITICAL; bare "extreme wind"
+    # is DELIBERATELY NOT floored, and whole-phrase matching must not fire from the unrelated "extreme
+    # windsurfing" — both benign mentions stay LOW.
+    ("The extreme wind eased overnight and the crew resumed normal operations.", "extreme wind"),
+    ("Crews reported extreme windsurfing conditions off the pier that afternoon.", "extreme wind warning"),
     # The firearm/shooting terms added to security/intrusion must not fire from inside benign
     # words: "shooting" in "troubleshooting" (extremely common in a facilities/IT incident log),
     # "shooter" in "troubleshooter"/"sharpshooter". Word boundaries (\b) must hold the line.

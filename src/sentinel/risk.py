@@ -2233,6 +2233,23 @@ TAXONOMY = {
         # "tropical cyclone"/"cyclonic storm" entries it closes the miss with no operational false-positive risk.
         # Surfaced in the 2026-09-02 named-tropical-cyclone-stage rule-probe (intensity-stage sibling of the
         # already-critical tropical cyclone / cyclonic storm / medicane).
+        # "extreme wind warning" (+plural) is the NWS Extreme Wind Warning (EWW) — the rare take-cover product
+        # issued when sustained surface winds >=115 mph (major-hurricane eyewall, or an equivalent extreme
+        # event) are imminent; NWS instructs the public to shelter IMMEDIATELY exactly as for a tornado warning.
+        # It is the wind hazard at its most lethal — by definition the arrival of a Cat-3+ hurricane's eyewall,
+        # the very event "hurricane"/"tropical cyclone" already floor CRITICAL. Yet the phrase matched NOTHING
+        # and dropped to LOW: the floored wind token is the PLURAL "high winds" (\bhigh\s+winds\b needs "high"
+        # and the trailing "s", so it cannot fire inside "extreme wind warning"), "high wind warning" is a
+        # different first word (high vs extreme), and \bstorm\b/\bwindstorm\b share no substring — the SAME
+        # NWS-product-name absent-term miss as high-wind-warning-beside-high-winds, but one tier UP: EWW is the
+        # strictly-worse, take-cover sibling of the HIGH "high wind warning", the wind analog of a tornado
+        # warning. Floored CRITICAL beside hurricane/tornado (NOT the HIGH wind tier — an ordinary high wind
+        # warning is forecastable/mitigable; the eyewall-winds take-cover product is not), in the same
+        # strictly-worse-version-floors-higher class as megaquake/megafire/megatsunami/superstorm. The exact
+        # three-word phrase denotes EXCLUSIVELY the NWS product — there is no benign "extreme wind warning"
+        # idiom — so like "severe storm warning" it closes the miss with zero operational false-positive risk
+        # (bare "extreme wind" is DELIBERATELY NOT added: only the full product phrase fires). Surfaced in the
+        # 2026-09-02 NWS-wind-product rule-probe (top-tier sibling of the just-added high wind warning family).
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
@@ -2252,6 +2269,7 @@ TAXONOMY = {
                      "firenado", "firenados", "firenadoes",
                      "tsunami", "tsunamis", "megatsunami", "megatsunamis",
                      "meteotsunami", "meteotsunamis", "severe storm warning",
+                     "extreme wind warning", "extreme wind warnings",
                      "volcanic eruption", "supereruption", "supereruptions",
                      "pyroclastic flow", "pyroclastic surge",
                      "pyroclastic surges",
