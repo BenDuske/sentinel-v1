@@ -1670,6 +1670,18 @@ CASES = [
     # fault-injected).
     ("A gale watch is posted for the harbor crew working the docks tomorrow", "medium", "weather"),
     ("Gale watches remain up for the offshore rig teams through the weekend", "medium", "weather"),
+    # "small craft advisory"/"small craft advisories" names the NWS ADVISORY-tier marine wind/sea product — winds
+    # ~22-33 kt and/or hazardous seas dangerous to small vessels, one gradient below the WATCH-tier "gale watch" and
+    # two below the HIGH "gale warning"/"hazardous seas". It floors MEDIUM, the entry rung of the marine-wind ladder
+    # (small craft advisory MEDIUM -> gale watch MEDIUM -> gale warning HIGH) and the marine sibling of the land
+    # "wind advisory". It previously dropped LOW: "small craft advisory" shares no substring with any floored token
+    # (the HIGH "gale warning"/"hazardous seas" are different words, the MEDIUM "gale watch"/"wind advisory" are
+    # different phrases, bare "small craft" is DELIBERATELY unfloored as the ordinary term for a boat, bare "advisory"
+    # is not a token). "advisory" is countable so the plural "advisories" is a distinct token and gets its own entry.
+    # Each sentence carries no other floored token, so removing the entry regresses each to LOW and fails the MEDIUM
+    # assertion (isolation; fault-injected).
+    ("A small craft advisory is in effect for the bay crew running supplies today", "medium", "weather"),
+    ("Small craft advisories remain up along the sound through the evening tide", "medium", "weather"),
     # "high wind watch"/"high wind watches" names the WATCH-tier high-wind product — sustained >=40 mph / gusts
     # >=58 mph POSSIBLE in 12-48h, a step below the HIGH "high wind warning" (imminent/occurring). It floors MEDIUM,
     # the anticipatory sibling completing the wind family's watch->MEDIUM / warning->HIGH ladder (wind advisory
@@ -2310,6 +2322,21 @@ def test_gale_watch_needs_adjacency():
                  "Gale from accounting kept watch over the ledger during the audit"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (gale watch needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_small_craft_advisory_needs_adjacency():
+    # The QUALIFIED phrase "small craft advisory"/"small craft advisories" floors weather MEDIUM (ADVISORY-tier marine
+    # wind/sea product), but it fires ONLY as the adjacent phrase (\bsmall\s+craft\s+advisory\b). The bare noun "small
+    # craft" is DELIBERATELY unfloored — it is the ordinary maritime term for a small boat (launched/moored/crewed) —
+    # and bare "advisory" is unfloored (a legal/travel/security advisory). A benign "small craft" and a benign
+    # "advisory" separated by other words must NOT trip it; absent adjacency these fall through to LOW. This catches a
+    # future careless bare-token add or a loosened matcher (the same adjacency discipline as gale watch / wind advisory
+    # / the HIGH high surf warning).
+    for text in ("The crew launched a small craft from the dock under a fresh legal advisory from counsel",
+                 "A small craft was moored overnight while the safety advisory circulated among the crew"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (small craft advisory needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 

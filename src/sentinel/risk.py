@@ -3264,6 +3264,29 @@ TAXONOMY = {
         # neither adjacent phrase and stays LOW (FP guard test_gale_watch_needs_adjacency). Surfaced in the 2026-09-01
         # 8:1x PM gale-watch rule-probe (completing the gale product's watch tier left open beneath gale warning,
         # mirroring the freeze/high-wind/cold/heat watch ships).
+        # "small craft advisory"/"small craft advisories" names the NWS ADVISORY-tier marine wind/sea product — issued
+        # when sustained winds of ~22-33 knots (25-38 mph) and/or hazardous seas make conditions dangerous for small
+        # vessels, one NWS gradient BELOW the WATCH-tier "gale watch" (gale-force winds POSSIBLE) and two below the
+        # HIGH warning-tier "gale warning"/"hazardous seas" (imminent/occurring). It is the entry rung of the marine-
+        # wind ladder — small craft advisory MEDIUM -> gale watch MEDIUM -> gale warning HIGH — and the marine sibling
+        # of the land advisory products "wind advisory"/"wind chill advisory"/"heat advisory" already floored MEDIUM.
+        # Yet a report writing "a small craft advisory is in effect for the bay crew" reached NO floored token and
+        # dropped to LOW (verified live): "small craft advisory" shares no substring with any floored token — the HIGH
+        # "gale warning"/"hazardous seas"/"high surf warning" are different words, the MEDIUM "gale watch"/"wind
+        # advisory" are different phrases, and there is no bare "craft"/"advisory"/"small" token. The bare noun "small
+        # craft" is DELIBERATELY EXCLUDED as polysemous — it is the ordinary maritime term for a small boat ("the crew
+        # launched a small craft", "the small craft was moored overnight"), routine ops language that must stay LOW —
+        # so only the adjacent qualified phrase fires, the same qualified-phrase discipline that floored "gale watch"/
+        # "wind advisory" while leaving bare "gale"/"wind"/"craft" unfloored. Floored MEDIUM beside "gale watch"/"wind
+        # advisory", NOT HIGH; if the winds/seas actually endanger a vessel the "gale warning"/"hazardous seas"
+        # independently floor HIGH and a capsizing/overboard worker floors critical via injury/medical. "advisory" is a
+        # COUNTABLE noun and forecast offices issue multi-zone "small craft advisories", a distinct token
+        # \bsmall\s+craft\s+advisory\b cannot match — so the plural is added per the singular->plural discipline
+        # (mirroring wind advisory/advisories, gale watch/watches). The non-adjacent "a small craft ... under advisory
+        # from counsel" carries neither the boat-hazard sense nor the phrase and stays LOW (FP guard
+        # test_small_craft_advisory_needs_adjacency). Surfaced in the 2026-09-01 11:1x PM small-craft-advisory rule-
+        # probe (completing the marine-wind ladder's advisory rung left open beneath gale watch, mirroring the land
+        # wind/heat/cold advisory ships).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
@@ -3278,6 +3301,7 @@ TAXONOMY = {
                      "wind chill watch", "wind chill watches",
                      "extreme cold watch", "extreme cold watches",
                      "gale watch", "gale watches",
+                     "small craft advisory", "small craft advisories",
                      "freezing spray advisory", "freezing spray advisories"],
     },
 }
