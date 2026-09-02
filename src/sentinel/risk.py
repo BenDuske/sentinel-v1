@@ -2210,9 +2210,33 @@ TAXONOMY = {
         # meaning (the polysemous industrial senses are "cyclonic separator"/"cyclonic vacuum", never "cyclonic storm"),
         # so like the bare-"cyclone"-excluded/"tropical cyclone"-added discipline it closes the miss with no operational
         # false-positive risk. Surfaced in the 2026-08-29 tropical-cyclone-regional-name rule-probe.
+        # "tropical storm"/"tropical storms" is the named INTENSITY STAGE of a tropical cyclone (sustained winds
+        # 39-73 mph — the threshold at which the system gets a name), the direct sibling of the already-critical
+        # "hurricane"/"typhoon"/"tropical cyclone"/"cyclonic storm"/"medicane" and the phrase behind the NWS
+        # "Tropical Storm Warning"/"Tropical Storm Watch" products. It is a tropical cyclone BY DEFINITION —
+        # "tropical cyclone" (already critical here) is the WMO umbrella, and tropical depression -> tropical storm
+        # -> hurricane are its intensity stages — yet the phrase under-floored exactly like "cyclonic storm" did:
+        # the singular hit bare \bstorm\b and floored to weather HIGH (one level LOW of the critical tropical
+        # cyclone it IS), and — WORSE — the plural "tropical storms" dropped ALL THE WAY to LOW, because \bstorm\b
+        # cannot match "storms" (no boundary: storm|s) and no other token fires (verified live: "tropical storm
+        # warning" -> HIGH, "tropical storms battered the coast" -> LOW). Named tropical storms are lethal in their
+        # own right (Tropical Storm Allison, 2001, killed 41 and did ~$9B in damage as inland flooding — never a
+        # hurricane), and flooring the umbrella "tropical cyclone" critical while the named-storm stage scores HIGH
+        # (or LOW, plural) is the same self-inconsistent under-floor the cyclonic-storm ship resolved. Added the
+        # whole two-word phrase at the hurricane/typhoon critical floor; the single "tropical storm" token also
+        # covers the qualified product names ("tropical storm warning"/"watch"/"warnings" all carry
+        # \btropical\s+storm\b as a substring via the boundary before the trailing space — the same bare-phrase-
+        # covers-suffix economy as "storm surge"/"cyclonic storm"). The plural "tropical storms" needs its own
+        # entry (\btropical\s+storm\b won't match the trailing "s"), the singular->plural discipline applied to
+        # tropical cyclones/typhoons/cyclonic storms/derechos. The two-word phrase denotes EXCLUSIVELY the
+        # meteorological system — there is no benign "tropical storm" idiom/product — so like the
+        # "tropical cyclone"/"cyclonic storm" entries it closes the miss with no operational false-positive risk.
+        # Surfaced in the 2026-09-02 named-tropical-cyclone-stage rule-probe (intensity-stage sibling of the
+        # already-critical tropical cyclone / cyclonic storm / medicane).
         "critical": ["tornado", "tornadoes", "tornados", "hurricane", "hurricanes",
                      "typhoon", "typhoons",
                      "tropical cyclone", "tropical cyclones",
+                     "tropical storm", "tropical storms",
                      "cyclonic storm", "cyclonic storms",
                      "medicane", "medicanes",
                      "bomb cyclone", "bomb cyclones", "bombogenesis",

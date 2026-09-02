@@ -1016,6 +1016,19 @@ CASES = [
     # assertion (isolation + active-under-floor; confirmed by fault injection).
     ("A super cyclonic storm is bearing down on the coastal facility", "critical", "weather"),
     ("Two cyclonic storms formed over the bay of bengal this season", "critical", "weather"),
+    # "tropical storm"/"tropical storms" is the named intensity stage of a tropical cyclone (winds 39-73 mph, the
+    # naming threshold) and the phrase behind the NWS Tropical Storm Warning/Watch — a tropical cyclone BY
+    # DEFINITION, so flooring the umbrella "tropical cyclone" critical while this scores lower is self-inconsistent.
+    # Same under-floor as cyclonic storm: the singular "tropical storm warning" hit bare \bstorm\b and floored to
+    # HIGH (one level LOW of the critical tropical cyclone it IS), and the plural "tropical storms" dropped ALL THE
+    # WAY to LOW (\bstorm\b can't match "storms"). The single "tropical storm" token also covers the product names
+    # (tropical storm warning/watch/warnings carry it as a substring); \btropical\s+storm\b won't match the
+    # trailing "s" so the plural is a distinct entry. Zero benign meaning (Allison 2001 killed 41 as a tropical
+    # storm, never a hurricane). Each sentence below carries a bare/absent "storm" token but NO other CRITICAL
+    # token, so removing both entries drops the singular to the "storm" HIGH floor and the plural to LOW, failing
+    # the CRITICAL assertion (isolation + active-under-floor; confirmed by fault injection).
+    ("A tropical storm warning is in effect for the coastal plant", "critical", "weather"),
+    ("Two tropical storms battered the gulf coast this week", "critical", "weather"),
     # The plural spellings of the remaining weather-critical singulars must reach the same CRITICAL
     # floor — "wildfire"/"flash flood"/"tsunami" scored critical but "wildfires"/"flash floods"/
     # "tsunamis" are distinct tokens that previously matched nothing and dropped to LOW, the same
