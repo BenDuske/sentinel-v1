@@ -3214,6 +3214,29 @@ TAXONOMY = {
         # watch" carries neither adjacent phrase and stays LOW (FP guard test_high_wind_watch_needs_adjacency).
         # Surfaced in the 2026-09-01 9:4x AM high-wind-watch rule-probe (completing the wind family's watch tier left
         # open beneath high wind warning, mirroring the freeze/avalanche watch ships).
+        # "gale watch"/"gale watches" names the NWS marine WATCH-tier gale product — issued when sustained winds of
+        # 34-47 knots (39-54 mph, gale force) are POSSIBLE within the next 12-48 hours, a step below the "gale warning"
+        # that floors weather HIGH (those winds imminent or expected, the severe-wind marine hazard that capsizes small
+        # craft and endangers harbor/offshore crews). It is the anticipatory sibling of that HIGH warning and completes
+        # the gale product's watch->MEDIUM / warning->HIGH pair — the same watch->MEDIUM / warning->HIGH gradient the
+        # wind, freeze, cold, heat, and avalanche families already carry (the freeze/high-wind/heat/cold watch ships
+        # codified this exact watch-tier pattern). Yet a report writing "a gale watch is posted for the harbor crew"
+        # reached NO floored token and dropped to LOW (verified live): "gale watch" shares no substring with any floored
+        # token — the HIGH "gale warning" is a different final word (\bgale\s+warning\b cannot match "gale watch"), the
+        # HIGH "gale-force winds"/"gale force winds" are different words, and bare "watch" is not a token (a security
+        # "watch"/night watch/wristwatch must stay LOW). The bare root "gale" is DELIBERATELY EXCLUDED as polysemous
+        # (a proper name — "Gale from accounting"; the figurative "a gale of laughter"), exactly as it is for the
+        # HIGH "gale warning"/"gale-force winds" entries — so only the adjacent two-word phrase fires. Floored MEDIUM
+        # beside the other watch/advisory products, NOT HIGH; if the winds actually arrive the "gale warning"/
+        # "gale-force winds" independently floor HIGH and a struck/overboard worker floors critical via injury/medical.
+        # "watch" is a COUNTABLE noun and forecast offices issue multi-zone "gale watches", a distinct token
+        # \bgale\s+watch\b cannot match — so the plural is added per the singular->plural discipline (mirroring freeze
+        # watch/watches, high wind watch/watches, avalanche watch/watches). Floored ONLY as the qualified two-word
+        # phrase (\bgale\s+watch\b), never bare "gale"/"watch" — the same qualified-phrase discipline as gale warning /
+        # high wind watch / freeze watch. The figurative non-adjacent "a gale of laughter ... stood watch" carries
+        # neither adjacent phrase and stays LOW (FP guard test_gale_watch_needs_adjacency). Surfaced in the 2026-09-01
+        # 8:1x PM gale-watch rule-probe (completing the gale product's watch tier left open beneath gale warning,
+        # mirroring the freeze/high-wind/cold/heat watch ships).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
@@ -3227,6 +3250,7 @@ TAXONOMY = {
                      "extreme heat watch", "extreme heat watches",
                      "wind chill watch", "wind chill watches",
                      "extreme cold watch", "extreme cold watches",
+                     "gale watch", "gale watches",
                      "freezing spray advisory", "freezing spray advisories"],
     },
 }

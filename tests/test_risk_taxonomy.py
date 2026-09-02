@@ -1644,6 +1644,17 @@ CASES = [
     # regresses each to LOW and fails the MEDIUM assertion (isolation; fault-injected).
     ("A freeze watch is in effect for the tank farm ahead of tonight's cold push", "medium", "weather"),
     ("Freeze watches remain posted for the outdoor pipe racks the crew services", "medium", "weather"),
+    # "gale watch"/"gale watches" names the marine WATCH-tier gale product — gale-force winds (34-47 kt / 39-54 mph)
+    # POSSIBLE in 12-48h, a step below the HIGH "gale warning" (imminent/expected). It floors MEDIUM, the anticipatory
+    # sibling completing the gale product's watch->MEDIUM / warning->HIGH pair (the same gradient as the wind/freeze/
+    # cold/heat/avalanche families). It previously dropped LOW: "gale watch" shares no substring with any floored token
+    # (\bgale\s+warning\b is a different final word, the HIGH "gale-force winds"/"gale force winds" are different words,
+    # bare "gale" is DELIBERATELY unfloored as polysemous per the gale warning rationale, bare "watch" is not a token).
+    # "watch" is countable so the plural "watches" is a distinct token and gets its own entry. Each sentence carries no
+    # other floored token, so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation;
+    # fault-injected).
+    ("A gale watch is posted for the harbor crew working the docks tomorrow", "medium", "weather"),
+    ("Gale watches remain up for the offshore rig teams through the weekend", "medium", "weather"),
     # "high wind watch"/"high wind watches" names the WATCH-tier high-wind product — sustained >=40 mph / gusts
     # >=58 mph POSSIBLE in 12-48h, a step below the HIGH "high wind warning" (imminent/occurring). It floors MEDIUM,
     # the anticipatory sibling completing the wind family's watch->MEDIUM / warning->HIGH ladder (wind advisory
@@ -2270,6 +2281,20 @@ def test_cold_watch_needs_adjacency():
                  "An extreme cold front rolled in as the guard stood watch by the wind chill sensor"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (cold watch needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_gale_watch_needs_adjacency():
+    # The QUALIFIED phrase "gale watch"/"gale watches" floors weather MEDIUM (WATCH-tier marine gale product), but it
+    # fires ONLY as the adjacent two-word phrase (\bgale\s+watch\b). A benign "gale" and a benign "watch" separated by
+    # other words must NOT trip it — bare "gale" is DELIBERATELY unfloored as polysemous (a proper name / "a gale of
+    # laughter"), and bare "watch" is unfloored (security watch / wristwatch). Absent adjacency these fall through to
+    # LOW; this catches a future careless bare-token add or a loosened matcher (the same adjacency discipline as freeze
+    # watch / high wind watch / the HIGH gale warning).
+    for text in ("A gale of laughter swept the room while the guard stood watch by the door",
+                 "Gale from accounting kept watch over the ledger during the audit"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (gale watch needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
