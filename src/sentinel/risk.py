@@ -3393,6 +3393,26 @@ TAXONOMY = {
         # entries per the singular->plural discipline (mirroring heat/wind/ashfall advisory/advisories). Surfaced in the
         # 2026-09-02 6:4x AM air-quality rule-probe (the atmospheric-pollution advisory family, sibling of the just-shipped
         # marine/dust/ashfall advisory rungs).
+        # "ice fog" is the directly-named cold-visibility hazard — a fog composed of suspended ICE CRYSTALS that forms only
+        # in extreme cold (typically below ~ -30 C) and collapses visibility, the notorious Fairbanks/Arctic airfield-and-
+        # highway ground hazard that routinely grounds aviation. It sits in the VISIBILITY family beside the already-MEDIUM
+        # "dense fog" (NWS Dense Fog Advisory), NOT with the HIGH glaze-ice "freezing fog": the two are meteorologically
+        # distinct — "freezing fog" is supercooled liquid droplets that FREEZE ON CONTACT and deposit treacherous glaze ice
+        # (why it floors HIGH beside black ice / freezing rain), whereas "ice fog" is already-frozen crystals suspended in
+        # the air that reduce visibility but do not glaze surfaces the same way. Yet a report writing "an ice fog settled
+        # over the airfield and grounded the morning flights" reached NO floored token and dropped to LOW (verified live):
+        # "ice fog" shares no substring with any floored token — bare "ice" and bare "fog" are both unfloored (a data-review
+        # "ice"/an "ice machine"; "fog" alone is not floored, only the qualified "dense fog"/"freezing fog"), and
+        # \bfreezing\s+fog\b / \bdense\s+fog\b are different first words that cannot match "ice fog". The qualified phrase
+        # carries ZERO benign metaphorical meaning (there is no "ice fog" idiom/product), so it floors directly on the
+        # adjacent phrase with no operational false-positive risk — an "ice" and a "fog" separated by other words (crews
+        # packing catch in ice while fog rolls off the bay) never trip it. Floored MEDIUM beside "dense fog", NOT HIGH: the
+        # core hazard is visibility collapse (the conservative advisory-tier floor a human/LLM can raise), and the extreme-
+        # cold/aviation co-hazards floor higher independently (extreme cold warning is HIGH; a worker injured on the icy
+        # approach floors critical via injury/medical). Added as a MASS NOUN with no plural, the same discipline as the
+        # mass-noun "dense fog"/"freezing fog"/"graupel" (offices write "ice fog", not "ice fogs"). Surfaced in the
+        # 2026-09-02 8:1x AM cold-visibility rule-probe (the fog/visibility family, sibling of dense fog beneath freezing
+        # fog).
         "medium":   ["heavy rain", "wind damage", "snow", "sleet", "frost", "heat advisory", "dense fog",
                      "graupel", "wintry mix", "freezing drizzle",
                      "wind advisory", "wind advisories",
@@ -3412,7 +3432,8 @@ TAXONOMY = {
                      "blowing dust advisory", "blowing dust advisories",
                      "ashfall advisory", "ashfall advisories",
                      "air quality alert", "air quality alerts",
-                     "air stagnation advisory", "air stagnation advisories"],
+                     "air stagnation advisory", "air stagnation advisories",
+                     "ice fog"],
     },
 }
 

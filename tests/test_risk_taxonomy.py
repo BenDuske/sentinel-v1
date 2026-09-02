@@ -1463,6 +1463,17 @@ CASES = [
     ("Air quality alerts blanketed the metro as smoke thickened downwind", "medium", "weather"),
     ("An air stagnation advisory covers the basin through Friday as winds go calm", "medium", "weather"),
     ("Air stagnation advisories held over the valley while pollutants pooled near the surface", "medium", "weather"),
+    # "ice fog" names the extreme-cold VISIBILITY hazard — a fog of suspended ice crystals that collapses visibility
+    # (the classic Fairbanks/Arctic airfield-and-highway hazard). It floors MEDIUM beside "dense fog" (the visibility
+    # family), NOT with the HIGH glaze-ice "freezing fog": ice fog is already-frozen crystals that reduce visibility,
+    # whereas freezing fog is supercooled droplets that deposit treacherous glaze ice. It previously dropped LOW: bare
+    # "ice" and bare "fog" are both unfloored, and \bfreezing\s+fog\b / \bdense\s+fog\b are different first words that
+    # cannot match "ice fog". Mass noun (no plural), like "dense fog"/"freezing fog". Each sentence carries no other
+    # floored token, so removing the entry regresses each to LOW and fails the MEDIUM assertion (isolation; fault-
+    # injected).
+    ("An ice fog settled over the airfield and grounded the morning flights", "medium", "weather"),
+    ("Ice fog blanketed the yard and crews lost sight of the far fence", "medium", "weather"),
+    ("A dense ice fog held over the harbor at daybreak", "medium", "weather"),
     # "red flag warning" names the NWS fire-weather PRODUCT — the warning that low humidity, wind, and dry fuels
     # have made conditions critical for rapid wildfire ignition/spread. It is the fire-side sibling of the cold
     # PRODUCTS "extreme cold warning"/"wind chill warning" (all HIGH). It previously dropped LOW: the critical fire
@@ -2456,6 +2467,19 @@ def test_air_quality_product_needs_adjacency():
                  "A stagnation in the pipeline drew an advisory memo about air-side throughput to the crew"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (air quality product needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_ice_fog_needs_adjacency():
+    # The QUALIFIED phrase "ice fog" floors weather MEDIUM ONLY as the adjacent two-word phrase (\bice\s+fog\b). Both
+    # component words are common and unfloored alone — an "ice" machine / packing catch in ice, and "fog" is deliberately
+    # unfloored (only "dense fog"/"freezing fog" float). A benign "ice" and "fog" separated by other words must NOT trip
+    # it; absent adjacency these fall through to LOW. This catches a future careless bare-"fog" add or a loosened matcher
+    # (the same phrase-only discipline as dense fog / freezing fog / air quality product).
+    for text in ("Crews packed the catch in ice while fog rolled off the bay at first light",
+                 "The ice machine fogged the cooler window during the morning shift"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (ice fog needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
