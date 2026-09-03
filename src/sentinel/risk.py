@@ -1229,6 +1229,31 @@ TAXONOMY = {
         # economy of "storm surge" (which also floors "storm surge warning"). Surfaced in the 2026-09-01
         # marine sea-state rule-probe (open-water sibling of high surf warning / beach hazards statement /
         # sneaker wave / storm surge).
+        # 2026-09-03 surf-zone member-hazard follow-up (fills a gap the beach-hazards-statement comment
+        # already named). "longshore current"/"longshore currents" is the directly-named NWS surf-zone
+        # life-threat hazard — a strong current running PARALLEL to the shoreline (driven by waves breaking
+        # at an angle) that sweeps swimmers and wading shoreline crews down the beach and feeds them into
+        # rip currents, piers, jetties, and inlets; the NWS lists it beside rip currents in its Beach
+        # Hazards Statement criteria (the umbrella product already floored HIGH above, whose own comment
+        # explicitly cites "longshore/inlet currents" as a member hazard). Yet a report writing "a
+        # longshore current swept a worker down the beach into the pier" reached NO floored token and
+        # dropped to LOW (verified live, singular+plural both LOW): "longshore current" shares no substring
+        # with "flood"/"flooding"/"surge" (the water/flood critical tokens can't fire), the HIGH coastal
+        # phrases "rip current"/"high surf warning"/"sneaker wave" are different words, and neither
+        # "longshore" nor bare "current" is floored on its own — the SAME whole-hazard absent-term miss
+        # class as "rip current"/"sneaker wave" beside the general water hazards. Floored at water/flood
+        # HIGH beside its member peers, NOT critical: if the report says the water IS flooding, or the bare
+        # fatality/injury tokens fire, those independently escalate to critical (verified live: the
+        # "...flooded the low walkway" sentence already scores critical), so HIGH is the conservative
+        # warning-stage floor for the current named on its own. ONLY the full two-word phrase floors — the
+        # bare polysemous "current" (electrical current, ocean current, current events, current account)
+        # is deliberately NOT floored, mirroring bare "surf"/"gale"/"beach" left unfloored while only their
+        # hazard phrases fire, so a scattered "longshore ... current" or a plain "current" mention stays
+        # LOW (new adjacency FP guard). The plural "longshore currents" needs its own entry
+        # (\blongshore\s+current\b won't match the trailing "s"), the singular->plural discipline applied
+        # throughout the taxonomy. "longshore current" is an established coastal-oceanography term denoting
+        # EXCLUSIVELY this surf-zone hazard — so it closes the miss with no operational false-positive risk
+        # (member-hazard sibling of rip current / sneaker wave / high surf warning / beach hazards statement).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
@@ -1236,6 +1261,7 @@ TAXONOMY = {
                      "king tide", "king tides",
                      "sneaker wave", "sneaker waves",
                      "rip current", "rip currents",
+                     "longshore current", "longshore currents",
                      "high surf warning", "high surf warnings",
                      "beach hazards statement", "beach hazards statements",
                      "hazardous seas",

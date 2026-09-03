@@ -534,6 +534,22 @@ CASES = [
     # fails the HIGH assertion (isolation; fault-injected).
     ("A rip current dragged a swimmer off the outfall apron", "high", "water/flood"),
     ("Rip currents are pulling debris away from the intake", "high", "water/flood"),
+    # "longshore current"/"longshore currents" is the directly-named NWS surf-zone life-threat hazard — a
+    # strong current running PARALLEL to shore that sweeps swimmers and wading crews down the beach and
+    # feeds them into rip currents, piers, and jetties (the NWS lists it beside rip currents in its Beach
+    # Hazards Statement criteria; the beach-hazards-statement comment above already names it a member).
+    # Named on its own it reached NO floored token and dropped to LOW: no "flood"/"flooding"/"surge"
+    # substring (critical can't fire), the HIGH coastal phrases "rip current"/"high surf warning"/"sneaker
+    # wave" are different words, and neither "longshore" nor bare "current" is floored — same whole-hazard
+    # absent-term miss as rip current / sneaker wave. Floored at HIGH (if the water IS flooding or the
+    # fatality/injury tokens fire, those independently escalate to critical). The plural is a distinct token
+    # (\blongshore\s+current\b does not match "longshore currents"), and the bare polysemous "current"
+    # (electrical/ocean/current-events) is deliberately NOT floored — only the adjacent two-word phrase
+    # fires, so a scattered "longshore ... current" stays LOW (adjacency FP guard below). Each sentence
+    # carries no other floored token, so removing the entries regresses each to LOW and fails the HIGH
+    # assertion (isolation; fault-injected).
+    ("A longshore current swept a worker down the beach toward the jetty", "high", "water/flood"),
+    ("Longshore currents are dragging the shoreline crew away from the outfall", "high", "water/flood"),
     # "high surf warning"/"high surf warnings" is the directly-named NWS coastal life-threat product —
     # large, dangerous breaking waves and pounding shorebreak that sweep people off jetties/piers/rocks
     # and drown shoreline workers (routinely paired with the rip current statement). Named on its own
@@ -2579,6 +2595,20 @@ def test_hazardous_seas_needs_adjacency():
                  "The hazardous waste manifest was filed before the vessel sailed the open seas"):
         sev, reasons = risk.rule_layer(text)
         assert sev == "low", f"{text!r} -> {sev}, expected low (hazardous seas needs adjacency)"
+        assert "no risk taxonomy signals" in reasons[0].lower()
+
+
+def test_longshore_current_needs_adjacency():
+    # The QUALIFIED phrase "longshore current"/"longshore currents" floors water/flood HIGH (the NWS surf-zone
+    # life-threat hazard), but it fires ONLY as the adjacent two-word phrase (\blongshore\s+current\b). The bare
+    # "current" is deliberately polysemous-unfloored (electrical current, ocean current, current events, current
+    # account), the same phrase-only discipline as rip current (bare "current" not floored). A "longshore" token
+    # separated from "current", or a plain benign "current", must NOT trip the floor. Absent adjacency these fall
+    # through to LOW; this catches a future careless bare-token add or a loosened matcher.
+    for text in ("The longshore drift survey noted the ocean current near the buoy while the crew logged the tide",
+                 "Ocean current readings and the current shift log were filed before the crew left the sand"):
+        sev, reasons = risk.rule_layer(text)
+        assert sev == "low", f"{text!r} -> {sev}, expected low (longshore current needs adjacency)"
         assert "no risk taxonomy signals" in reasons[0].lower()
 
 
