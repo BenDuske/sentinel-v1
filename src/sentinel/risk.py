@@ -1519,6 +1519,23 @@ TAXONOMY = {
         # definition a hazardous discharge, ZERO benign meaning, so they carry only the SAME conservative-
         # floor tolerance already accepted for "ammonia leak"/"chlorine leak"/"carbon monoxide" with no new
         # over-fire class. Surfaced in the 2026-09-03 toxic-gas-release rule-probe (leak/release symmetry).
+        # "gas main rupture"/"gas main break"/"ruptured gas main" — a failed natural-gas main is a large
+        # uncontrolled gas discharge (a distribution-scale "gas leak") that drives block evacuations,
+        # asphyxiation, and catastrophic explosion/fire (the 2010 San Bruno gas main explosion killed 8 and
+        # razed 38 homes; the 2018 Merrimack Valley over-pressurization ignited dozens of structures). Yet a
+        # report naming the infrastructure failure WITHOUT an "explosion"/"fire" word ("a gas main rupture
+        # closed the block", "responders staged around the ruptured gas main") matched NO floored token and
+        # dropped to LOW: "gas main" is not "gas leak" (\bgas\s+leak\b needs "leak" adjacent, "main"
+        # intervenes) and neither "main" nor "rupture" is floored on its own — the SAME whole-hazard word-
+        # choice absent-term miss class as "dam break" beside "dam failure" and the toxic-gas leak/release
+        # gap just fixed. Floored at gas/chemical critical beside "gas leak", of which a ruptured main is the
+        # distribution-scale case. DELIBERATELY the hazard PHRASES, NOT bare "gas main" (a benign locate/
+        # inspection/route mention — "the gas main runs under Elm St" — must stay LOW, the same non-incident-
+        # presence discipline that excludes bare "chlorine"/"ammonia"): each phrase denotes EXCLUSIVELY the
+        # failure event with zero benign meaning. Each lexical form a report writes gets its own entry
+        # (\bgas\s+main\s+rupture\b won't match "gas main break" or the adjective-first "ruptured gas main"),
+        # the same multi-form discipline as dam break/breach/burst. Surfaced in the 2026-09-04 gas-
+        # infrastructure rule-probe.
         "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
                      "nerve agent", "nerve agents", "mustard gas",
                      "hydrofluoric acid", "hydrogen fluoride",
@@ -1529,7 +1546,8 @@ TAXONOMY = {
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
                      "asphyxiating",
                      "suffocation", "ammonia leak", "chlorine leak",
-                     "ammonia release", "chlorine release", "explosive gas"],
+                     "ammonia release", "chlorine release",
+                     "gas main rupture", "gas main break", "ruptured gas main", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
         # noun-compounds and their "natural gas ..." variants), but the equally-common VERB-order

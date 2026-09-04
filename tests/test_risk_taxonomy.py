@@ -742,6 +742,12 @@ CASES = [
     ("The facility reported an ammonia release from the refrigeration skid", "critical", "gas/chemical"),
     ("A chlorine release forced evacuation of the water plant", "critical", "gas/chemical"),
     ("Responders staged upwind of the anhydrous ammonia release", "critical", "gas/chemical"),
+    # A failed natural-gas main is a distribution-scale uncontrolled discharge (San Bruno / Merrimack
+    # class); named without an "explosion"/"fire" word it matched no floored token and dropped to LOW.
+    # Each phrasing isolates on the new phrase; bare "gas main" (benign locate/route) stays excluded.
+    ("A gas main rupture closed the block for the afternoon", "critical", "gas/chemical"),
+    ("Crews reported a gas main break under the intersection", "critical", "gas/chemical"),
+    ("Responders staged around the ruptured gas main", "critical", "gas/chemical"),
     # "hydrofluoric acid" (aqueous HF) and "hydrogen fluoride" (anhydrous gas) are the same lethal
     # industrial toxicant in two lexically-distinct forms a report names — sibling always-a-hazard named
     # chemicals of carbon monoxide / hydrogen sulfide / phosgene / cyanide, so a directly-named exposure
