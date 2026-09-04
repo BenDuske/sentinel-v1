@@ -1536,6 +1536,18 @@ TAXONOMY = {
         # (\bgas\s+main\s+rupture\b won't match "gas main break" or the adjective-first "ruptured gas main"),
         # the same multi-form discipline as dam break/breach/burst. Surfaced in the 2026-09-04 gas-
         # infrastructure rule-probe.
+        # "gas main leak"/"leaking gas main" — the leak phrasing completes the gas-main family (rupture/
+        # break already critical above), and it was WORSE than a plain miss: "a gas main leak forced
+        # evacuation" hit the generic water/flood "leak" token and floored only HIGH under the WRONG
+        # category — an active mis-category UNDER-floor of a distribution-scale gas discharge, the same
+        # worse-than-absent class as "levee breach"/"dam breach" hitting the security "breach" token. A
+        # leaking gas main is a gas/chemical CRITICAL hazard (uncontrolled natural gas → explosion/
+        # asphyxiation/evacuation), not a water event. Added both forms at gas/chemical critical so the
+        # correct category+floor now outranks the spurious water/flood "leak" HIGH hit. Both denote
+        # EXCLUSIVELY the infrastructure failure (bare "gas main" stays LOW as above); "leaking gas main"
+        # is a distinct token from "gas main leak" (adjective-first, no \bgas\s+main\s+leak\b match), the
+        # same multi-form discipline as the rupture/break siblings. Surfaced in the 2026-09-04 gas-
+        # infrastructure rule-probe (leak-form + mis-category twin of the rupture/break fix).
         "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
                      "nerve agent", "nerve agents", "mustard gas",
                      "hydrofluoric acid", "hydrogen fluoride",
@@ -1547,7 +1559,8 @@ TAXONOMY = {
                      "asphyxiating",
                      "suffocation", "ammonia leak", "chlorine leak",
                      "ammonia release", "chlorine release",
-                     "gas main rupture", "gas main break", "ruptured gas main", "explosive gas"],
+                     "gas main rupture", "gas main break", "ruptured gas main",
+                     "gas main leak", "leaking gas main", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
         # noun-compounds and their "natural gas ..." variants), but the equally-common VERB-order

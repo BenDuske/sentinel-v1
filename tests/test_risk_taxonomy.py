@@ -748,6 +748,11 @@ CASES = [
     ("A gas main rupture closed the block for the afternoon", "critical", "gas/chemical"),
     ("Crews reported a gas main break under the intersection", "critical", "gas/chemical"),
     ("Responders staged around the ruptured gas main", "critical", "gas/chemical"),
+    # leak-form + mis-category fix: "gas main leak"/"leaking gas main" previously hit the generic
+    # water/flood "leak" token and floored only HIGH under the WRONG category; a leaking gas main is a
+    # gas/chemical CRITICAL discharge. Category assertion here confirms the correct category now wins.
+    ("A gas main leak forced evacuation of the block", "critical", "gas/chemical"),
+    ("A leaking gas main closed the road overnight", "critical", "gas/chemical"),
     # "hydrofluoric acid" (aqueous HF) and "hydrogen fluoride" (anhydrous gas) are the same lethal
     # industrial toxicant in two lexically-distinct forms a report names — sibling always-a-hazard named
     # chemicals of carbon monoxide / hydrogen sulfide / phosgene / cyanide, so a directly-named exposure
