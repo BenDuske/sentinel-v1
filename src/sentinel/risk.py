@@ -1317,8 +1317,20 @@ TAXONOMY = {
         # form gets its own entry (\bwater\s+main\s+rupture\b won't match "water main break" or the adjective-
         # first "ruptured water main"), the same multi-form discipline as the gas-main family. Surfaced in the
         # 2026-09-04 water-infrastructure rule-probe (water-main twin of the gas-main fix).
+        # "sewer main break"/"sewer main rupture"/"ruptured sewer main" — the third buried-utility-main
+        # failure, completing the family beside gas main (gas/chemical critical) and water main (water/flood
+        # HIGH above). A broken sewer main spills raw sewage into streets/basements — a flooding + Category-3
+        # "black water" biohazard event (its noun sibling "sewage backup" already floors here). Named without
+        # a flood word ("a sewer main break spilled sewage into the street", "a sewer main rupture backed
+        # sewage into the plant") it matched NO token and dropped to LOW. Floored at water/flood HIGH beside
+        # water main / burst pipe (the same buried-main-failure class); when actual flooding is reported the
+        # flood tokens still escalate to critical (unchanged). DELIBERATELY the hazard phrases, NOT bare
+        # "sewer main" (a benign locate/route mention stays LOW, same discipline as bare gas/water main).
+        # Each lexical form gets its own entry, the same multi-form discipline as the gas/water-main families.
+        # Surfaced in the 2026-09-04 utility-main rule-probe (sewer twin completing the main triad).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
                      "water main rupture", "water main break", "ruptured water main",
+                     "sewer main break", "sewer main rupture", "ruptured sewer main",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
                      "freshet", "freshets",

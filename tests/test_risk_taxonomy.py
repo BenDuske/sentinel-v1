@@ -485,6 +485,12 @@ CASES = [
     ("A water main break left the block without water", "high", "water/flood"),
     ("A water main rupture cut service to the ward", "high", "water/flood"),
     ("A ruptured water main undermined the roadbed", "high", "water/flood"),
+    # third buried-utility-main failure (completes gas/water/sewer triad): a broken sewer main spills raw
+    # sewage (Category-3 biohazard). Named without a flood word it dropped to LOW; floored water/flood HIGH
+    # beside water main. Each case isolates on the new phrase; bare "sewer main" stays LOW.
+    ("A sewer main break spilled sewage into the street", "high", "water/flood"),
+    ("A sewer main rupture backed sewage into the plant", "high", "water/flood"),
+    ("A ruptured sewer main closed the loading dock", "high", "water/flood"),
     # "ice jam"/"ice jams" is the directly-named NWS river-ice flood hazard — broken ice damming a
     # river and backing water over its banks (NWS issues "Ice Jam Flood" warnings). Named on its own
     # it reached NO floored token and dropped to LOW: no "flood"/"flooding" substring (critical can't
