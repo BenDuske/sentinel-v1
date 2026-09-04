@@ -479,6 +479,12 @@ CASES = [
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
+    # municipal-scale sibling of burst pipe: "water main rupture"/"water main break"/"ruptured water main"
+    # named without a flood word either dropped to LOW or (for "…rupture cut service") mis-hit the injury
+    # "cut" token at MEDIUM. Floored water/flood HIGH; category assertion confirms the correct category wins.
+    ("A water main break left the block without water", "high", "water/flood"),
+    ("A water main rupture cut service to the ward", "high", "water/flood"),
+    ("A ruptured water main undermined the roadbed", "high", "water/flood"),
     # "ice jam"/"ice jams" is the directly-named NWS river-ice flood hazard — broken ice damming a
     # river and backing water over its banks (NWS issues "Ice Jam Flood" warnings). Named on its own
     # it reached NO floored token and dropped to LOW: no "flood"/"flooding" substring (critical can't

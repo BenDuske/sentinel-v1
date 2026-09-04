@@ -1303,7 +1303,22 @@ TAXONOMY = {
         # throughout the taxonomy. "longshore current" is an established coastal-oceanography term denoting
         # EXCLUSIVELY this surf-zone hazard — so it closes the miss with no operational false-positive risk
         # (member-hazard sibling of rip current / sneaker wave / high surf warning / beach hazards statement).
+        # "water main rupture"/"water main break"/"ruptured water main" — the municipal-scale sibling of
+        # the already-HIGH "burst pipe"/"pipe burst": a failed water main floods streets/basements, undermines
+        # roadbeds, and cuts supply. Named WITHOUT a flood word it was mis-scored — "a water main break left
+        # the block without water" and "a ruptured water main undermined the roadbed" matched NO token and
+        # dropped to LOW, while "a water main rupture cut service" hit the injury/medical "cut" token and
+        # floored only MEDIUM under the WRONG category (an active mis-category, the "levee breach"/"gas main
+        # leak" class). Floored at water/flood HIGH beside "burst pipe" so the correct category+floor wins;
+        # when actual flooding IS reported the flood tokens still escalate to critical (unchanged). NOT
+        # critical — a main break floods/disrupts but is not inherently life-threatening, the same HIGH tier
+        # as "burst pipe". DELIBERATELY the hazard phrases, NOT bare "water main" (a benign locate/route
+        # mention must stay LOW, the same non-incident-presence discipline as bare "gas main"). Each lexical
+        # form gets its own entry (\bwater\s+main\s+rupture\b won't match "water main break" or the adjective-
+        # first "ruptured water main"), the same multi-form discipline as the gas-main family. Surfaced in the
+        # 2026-09-04 water-infrastructure rule-probe (water-main twin of the gas-main fix).
         "high":     ["water damage", "burst pipe", "pipe burst", "leak", "leaking",
+                     "water main rupture", "water main break", "ruptured water main",
                      "ice jam", "ice jams",
                      "seiche", "seiches",
                      "freshet", "freshets",
