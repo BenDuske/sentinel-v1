@@ -735,6 +735,13 @@ CASES = [
     ("Phosgene detected downwind of the isocyanate reactor", "critical", "gas/chemical"),
     ("Hydrogen cyanide filled the plating shop after the tank ruptured", "critical", "gas/chemical"),
     ("Cyanide gas release forced evacuation of the fumigation bay", "critical", "gas/chemical"),
+    # leak/release symmetry: "ammonia leak"/"chlorine leak" already floor critical, but the equally-
+    # standard EPA/ER incident verb "release" (an accidental hazardous discharge) was absent, so these
+    # dropped to LOW. Each case isolates on the new "<gas> release" phrase; "ammonia release" also covers
+    # the "anhydrous ammonia release" agricultural/refrigeration form via the adjacency match.
+    ("The facility reported an ammonia release from the refrigeration skid", "critical", "gas/chemical"),
+    ("A chlorine release forced evacuation of the water plant", "critical", "gas/chemical"),
+    ("Responders staged upwind of the anhydrous ammonia release", "critical", "gas/chemical"),
     # "hydrofluoric acid" (aqueous HF) and "hydrogen fluoride" (anhydrous gas) are the same lethal
     # industrial toxicant in two lexically-distinct forms a report names — sibling always-a-hazard named
     # chemicals of carbon monoxide / hydrogen sulfide / phosgene / cyanide, so a directly-named exposure

@@ -1504,6 +1504,21 @@ TAXONOMY = {
         # EXCLUDED (a surname collision — "reported by J. Sarin" — the same bare-token caution that
         # excluded "stab"/"whipped"); the unambiguous "mustard gas" phrase fires while the condiment
         # "mustard" alone does not. Surfaced in the 2026-08-22 chemical-weapon rule-probe.
+        # "ammonia release"/"chlorine release" — the "leak" phrasing of the two most common industrial
+        # toxic gases already floors critical ("ammonia leak"/"chlorine leak"), but the equally-standard
+        # incident verb "release" — the exact word EPA/OSHA and emergency responders use for an accidental
+        # discharge of a hazardous substance ("the facility reported an ammonia release", "a chlorine
+        # release forced evacuation of the plant") — was absent, so those reports matched NO floored token
+        # and dropped to LOW: the SAME whole-hazard word-choice absent-term miss class as "dam break"
+        # beside "dam failure" — the identical toxic-gas incident scored critical-or-LOW purely on whether
+        # the reporter wrote "leak" or "release". Added the two "<gas> release" phrases at the same critical
+        # floor as their "<gas> leak" siblings ("ammonia release" also subsumes "anhydrous ammonia release"
+        # via the \bammonia\s+release\b adjacency, just as "ammonia leak" already does). These are the
+        # incident-DISCHARGE phrasing, NOT the DELIBERATELY-excluded routine-presence case (bare "chlorine"/
+        # "ammonia" for pool/cleaning/refrigerant, still excluded): a "release" of a toxicant is by
+        # definition a hazardous discharge, ZERO benign meaning, so they carry only the SAME conservative-
+        # floor tolerance already accepted for "ammonia leak"/"chlorine leak"/"carbon monoxide" with no new
+        # over-fire class. Surfaced in the 2026-09-03 toxic-gas-release rule-probe (leak/release symmetry).
         "critical": ["gas leak", "carbon monoxide", "hydrogen sulfide", "phosgene", "cyanide",
                      "nerve agent", "nerve agents", "mustard gas",
                      "hydrofluoric acid", "hydrogen fluoride",
@@ -1513,7 +1528,8 @@ TAXONOMY = {
                      "hazmat",
                      "hazardous material", "fumes", "asphyxia", "asphyxiation", "asphyxiated",
                      "asphyxiating",
-                     "suffocation", "ammonia leak", "chlorine leak", "explosive gas"],
+                     "suffocation", "ammonia leak", "chlorine leak",
+                     "ammonia release", "chlorine release", "explosive gas"],
         # A gas ODOR is a leak indicator and the taxonomy intends it as a HIGH floor. Prior fixes
         # covered the NOUN-order phrasings ("smell of gas"/"odor of gas" + the "gas smell"/"gas odor"
         # noun-compounds and their "natural gas ..." variants), but the equally-common VERB-order
