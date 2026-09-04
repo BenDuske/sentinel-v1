@@ -1404,8 +1404,18 @@ TAXONOMY = {
         # conservative — these are multi-word adjacency phrases, so the bare polysemous noun "shock"
         # ("culture shock", "shock absorber", "the news was a shock") is NOT added and does not fire;
         # and the plural "electric shocks" needs its own entry because \bshock\b won't match "shocks".
+        # "arcing" — the direct electrical sibling of "sparking" (already bare in this HIGH list): a panel/
+        # conductor/switchgear "arcing" is a visible electrical discharge that is both a shock hazard and a
+        # top fire-ignition source (the observable precursor/companion to the critical "arc flash"/"arc
+        # blast"). "the panel was arcing badly" reached NO floored token and dropped to LOW even though its
+        # participle twin "sparking" floors HIGH here. Floored at electrical HIGH beside "sparking", exactly
+        # the same tier/form; it carries the identical conservative-floor tolerance already accepted for
+        # "sparking" (the rare benign trajectory sense — "the ball went arcing over the fence" — is the same
+        # kind of non-incident collision "sparking"/"sparks" already tolerate, and the rule layer is a floor
+        # the LLM/human can lower). Surfaced in the 2026-09-04 electrical-discharge rule-probe (arcing/
+        # sparking sibling).
         "high":     ["electrical", "electric shock", "electric shocks", "exposed wiring",
-                     "short circuit", "shorted", "sparking", "power surge",
+                     "short circuit", "shorted", "sparking", "arcing", "power surge",
                      "breaker tripped repeatedly", "burning wire"],
         "medium":   ["flickering lights", "tripped breaker", "loose outlet", "brownout"],
     },

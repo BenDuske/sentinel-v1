@@ -701,6 +701,10 @@ CASES = [
     ("A floodwall break let water into the turbine hall", "critical", "water/flood"),
     ("Multiple floodwall breaks opened along the canal wall", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
+    # "arcing" is the participle sibling of "sparking" (both bare in electrical HIGH); a panel arcing is a
+    # shock + fire-ignition hazard. Each case isolates on "arcing" (no other electrical token present).
+    ("The panel was arcing badly overnight", "high", "electrical/power"),
+    ("Crews found the switchgear arcing during the event", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.
     ("Worker got an electric shock from the panel", "high", "electrical/power"),
