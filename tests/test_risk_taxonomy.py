@@ -1022,6 +1022,11 @@ CASES = [
     ("Reports of multiple suicide bombings across the district", "critical", "security/intrusion"),
     ("A suicide bomb was left under the bench", "critical", "security/intrusion"),
     ("Suicide bombs recovered from the parked van", "critical", "security/intrusion"),
+    # "suspicious package"/"suspicious packages" — the canonical evacuation/EOD trigger; named on its own
+    # it dropped to LOW (not "suspicious person"/"activity", no confirmed-device token fired). Floored HIGH
+    # (above generic-suspicious MEDIUM, below confirmed critical devices). Each case isolates on the phrase.
+    ("A suspicious package was left at the lobby entrance", "high", "security/intrusion"),
+    ("Security cordoned off two suspicious packages near the dock", "high", "security/intrusion"),
     # "car bombing"/"car bombings" (the gerund/event name of the already-critical device "car bomb"/"car
     # bombs") is the vehicle-borne sibling of the "suicide bombing"/"suicide bombings" gerund: a named
     # vehicle-borne explosive attack that previously matched nothing and dropped to LOW (bare "bomb" is

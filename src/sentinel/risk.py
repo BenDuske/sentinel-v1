@@ -1957,9 +1957,24 @@ TAXONOMY = {
                      "pistol-whipped", "pistol whipped",
                      "pistol-whipping", "pistol whipping",
                      "acid attack", "acid attacks"],
+        # "suspicious package"/"suspicious packages" — a directly-named security-response trigger: an
+        # unattended or suspicious parcel is the canonical potential-IED object that drives building
+        # evacuation and an EOD/bomb-squad callout. Named on its own it matched NO floored token and
+        # dropped to LOW: "suspicious package" is not "suspicious person"/"suspicious activity" (the bare
+        # "suspicious" is not floored, and "person"/"activity"/"package" differ), and no critical device
+        # token ("bomb threat"/"ied") fired on the mere suspicion. Floored at security HIGH — deliberately
+        # ABOVE its generic MEDIUM siblings "suspicious person"/"suspicious activity" (a package that
+        # triggers an evacuation is a materially more serious event than a loiterer) but BELOW the critical
+        # confirmed-device tokens (a suspicious package is a SUSPECTED, often-benign threat — the unattended
+        # bag that resolves to nothing — so critical would over-fire; the confirmed cases already escalate
+        # via "bomb threat"/"ied"/"explosive device"). It carries only the same HIGH-tier tolerance as
+        # "intrusion"/"forced entry", and the LLM/human can raise or lower it. The plural needs its own
+        # entry (\bsuspicious\s+package\b won't match the trailing "s"), the singular->plural discipline
+        # applied throughout the taxonomy. Surfaced in the 2026-09-04 security-response rule-probe.
         "high":     ["break-in", "broke in", "broken into", "intrusion", "intruder",
                      "unauthorized access", "forced entry", "trespass", "assault",
-                     "data breach", "breach", "ransomware", "malware", "compromised account"],
+                     "data breach", "breach", "ransomware", "malware", "compromised account",
+                     "suspicious package", "suspicious packages"],
         "medium":   ["suspicious person", "suspicious activity", "tailgating", "prowler",
                      "loitering", "phishing", "failed login", "unauthorized attempt"],
     },
