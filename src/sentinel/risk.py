@@ -918,10 +918,27 @@ TAXONOMY = {
         # the LLM/human can lower) with no new over-fire class. Word-boundary matched so it never fires from
         # inside a larger word. Surfaced in the 2026-09-03 industrial-explosion rule-probe (sibling of the
         # flashover/backdraft fire-behavior fix).
+        # "runaway reaction" — the chemical-process twin of the already-critical "thermal runaway": an
+        # uncontrolled self-accelerating exothermic reaction where the heat released outpaces the vessel's
+        # ability to shed it, driving temperature/pressure to rupture, fire, or toxic release (the 1976
+        # Seveso dioxin release and the 1984 Bhopal disaster both began as runaway reactions; it is the
+        # canonical loss-of-containment scenario in process-safety practice). Yet a report naming the
+        # process-safety term ("the batch went into a runaway reaction", "operators aborted before the
+        # runaway reaction") matched NO floored token and dropped to LOW: "runaway reaction" shares no
+        # substring with "thermal runaway" (\bthermal\s+runaway\b needs "thermal" as the first word) or any
+        # other floored token — the SAME whole-hazard absent-term miss class as "bleve" beside "detonation"
+        # and "flashover" beside "fire". It belongs at the same critical floor as its sibling "thermal
+        # runaway". The two-word phrase denotes EXCLUSIVELY the hazardous reactor/batch excursion — it has
+        # zero benign meaning in incident text — so it carries the same conservative-floor tolerance already
+        # accepted for "thermal runaway" (a training/spec mention floors the same way, and the rule layer is
+        # a floor the LLM/human can lower) with no new over-fire class. DELIBERATELY the singular phrase:
+        # "runaway reactions" is rare in incident text (the event is written singular); add a plural entry
+        # only if a real miss surfaces. Surfaced in the 2026-09-03 process-safety rule-probe (twin of the
+        # thermal-runaway floor).
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
                      "detonation", "detonate", "detonated", "detonating", "bleve",
-                     "arson", "arsonist", "thermal runaway", "flashover", "backdraft",
+                     "arson", "arsonist", "thermal runaway", "runaway reaction", "flashover", "backdraft",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks"],

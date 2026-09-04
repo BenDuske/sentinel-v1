@@ -466,6 +466,11 @@ CASES = [
     # floored word); the acronym has zero benign English meaning so it floors critical beside "detonation".
     ("A BLEVE was reported at the LPG storage yard", "critical", "fire/smoke"),
     ("Command warned the tank was trending toward a bleve", "critical", "fire/smoke"),
+    # "runaway reaction" — process-safety twin of the critical "thermal runaway"; named on its own it
+    # matched no floored token and dropped to LOW (no "thermal runaway"/"fire"/"explosion" word). Both
+    # cases isolate on the new phrase; it denotes exclusively the hazardous reactor excursion (zero benign).
+    ("The batch went into a runaway reaction", "critical", "fire/smoke"),
+    ("Operators aborted just before the runaway reaction", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
