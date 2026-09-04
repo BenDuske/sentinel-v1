@@ -935,9 +935,24 @@ TAXONOMY = {
         # "runaway reactions" is rare in incident text (the event is written singular); add a plural entry
         # only if a real miss surfaces. Surfaced in the 2026-09-03 process-safety rule-probe (twin of the
         # thermal-runaway floor).
+        # "boilover" — the tank-fire twin of "bleve": in a burning open-top storage tank of crude or heavy
+        # fuel, the descending heat wave eventually reaches a water layer at the bottom, which flash-boils
+        # and violently ejects the burning contents as an expanding fireball far beyond the tank (the 1983
+        # Milford Haven / Tacoa boilovers killed dozens of responders; it is the classic delayed tank-fire
+        # killer that catches crews who have committed to the bund). Yet a report naming the fire-service
+        # term ("a boilover ejected burning crude over the bund wall", "crews evacuated when the tank neared
+        # boilover") matched NO floored token and dropped to LOW: "boilover" shares no substring with
+        # "fire"/"explosion" and no bare token fired — the SAME whole-hazard absent-term miss class as
+        # "bleve" beside "detonation". It belongs at fire/smoke critical beside its tank-fire sibling
+        # "bleve". "boilover" is a single whole word denoting EXCLUSIVELY this petroleum tank-fire event —
+        # zero benign meaning in incident text (the cooking sense is written "boil over", two words, which
+        # \bboilover\b cannot match) — so it carries the same conservative-floor tolerance as "bleve"/
+        # "thermal runaway" with no new over-fire class. The rarer cousins "frothover"/"slopover" are
+        # DELIBERATELY left for a separate probe. Surfaced in the 2026-09-03 tank-fire rule-probe (twin of
+        # the bleve fix).
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
-                     "detonation", "detonate", "detonated", "detonating", "bleve",
+                     "detonation", "detonate", "detonated", "detonating", "bleve", "boilover",
                      "arson", "arsonist", "thermal runaway", "runaway reaction", "flashover", "backdraft",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",

@@ -471,6 +471,11 @@ CASES = [
     # cases isolate on the new phrase; it denotes exclusively the hazardous reactor excursion (zero benign).
     ("The batch went into a runaway reaction", "critical", "fire/smoke"),
     ("Operators aborted just before the runaway reaction", "critical", "fire/smoke"),
+    # "boilover" — tank-fire twin of "bleve"; named on its own it matched no floored token and dropped to
+    # LOW (no "fire"/"explosion" word; the cooking "boil over" is two words and won't match). Both cases
+    # isolate on the new token; it denotes exclusively the petroleum tank-fire ejection (zero benign).
+    ("A boilover ejected burning crude over the bund wall", "critical", "fire/smoke"),
+    ("Crews evacuated when the tank neared boilover", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
