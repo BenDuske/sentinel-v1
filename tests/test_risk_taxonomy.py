@@ -839,6 +839,12 @@ CASES = [
     ("The medic recorded traumatic asphyxia at the scene", "critical", "gas/chemical"),
     ("Positional asphyxia suspected during the restraint", "critical", "gas/chemical"),
     ("Partial roof collapse; structural failure observed", "critical", "structural"),
+    # engineering-noun word-choice twins of the critical "collapse" events (OSHA fatal-four), siblings of
+    # "foundation failure": the same catastrophes written with "failure" instead of "collapse" dropped to
+    # LOW. Each case isolates on the new phrase (unambiguous construction noun + "failure").
+    ("A scaffold failure dropped two workers to the deck", "critical", "structural"),
+    ("A shoring failure in the excavation trapped a laborer", "critical", "structural"),
+    ("A retaining wall failure sent debris down the slope", "critical", "structural"),
     # The present participle "collapsing" must reach the same critical floor as the noun "collapse"
     # / past-tense "collapsed" — "the roof is collapsing" and "walls collapsing" are how an unfolding
     # structural emergency is written, and previously matched nothing (\bcollapse\b/\bcollapsed\b

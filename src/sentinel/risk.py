@@ -1616,8 +1616,21 @@ TAXONOMY = {
         # — the metaphor ("the deal is collapsing", collapsing a menu/table) fires exactly the way
         # "the deal collapsed"/"collapse the menu" already can — and the rule layer is a conservative
         # floor the LLM/human can lower.
+        # "scaffold failure"/"shoring failure"/"retaining wall failure" — the engineering-noun word-choice
+        # twins of already-critical "collapse" events, and siblings of the "foundation failure"/"structural
+        # failure" entries already here. "a scaffold collapse"/"a retaining wall collapse"/"a trench collapse"
+        # all floor critical via \bcollapse\b, but the same catastrophes written with "failure" ("a scaffold
+        # failure dropped two workers", "a shoring failure in the excavation", "a retaining wall failure sent
+        # debris downhill") matched NO token and dropped to LOW — the SAME whole-hazard word-choice miss
+        # class as "dam break" beside "dam failure". Each is an OSHA fatal-four event (scaffold = fall,
+        # shoring = trench-burial, retaining wall = collapse/burial) belonging at the built-structure critical
+        # floor beside "foundation failure". Each phrase pairs an UNAMBIGUOUS construction noun ("scaffold"/
+        # "shoring"/"retaining wall" have no benign incident-text sense) with "failure", so zero new over-fire
+        # class — the same conservative-floor tolerance already carried by "foundation failure"/"structural
+        # failure". Surfaced in the 2026-09-04 structural-failure rule-probe (failure/collapse word-choice twin).
         "critical": ["collapse", "collapsed", "collapsing", "building collapse", "structural failure",
-                     "imminent collapse", "foundation failure", "roof collapse"],
+                     "imminent collapse", "foundation failure", "roof collapse",
+                     "scaffold failure", "shoring failure", "retaining wall failure"],
         # A "sinkhole" is an acute ground-failure emergency a reporter names directly ("a sinkhole
         # opened under the parking lot", "sinkhole swallowed the sidewalk"), yet it matched nothing
         # and dropped to LOW while its slower cousin "subsidence" already floors at HIGH here: the
