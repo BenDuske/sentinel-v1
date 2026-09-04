@@ -459,6 +459,13 @@ CASES = [
     ("Conditions in the stairwell were deteriorating toward flashover", "critical", "fire/smoke"),
     ("A backdraft threw the nozzleman off the landing when the door was forced", "critical", "fire/smoke"),
     ("Command warned of backdraft potential in the sealed basement", "critical", "fire/smoke"),
+    # "bleve" — a BLEVE (Boiling Liquid Expanding Vapor Explosion) is the catastrophic pressurized-tank
+    # fireball, the deadliest event a fire crew faces at a tank farm; named by its universal fire-service
+    # acronym it previously matched no floored token and dropped to LOW (no "explosion"/"fire" word), the
+    # same whole-hazard class as flashover/backdraft. Both cases isolate on the new token (no independent
+    # floored word); the acronym has zero benign English meaning so it floors critical beside "detonation".
+    ("A BLEVE was reported at the LPG storage yard", "critical", "fire/smoke"),
+    ("Command warned the tank was trending toward a bleve", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),

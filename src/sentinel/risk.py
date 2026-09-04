@@ -901,9 +901,26 @@ TAXONOMY = {
         # or as "flashover conditions"), the same scope discipline as the singular-dominant terms; add a
         # plural entry only if a real plural miss surfaces. Surfaced in the 2026-08-21 fire-behavior
         # rule-probe (sibling of the thermal-runaway whole-hazard fix).
+        # "bleve" — a BLEVE (Boiling Liquid Expanding Vapor Explosion) is the catastrophic tank failure
+        # when a pressurized liquefied gas (propane, LPG, chlorine) heated past its boiling point ruptures
+        # its vessel and the flash-boiling contents detonate as a fireball — the single deadliest event a
+        # fire crew faces at a tank farm or rail incident (the 1978 Kingman AZ BLEVE killed 12 firefighters;
+        # the 1984 San Juanico BLEVEs killed ~600). Yet a report naming the event by its universal fire-
+        # service term ("a BLEVE ruptured the propane tank", "conditions were trending toward a BLEVE")
+        # matched NO floored token and dropped to LOW: "bleve" shares no substring with "explosion"/
+        # "detonation"/"fire" and no bare token fired — the SAME whole-hazard absent-term miss class as
+        # "flashover"/"backdraft" beside "fire" and "arc blast" beside "arc flash": a directly-named fire
+        # catastrophe scored critical-or-LOW purely on whether the reporter wrote the term of art or the
+        # word "explosion". It belongs at fire/explosion critical beside its explosion siblings "detonation"
+        # and "vapor cloud explosion". "bleve" is an acronym with ZERO benign English meaning — it denotes
+        # EXCLUSIVELY this explosion — so it carries the same conservative-floor tolerance as "thermal
+        # runaway"/"flashover" (a training/spec mention floors the same way, and the rule layer is a floor
+        # the LLM/human can lower) with no new over-fire class. Word-boundary matched so it never fires from
+        # inside a larger word. Surfaced in the 2026-09-03 industrial-explosion rule-probe (sibling of the
+        # flashover/backdraft fire-behavior fix).
         "critical": ["fire", "flames", "ablaze", "blaze", "explosion", "exploded", "explosions",
                      "exploding", "explosive",
-                     "detonation", "detonate", "detonated", "detonating",
+                     "detonation", "detonate", "detonated", "detonating", "bleve",
                      "arson", "arsonist", "thermal runaway", "flashover", "backdraft",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
