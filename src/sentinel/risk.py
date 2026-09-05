@@ -794,7 +794,20 @@ TAXONOMY = {
                      "difficulty breathing", "can't breathe", "cannot breathe",
                      "struggling to breathe", "shortness of breath", "short of breath",
                      "gasping for air", "respiratory distress", "fainted",
-                     "convulsing", "convulsion", "convulsions"],
+                     "convulsing", "convulsion", "convulsions",
+                     "fall from height", "fell from height", "fall from a height",
+                     "fall from elevation", "fell from elevation"],
+        # "fall from height"/"fell from height" (+ the "a height"/"elevation" variants) — a fall from
+        # elevation is OSHA fatal-four hazard #1, the leading cause of construction death, yet these
+        # phrases floored only MEDIUM off the generic "fall"/"fell" in the medium list below — scored the
+        # SAME tier as a ground-level slip-trip-fall. The elevated-fall phrase is unambiguous (a "fall from
+        # height"/"from elevation" is ALWAYS a serious injury event, never the minor stumble the MEDIUM
+        # "fall"/"slip"/"trip" cover), so it belongs at injury HIGH beside the other serious-injury tokens;
+        # the generic "fall"/"fell" stays MEDIUM for the ordinary slip-trip-fall (unchanged). Each lexical
+        # form gets its own entry (\bfall\s+from\s+height\b won't match "fall from a height" or the past-
+        # tense "fell from height"), the same multi-form discipline used across the taxonomy. Location-
+        # specific phrasings ("fall from the roof/scaffold/ladder") are a future probe. Surfaced in the
+        # 2026-09-04 fall-from-height rule-probe (fatal-four #1 under-floor).
         "medium":   ["first aid", "minor injury", "slip", "trip", "fall", "fell", "sprain",
                      "bruise", "cut", "laceration", "dizzy", "nausea"],
     },

@@ -159,6 +159,13 @@ CASES = [
     # resistant gloves"). No other high/critical token appears in these cases, so they isolate.
     ("The line worker sustained a deep puncture wound to the thigh", "high", "injury/medical"),
     ("Medics dressed multiple puncture wounds after the tool slipped", "high", "injury/medical"),
+    # "fall from height" (OSHA fatal-four #1) previously floored only MEDIUM off the generic "fall"; the
+    # elevated-fall phrase is unambiguously a serious injury and floors HIGH. Each case isolates on the new
+    # phrase (the bare "fall"/"fell" MEDIUM hit is present but HIGH wins); the ground-level fall stays MEDIUM.
+    ("A worker suffered a fall from height onto the concrete pad", "high", "injury/medical"),
+    ("The technician fell from height during the roof survey", "high", "injury/medical"),
+    ("Investigators documented a fall from elevation at the tower", "high", "injury/medical"),
+    ("A ground-level slip and fall in the corridor", "medium", "injury/medical"),
     # "decompression sickness" (DCS, "the bends") is the diving/hyperbaric/caisson injury and must reach
     # the same conservative HIGH floor as frostbite/hypothermia/punctured lung — an isolated report
     # previously matched nothing and dropped to LOW. HIGH (not critical) because DCS is routinely
