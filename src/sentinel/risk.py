@@ -2090,7 +2090,18 @@ TAXONOMY = {
     "outage": {
         "critical": ["total outage", "complete outage", "datacenter down", "site-wide outage",
                      "all systems down"],
-        "high":     ["outage", "power outage", "offline", "system down", "server down",
+        # "loss of cooling"/"cooling failure" — a critical-facility service loss the taxonomy did not cover:
+        # in a data hall / server room / plant, loss of mechanical cooling drives equipment thermal shutdown
+        # and damage within minutes (unlike power, which UPS/generator bridge). A report naming it ("the data
+        # center lost cooling", "a cooling failure in the server room", "loss of cooling to the racks")
+        # matched NO token and dropped to LOW, while its infrastructure sibling "power outage" floors HIGH
+        # here. Added at outage HIGH beside "power outage" (a total/site-wide cooling loss escalates via the
+        # LLM/human layer, mirroring how "power outage" HIGH vs "total outage" critical is split). Both are
+        # multi-word phrases denoting EXCLUSIVELY a cooling/HVAC service failure — zero benign meaning ("loss
+        # of cooling" is not the "cooling-off period" idiom) — so no new over-fire class. Surfaced in the
+        # 2026-09-05 critical-facility rule-probe (cooling-loss sibling of power outage).
+        "high":     ["outage", "power outage", "loss of cooling", "cooling failure",
+                     "offline", "system down", "server down",
                      "service down", "network down", "downtime", "blackout"],
         "medium":   ["degraded", "slow response", "intermittent", "partial outage",
                      "latency", "timeout"],

@@ -1088,6 +1088,11 @@ CASES = [
     ("Two carjackings reported in the visitor lot this month", "critical", "theft"),
     ("Site-wide outage; all systems down", "critical", "outage"),
     ("Power outage; the server is down", "high", "outage"),
+    # critical-facility service loss: loss of mechanical cooling drives thermal shutdown within minutes.
+    # Named on its own it dropped to LOW; floored outage HIGH beside power outage. Each case isolates on
+    # the new phrase (no other outage token present).
+    ("The data center lost cooling and the loss of cooling spread to both halls", "high", "outage"),
+    ("A cooling failure in the server room raised inlet temps fast", "high", "outage"),
     ("Tornado warning; high winds and a fallen tree", "critical", "weather"),
     # Plural weather catastrophes must reach the same CRITICAL floor as their singular — the
     # whole-word matcher scores "tornado"/"hurricane"/"earthquake" critical but the plural spelling
