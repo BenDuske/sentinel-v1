@@ -1444,18 +1444,14 @@ TAXONOMY = {
         # conservative — these are multi-word adjacency phrases, so the bare polysemous noun "shock"
         # ("culture shock", "shock absorber", "the news was a shock") is NOT added and does not fire;
         # and the plural "electric shocks" needs its own entry because \bshock\b won't match "shocks".
-        # "arcing" — the direct electrical sibling of "sparking" (already bare in this HIGH list): a panel/
-        # conductor/switchgear "arcing" is a visible electrical discharge that is both a shock hazard and a
-        # top fire-ignition source (the observable precursor/companion to the critical "arc flash"/"arc
-        # blast"). "the panel was arcing badly" reached NO floored token and dropped to LOW even though its
-        # participle twin "sparking" floors HIGH here. Floored at electrical HIGH beside "sparking", exactly
-        # the same tier/form; it carries the identical conservative-floor tolerance already accepted for
-        # "sparking" (the rare benign trajectory sense — "the ball went arcing over the fence" — is the same
-        # kind of non-incident collision "sparking"/"sparks" already tolerate, and the rule layer is a floor
-        # the LLM/human can lower). Surfaced in the 2026-09-04 electrical-discharge rule-probe (arcing/
-        # sparking sibling).
+        # NOTE: bare "arcing" was trialed here (2026-09-04) as the electrical sibling of "sparking" but
+        # REVERTED (2026-09-05) — an over-fire audit showed it floors HIGH on the benign physics/motion sense
+        # ("the arcing trajectory of the projectile", "the ball went arcing over the fence"), a clean-sentence
+        # false positive worse than "sparking"'s rarer collisions. The critical electrical-discharge cases are
+        # already covered by "arc flash"/"arc blast" (critical) + "sparking" (HIGH). Clean future
+        # alternatives with no trajectory collision: "electrical arcing", "arc fault" (deferred pending probe).
         "high":     ["electrical", "electric shock", "electric shocks", "exposed wiring",
-                     "short circuit", "shorted", "sparking", "arcing", "power surge",
+                     "short circuit", "shorted", "sparking", "power surge",
                      "breaker tripped repeatedly", "burning wire"],
         "medium":   ["flickering lights", "tripped breaker", "loose outlet", "brownout"],
     },
