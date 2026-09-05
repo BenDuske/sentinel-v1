@@ -980,8 +980,23 @@ TAXONOMY = {
                      "detonation", "detonate", "detonated", "detonating", "bleve", "boilover",
                      "arson", "arsonist", "thermal runaway", "runaway reaction", "flashover", "backdraft",
                      "engulfed", "structure fire", "wildfire", "conflagration"],
+        # "sprinkler impairment"/"sprinkler system impairment" — a fire-suppression system taken OUT OF
+        # SERVICE, the canonical fire-protection-impairment condition an insurer/facilities reviewer tracks
+        # (it triggers a fire watch and is the leading driver of large fire losses when a fire then starts).
+        # Named on its own it matched NO token and dropped to LOW — bare "sprinkler" is DELIBERATELY not
+        # floored (a lawn/irrigation "sprinkler system failure" is benign, live-verified LOW / water-side),
+        # and "impairment" alone is unfloored. But "sprinkler impairment" is an insurance/fire-protection
+        # term of art with ZERO irrigation or benign-idiom collision — an "impairment" of a sprinkler is
+        # EXCLUSIVELY the fire-suppression out-of-service condition. Floored at fire/smoke HIGH (a heightened-
+        # risk condition, not an active fire → not critical; the active "fire sprinkler failure" already
+        # floors critical off the "fire" token). "sprinkler system impairment" needs its own entry
+        # (\bsprinkler\s+impairment\b can't match with "system" between). Carries only the conservative-floor
+        # tolerance already accepted throughout (a planned impairment permit floors the same way, and the
+        # rule layer is a floor the LLM/human can lower). Surfaced in the 2026-09-05 fire-protection-
+        # impairment rule-probe.
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
-                     "fire alarm", "sparks"],
+                     "fire alarm", "sparks",
+                     "sprinkler impairment", "sprinkler system impairment"],
         "medium":   ["overheating", "hot to the touch", "burnt smell"],
     },
     "water/flood": {

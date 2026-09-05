@@ -489,6 +489,11 @@ CASES = [
     ("A boilover ejected burning crude over the bund wall", "critical", "fire/smoke"),
     ("Crews evacuated when the tank neared boilover", "critical", "fire/smoke"),
     ("Smoke detected near the electrical panel", "high", "fire/smoke"),
+    # fire-protection impairment: a sprinkler system out of service (fire-watch trigger). "impairment" is an
+    # insurance term of art with no irrigation/idiom collision (bare 'sprinkler' stays LOW). Each case
+    # isolates on the new phrase; floored HIGH (heightened risk, not an active fire).
+    ("A sprinkler impairment was logged for the east riser", "high", "fire/smoke"),
+    ("A sprinkler system impairment permit was opened for the work", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
     # municipal-scale sibling of burst pipe: "water main rupture"/"water main break"/"ruptured water main"
