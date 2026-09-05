@@ -2115,7 +2115,17 @@ TAXONOMY = {
         # multi-word phrases denoting EXCLUSIVELY a cooling/HVAC service failure — zero benign meaning ("loss
         # of cooling" is not the "cooling-off period" idiom) — so no new over-fire class. Surfaced in the
         # 2026-09-05 critical-facility rule-probe (cooling-loss sibling of power outage).
-        "high":     ["outage", "power outage", "loss of cooling", "cooling failure",
+        # "loss of utility power"/"loss of grid power" — the word-choice twin of "power outage": the loss of
+        # incoming grid/mains supply (the event UPS/generator are meant to bridge, still a reportable outage).
+        # "power outage" floors HIGH here but the equally-standard "loss of utility power"/"loss of grid
+        # power" phrasing matched NO token and dropped to LOW — the SAME word-choice miss class as leak/
+        # release and dam break/failure. Added both at outage HIGH beside "power outage". DELIBERATELY the
+        # QUALIFIED "utility"/"grid" power phrases, NOT the bare polysemous "loss of power" (a mechanical
+        # "the engine suffered a loss of power", "loss of power steering" are non-outage senses, live-verified
+        # LOW) — "utility power"/"grid power" denote EXCLUSIVELY the electrical mains supply, zero benign
+        # collision. Surfaced in the 2026-09-05 utility-power rule-probe (power-outage word-choice twin).
+        "high":     ["outage", "power outage", "loss of utility power", "loss of grid power",
+                     "loss of cooling", "cooling failure",
                      "offline", "system down", "server down",
                      "service down", "network down", "downtime", "blackout"],
         "medium":   ["degraded", "slow response", "intermittent", "partial outage",

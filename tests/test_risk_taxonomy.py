@@ -1098,6 +1098,10 @@ CASES = [
     # the new phrase (no other outage token present).
     ("The data center lost cooling and the loss of cooling spread to both halls", "high", "outage"),
     ("A cooling failure in the server room raised inlet temps fast", "high", "outage"),
+    # word-choice twin of "power outage": grid/mains supply loss. "utility power"/"grid power" are
+    # unambiguous (bare "loss of power" mechanical senses stay LOW). Each case isolates on the new phrase.
+    ("A total loss of utility power hit the campus overnight", "high", "outage"),
+    ("The site reported a loss of grid power to the main feed", "high", "outage"),
     ("Tornado warning; high winds and a fallen tree", "critical", "weather"),
     # Plural weather catastrophes must reach the same CRITICAL floor as their singular — the
     # whole-word matcher scores "tornado"/"hurricane"/"earthquake" critical but the plural spelling
