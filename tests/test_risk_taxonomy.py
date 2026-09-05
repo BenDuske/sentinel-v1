@@ -722,6 +722,11 @@ CASES = [
     ("A floodwall break let water into the turbine hall", "critical", "water/flood"),
     ("Multiple floodwall breaks opened along the canal wall", "critical", "water/flood"),
     ("Exposed wiring sparking in the breaker box", "high", "electrical/power"),
+    # "arc fault"/"arc faults" — dangerous electrical arcing fault (AFCI-detected fire-ignition source);
+    # a clean two-word term with no benign collision (the clean successor to the reverted bare 'arcing').
+    # Each case isolates on the new phrase.
+    ("An arc fault tripped the branch circuit", "high", "electrical/power"),
+    ("Multiple arc faults were detected by the AFCI panel", "high", "electrical/power"),
     # "electric shock" must reach the same HIGH floor as "electrical shock" — the electric/electrical
     # word choice previously left the more common lay phrasing at LOW.
     ("Worker got an electric shock from the panel", "high", "electrical/power"),

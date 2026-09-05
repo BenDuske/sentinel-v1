@@ -1458,10 +1458,17 @@ TAXONOMY = {
         # REVERTED (2026-09-05) — an over-fire audit showed it floors HIGH on the benign physics/motion sense
         # ("the arcing trajectory of the projectile", "the ball went arcing over the fence"), a clean-sentence
         # false positive worse than "sparking"'s rarer collisions. The critical electrical-discharge cases are
-        # already covered by "arc flash"/"arc blast" (critical) + "sparking" (HIGH). Clean future
-        # alternatives with no trajectory collision: "electrical arcing", "arc fault" (deferred pending probe).
+        # already covered by "arc flash"/"arc blast" (critical) + "sparking" (HIGH).
+        # "arc fault"/"arc faults" — the CLEAN two-word replacement for the reverted bare "arcing": a
+        # dangerous electrical arcing fault in wiring/connections and a leading electrical fire-ignition
+        # source (the exact condition AFCI — arc-fault circuit interrupter — breakers exist to detect). It
+        # matched NO token and dropped to LOW. Unlike bare "arcing" it is a two-word term of art denoting
+        # EXCLUSIVELY the electrical fault — ZERO benign/trajectory collision — so it floors electrical HIGH
+        # with no over-fire (bare "ground fault" is DELIBERATELY left off: GFCIs nuisance-trip on benign
+        # ground faults routinely). The plural needs its own entry (\barc\s+fault\b won't match "arc faults").
+        # Surfaced in the 2026-09-05 electrical-fault rule-probe (clean successor to the reverted "arcing").
         "high":     ["electrical", "electric shock", "electric shocks", "exposed wiring",
-                     "short circuit", "shorted", "sparking", "power surge",
+                     "short circuit", "shorted", "sparking", "arc fault", "arc faults", "power surge",
                      "breaker tripped repeatedly", "burning wire"],
         "medium":   ["flickering lights", "tripped breaker", "loose outlet", "brownout"],
     },
