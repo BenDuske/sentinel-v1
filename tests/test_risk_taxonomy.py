@@ -166,6 +166,11 @@ CASES = [
     ("The technician fell from height during the roof survey", "high", "injury/medical"),
     ("Investigators documented a fall from elevation at the tower", "high", "injury/medical"),
     ("A ground-level slip and fall in the corridor", "medium", "injury/medical"),
+    # "crushed between" — OSHA fatal-four caught-between crush; the participle phrasing dropped to LOW while
+    # its noun siblings crush injury/crush syndrome floor HIGH. Each case isolates on the new phrase; the
+    # "caught between" idiom uses a different verb and stays LOW.
+    ("A worker was crushed between two rail cars", "high", "injury/medical"),
+    ("The operator was crushed between the loader and the wall", "high", "injury/medical"),
     # "decompression sickness" (DCS, "the bends") is the diving/hyperbaric/caisson injury and must reach
     # the same conservative HIGH floor as frostbite/hypothermia/punctured lung — an isolated report
     # previously matched nothing and dropped to LOW. HIGH (not critical) because DCS is routinely

@@ -796,7 +796,19 @@ TAXONOMY = {
                      "gasping for air", "respiratory distress", "fainted",
                      "convulsing", "convulsion", "convulsions",
                      "fall from height", "fell from height", "fall from a height",
-                     "fall from elevation", "fell from elevation"],
+                     "fall from elevation", "fell from elevation", "crushed between"],
+        # "crushed between" — the OSHA fatal-four "caught-in/between" crushing event (a worker crushed
+        # between two rail cars, between a forklift and a rack, between the dock plate and a trailer). Its
+        # noun forms "crush injury"/"crush syndrome" already floor HIGH, but the participle phrasing a report
+        # actually writes for the event matched NO token and dropped to LOW — the SAME whole-hazard word-
+        # choice miss class as the fall-from-height under-floor just fixed. Floored at injury HIGH beside
+        # "crush injury"/"crush syndrome" (a fatal case escalates via the LLM/human layer). "crushed
+        # between" is the LITERAL crushing phrase — the common idiom is "caught between" ("caught between
+        # meetings"), which uses a different verb and does not match; the rare figurative "crushed between
+        # deadlines" is the same marginal, LLM-lowerable collision the taxonomy already tolerates. Bare
+        # "crushed" is DELIBERATELY NOT floored (the "crushed by the news"/"crushed it" idioms), only the
+        # "crushed between" caught-between adjacency. Surfaced in the 2026-09-04 caught-between rule-probe
+        # (fatal-four #3, sibling of the fall-from-height fix).
         # "fall from height"/"fell from height" (+ the "a height"/"elevation" variants) — a fall from
         # elevation is OSHA fatal-four hazard #1, the leading cause of construction death, yet these
         # phrases floored only MEDIUM off the generic "fall"/"fell" in the medium list below — scored the
