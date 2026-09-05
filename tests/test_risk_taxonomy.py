@@ -494,6 +494,10 @@ CASES = [
     # isolates on the new phrase; floored HIGH (heightened risk, not an active fire).
     ("A sprinkler impairment was logged for the east riser", "high", "fire/smoke"),
     ("A sprinkler system impairment permit was opened for the work", "high", "fire/smoke"),
+    # standpipe = firefighting riser; its impairment is the same fire-protection out-of-service condition as
+    # sprinkler impairment. Each case isolates on the new phrase (bare 'standpipe' stays LOW).
+    ("A standpipe impairment was declared for the high-rise", "high", "fire/smoke"),
+    ("A standpipe system impairment was logged during the retrofit", "high", "fire/smoke"),
     ("Server room flooded, equipment submerged", "critical", "water/flood"),
     ("Burst pipe caused water damage to the ceiling", "high", "water/flood"),
     # municipal-scale sibling of burst pipe: "water main rupture"/"water main break"/"ruptured water main"

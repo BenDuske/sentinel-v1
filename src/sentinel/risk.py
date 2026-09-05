@@ -994,9 +994,19 @@ TAXONOMY = {
         # tolerance already accepted throughout (a planned impairment permit floors the same way, and the
         # rule layer is a floor the LLM/human can lower). Surfaced in the 2026-09-05 fire-protection-
         # impairment rule-probe.
+        # "standpipe impairment"/"standpipe system impairment" — the fire-protection sibling of "sprinkler
+        # impairment" above: a standpipe is a firefighting water riser (hose connections for fire crews in
+        # high-rises/large buildings), and its impairment is the SAME fire-suppression out-of-service /
+        # fire-watch-trigger condition. Named on its own it dropped to LOW (bare "standpipe" unfloored,
+        # "impairment" unfloored). The other members of the family already floor: "sprinkler impairment"
+        # (above) and "fire pump"/"fire alarm" impairment (critical off the "fire" token). "standpipe
+        # impairment" is an unambiguous fire-protection term of art with zero benign/idiom collision → same
+        # fire/smoke HIGH tier + conservative-floor tolerance as sprinkler impairment. Surfaced in the
+        # 2026-09-05 fire-protection-impairment rule-probe (standpipe sibling of sprinkler impairment).
         "high":     ["smoke", "smoldering", "scorch", "charred", "burning smell",
                      "fire alarm", "sparks",
-                     "sprinkler impairment", "sprinkler system impairment"],
+                     "sprinkler impairment", "sprinkler system impairment",
+                     "standpipe impairment", "standpipe system impairment"],
         "medium":   ["overheating", "hot to the touch", "burnt smell"],
     },
     "water/flood": {
